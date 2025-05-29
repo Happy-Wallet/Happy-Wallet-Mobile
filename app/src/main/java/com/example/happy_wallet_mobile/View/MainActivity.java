@@ -1,4 +1,4 @@
-package com.example.happy_wallet_mobile;
+package com.example.happy_wallet_mobile.View;
 
 import android.os.Bundle;
 
@@ -7,6 +7,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+
+import com.example.happy_wallet_mobile.R;
 
 public class MainActivity extends AppCompatActivity {
 
