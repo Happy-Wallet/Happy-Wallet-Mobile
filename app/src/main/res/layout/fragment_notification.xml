@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".View.Fragment.NotificationFragment">
+
+    <!-- back button -->
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:id="@+id/btnBack"
+
+        android:text="back"
+        android:textColor="#30437A"
+        android:textFontWeight="500"
+        android:textSize="32sp"
+        android:lineHeight="22sp"
+
+        android:background="@android:color/transparent"
+        />
+
+    <!-- Notification textView -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginTop="67dp"
+
+        android:text="Notification"
+        android:textColor="#30437A"
+        android:textFontWeight="800"
+        android:textSize="24sp"
+        android:lineHeight="22sp"
+        />
+
+    <!-- line 1 -->
+    <View
+        android:layout_width="316dp"
+        android:layout_height="1dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginTop="102dp"
+        android:id="@+id/vLine1"
+
+        android:background="#30437A"
+        />
+
+    <!-- Notification list -->
+    <ListView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintTop_toBottomOf="@+id/vLine1"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:id="@+id/lvNotification"
+
+        android:divider="#FFFFFF"
+        />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

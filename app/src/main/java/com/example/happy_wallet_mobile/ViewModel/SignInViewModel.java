@@ -26,7 +26,6 @@ public class SignInViewModel extends ViewModel {
         String u = userName.getValue();
         String p = password.getValue();
 
-        // Giả lập kiểm tra đơn giản
         if ("admin".equals(u) && "123456".equals(p)) {
             signInSuccess.setValue(true);
         } else {

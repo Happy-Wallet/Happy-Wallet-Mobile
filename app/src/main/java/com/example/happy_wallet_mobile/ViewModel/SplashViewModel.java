@@ -14,6 +14,6 @@ public class SplashViewModel extends ViewModel {
     }
 
     public void startTimer() {
-        new Handler().postDelayed(() -> navigateNext.setValue(true), 3000);
+        new Handler().postDelayed(() -> navigateNext.setValue(true), 2000);
     }
 }

@@ -1,5 +1,6 @@
 package com.example.happy_wallet_mobile.View.Activity;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.text.Spannable;
@@ -71,20 +72,20 @@ public class SignInActivity extends AppCompatActivity {
         tvProjectName.setText(spannableProjectName);
 
 
-
-        // ✅ Khởi tạo ViewModel
         signInViewModel = new ViewModelProvider(this).get(SignInViewModel.class);
 
-        // ✅ Lắng nghe kết quả đăng nhập
         signInViewModel.getSignInResult().observe(this, success -> {
             if (success) {
                 Toast.makeText(this, "Đăng nhập thành công!", Toast.LENGTH_SHORT).show();
+
+                startActivity(new Intent(SignInActivity.this, MainActivity.class));
+                finish();
+
             } else {
                 Toast.makeText(this, "Sai tài khoản hoặc mật khẩu", Toast.LENGTH_SHORT).show();
             }
         });
 
-        // ✅ Gắn sự kiện nút Sign In
         tvSignIn.setOnClickListener(v -> {
             String username = etUserName.getText().toString().trim();
             String password = edPassword.getText().toString().trim();
@@ -94,5 +95,4 @@ public class SignInActivity extends AppCompatActivity {
             signInViewModel.attemptSignIn();
         });
     }
-
 }

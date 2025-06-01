@@ -21,10 +21,15 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <activity
             android:name=".View.Activity.SignInActivity"
-            android:exported="false">
-        </activity>
+            android:exported="false" />
+
+        <activity
+            android:name=".View.Activity.MainActivity"
+            android:exported="false" />
+
     </application>
 
 </manifest>
