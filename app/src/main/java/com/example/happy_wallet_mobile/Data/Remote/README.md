@@ -1,6 +1,14 @@
-# folder Remote
+# Remote Data Layer
 
-A sub-package (or inside data/) that contains classes and interfaces for API communication with the
-backend, network handling, etc.
+This directory contains components responsible for **fetching data from remote sources**, 
+such as RESTful APIs or cloud services.
 
-Examples include Retrofit services, Firebase clients, etc.
+## Purpose
+
+The `remote/` package is responsible for:
+- Sending network requests (e.g., login, fetch user data, update tasks)
+- Receiving and parsing responses from the server
+- Handling API errors and response codes
+
+## Components
+

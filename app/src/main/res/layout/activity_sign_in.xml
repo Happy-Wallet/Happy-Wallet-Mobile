@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/SignIn"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FFFFFF"
+    tools:context=".View.Activity.SignInActivity">
+
+    <!-- App Logo -->
+    <ImageView
+        android:layout_width="31.75dp"
+        android:layout_height="49dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginTop="123dp"
+        android:src="@drawable/ic_happy_wallet_logo"
+        />
+
+    <!-- App Name -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:id="@+id/tvProjectName"
+        android:text="Happy Wallet"
+        android:layout_marginTop="194dp"
+
+        android:textFontWeight="700"
+        android:textSize="36dp"
+        android:lineHeight="22dp"
+        android:lineSpacingExtra="-0.41dp"
+        android:textColor="#4DC9A9"/>
+    
+    <!-- User Name EditText -->
+    <EditText
+        android:layout_width="336dp"
+        android:layout_height="59dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:id="@+id/etUserName"
+        android:hint="User Name"
+        android:layout_marginTop="259dp"
+        android:background="@drawable/bg_rounded_5"
+        android:paddingLeft="30dp"
+        android:elevation="4dp"
+        />
+
+
+    <!-- Password EditText -->
+    <EditText
+        android:layout_width="336dp"
+        android:layout_height="59dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:id="@+id/etPassword"
+        android:hint="Password"
+        android:layout_marginTop="337dp"
+        android:background="@drawable/bg_rounded_5"
+        android:paddingLeft="30dp"
+        android:elevation="4dp"
+        />
+
+    <!-- Sign in Button -->
+    <TextView
+        android:layout_width="336dp"
+        android:layout_height="59dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:id="@+id/tvSignIn"
+
+        android:text="Sign in"
+        android:textFontWeight="400"
+        android:textSize="22dp"
+        android:lineHeight="22dp"
+        android:textColor="#FFFFFF"
+
+        android:gravity="center"
+        android:layout_marginTop="428dp"
+        android:background="@drawable/bg_rounded_50"
+        android:backgroundTint="#30437A"
+        />
+
+    <!-- Sign in with google button -->
+    <LinearLayout
+        android:layout_width="336dp"
+        android:layout_height="59dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginTop="493dp"
+        android:orientation="horizontal"
+        android:id="@+id/lnlSignInWithGoogle"
+        android:background="@drawable/bg_rounded_50"
+        android:backgroundTint="#5F88FF"
+        android:padding="10dp"
+        android:gravity="center">
+        <!-- gg logo -->
+        <ImageView
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/ic_google_icon"
+            android:layout_marginRight="10dp"
+            android:background="@drawable/bg_rounded_50"
+            android:backgroundTint="#FFFFFF"
+            android:padding="5dp"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Sign in with Google"
+            android:textColor="@color/white"
+            />
+
+    </LinearLayout>
+
+    <!-- or Sign up to get started -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:text="or Sign up to get started"
+        android:layout_marginTop="595dp"
+        />
+
+    <!-- Sign up button -->
+    <TextView
+        android:layout_width="336dp"
+        android:layout_height="59dp"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginTop="626dp"
+        android:id="@+id/tvSignUp"
+
+        android:text="Sign Up"
+        android:textFontWeight="400"
+        android:textSize="22dp"
+        android:lineHeight="22dp"
+        android:textColor="#FFFFFF"
+
+        android:gravity="center"
+        android:background="@drawable/bg_rounded_50"
+        android:backgroundTint="#00D09E"
+        />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
