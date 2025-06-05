@@ -11,6 +11,7 @@ import androidx.core.view.WindowInsetsCompat;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.example.happy_wallet_mobile.R;
+import com.example.happy_wallet_mobile.View.Fragment.HomeFragment;
 import com.example.happy_wallet_mobile.View.Fragment.NotificationFragment;
 
 public class MainActivity extends AppCompatActivity {
@@ -26,9 +27,9 @@ public class MainActivity extends AppCompatActivity {
             return insets;
         });
 
-        NotificationFragment notificationFragment = new NotificationFragment();
+        HomeFragment homeFragment = new HomeFragment();
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.replace(R.id.fragment_container, notificationFragment);
+        transaction.replace(R.id.fragment_container, homeFragment);
         transaction.commit();
     }
 

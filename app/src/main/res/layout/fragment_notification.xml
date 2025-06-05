@@ -14,7 +14,7 @@
         app:layout_constraintTop_toTopOf="parent"
         android:id="@+id/btnBack"
 
-        android:text="back"
+        android:text="&lt;"
         android:textColor="#30437A"
         android:textFontWeight="500"
         android:textSize="32sp"
