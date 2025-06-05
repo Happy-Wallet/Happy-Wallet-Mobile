@@ -44,7 +44,7 @@ public class HomeFragment extends Fragment {
 
 
 
-        flNotification.setOnDragListener(new View.OnClickListener() {
+        flNotification.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
