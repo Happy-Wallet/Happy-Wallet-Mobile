@@ -13,7 +13,6 @@ public class MainViewModel {
 
     public void onNavItemClicked(Destination destination) {
         _navigate.setValue(new Event<>(destination));
-
     }
 }
 

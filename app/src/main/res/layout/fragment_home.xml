@@ -25,16 +25,12 @@
 
         >
 
-        <TextView
+        <ImageView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
 
-            android:gravity="center"
-            android:fontFamily="@font/phosphor_regular"
-            android:text="\uE0CE"
-            android:textSize="31sp"
-            android:textColor="@color/Nautical"
-
+            android:src="@drawable/ic_bell"
+            android:padding="2dp"
             android:background="@drawable/bg_rounded_50_white"
             />
 
@@ -42,22 +38,22 @@
 
 
 <!-- Total balance | Available balance -->
+
+    <!-- Account Balance -->
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-
-        android:text="Total balance | Available balance"
-        android:fontFamily="@font/poppins_regular_400"
-        android:textSize="16sp"
-        android:lineHeight="22sp"
-
-        android:layout_marginTop="73dp"
         android:layout_marginLeft="24dp"
-        />
+        android:layout_marginBottom="7dp"
 
-    <!-- Account Balance -->
+        android:fontFamily="@font/poppins_regular_400"
+        android:lineHeight="22sp"
+        android:text="Total balance | Available balance"
+        android:textSize="16sp"
+
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/tvAccountBalance" />
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -66,12 +62,12 @@
         android:id="@+id/tvAccountBalance"
 
         android:text="7.783.000 $"
-        android:textFontWeight="700"
+        android:fontFamily="@font/poppins_extrabold_800"
         android:textSize="24sp"
         android:lineHeight="22sp"
         android:textColor="#00D09E"
 
-        android:layout_marginTop="103dp"
+        android:layout_marginTop="80dp"
         android:layout_marginLeft="24dp"/>
 
     <!-- Detail backgoround -->
@@ -83,66 +79,66 @@
         app:layout_constraintRight_toRightOf="parent"
         android:layout_marginTop="137dp"
         android:background="@color/Silver_Phoenix"/>
+
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/clDetailBG"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
         android:layout_marginTop="137dp"
-        android:id="@+id/clDetailBG"
-
         android:background="@drawable/bg_rounded_50_white"
-
         android:backgroundTint="@color/Silver_Phoenix"
-        >
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+
+        app:layout_constraintLeft_toLeftOf="parent"
+
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0">
 
         <!-- "Month Income and expenditure" -->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintBottom_toTopOf="@+id/flMonthIAEBG"
-
-            android:text="Month Income and expenditure"
-            android:fontFamily="@font/poppins_semibold_600"
-            android:textSize="15sp"
-            android:lineHeight="22sp"
-            android:textColor="#30437A"
-
-            android:layout_marginBottom="7dp"
             android:layout_marginLeft="24dp"
-            />
+            android:layout_marginBottom="4dp"
+
+            android:fontFamily="@font/poppins_semibold_600"
+            android:lineHeight="22sp"
+            android:text="Month Income and expenditure"
+            android:textColor="#30437A"
+            android:textSize="15sp"
+
+            app:layout_constraintBottom_toTopOf="@+id/flMonthIAEBG"
+            app:layout_constraintLeft_toLeftOf="parent" />
 
         <!-- background month income ... -->
         <FrameLayout
+            android:id="@+id/flMonthIAEBG"
             android:layout_width="match_parent"
             android:layout_height="130dp"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            
-            android:id="@+id/flMonthIAEBG"
+            android:layout_marginLeft="18dp"
+            android:layout_marginTop="47dp"
+
+            android:layout_marginRight="18dp"
 
             android:background="@drawable/bg_rounded_20_white"
             android:backgroundTint="#FFFFFF"
 
-            android:layout_marginTop="50dp"
-            android:layout_marginLeft="18dp"
-            android:layout_marginRight="18dp">
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
             <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rcvMonthIAE"
                 android:layout_width="match_parent"
                 android:layout_height="130dp"
-                app:layout_constraintTop_toTopOf="parent"
+                android:importantForAccessibility="no"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"
-                android:id="@+id/rcvMonthIAE"
 
-                android:importantForAccessibility="no"
-                />
+                app:layout_constraintTop_toTopOf="parent" />
 
         </FrameLayout>
 
@@ -153,166 +149,157 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintBottom_toTopOf="@+id/rcvSavingGoals"
-
-            android:text="Saving Goals"
-            android:fontFamily="@font/poppins_semibold_600"
-            android:textSize="15sp"
-            android:lineHeight="22sp"
-            android:textColor="#30437A"
-
-            android:layout_marginBottom="7dp"
             android:layout_marginLeft="24dp"
-            />
+            android:layout_marginBottom="4dp"
+
+            android:fontFamily="@font/poppins_semibold_600"
+            android:lineHeight="22sp"
+            android:text="Saving Goals"
+            android:textColor="#30437A"
+            android:textSize="15sp"
+
+            app:layout_constraintBottom_toTopOf="@+id/rcvSavingGoals"
+            app:layout_constraintLeft_toLeftOf="parent" />
 
         <!-- recycalerview Saving Goals -->
         <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rcvSavingGoals"
             android:layout_width="match_parent"
             android:layout_height="86dp"
-            app:layout_constraintTop_toBottomOf="@id/flMonthIAEBG"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            android:id="@+id/rcvSavingGoals"
-
+            android:layout_marginTop="47dp"
             android:background="#FFFFFF"
-
             android:importantForAccessibility="no"
 
-            android:layout_marginTop="50dp"
-            />
+            app:layout_constraintLeft_toLeftOf="parent"
+
+            app:layout_constraintRight_toRightOf="parent"
+
+            app:layout_constraintTop_toBottomOf="@id/flMonthIAEBG" />
 
         <!-- "Spending Analysis" -->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintBottom_toTopOf="@id/clSpendingAnalisisBG"
+            android:layout_marginLeft="24dp"
+            android:layout_marginBottom="4dp"
 
-            android:text="Spending Analysis"
             android:fontFamily="@font/poppins_semibold_600"
-            android:textSize="15sp"
             android:lineHeight="22sp"
+            android:text="Spending Analysis"
             android:textColor="#30437A"
+            android:textSize="15sp"
 
-            android:layout_marginBottom="7dp"
-            android:layout_marginLeft="24dp"/>
+            app:layout_constraintBottom_toTopOf="@id/clSpendingAnalisisBG"
+            app:layout_constraintLeft_toLeftOf="parent" />
 
         <!-- background spending analysis -->
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/clSpendingAnalisisBG"
             android:layout_width="match_parent"
             android:layout_height="244dp"
-            app:layout_constraintTop_toBottomOf="@+id/rcvSavingGoals"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            android:id="@+id/clSpendingAnalisisBG"
+            android:layout_marginLeft="18dp"
+            android:layout_marginTop="47dp"
+            android:layout_marginRight="18dp"
 
             android:background="@drawable/bg_rounded_20_white"
 
-            android:layout_marginTop="50dp"
-            android:layout_marginLeft="18dp"
-            android:layout_marginRight="18dp"
-            >
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/rcvSavingGoals">
 
             <!-- day button -->
             <TextView
+                android:id="@+id/tvDay"
                 android:layout_width="87dp"
                 android:layout_height="31dp"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                android:id="@+id/tvDay"
-
+                android:layout_marginTop="22dp"
+                android:layout_marginRight="230dp"
                 android:background="@drawable/bg_rounded_20_white"
+
+                android:fontFamily="@font/poppins_extrabold_800"
 
                 android:gravity="center"
 
-                android:text="Day"
-                android:fontFamily="@font/poppins_extrabold_800"
-                android:textSize="15sp"
                 android:lineHeight="22sp"
+                android:text="Day"
                 android:textColor="#30437A"
+                android:textSize="15sp"
+                app:layout_constraintLeft_toLeftOf="parent"
 
-                android:layout_marginTop="22dp"
-                android:layout_marginRight="230dp"
-                />
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <!-- line 1 -->
             <FrameLayout
                 android:layout_width="2dp"
                 android:layout_height="22dp"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-
-                android:background="@drawable/bg_rounded_50_white"
-                android:backgroundTint="#30437A"
-
                 android:layout_marginTop="26dp"
                 android:layout_marginRight="115dp"
-                />
+                android:background="@drawable/bg_rounded_50_white"
+
+                android:backgroundTint="#30437A"
+                app:layout_constraintLeft_toLeftOf="parent"
+
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <!-- month button -->
             <TextView
+                android:id="@+id/tvMonth"
                 android:layout_width="87dp"
                 android:layout_height="31dp"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                android:id="@+id/tvMonth"
-
+                android:layout_marginTop="22dp"
                 android:background="@drawable/bg_rounded_20_white"
+                android:fontFamily="@font/poppins_extrabold_800"
+
                 android:gravity="center"
+                android:lineHeight="22sp"
 
                 android:text="Month"
-                android:fontFamily="@font/poppins_extrabold_800"
-                android:textSize="15sp"
-                android:lineHeight="22sp"
                 android:textColor="#30437A"
+                android:textSize="15sp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
 
-                android:layout_marginTop="22dp"
-                />
+                app:layout_constraintTop_toTopOf="parent" />
 
             <!-- lne 2 -->
             <FrameLayout
                 android:layout_width="2dp"
                 android:layout_height="22dp"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-
-                android:backgroundTint="#30437A"
+                android:layout_marginLeft="115dp"
+                android:layout_marginTop="26dp"
                 android:background="@drawable/bg_rounded_50_white"
 
-                android:layout_marginTop="26dp"
-                android:layout_marginLeft="115dp"
-                />
+                android:backgroundTint="#30437A"
+                app:layout_constraintLeft_toLeftOf="parent"
+
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <!-- year button -->
             <TextView
+                android:id="@+id/tvYear"
                 android:layout_width="87dp"
                 android:layout_height="31dp"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                android:id="@+id/tvYear"
-
+                android:layout_marginLeft="230dp"
+                android:layout_marginTop="22dp"
                 android:background="@drawable/bg_rounded_20_white"
+
+                android:fontFamily="@font/poppins_extrabold_800"
                 android:gravity="center"
 
-                android:text="Year"
-                android:fontFamily="@font/poppins_extrabold_800"
-                android:textSize="15sp"
                 android:lineHeight="22sp"
+                android:text="Year"
                 android:textColor="#30437A"
+                android:textSize="15sp"
+                app:layout_constraintLeft_toLeftOf="parent"
 
-                android:layout_marginTop="22dp"
-                android:layout_marginLeft="230dp"
-                />
-            
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-        
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
