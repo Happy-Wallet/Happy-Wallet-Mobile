@@ -4,6 +4,7 @@ public enum Destination {
     HOME,
     WALLET,
     GROUPS,
-    SETTING
+    SETTING,
+    NOTIFICATION
 }
 

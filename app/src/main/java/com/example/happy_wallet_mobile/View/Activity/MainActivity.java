@@ -10,6 +10,7 @@ import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.style.AbsoluteSizeSpan;
 import android.util.Log;
+import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import androidx.activity.EdgeToEdge;
@@ -24,6 +25,7 @@ import androidx.fragment.app.FragmentTransaction;
 import com.example.happy_wallet_mobile.Model.Destination;
 import com.example.happy_wallet_mobile.R;
 import com.example.happy_wallet_mobile.View.Fragment.HomeFragment;
+import com.example.happy_wallet_mobile.View.Fragment.NotificationFragment;
 import com.example.happy_wallet_mobile.View.Utilities.CustomTypefaceSpan;
 import com.example.happy_wallet_mobile.View.Utilities.IconHelper;
 import com.example.happy_wallet_mobile.ViewModel.MainViewModel;
@@ -31,6 +33,7 @@ import com.example.happy_wallet_mobile.ViewModel.MainViewModel;
 public class MainActivity extends AppCompatActivity {
 
     ImageView ivHome, ivWallet, ivGroups, ivSetting, ivChatBot;
+    FrameLayout flNotification;
     MainViewModel mainViewModel = new MainViewModel();
 
     @Override
@@ -49,6 +52,7 @@ public class MainActivity extends AppCompatActivity {
         ivGroups = findViewById(R.id.ivGroups);
         ivSetting = findViewById(R.id.ivSetting);
         ivChatBot = findViewById(R.id.ivChatBot);
+        flNotification = findViewById(R.id.flNotification);
 
         // set default
         // set default image views color
@@ -59,7 +63,16 @@ public class MainActivity extends AppCompatActivity {
         mainViewModel.onNavItemClicked(Destination.HOME);
         ivChatBot.setColorFilter(ContextCompat.getColor(this, R.color.white), PorterDuff.Mode.SRC_IN);
 
-        //set texiview click listener
+        // flnotification click listener
+        flNotification.setOnClickListener(v ->  {
+            NotificationFragment notificationFragment = new NotificationFragment();
+            getSupportFragmentManager().beginTransaction()
+                    .add(R.id.fragment_container, notificationFragment)
+                    .addToBackStack(null)
+                    .commit();
+        });
+
+        //set image views click listener
         //ivHome click listener
         ivHome.setOnClickListener(v -> {
             setTexiviewColor(ivHome, true);
@@ -67,6 +80,8 @@ public class MainActivity extends AppCompatActivity {
             setTexiviewColor(ivGroups, false);
             setTexiviewColor(ivSetting, false);
             mainViewModel.onNavItemClicked(Destination.HOME);
+            getSupportFragmentManager().popBackStack();
+
         });
 
         //ivWallet click listener
@@ -75,6 +90,7 @@ public class MainActivity extends AppCompatActivity {
             setTexiviewColor(ivWallet, true);
             setTexiviewColor(ivGroups, false);
             setTexiviewColor(ivSetting, false);
+            getSupportFragmentManager().popBackStack();
         });
 
         //ivGroups click listener
@@ -83,6 +99,7 @@ public class MainActivity extends AppCompatActivity {
             setTexiviewColor(ivWallet, false);
             setTexiviewColor(ivGroups, true);
             setTexiviewColor(ivSetting, false);
+            getSupportFragmentManager().popBackStack();
         });
 
         //ivSetting click listener
@@ -91,6 +108,7 @@ public class MainActivity extends AppCompatActivity {
             setTexiviewColor(ivWallet, false);
             setTexiviewColor(ivGroups, false);
             setTexiviewColor(ivSetting, true);
+            getSupportFragmentManager().popBackStack();
         });
 
 

@@ -4,7 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".View.Fragment.NotificationFragment">
+    tools:context=".View.Fragment.NotificationFragment"
+    android:background="@color/white">
 
     <!-- back button -->
     <Button
@@ -15,8 +16,8 @@
         android:id="@+id/btnBack"
 
         android:text="&lt;"
-        android:textColor="#30437A"
-        android:textFontWeight="500"
+        android:textColor="@color/Nautical"
+        android:fontFamily="@font/poppins_medium_500"
         android:textSize="32sp"
         android:lineHeight="22sp"
 
@@ -33,8 +34,8 @@
         android:layout_marginTop="67dp"
 
         android:text="Notification"
-        android:textColor="#30437A"
-        android:textFontWeight="800"
+        android:textColor="@color/Nautical"
+        android:fontFamily="@font/poppins_extrabold_800"
         android:textSize="24sp"
         android:lineHeight="22sp"
         />

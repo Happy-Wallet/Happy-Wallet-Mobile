@@ -18,7 +18,7 @@ import com.example.happy_wallet_mobile.R;
 
 public class HomeFragment extends Fragment {
 
-    FrameLayout flNotification;
+
     TextView tvAccountBalance;
     RecyclerView rcvMonthIAE, rcvSavingGoals;
     TextView tvDay, tvMonth, tvYear;
@@ -28,7 +28,7 @@ public class HomeFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
 
-        flNotification = view.findViewById(R.id.flNotification);
+
         tvAccountBalance = view.findViewById(R.id.tvAccountBalance);
         rcvMonthIAE = view.findViewById(R.id.rcvMonthIAE);
         rcvSavingGoals = view.findViewById(R.id.rcvSavingGoals);
@@ -42,14 +42,6 @@ public class HomeFragment extends Fragment {
         tvDay.setBackground(ContextCompat.getDrawable(requireContext(), R.drawable.bg_rounded_20_paolo_veronese_green));
 
 
-
-
-        flNotification.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            }
-        });
 
         //tvDay click
         tvDay.setOnClickListener(new View.OnClickListener() {

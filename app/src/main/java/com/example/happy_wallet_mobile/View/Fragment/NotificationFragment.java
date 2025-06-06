@@ -36,7 +36,7 @@ public class NotificationFragment extends Fragment {
 
         // back
         btnBack.setOnClickListener(v -> {
-
+            requireActivity().getSupportFragmentManager().popBackStack();
         });
 
 

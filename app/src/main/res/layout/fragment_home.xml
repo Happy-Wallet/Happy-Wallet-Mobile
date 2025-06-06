@@ -7,34 +7,7 @@
     tools:context=".View.Fragment.HomeFragment"
     android:background="@color/white">
 
-<!-- notification button -->
-    <FrameLayout
-        android:layout_width="36dp"
-        android:layout_height="36dp"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:id="@+id/flNotification"
 
-        android:layout_marginTop="52dp"
-        android:layout_marginRight="30dp"
-
-        android:padding="2dp"
-        android:foregroundGravity="center"
-
-        android:background="@drawable/bg_rounded_50_nautical"
-
-        >
-
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-
-            android:src="@drawable/ic_bell"
-            android:padding="2dp"
-            android:background="@drawable/bg_rounded_50_white"
-            />
-
-    </FrameLayout>
 
 
 <!-- Total balance | Available balance -->
@@ -43,7 +16,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="24dp"
+        android:layout_marginStart="24dp"
         android:layout_marginBottom="7dp"
 
         android:fontFamily="@font/poppins_regular_400"
@@ -51,32 +24,32 @@
         android:text="Total balance | Available balance"
         android:textSize="16sp"
 
-        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintBottom_toTopOf="@+id/tvAccountBalance" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         android:id="@+id/tvAccountBalance"
 
         android:text="7.783.000 $"
-        android:fontFamily="@font/poppins_extrabold_800"
+        android:fontFamily="@font/poppins_bold_700"
         android:textSize="24sp"
         android:lineHeight="22sp"
         android:textColor="#00D09E"
 
         android:layout_marginTop="80dp"
-        android:layout_marginLeft="24dp"/>
+        android:layout_marginStart="24dp"/>
 
     <!-- Detail backgoround -->
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="200dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginTop="137dp"
         android:background="@color/Silver_Phoenix"/>
 
@@ -90,9 +63,9 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
 
-        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
 
-        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="1.0">
 
@@ -100,7 +73,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="24dp"
+            android:layout_marginStart="24dp"
             android:layout_marginBottom="4dp"
 
             android:fontFamily="@font/poppins_semibold_600"
@@ -110,23 +83,23 @@
             android:textSize="15sp"
 
             app:layout_constraintBottom_toTopOf="@+id/flMonthIAEBG"
-            app:layout_constraintLeft_toLeftOf="parent" />
+            app:layout_constraintStart_toStartOf="parent" />
 
         <!-- background month income ... -->
         <FrameLayout
             android:id="@+id/flMonthIAEBG"
             android:layout_width="match_parent"
             android:layout_height="130dp"
-            android:layout_marginLeft="18dp"
+            android:layout_marginStart="18dp"
             android:layout_marginTop="47dp"
 
-            android:layout_marginRight="18dp"
+            android:layout_marginEnd="18dp"
 
             android:background="@drawable/bg_rounded_20_white"
             android:backgroundTint="#FFFFFF"
 
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
             <androidx.recyclerview.widget.RecyclerView
@@ -135,8 +108,8 @@
                 android:layout_height="130dp"
                 android:importantForAccessibility="no"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
 
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -149,7 +122,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="24dp"
+            android:layout_marginStart="24dp"
             android:layout_marginBottom="4dp"
 
             android:fontFamily="@font/poppins_semibold_600"
@@ -159,7 +132,7 @@
             android:textSize="15sp"
 
             app:layout_constraintBottom_toTopOf="@+id/rcvSavingGoals"
-            app:layout_constraintLeft_toLeftOf="parent" />
+            app:layout_constraintStart_toStartOf="parent" />
 
         <!-- recycalerview Saving Goals -->
         <androidx.recyclerview.widget.RecyclerView
@@ -170,9 +143,9 @@
             android:background="#FFFFFF"
             android:importantForAccessibility="no"
 
-            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
 
-            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
 
             app:layout_constraintTop_toBottomOf="@id/flMonthIAEBG" />
 
@@ -180,7 +153,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="24dp"
+            android:layout_marginStart="24dp"
             android:layout_marginBottom="4dp"
 
             android:fontFamily="@font/poppins_semibold_600"
@@ -190,21 +163,21 @@
             android:textSize="15sp"
 
             app:layout_constraintBottom_toTopOf="@id/clSpendingAnalisisBG"
-            app:layout_constraintLeft_toLeftOf="parent" />
+            app:layout_constraintStart_toStartOf="parent" />
 
         <!-- background spending analysis -->
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/clSpendingAnalisisBG"
             android:layout_width="match_parent"
             android:layout_height="244dp"
-            android:layout_marginLeft="18dp"
+            android:layout_marginStart="18dp"
             android:layout_marginTop="47dp"
-            android:layout_marginRight="18dp"
+            android:layout_marginEnd="18dp"
 
             android:background="@drawable/bg_rounded_20_white"
 
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/rcvSavingGoals">
 
             <!-- day button -->
@@ -213,7 +186,7 @@
                 android:layout_width="87dp"
                 android:layout_height="31dp"
                 android:layout_marginTop="22dp"
-                android:layout_marginRight="230dp"
+                android:layout_marginEnd="230dp"
                 android:background="@drawable/bg_rounded_20_white"
 
                 android:fontFamily="@font/poppins_extrabold_800"
@@ -224,9 +197,9 @@
                 android:text="Day"
                 android:textColor="#30437A"
                 android:textSize="15sp"
-                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
 
-                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <!-- line 1 -->
@@ -234,13 +207,13 @@
                 android:layout_width="2dp"
                 android:layout_height="22dp"
                 android:layout_marginTop="26dp"
-                android:layout_marginRight="115dp"
+                android:layout_marginEnd="115dp"
                 android:background="@drawable/bg_rounded_50_white"
 
                 android:backgroundTint="#30437A"
-                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
 
-                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <!-- month button -->
@@ -258,8 +231,8 @@
                 android:text="Month"
                 android:textColor="#30437A"
                 android:textSize="15sp"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
 
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -267,14 +240,14 @@
             <FrameLayout
                 android:layout_width="2dp"
                 android:layout_height="22dp"
-                android:layout_marginLeft="115dp"
+                android:layout_marginStart="115dp"
                 android:layout_marginTop="26dp"
                 android:background="@drawable/bg_rounded_50_white"
 
                 android:backgroundTint="#30437A"
-                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
 
-                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <!-- year button -->
@@ -282,7 +255,7 @@
                 android:id="@+id/tvYear"
                 android:layout_width="87dp"
                 android:layout_height="31dp"
-                android:layout_marginLeft="230dp"
+                android:layout_marginStart="230dp"
                 android:layout_marginTop="22dp"
                 android:background="@drawable/bg_rounded_20_white"
 
@@ -293,9 +266,9 @@
                 android:text="Year"
                 android:textColor="#30437A"
                 android:textSize="15sp"
-                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
 
-                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>

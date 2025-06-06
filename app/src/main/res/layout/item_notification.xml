@@ -16,7 +16,7 @@
         android:id="@+id/tvTitle"
 
         android:text="Title"
-        android:textColor="#30437A"
+        android:textColor="@color/Nautical"
         android:textFontWeight="700"
         android:textSize="16sp"
         android:lineHeight="16sp"
@@ -34,7 +34,7 @@
         android:id="@+id/tvDescription"
 
         android:text="Description"
-        android:textColor="#30437A"
+        android:textColor="@color/Nautical"
         android:textFontWeight="500"
         android:textSize="15sp"
         android:lineHeight="15sp"
