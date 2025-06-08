@@ -7,18 +7,23 @@ import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.style.ForegroundColorSpan;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.happy_wallet_mobile.R;
+import com.example.happy_wallet_mobile.View.Fragment.NotificationFragment;
+import com.example.happy_wallet_mobile.View.Fragment.SignUpFragment;
 import com.example.happy_wallet_mobile.ViewModel.SignInViewModel;
 
 public class SignInActivity extends AppCompatActivity {
@@ -31,6 +36,7 @@ public class SignInActivity extends AppCompatActivity {
     TextView tvSignIn;
     TextView tvSignUp;
     LinearLayout lnlSignInWithGoogle;
+    FrameLayout flFragmentContainer;
 
 
     @Override
@@ -44,6 +50,7 @@ public class SignInActivity extends AppCompatActivity {
             return insets;
         });
 
+        signInViewModel = new ViewModelProvider(this).get(SignInViewModel.class);
 
         tvProjectName = findViewById(R.id.tvProjectName);
         etUserName = findViewById(R.id.etUserName);
@@ -51,29 +58,29 @@ public class SignInActivity extends AppCompatActivity {
         tvSignIn = findViewById(R.id.tvSignIn);
         tvSignUp = findViewById(R.id.tvSignUp);
         lnlSignInWithGoogle = findViewById(R.id.lnlSignInWithGoogle);
+        flFragmentContainer = findViewById(R.id.flFragmentContainer);
 
 
+        // Set color for app name
         String ProjectName = "Happy Wallet";
         SpannableString spannableProjectName = new SpannableString(ProjectName);
         // Đổi màu cho "Happy" (từ index 0 đến 5)
         spannableProjectName.setSpan(
-                new ForegroundColorSpan(Color.parseColor("#4DC9A9")),
+                new ForegroundColorSpan(ContextCompat.getColor(this, R.color.Paolo_Veronese_Green)),
                 0,
                 5,
                 Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
         );
         // Đổi màu cho "Wallet" (từ index 6 đến hết)
         spannableProjectName.setSpan(
-                new ForegroundColorSpan(Color.parseColor("#30437A")),
+                new ForegroundColorSpan(ContextCompat.getColor(this, R.color.Nautical)),
                 6,
                 ProjectName.length(),
                 Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
         );
         tvProjectName.setText(spannableProjectName);
 
-
-        signInViewModel = new ViewModelProvider(this).get(SignInViewModel.class);
-
+        // get sign in result from viewmodel
         signInViewModel.getSignInResult().observe(this, success -> {
             if (success) {
                 Toast.makeText(this, "Đăng nhập thành công!", Toast.LENGTH_SHORT).show();
@@ -86,6 +93,7 @@ public class SignInActivity extends AppCompatActivity {
             }
         });
 
+        // sign in click
         tvSignIn.setOnClickListener(v -> {
             String username = etUserName.getText().toString().trim();
             String password = edPassword.getText().toString().trim();
@@ -93,6 +101,15 @@ public class SignInActivity extends AppCompatActivity {
             signInViewModel.setUserName(username);
             signInViewModel.setPassword(password);
             signInViewModel.attemptSignIn();
+        });
+
+        // sign up click
+        tvSignUp.setOnClickListener(v -> {
+            SignUpFragment signUpFragment = new SignUpFragment();
+            getSupportFragmentManager().beginTransaction()
+                    .add(R.id.flFragmentContainer, signUpFragment)
+                    .addToBackStack(null)
+                    .commit();
         });
     }
 }
