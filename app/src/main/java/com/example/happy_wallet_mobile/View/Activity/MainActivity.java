@@ -57,7 +57,7 @@ public class MainActivity extends AppCompatActivity {
         flNotification.setOnClickListener(v ->  {
             NotificationFragment notificationFragment = new NotificationFragment();
             getSupportFragmentManager().beginTransaction()
-                    .add(R.id.fragment_container, notificationFragment)
+                    .add(R.id.fragment_container_under, notificationFragment)
                     .addToBackStack(null)
                     .commit();
         });
@@ -127,7 +127,7 @@ public class MainActivity extends AppCompatActivity {
                 if (fragment != null) {
                     getSupportFragmentManager()
                             .beginTransaction()
-                            .replace(R.id.fragment_container, fragment)
+                            .replace(R.id.fragment_container_under, fragment)
                             .commit();
                 }
             }
