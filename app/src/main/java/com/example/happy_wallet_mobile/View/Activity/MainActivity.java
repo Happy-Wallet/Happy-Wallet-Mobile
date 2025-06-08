@@ -1,16 +1,7 @@
 package com.example.happy_wallet_mobile.View.Activity;
 
-import static androidx.core.view.ViewCompat.setBackground;
-
-import android.graphics.Color;
 import android.graphics.PorterDuff;
-import android.graphics.Typeface;
 import android.os.Bundle;
-import android.text.SpannableString;
-import android.text.Spanned;
-import android.text.style.AbsoluteSizeSpan;
-import android.util.Log;
-import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import androidx.activity.EdgeToEdge;
@@ -20,14 +11,12 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
 
 import com.example.happy_wallet_mobile.Model.Destination;
 import com.example.happy_wallet_mobile.R;
 import com.example.happy_wallet_mobile.View.Fragment.HomeFragment;
 import com.example.happy_wallet_mobile.View.Fragment.NotificationFragment;
-import com.example.happy_wallet_mobile.View.Utilities.CustomTypefaceSpan;
-import com.example.happy_wallet_mobile.View.Utilities.IconHelper;
+import com.example.happy_wallet_mobile.View.Fragment.AddSavingGoalFragment;
 import com.example.happy_wallet_mobile.ViewModel.MainViewModel;
 
 public class MainActivity extends AppCompatActivity {
@@ -90,6 +79,7 @@ public class MainActivity extends AppCompatActivity {
             setTexiviewColor(ivWallet, true);
             setTexiviewColor(ivGroups, false);
             setTexiviewColor(ivSetting, false);
+            mainViewModel.onNavItemClicked(Destination.WALLET);
             getSupportFragmentManager().popBackStack();
         });
 
@@ -99,6 +89,7 @@ public class MainActivity extends AppCompatActivity {
             setTexiviewColor(ivWallet, false);
             setTexiviewColor(ivGroups, true);
             setTexiviewColor(ivSetting, false);
+            mainViewModel.onNavItemClicked(Destination.GROUPS);
             getSupportFragmentManager().popBackStack();
         });
 
@@ -108,6 +99,7 @@ public class MainActivity extends AppCompatActivity {
             setTexiviewColor(ivWallet, false);
             setTexiviewColor(ivGroups, false);
             setTexiviewColor(ivSetting, true);
+            mainViewModel.onNavItemClicked(Destination.SETTING);
             getSupportFragmentManager().popBackStack();
         });
 
@@ -122,7 +114,6 @@ public class MainActivity extends AppCompatActivity {
                         fragment = new HomeFragment();
                         break;
                     case WALLET:
-
                         break;
                     case GROUPS:
 
