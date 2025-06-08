@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".View.Fragment.SavingStatusFragment"
+    android:background="#80000000">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="320dp"
+        android:layout_height="250dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+
+        android:background="@drawable/bg_rounded_20_white"
+        >
+
+        <!-- cancel -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="7dp"
+
+            android:id="@+id/tvCancel"
+
+            android:text="X"
+            android:fontFamily="@font/poppins_bold_700"
+            android:textSize="24sp"
+            android:textColor="@color/Nautical"
+            android:includeFontPadding="false"
+            />
+
+        <!-- edit -->
+        <ImageView
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginEnd="10dp"
+            android:layout_marginTop="12dp"
+
+            android:id="@+id/ivEdit"
+
+            android:src="@drawable/ic_pencil_simple_fill"
+            />
+
+        <!-- icon -->
+        <ImageView
+            android:layout_width="47dp"
+            android:layout_height="47dp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginStart="30dp"
+            android:layout_marginTop="30dp"
+
+            android:id="@+id/ivIcon"
+
+            android:background="@drawable/bg_rounded_50_nautical"
+            />
+
+        <!-- title -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="20dp"
+            app:layout_constraintStart_toEndOf="@id/ivIcon"
+            app:layout_constraintTop_toTopOf="@id/ivIcon"
+            android:layout_marginEnd="20dp"
+            android:layout_marginStart="10dp"
+
+            android:id="@+id/tvTitle"
+
+            android:gravity="center_vertical"
+            android:text="Title"
+            android:fontFamily="@font/poppins_semibold_600"
+            android:textSize="15sp"
+            />
+
+        <!-- description -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toEndOf="@id/ivIcon"
+            app:layout_constraintTop_toBottomOf="@id/tvTitle"
+            android:layout_marginEnd="20dp"
+            android:layout_marginStart="10dp"
+
+            android:id="@+id/tvDescription"
+
+            android:text="Description"
+            android:fontFamily="@font/poppins_medium_500"
+            android:textSize="12sp"
+            android:textColor="@color/Argent"
+            />
+
+        <!-- money -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/pbProgress"
+            android:layout_marginBottom="5dp"
+
+            android:text="5000000 / 10000000"
+            android:fontFamily="@font/poppins_bold_700"
+            android:textSize="14sp"
+            />
+
+        <!-- progressbar -->
+        <ProgressBar
+            android:layout_width="279dp"
+            android:layout_height="17dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginTop="20dp"
+
+            android:id="@+id/pbProgress"
+
+            android:max="100"
+            android:progress="50"
+
+            style="@android:style/Widget.ProgressBar.Horizontal"
+            android:progressDrawable="@drawable/progressbar_green_white"
+            />
+
+        <FrameLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@+id/pbProgress"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="25dp">
+
+            <!-- add saving -->
+            <TextView
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:layout_gravity="start"
+
+                android:id="@+id/tvAddMoney"
+
+                android:text="+"
+                android:textSize="30sp"
+                android:fontFamily="sans-serif-medium"
+                android:textColor="@color/white"
+                android:gravity="center"
+                android:includeFontPadding="false"
+
+                android:background="@drawable/bg_rounded_10_nautical"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="top"
+                android:layout_marginStart="50dp"
+
+                android:text="Add saving money here"
+                android:fontFamily="@font/poppins_bold_700"
+                android:textSize="12sp"
+                android:textColor="@color/Nautical"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:layout_marginStart="50dp"
+
+                android:id="@+id/tvDailySpendingAmount"
+
+                android:text="You should spend 5$ for today"
+                android:fontFamily="@font/poppins_medium_500"
+                android:textSize="12sp"
+                android:textColor="@color/Argent"
+                />
+
+        </FrameLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginBottom="5dp"
+
+            android:id="@+id/tvTimeLeft"
+
+            android:text="You have 260 days left"
+            android:fontFamily="@font/poppins_medium_500"
+            android:textSize="12sp"
+            />
+
+        
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
