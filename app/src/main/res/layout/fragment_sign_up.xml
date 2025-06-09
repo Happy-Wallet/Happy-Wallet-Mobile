@@ -1,0 +1,286 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".View.Fragment.SignUpFragment"
+    android:background="@color/white">
+
+    <!-- "Create Account -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="80dp"
+
+        android:id="@+id/tvCreateAccount"
+
+        android:text="Create Account"
+        android:fontFamily="@font/poppins_bold_700"
+        android:textSize="32sp"
+        android:textColor="@color/Nautical"
+        />
+
+    <!-- info input layout -->
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvCreateAccount"
+        app:layout_constraintBottom_toTopOf="@+id/clButtonLayout"
+
+        android:id="@+id/clInfoInputLayout"
+
+        android:padding="30dp"
+        android:background="@color/white"
+        >
+
+        <!-- etName -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="@+id/etName"
+            app:layout_constraintBottom_toTopOf="@+id/etName"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="10dp"
+
+            android:labelFor="@id/etName"
+
+            android:text="Name"
+            android:fontFamily="@font/poppins_bold_700"
+            android:textSize="15sp"
+            android:textColor="@color/Nautical"
+            />
+
+        <EditText
+            android:id="@+id/etName"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginBottom="40dp"
+            android:background="@drawable/bg_rounded_50_white"
+            android:elevation="4dp"
+
+            android:fontFamily="@font/poppins_regular_400"
+
+            android:hint="name"
+            android:paddingStart="20sp"
+            android:textColor="@color/Nautical"
+            android:textSize="12dp"
+
+            app:layout_constraintBottom_toTopOf="@id/etUserName"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            tools:ignore="TextSizeCheck" />
+
+        <!-- etUserName -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="@id/etUserName"
+            app:layout_constraintBottom_toTopOf="@id/etUserName"
+            android:layout_marginStart="20dp"
+
+            android:labelFor="@id/etUserName"
+
+            android:text="UserName"
+            android:fontFamily="@font/poppins_bold_700"
+            android:textSize="15sp"
+            android:textColor="@color/Nautical"
+            />
+
+        <EditText
+            android:id="@+id/etUserName"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginBottom="40dp"
+            android:background="@drawable/bg_rounded_50_white"
+            android:elevation="4dp"
+
+            android:fontFamily="@font/poppins_regular_400"
+
+            android:hint="username"
+            android:paddingStart="20sp"
+            android:textColor="@color/Nautical"
+            android:textSize="12dp"
+
+            app:layout_constraintBottom_toTopOf="@id/etMail"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            tools:ignore="TextSizeCheck" />
+
+        <!-- etMail -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="@id/etMail"
+            app:layout_constraintBottom_toTopOf="@id/etMail"
+            android:layout_marginStart="20dp"
+
+            android:labelFor="@id/etMail"
+
+            android:text="Mail"
+            android:fontFamily="@font/poppins_bold_700"
+            android:textSize="15sp"
+            android:textColor="@color/Nautical"
+            />
+
+        <EditText
+            android:id="@+id/etMail"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginBottom="40dp"
+            android:background="@drawable/bg_rounded_50_white"
+            android:elevation="4dp"
+
+            android:fontFamily="@font/poppins_regular_400"
+
+            android:hint="mail"
+            android:paddingStart="20sp"
+            android:textColor="@color/Nautical"
+            android:textSize="12dp"
+
+            app:layout_constraintBottom_toTopOf="@id/etDateOfBirth"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            tools:ignore="TextSizeCheck" />
+
+        <!-- etDateOfBirth -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="@id/etDateOfBirth"
+            app:layout_constraintBottom_toTopOf="@id/etDateOfBirth"
+            android:layout_marginStart="20dp"
+
+            android:labelFor="@id/etDateOfBirth"
+
+            android:text="Date of Birth"
+            android:fontFamily="@font/poppins_bold_700"
+            android:textSize="15sp"
+            android:textColor="@color/Nautical"
+            />
+
+        <EditText
+            android:id="@+id/etDateOfBirth"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginBottom="40dp"
+            android:background="@drawable/bg_rounded_50_white"
+            android:elevation="4dp"
+
+            android:fontFamily="@font/poppins_regular_400"
+
+            android:hint="date of birth"
+            android:paddingStart="20sp"
+            android:textColor="@color/Nautical"
+            android:textSize="12dp"
+
+            app:layout_constraintBottom_toTopOf="@id/etPassword"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            tools:ignore="TextSizeCheck" />
+
+        <!-- etPassword -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="@id/etPassword"
+            app:layout_constraintBottom_toTopOf="@id/etPassword"
+            android:layout_marginStart="20dp"
+
+            android:labelFor="@id/etPassword"
+
+            android:text="Password"
+            android:fontFamily="@font/poppins_bold_700"
+            android:textSize="15sp"
+            android:textColor="@color/Nautical"
+            />
+
+        <EditText
+            android:id="@+id/etPassword"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginBottom="10dp"
+            android:background="@drawable/bg_rounded_50_white"
+            android:elevation="4dp"
+
+            android:fontFamily="@font/poppins_regular_400"
+
+            android:hint="password"
+            android:paddingStart="20sp"
+            android:textColor="@color/Nautical"
+            android:textSize="12dp"
+
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            tools:ignore="TextSizeCheck" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <!-- button layout -->
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/clInfoInputLayout"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginBottom="50dp"
+
+        android:id="@+id/clButtonLayout"
+
+        android:background="@color/white"
+        >
+
+        <!-- btnSignUp -->
+        <TextView
+            android:layout_width="200dp"
+            android:layout_height="50dp"
+            android:orientation="horizontal"
+            app:layout_constraintBottom_toTopOf="@+id/tvCancel"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginBottom="20dp"
+
+            android:id="@+id/tvSignUp"
+
+            android:text="Sign Up"
+            android:fontFamily=""
+            android:textSize="22sp"
+            android:textColor="#FFFFFF"
+
+            android:gravity="center"
+            android:background="@drawable/bg_rounded_50_paolo_veronese_green"
+            android:elevation="4dp"
+            />
+
+        <!-- btnCancel -->
+        <TextView
+            android:layout_width="200dp"
+            android:layout_height="50dp"
+            android:orientation="horizontal"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginBottom="10dp"
+
+            android:id="@+id/tvCancel"
+
+            android:text="Cancel"
+            android:textFontWeight="400"
+            android:textSize="22sp"
+            android:textColor="@color/Nautical"
+
+            android:gravity="center"
+            android:background="@drawable/bg_rounded_50_white"
+            android:elevation="4dp"
+            />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

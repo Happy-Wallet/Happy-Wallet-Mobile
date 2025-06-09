@@ -1,0 +1,249 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".View.Fragment.SettingFragment"
+    android:background="@color/white">
+
+    <!-- image profile -->
+    <FrameLayout
+        android:layout_width="71dp"
+        android:layout_height="71dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="72sp"
+        android:layout_marginStart="42dp"
+
+        android:id="@+id/ivProfileImageFrame"
+
+        android:background="@drawable/bg_rounded_50_nautical"
+        >
+
+        <ImageView
+            android:layout_width="68dp"
+            android:layout_height="68dp"
+
+            android:id="@+id/ivProfileImage"
+
+            android:layout_gravity="center"
+            android:background="@drawable/bg_rounded_50_white"
+            />
+
+    </FrameLayout>
+
+    <!-- name -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="@+id/ivProfileImageFrame"
+        app:layout_constraintBottom_toBottomOf="@+id/ivProfileImageFrame"
+        app:layout_constraintStart_toEndOf="@+id/ivProfileImageFrame"
+        android:layout_marginStart="20dp"
+
+        android:id="@+id/tvName"
+
+        android:text="Name"
+        android:fontFamily="@font/poppins_bold_700"
+        android:textSize="24sp"
+        android:textColor="@color/Nautical"
+        />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginBottom="-50dp"
+        android:layout_marginTop="180dp"
+
+        android:padding="40dp"
+        android:background="@drawable/bg_rounded_50_nautical"
+        android:backgroundTint="@color/Silver_Phoenix"
+        >
+
+        <!-- edit profile -->
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+
+            android:id="@+id/flEditProfile"
+            >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
+                android:layout_gravity="start"
+
+                android:gravity="center"
+                android:text="Edit profile"
+                android:fontFamily="@font/poppins_bold_700"
+                android:textSize="20sp"
+                android:textColor="@color/Nautical"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
+                android:layout_gravity="end"
+
+                android:gravity="center"
+                android:text="&gt;"
+                android:fontFamily="@font/poppins_bold_700"
+                android:textSize="20sp"
+                android:textColor="@color/Nautical"
+                />
+
+        </FrameLayout>
+
+        <!-- line edit profile -->
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            app:layout_constraintTop_toBottomOf="@+id/flEditProfile"
+            android:layout_marginTop="9dp"
+            android:background="@drawable/bg_rounded_50_nautical"
+            />
+
+        <!-- change password -->
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/flEditProfile"
+            android:layout_marginTop="20dp"
+
+            android:id="@+id/flChangePassword"
+            >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
+                android:layout_gravity="start"
+
+                android:gravity="center"
+                android:text="Change password"
+                android:fontFamily="@font/poppins_bold_700"
+                android:textSize="20sp"
+                android:textColor="@color/Nautical"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
+                android:layout_gravity="end"
+
+                android:gravity="center"
+                android:text="&gt;"
+                android:fontFamily="@font/poppins_bold_700"
+                android:textSize="20sp"
+                android:textColor="@color/Nautical"
+                />
+
+        </FrameLayout>
+
+        <!-- line change password -->
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            app:layout_constraintTop_toBottomOf="@+id/flChangePassword"
+            android:layout_marginTop="9dp"
+            android:background="@drawable/bg_rounded_50_nautical"
+            />
+
+        <!-- change about us -->
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/flChangePassword"
+            android:layout_marginTop="20dp"
+
+            android:id="@+id/flAboutUs"
+            >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
+                android:layout_gravity="start"
+
+                android:gravity="center"
+                android:text="About us"
+                android:fontFamily="@font/poppins_bold_700"
+                android:textSize="20sp"
+                android:textColor="@color/Nautical"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
+                android:layout_gravity="end"
+
+                android:gravity="center"
+                android:text="&gt;"
+                android:fontFamily="@font/poppins_bold_700"
+                android:textSize="20sp"
+                android:textColor="@color/Nautical"
+                />
+
+        </FrameLayout>
+
+        <!-- line log out -->
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            app:layout_constraintTop_toBottomOf="@+id/flAboutUs"
+            android:layout_marginTop="9dp"
+            android:background="@drawable/bg_rounded_50_nautical"
+            />
+
+        <!-- change loh out  -->
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/flAboutUs"
+            android:layout_marginTop="20dp"
+
+            android:id="@+id/flLogOut"
+            >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
+                android:layout_gravity="start"
+
+                android:gravity="center"
+                android:text="Log out"
+                android:fontFamily="@font/poppins_bold_700"
+                android:textSize="20sp"
+                android:textColor="@color/Nautical"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
+                android:layout_gravity="end"
+
+                android:gravity="center"
+                android:text="&gt;"
+                android:fontFamily="@font/poppins_bold_700"
+                android:textSize="20sp"
+                android:textColor="@color/Nautical"
+                />
+
+        </FrameLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
