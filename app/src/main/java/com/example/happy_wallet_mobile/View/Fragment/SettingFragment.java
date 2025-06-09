@@ -3,6 +3,7 @@ package com.example.happy_wallet_mobile.View.Fragment;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,11 +12,14 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.happy_wallet_mobile.Model.Destination;
 import com.example.happy_wallet_mobile.R;
+import com.example.happy_wallet_mobile.ViewModel.MainViewModel;
 
 
 public class SettingFragment extends Fragment {
 
+    MainViewModel mainViewModel;
     ImageView ivProfileImage;
     FrameLayout flEditProfile, flChangePassword, flAboutUs, flLogOut;
 
@@ -25,6 +29,8 @@ public class SettingFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_setting, container, false);
 
+        mainViewModel = new ViewModelProvider(requireActivity()).get(MainViewModel.class);
+
         ivProfileImage = view.findViewById(R.id.ivProfileImage);
         flEditProfile = view.findViewById(R.id.flEditProfile);
         flChangePassword = view.findViewById(R.id.flChangePassword);
@@ -32,7 +38,9 @@ public class SettingFragment extends Fragment {
         flLogOut = view.findViewById(R.id.flLogOut);
 
 
-
+        flEditProfile.setOnClickListener(v -> {
+            mainViewModel.onNavItemClickedAbove(Destination.EDITPROFILE);
+        });
 
 
         return view;
