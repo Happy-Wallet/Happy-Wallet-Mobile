@@ -5,6 +5,7 @@ public enum Destination {
     WALLET,
     GROUPS,
     SETTING,
-    NOTIFICATION
+    NOTIFICATION,
+    EDITPROFILE,
 }
 
