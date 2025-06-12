@@ -22,6 +22,7 @@ import com.example.happy_wallet_mobile.View.Fragment.HomeFragment;
 import com.example.happy_wallet_mobile.View.Fragment.NotificationFragment;
 import com.example.happy_wallet_mobile.View.Fragment.AddSavingGoalFragment;
 import com.example.happy_wallet_mobile.View.Fragment.SettingFragment;
+import com.example.happy_wallet_mobile.View.Fragment.WalletFragment;
 import com.example.happy_wallet_mobile.ViewModel.MainViewModel;
 
 public class MainActivity extends AppCompatActivity {
@@ -112,6 +113,7 @@ public class MainActivity extends AppCompatActivity {
                         fragment = new HomeFragment();
                         break;
                     case WALLET:
+                        fragment = new WalletFragment();
                         break;
                     case GROUPS:
 
