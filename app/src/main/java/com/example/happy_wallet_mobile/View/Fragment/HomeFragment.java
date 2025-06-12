@@ -15,9 +15,14 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.happy_wallet_mobile.Model.MainDestination;
+import com.example.happy_wallet_mobile.Model.SavingGoal;
 import com.example.happy_wallet_mobile.Model.SubDestination;
 import com.example.happy_wallet_mobile.R;
+import com.example.happy_wallet_mobile.View.Adapter.SavingGoalRecyclerViewAdapter;
 import com.example.happy_wallet_mobile.ViewModel.MainViewModel;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class HomeFragment extends Fragment {
 
@@ -25,6 +30,7 @@ public class HomeFragment extends Fragment {
     TextView tvAccountBalance;
     RecyclerView rcvMonthIAE, rcvSavingGoals;
     TextView tvDay, tvMonth, tvYear;
+    ArrayList<SavingGoal> savingGoalList;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -44,6 +50,17 @@ public class HomeFragment extends Fragment {
         rcvSavingGoals.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false));
 
         tvDay.setBackground(ContextCompat.getDrawable(requireContext(), R.drawable.bg_rounded_20_paolo_veronese_green));
+
+
+        // set data for rcvSavingGoal
+        savingGoalList = new ArrayList<SavingGoal>();
+        savingGoalList.add(new SavingGoal("ic_house", "title 1", "10000", "2000"));
+        savingGoalList.add(new SavingGoal("ic_wallet", "title 2", "30000", "20000"));
+        savingGoalList.add(new SavingGoal("ic_gear_six", "title 3", "2000", "1000"));
+
+        LinearLayoutManager layoutManager = new LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false);
+        rcvSavingGoals.setLayoutManager(layoutManager);
+        rcvSavingGoals.setAdapter(new SavingGoalRecyclerViewAdapter(requireContext(), savingGoalList));
 
         //tvDay click
         tvDay.setOnClickListener(v ->  {
