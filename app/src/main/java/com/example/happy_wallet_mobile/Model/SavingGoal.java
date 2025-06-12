@@ -1,9 +1,10 @@
 package com.example.happy_wallet_mobile.Model;
 
 public class SavingGoal {
-    private String IconName, Title, Target, CurrentMoney;
+    private String Color, IconName, Title, Target, CurrentMoney;
 
-    public SavingGoal(String iconName, String title, String target, String currentMoney){
+    public SavingGoal(String color, String iconName, String title, String target, String currentMoney){
+        Color = color;
         IconName = iconName;
         Title = title;
         Target = target;
@@ -24,6 +25,10 @@ public class SavingGoal {
         return CurrentMoney;
     }
 
+    public String getColor() {
+        return Color;
+    }
+
     // setters
     public void setTitle(String title) {
         Title = title;
@@ -36,5 +41,8 @@ public class SavingGoal {
     }
     public void setCurrentMoney(String currentMoney) {
         CurrentMoney = currentMoney;
+    }
+    public void setColor(String color) {
+        Color = color;
     }
 }

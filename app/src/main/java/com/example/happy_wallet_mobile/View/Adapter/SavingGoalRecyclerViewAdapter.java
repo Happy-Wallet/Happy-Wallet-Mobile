@@ -6,6 +6,7 @@ import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -19,8 +20,10 @@ import com.example.happy_wallet_mobile.R;
 
 import java.util.List;
 
-public class SavingGoalRecyclerViewAdapter extends RecyclerView.Adapter<SavingGoalRecyclerViewAdapter.ViewHolder> {
+public class SavingGoalRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
+    private static final int TYPE_ITEM = 0;
+    private static final int TYPE_ADD = 1;
     private Context context;
     private List<SavingGoal> savingGoalList;
 
@@ -30,28 +33,72 @@ public class SavingGoalRecyclerViewAdapter extends RecyclerView.Adapter<SavingGo
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
+        FrameLayout flIconBackground;
         ImageView ivIcon;
         TextView tvTitle;
         ProgressBar pbProgress;
 
         public ViewHolder(View itemView) {
             super(itemView);
+            flIconBackground = itemView.findViewById(R.id.flIconBackground);
             ivIcon = itemView.findViewById(R.id.ivIcon);
             tvTitle = itemView.findViewById(R.id.tvTitle);
             pbProgress = itemView.findViewById(R.id.pbProgress);
         }
     }
 
+    public static class AddViewHolder extends RecyclerView.ViewHolder {
+        ImageView ivPlusIcon;
+        public AddViewHolder(View itemView) {
+            super(itemView);
+            ivPlusIcon = itemView.findViewById(R.id.ivPlusIcon);
+        }
+    }
+
+
+    @Override
+    public int getItemViewType(int position) {
+        if (position == savingGoalList.size()) {
+            return TYPE_ADD;
+        } else {
+            return TYPE_ITEM;
+        }
+    }
+
     @NonNull
     @Override
-    public SavingGoalRecyclerViewAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.item_saving_goal, parent, false);
-        return new ViewHolder(view);
+    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        if (viewType == TYPE_ADD) {
+            View view = LayoutInflater.from(context).inflate(R.layout.item_add_more, parent, false);
+            return new AddViewHolder(view);
+        } else {
+            View view = LayoutInflater.from(context).inflate(R.layout.item_saving_goal, parent, false);
+            return new ViewHolder(view);
+        }
     }
 
     @Override
-    public void onBindViewHolder(@NonNull SavingGoalRecyclerViewAdapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
+        if (getItemViewType(position) == TYPE_ADD) {
+            AddViewHolder addHolder = (AddViewHolder) holder;
+            addHolder.ivPlusIcon.setColorFilter(ContextCompat.getColor(context, R.color.white), PorterDuff.Mode.SRC_IN);
+            addHolder.itemView.setOnClickListener(v -> {
+                if (onAddClickListener != null) {
+                    onAddClickListener.onAddClick();
+                }
+            });
+            return;
+        }
+
+        ViewHolder itemHolder = (ViewHolder) holder;
         SavingGoal item = savingGoalList.get(position);
+
+        Drawable background = ContextCompat.getDrawable(context, R.drawable.bg_rounded_50_paolo_veronese_green);
+        if (background instanceof android.graphics.drawable.GradientDrawable) {
+            ((android.graphics.drawable.GradientDrawable) background).setColor(android.graphics.Color.parseColor(item.getColor()));
+        }
+        itemHolder.flIconBackground.setBackground(background);
+
 
         int resId = context.getResources().getIdentifier(
                 item.getIconPath(),
@@ -59,20 +106,31 @@ public class SavingGoalRecyclerViewAdapter extends RecyclerView.Adapter<SavingGo
                 context.getPackageName()
         );
         if (resId != 0) {
-            holder.ivIcon.setImageResource(resId);
+            itemHolder.ivIcon.setImageResource(resId);
         } else {
-            holder.ivIcon.setImageResource(R.drawable.ic_wallet);
+            itemHolder.ivIcon.setImageResource(R.drawable.ic_wallet);
         }
 
-        holder.ivIcon.setColorFilter(ContextCompat.getColor(context, R.color.white), PorterDuff.Mode.SRC_IN);
-
-        holder.tvTitle.setText(item.getTitle());
-        holder.pbProgress.setMax(Integer.parseInt(item.getTarget()));
-        holder.pbProgress.setProgress(Integer.parseInt(item.getCurrentMoney()));
+        itemHolder.ivIcon.setColorFilter(ContextCompat.getColor(context, R.color.white), PorterDuff.Mode.SRC_IN);
+        itemHolder.tvTitle.setText(item.getTitle());
+        itemHolder.pbProgress.setMax(Integer.parseInt(item.getTarget()));
+        itemHolder.pbProgress.setProgress(Integer.parseInt(item.getCurrentMoney()));
     }
+
 
     @Override
     public int getItemCount() {
-        return savingGoalList.size();
+        return savingGoalList.size() + 1;
     }
+
+    public interface OnAddClickListener {
+        void onAddClick();
+    }
+
+    private OnAddClickListener onAddClickListener;
+
+    public void setOnAddClickListener(OnAddClickListener listener) {
+        this.onAddClickListener = listener;
+    }
+
 }
