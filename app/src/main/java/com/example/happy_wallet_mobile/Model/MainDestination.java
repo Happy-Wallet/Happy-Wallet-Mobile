@@ -1,11 +1,9 @@
 package com.example.happy_wallet_mobile.Model;
 
-public enum Destination {
+public enum MainDestination {
     HOME,
     WALLET,
     GROUPS,
     SETTING,
-    NOTIFICATION,
-    EDITPROFILE,
 }
 

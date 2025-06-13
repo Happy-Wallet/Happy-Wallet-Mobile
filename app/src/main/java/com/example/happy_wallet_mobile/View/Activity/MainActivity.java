@@ -13,8 +13,10 @@ import androidx.core.view.WindowInsetsCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.example.happy_wallet_mobile.Model.Destination;
+import com.example.happy_wallet_mobile.Model.MainDestination;
+import com.example.happy_wallet_mobile.Model.SubDestination;
 import com.example.happy_wallet_mobile.R;
+import com.example.happy_wallet_mobile.View.Fragment.CategoryListFragment;
 import com.example.happy_wallet_mobile.View.Fragment.EditProfileFragment;
 import com.example.happy_wallet_mobile.View.Fragment.HomeFragment;
 import com.example.happy_wallet_mobile.View.Fragment.NotificationFragment;
@@ -54,12 +56,12 @@ public class MainActivity extends AppCompatActivity {
         setTexiviewColor(ivWallet, false);
         setTexiviewColor(ivGroups, false);
         setTexiviewColor(ivSetting, false);
-        mainViewModel.onNavItemClickedBelow(Destination.HOME);
+        mainViewModel.onNavItemClickedMainBelow(MainDestination.HOME);
         ivChatBot.setColorFilter(ContextCompat.getColor(this, R.color.white), PorterDuff.Mode.SRC_IN);
 
         // flnotification click listener
         flNotification.setOnClickListener(v ->  {
-            mainViewModel.onNavItemClickedAbove(Destination.NOTIFICATION);
+            mainViewModel.onNavItemClickedSubAbove(SubDestination.NOTIFICATION);
         });
 
         //set image views click listener
@@ -69,9 +71,7 @@ public class MainActivity extends AppCompatActivity {
             setTexiviewColor(ivWallet, false);
             setTexiviewColor(ivGroups, false);
             setTexiviewColor(ivSetting, false);
-            mainViewModel.onNavItemClickedBelow(Destination.HOME);
-            getSupportFragmentManager().popBackStack();
-
+            mainViewModel.onNavItemClickedMainBelow(MainDestination.HOME);
         });
 
         //ivWallet click listener
@@ -80,8 +80,7 @@ public class MainActivity extends AppCompatActivity {
             setTexiviewColor(ivWallet, true);
             setTexiviewColor(ivGroups, false);
             setTexiviewColor(ivSetting, false);
-            mainViewModel.onNavItemClickedBelow(Destination.WALLET);
-            getSupportFragmentManager().popBackStack();
+            mainViewModel.onNavItemClickedMainBelow(MainDestination.WALLET);
         });
 
         //ivGroups click listener
@@ -90,8 +89,7 @@ public class MainActivity extends AppCompatActivity {
             setTexiviewColor(ivWallet, false);
             setTexiviewColor(ivGroups, true);
             setTexiviewColor(ivSetting, false);
-            mainViewModel.onNavItemClickedBelow(Destination.GROUPS);
-            getSupportFragmentManager().popBackStack();
+            mainViewModel.onNavItemClickedMainBelow(MainDestination.GROUPS);
         });
 
         //ivSetting click listener
@@ -100,14 +98,13 @@ public class MainActivity extends AppCompatActivity {
             setTexiviewColor(ivWallet, false);
             setTexiviewColor(ivGroups, false);
             setTexiviewColor(ivSetting, true);
-            mainViewModel.onNavItemClickedBelow(Destination.SETTING);
-            getSupportFragmentManager().popBackStack();
+            mainViewModel.onNavItemClickedMainBelow(MainDestination.SETTING);
         });
 
 
-        // fragment under navigation
-        mainViewModel.navigateBelow.observe(this, event -> {
-            Destination destination = event.getContentIfNotHandled();
+        // main fragment under navigation
+        mainViewModel.navigateMainBelow.observe(this, event -> {
+            MainDestination destination = event.getContentIfNotHandled();
             if (destination != null) {
                 Fragment fragment = null;
                 switch (destination) {
@@ -127,31 +124,56 @@ public class MainActivity extends AppCompatActivity {
                 if (fragment != null) {
                     getSupportFragmentManager()
                             .beginTransaction()
-                            .replace(R.id.fragment_container_under, fragment)
+                            .replace(R.id.fragment_container_below, fragment)
                             .commit();
                 }
             }
         });
 
-        // fragment above navigation
-        mainViewModel.navigateAbove.observe(this, event -> {
-            Destination destination = event.getContentIfNotHandled();
-            if (destination != null) {
+        // main fragment under navigation
+        mainViewModel.navigateSubBelow.observe(this, event ->{
+            SubDestination subDestination = event.getContentIfNotHandled();
+            if (subDestination != null){
                 Fragment fragment = null;
-                switch (destination) {
-                    case NOTIFICATION:
-                        fragment = new NotificationFragment();
+                switch (subDestination){
+                    case ADD_SAVING_GOAL:
+                        fragment = new AddSavingGoalFragment();
                         break;
-                    case EDITPROFILE:
-                        fragment = new EditProfileFragment();
+                    case CATEGORY_LIST:
+                        fragment = new CategoryListFragment();
                         break;
                 }
 
                 if (fragment != null) {
                     getSupportFragmentManager()
                             .beginTransaction()
-                            .replace(R.id.fragment_container_above, fragment)
-                            .addToBackStack(null)
+                            .add(R.id.fragment_container_below, fragment)
+                            .addToBackStack("below")
+                            .commit();
+                }
+            }
+        });
+
+        // sub fragment above navigation
+        mainViewModel.navigateSubAbove.observe(this, event -> {
+            SubDestination subDestination = event.getContentIfNotHandled();
+            if (subDestination != null) {
+                Fragment fragment = null;
+                switch (subDestination) {
+                    case NOTIFICATION:
+                        fragment = new NotificationFragment();
+                        break;
+                    case EDIT_PROFILE:
+                        fragment = new EditProfileFragment();
+                        break;
+
+                }
+
+                if (fragment != null) {
+                    getSupportFragmentManager()
+                            .beginTransaction()
+                            .add(R.id.fragment_container_above, fragment)
+                            .addToBackStack("above")
                             .commit();
                 }
             }

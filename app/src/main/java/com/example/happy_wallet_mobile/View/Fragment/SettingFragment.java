@@ -10,9 +10,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.TextView;
 
-import com.example.happy_wallet_mobile.Model.Destination;
+import com.example.happy_wallet_mobile.Model.MainDestination;
+import com.example.happy_wallet_mobile.Model.SubDestination;
 import com.example.happy_wallet_mobile.R;
 import com.example.happy_wallet_mobile.ViewModel.MainViewModel;
 
@@ -39,7 +39,7 @@ public class SettingFragment extends Fragment {
 
 
         flEditProfile.setOnClickListener(v -> {
-            mainViewModel.onNavItemClickedAbove(Destination.EDITPROFILE);
+            mainViewModel.onNavItemClickedSubAbove(SubDestination.EDIT_PROFILE);
         });
 
 
