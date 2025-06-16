@@ -77,8 +77,6 @@ public class HomeFragment extends Fragment {
             tvDay.setBackground(ContextCompat.getDrawable(requireContext(), R.drawable.bg_rounded_20_paolo_veronese_green));
             tvMonth.setBackground(ContextCompat.getDrawable(requireContext(), R.drawable.bg_rounded_20_white));
             tvYear.setBackground(ContextCompat.getDrawable(requireContext(), R.drawable.bg_rounded_20_white));
-
-            mainViewModel.onNavItemClickedSubBelow(SubDestination.ADD_SAVING_GOAL);
         });
 
         //tvMonth click

@@ -1,0 +1,398 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".View.Fragment.GroupsFragment"
+    android:fillViewport="true"
+    android:background="@color/white">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="68dp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="30dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+
+            android:id="@+id/rvGroups"
+            />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintTop_toBottomOf="@+id/rvGroups"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="-50dp"
+
+            android:id="@+id/clLayout"
+
+            android:background="@drawable/bg_rounded_50_paolo_veronese_green"
+            android:backgroundTint="@color/Silver_Phoenix"
+            >
+
+            <!-- group name -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:layout_marginTop="30dp"
+                android:layout_marginStart="40dp"
+
+                android:id="@+id/tvGroupName"
+
+                android:text="Group Name"
+                android:fontFamily="@font/poppins_semibold_600"
+                android:textSize="24sp"
+                />
+
+            <!-- available balance -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="@id/tvGroupName"
+                app:layout_constraintTop_toBottomOf="@+id/tvGroupName"
+
+                android:id="@+id/tvAvailableBalance"
+
+                android:text="2.500.000"
+                android:fontFamily="@font/poppins_semibold_600"
+                android:textSize="24sp"
+                android:textColor="@color/Paolo_Veronese_Green"
+                />
+
+            <!-- Edit -->
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="30dp"
+
+                android:id="@+id/ivEditGroup"
+
+                android:src="@drawable/ic_pen"
+                android:background="@color/transparent"/>
+
+            <!-- service layout -->
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="81dp"
+                app:layout_constraintTop_toBottomOf="@id/tvAvailableBalance"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                android:layout_marginTop="10dp"
+
+                android:id="@+id/vServiceLayout"
+
+                android:background="@drawable/bg_rounded_20_white"
+                android:backgroundTint="@color/white"
+                />
+
+            <!-- fund -->
+            <FrameLayout
+                android:layout_width="81dp"
+                android:layout_height="81dp"
+                app:layout_constraintTop_toTopOf="@id/vServiceLayout"
+                app:layout_constraintBottom_toBottomOf="@id/vServiceLayout"
+                app:layout_constraintStart_toStartOf="@id/vServiceLayout"
+                app:layout_constraintEnd_toStartOf="@+id/flRemind"
+
+                android:id="@+id/flFund"
+                >
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="top"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="20dp"
+
+                    android:src="@drawable/ic_income"
+
+                    android:background="@color/transparent"
+                    />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom"
+
+                    android:gravity="center"
+                    android:text="Fund"
+                    android:fontFamily="@font/poppins_medium_500"
+                    android:textSize="12sp"
+                    android:textColor="@color/Nautical"
+                    />
+            </FrameLayout>
+
+            <!-- remind -->
+            <FrameLayout
+                android:layout_width="81dp"
+                android:layout_height="81dp"
+                app:layout_constraintTop_toTopOf="@id/vServiceLayout"
+                app:layout_constraintBottom_toBottomOf="@id/vServiceLayout"
+                app:layout_constraintStart_toEndOf="@id/flFund"
+                app:layout_constraintEnd_toStartOf="@id/flAnalysis"
+
+                android:id="@+id/flRemind"
+                >
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="top"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="20dp"
+
+                    android:src="@drawable/ic_remind"
+
+                    android:background="@color/transparent"
+                    />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom"
+
+                    android:gravity="center"
+                    android:text="Remind"
+                    android:fontFamily="@font/poppins_medium_500"
+                    android:textSize="12sp"
+                    android:textColor="@color/Nautical"
+                    />
+            </FrameLayout>
+
+            <!-- Analysis -->
+            <FrameLayout
+                android:layout_width="81dp"
+                android:layout_height="81dp"
+                app:layout_constraintTop_toTopOf="@id/vServiceLayout"
+                app:layout_constraintBottom_toBottomOf="@id/vServiceLayout"
+                app:layout_constraintStart_toEndOf="@id/flRemind"
+                app:layout_constraintEnd_toStartOf="@id/flWithdraw"
+
+                android:id="@+id/flAnalysis"
+                >
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="top"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="20dp"
+
+                    android:src="@drawable/ic_analysis"
+
+                    android:background="@color/transparent"
+                    />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom"
+
+                    android:gravity="center"
+                    android:text="Analysis"
+                    android:fontFamily="@font/poppins_medium_500"
+                    android:textSize="12sp"
+                    android:textColor="@color/Nautical"
+                    />
+            </FrameLayout>
+
+            <!-- Withdraw -->
+            <FrameLayout
+                android:layout_width="81dp"
+                android:layout_height="81dp"
+                app:layout_constraintTop_toTopOf="@id/vServiceLayout"
+                app:layout_constraintBottom_toBottomOf="@id/vServiceLayout"
+                app:layout_constraintStart_toEndOf="@id/flAnalysis"
+                app:layout_constraintEnd_toEndOf="@+id/vServiceLayout"
+
+                android:id="@+id/flWithdraw"
+                >
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="top"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="20dp"
+
+                    android:src="@drawable/ic_expenditure"
+
+                    android:background="@color/transparent"
+                    />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom"
+
+                    android:gravity="center"
+                    android:text="Withdraw"
+                    android:fontFamily="@font/poppins_medium_500"
+                    android:textSize="12sp"
+                    android:textColor="@color/Nautical"
+                    />
+            </FrameLayout>
+
+            <!-- activity layout -->
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="150dp"
+                app:layout_constraintTop_toBottomOf="@id/vServiceLayout"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginTop="40dp"
+                android:layout_marginEnd="20dp"
+                android:layout_marginStart="20dp"
+
+                android:id="@+id/vActivityLayout"
+
+                android:background="@drawable/bg_rounded_20_white"
+                android:backgroundTint="@color/white"
+                />
+
+            <!-- "activit" -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="@id/vActivityLayout"
+                app:layout_constraintBottom_toTopOf="@id/vActivityLayout"
+                android:layout_marginStart="20dp"
+
+                android:text="Activity"
+                android:fontFamily="@font/poppins_bold_700"
+                android:textSize="16sp"
+                android:textColor="@color/Nautical"
+                />
+
+            <!-- tvSeeMore -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="@id/vActivityLayout"
+                app:layout_constraintBottom_toTopOf="@id/vActivityLayout"
+                android:layout_marginEnd="20dp"
+
+
+
+                android:text="see more"
+                android:fontFamily="@font/poppins_medium_500"
+                android:textSize="13sp"
+                android:textColor="@color/Nautical"
+                />
+
+            <!-- rvMemberActivity -->
+            <androidx.recyclerview.widget.RecyclerView
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                app:layout_constraintStart_toStartOf="@id/vActivityLayout"
+                app:layout_constraintEnd_toEndOf="@id/vActivityLayout"
+                app:layout_constraintTop_toTopOf="@id/vActivityLayout"
+                app:layout_constraintBottom_toBottomOf="@id/vActivityLayout"
+
+                android:id="@+id/rvMemberActivity"
+                />
+
+            <!-- member layout -->
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/vActivityLayout"
+                android:layout_marginTop="40dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+
+                android:id="@+id/flMemberLayout"
+
+                android:background="@drawable/bg_rounded_20_white"
+                android:backgroundTint="@color/white"
+                >
+
+                <!-- Invite Member -->
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="28dp"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toStartOf="@id/tvManage"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginEnd="10dp"
+
+                    android:id="@+id/tvInviteMember"
+
+                    android:gravity="center"
+                    android:text="Invite Member"
+                    android:fontFamily="@font/poppins_medium_500"
+                    android:textSize="14sp"
+                    android:textColor="@color/Nautical"
+
+                    android:background="@drawable/bg_rounded_50_white"
+                    android:backgroundTint="@color/Silver_Phoenix"
+                    />
+
+                <!-- Invite Member -->
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="28dp"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/tvInviteMember"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginEnd="20dp"
+                    android:layout_marginStart="10dp"
+
+                    android:id="@+id/tvManage"
+
+                    android:gravity="center"
+                    android:text="Manage"
+                    android:fontFamily="@font/poppins_medium_500"
+                    android:textSize="14sp"
+                    android:textColor="@color/Nautical"
+
+                    android:background="@drawable/bg_rounded_50_white"
+                    android:backgroundTint="@color/Silver_Phoenix"
+                    />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tvInviteMember"
+                    android:layout_marginTop="20dp"
+
+                    android:id="@+id/rvMember"
+                    />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="@id/flMemberLayout"
+                app:layout_constraintBottom_toTopOf="@id/flMemberLayout"
+                android:layout_marginStart="20dp"
+
+                android:text="Member"
+                android:fontFamily="@font/poppins_bold_700"
+                android:textSize="16sp"
+                android:textColor="@color/Nautical"
+                />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</ScrollView>

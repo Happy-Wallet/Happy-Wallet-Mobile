@@ -47,7 +47,7 @@
 
             android:id="@+id/ivEdit"
 
-            android:src="@drawable/ic_pencil_simple_fill"
+            android:src="@drawable/ic_pen"
             />
 
         <!-- icon -->
