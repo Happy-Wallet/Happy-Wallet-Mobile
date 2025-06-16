@@ -33,7 +33,6 @@ public class WalletFragment extends Fragment {
 
         dailyTransactionListItemList = new ArrayList<>();
 
-        // Ngày 26/5/2025
         List<Transaction> day1Transactions = Arrays.asList(
                 new Transaction("Eating", "150", "26/5/2025", "Food", "Bun bo cham nuoc mam siêu ngonnnnnnnn", "expenditure"),
                 new Transaction("Salary", "150", "26/5/2025", "Income", "Cong ty nay tra luong minh", "income"),

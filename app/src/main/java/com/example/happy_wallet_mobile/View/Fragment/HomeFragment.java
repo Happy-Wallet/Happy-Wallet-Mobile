@@ -52,16 +52,24 @@ public class HomeFragment extends Fragment {
         tvDay.setBackground(ContextCompat.getDrawable(requireContext(), R.drawable.bg_rounded_20_paolo_veronese_green));
 
 
-        // set data for rcvSavingGoal
         savingGoalList = new ArrayList<SavingGoal>();
         savingGoalList.add(new SavingGoal("#FE7743", "ic_house", "title 1", "10000", "2000"));
         savingGoalList.add(new SavingGoal("#493D9E", "ic_wallet", "title 2", "30000", "20000"));
         savingGoalList.add(new SavingGoal("#2D4F2B", "ic_gear_six", "title 3", "2000", "1000"));
         savingGoalList.add(new SavingGoal("#732255","ic_bell", "title 4", "90000", "7500"));
 
+
+        // set data for rcvSavingGoal
         LinearLayoutManager layoutManager = new LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false);
         rcvSavingGoals.setLayoutManager(layoutManager);
-        rcvSavingGoals.setAdapter(new SavingGoalRecyclerViewAdapter(requireContext(), savingGoalList));
+        SavingGoalRecyclerViewAdapter savingGoalRecyclerViewAdapter = new SavingGoalRecyclerViewAdapter(requireContext(), savingGoalList);
+        rcvSavingGoals.setAdapter(savingGoalRecyclerViewAdapter);
+
+        //AddSavingGoal click
+        savingGoalRecyclerViewAdapter.setOnAddClickListener(() -> {
+            Log.d("HomeFragment", "rcvSavingGoals add new saving goal click");
+            mainViewModel.onNavItemClickedSubBelow(SubDestination.ADD_SAVING_GOAL);
+        });
 
         //tvDay click
         tvDay.setOnClickListener(v ->  {
