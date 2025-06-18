@@ -265,6 +265,7 @@
 
             android:gravity="center"
             android:background="@drawable/bg_rounded_50_paolo_veronese_green"
+            android:backgroundTint="@color/Paolo_Veronese_Green"
             android:elevation="4dp"
             />
 

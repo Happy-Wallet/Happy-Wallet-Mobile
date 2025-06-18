@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".View.Fragment.WalletFragment"
+    android:background="@color/white">
+
+    <!-- add expenditure -->
+    <FrameLayout
+        android:layout_width="63dp"
+        android:layout_height="68dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="60dp"
+        android:layout_marginStart="30dp"
+
+        android:id="@+id/flAddExpenditure"
+
+        android:background="@drawable/bg_rounded_20_white"
+        android:backgroundTint="#FFDCDC">
+
+        <ImageView
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:src="@drawable/ic_expenditure"
+            android:layout_gravity="center"/>
+
+    </FrameLayout>
+
+    <!-- add income -->
+    <FrameLayout
+        android:layout_width="63dp"
+        android:layout_height="68dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="60dp"
+        android:layout_marginStart="110dp"
+
+        android:id="@+id/flAddIncome"
+
+        android:background="@drawable/bg_rounded_20_white"
+        android:backgroundTint="#B6FFCE">
+
+        <ImageView
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:src="@drawable/ic_income"
+            android:layout_gravity="center"/>
+
+    </FrameLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="150dp"
+
+        android:padding="20dp"
+        android:background="@drawable/bg_rounded_50_paolo_veronese_green"
+        android:backgroundTint="@color/Silver_Phoenix"
+        >
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="102dp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+
+            android:id="@+id/vTotal"
+
+            android:background="@drawable/bg_rounded_20_white"
+            />
+
+        <!-- date -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="@id/vTotal"
+            app:layout_constraintTop_toTopOf="@id/vTotal"
+            android:layout_marginTop="10dp"
+            android:layout_marginStart="20dp"
+
+            android:id="@+id/tvDate"
+
+            android:text="26/05/2025"
+            android:textSize="13sp"
+            android:fontFamily="@font/poppins_regular_400"
+            android:textColor="@color/Argent"
+            />
+
+        <!-- monetary unit -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="@id/vTotal"
+            app:layout_constraintTop_toTopOf="@id/vTotal"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="20dp"
+            android:id="@+id/tvMonetaryUnit"
+
+            android:text="VND"
+            android:textSize="13sp"
+            android:fontFamily="@font/poppins_regular_400"
+            android:textColor="@color/Nautical"/>
+
+        <!-- Available balance -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="@id/vTotal"
+            app:layout_constraintEnd_toEndOf="@id/vTotal"
+            app:layout_constraintTop_toBottomOf="@id/tvDate"
+            android:layout_marginTop="10dp"
+
+            android:id="@+id/tvAvailableBalance"
+
+            android:text="2.000.000"
+            android:textSize="15sp"
+            android:fontFamily="@font/poppins_semibold_600"
+            android:textColor="@color/Paolo_Veronese_Green"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="@id/tvAvailableBalance"
+            app:layout_constraintEnd_toEndOf="@id/tvAvailableBalance"
+            app:layout_constraintTop_toBottomOf="@id/tvAvailableBalance"
+            android:layout_marginTop="3dp"
+
+            android:text="available balance"
+            android:fontFamily="@font/poppins_regular_400"
+            android:textSize="12sp"
+            android:textColor="@color/Nautical"
+            />
+
+        <!-- income -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="@id/vTotal"
+            app:layout_constraintEnd_toStartOf="@id/tvAvailableBalance"
+            app:layout_constraintTop_toBottomOf="@id/tvDate"
+            android:layout_marginTop="10dp"
+
+            android:id="@+id/tvIncome"
+
+            android:text="7.000.000"
+            android:textSize="15sp"
+            android:fontFamily="@font/poppins_semibold_600"
+            android:textColor="@color/Paolo_Veronese_Green"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="@id/tvIncome"
+            app:layout_constraintEnd_toEndOf="@id/tvIncome"
+            app:layout_constraintTop_toBottomOf="@id/tvIncome"
+            android:layout_marginTop="3dp"
+
+            android:text="income"
+            android:fontFamily="@font/poppins_regular_400"
+            android:textSize="12sp"
+            android:textColor="@color/Nautical"
+            />
+
+        <!-- expenses -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toEndOf="@id/tvAvailableBalance"
+            app:layout_constraintEnd_toEndOf="@id/vTotal"
+            app:layout_constraintTop_toBottomOf="@id/tvDate"
+            android:layout_marginTop="10dp"
+
+            android:id="@+id/tvExpenses"
+
+            android:text="5.000.000"
+            android:textSize="15sp"
+            android:fontFamily="@font/poppins_semibold_600"
+            android:textColor="@color/Radishical"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="@id/tvExpenses"
+            app:layout_constraintEnd_toEndOf="@id/tvExpenses"
+            app:layout_constraintTop_toBottomOf="@id/tvExpenses"
+            android:layout_marginTop="3dp"
+
+            android:text="Expenses"
+            android:fontFamily="@font/poppins_regular_400"
+            android:textSize="12sp"
+            android:textColor="@color/Nautical"
+            />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintTop_toBottomOf="@id/vTotal"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="100dp"
+
+            android:id="@+id/rvTransactions"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
