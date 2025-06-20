@@ -31,7 +31,7 @@ public class TransactionDetailFragment extends Fragment {
         tvDate = view.findViewById(R.id.tvDate);
         tvDescription = view.findViewById(R.id.tvDescription);
         tvAmount = view.findViewById(R.id.tvAmount);
-        
+
         return view;
     }
 }

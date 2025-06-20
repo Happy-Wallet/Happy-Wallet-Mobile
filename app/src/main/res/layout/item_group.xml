@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="94dp"
+    android:layout_height="86dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="86dp"
+        android:layout_height="86dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:background="@drawable/bg_rounded_20_white">
+
+        <!-- icon -->
+        <FrameLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginTop="7dp"
+
+            android:id="@+id/flIconBackground"
+
+            android:padding="5dp"
+            android:background="@drawable/bg_rounded_50_paolo_veronese_green">
+
+            <ImageView
+                android:layout_width="42dp"
+                android:layout_height="42dp"
+                android:layout_gravity="center"
+
+                android:id="@+id/ivIcon"
+
+                android:src="@drawable/ic_users_three"
+                android:backgroundTint="@color/transparent"/>
+
+        </FrameLayout>
+
+        <!-- name -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="15dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/flIconBackground"
+            android:layout_marginTop="7dp"
+            android:layout_marginStart="7dp"
+            android:layout_marginEnd="7dp"
+
+            android:id="@+id/tvName"
+
+            android:gravity="center"
+            android:text="Name"
+            android:fontFamily="@font/poppins_medium_500"
+            android:textSize="12sp"
+            android:maxLines="1"
+            android:ellipsize="end"
+            />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
