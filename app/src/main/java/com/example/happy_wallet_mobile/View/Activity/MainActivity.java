@@ -1,5 +1,6 @@
 package com.example.happy_wallet_mobile.View.Activity;
 
+import android.content.Intent;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.widget.FrameLayout;
@@ -101,6 +102,11 @@ public class MainActivity extends AppCompatActivity {
             setTexiviewColor(ivGroups, false);
             setTexiviewColor(ivSetting, true);
             mainViewModel.onNavItemClickedMainBelow(MainDestination.SETTING);
+        });
+
+        //ivChat click listener
+        ivChatBot.setOnClickListener(v -> {
+            startActivity(new Intent(MainActivity.this, CommunityActivity.class));
         });
 
 
