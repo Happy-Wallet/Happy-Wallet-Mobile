@@ -1,146 +1,48 @@
 package com.example.happy_wallet_mobile.Model;
 
-import java.math.BigDecimal;
-import java.util.Date;
-
 public class SavingGoal {
-    private String goalId; // Chuyển từ int sang String
-    private String userId;
-    private String iconId; // Chuyển từ int sang String
-    private String name;
-    private BigDecimal currentAmount;
-    private BigDecimal targetAmount;
-    private String description;
-    private Date createdDate;
-    private Date updatedDate;
-    private Date deletedDate;
+    private String Color, IconName, Title, Target, CurrentMoney;
 
-    // Constructors
-    public SavingGoal() {}
-
-    public SavingGoal(
-            String goalId,
-            String userId,
-            String iconId,
-            String name,
-            BigDecimal currentAmount,
-            BigDecimal targetAmount,
-            String description,
-            Date createdDate,
-            Date updatedDate,
-            Date deletedDate) {
-        this.goalId = goalId;
-        this.userId = userId;
-        this.iconId = iconId;
-        this.name = name;
-        this.currentAmount = currentAmount;
-        this.targetAmount = targetAmount;
-        this.description = description;
-        this.createdDate = createdDate;
-        this.updatedDate = updatedDate;
-        this.deletedDate = deletedDate;
+    public SavingGoal(String color, String iconName, String title, String target, String currentMoney){
+        Color = color;
+        IconName = iconName;
+        Title = title;
+        Target = target;
+        CurrentMoney = currentMoney;
     }
 
-    public SavingGoal(
-            String userId,
-            String iconId,
-            String name,
-            BigDecimal currentAmount,
-            BigDecimal targetAmount,
-            String description,
-            Date createdDate,
-            Date updatedDate,
-            Date deletedDate) {
-        this.goalId = null;
-        this.userId = userId;
-        this.iconId = iconId;
-        this.name = name;
-        this.currentAmount = currentAmount;
-        this.targetAmount = targetAmount;
-        this.description = description;
-        this.createdDate = createdDate;
-        this.updatedDate = updatedDate;
-        this.deletedDate = deletedDate;
+    // getters
+    public String getTitle() {
+        return Title;
+    }
+    public String getIconPath() {
+        return IconName;
+    }
+    public String getTarget() {
+        return Target;
+    }
+    public String getCurrentMoney() {
+        return CurrentMoney;
     }
 
-    // Getters and Setters
-    public String getGoalId() {
-        return goalId;
+    public String getColor() {
+        return Color;
     }
 
-    public void setGoalId(String goalId) {
-        this.goalId = goalId;
+    // setters
+    public void setTitle(String title) {
+        Title = title;
     }
-
-    public String getUserId() {
-        return userId;
+    public void setIcon(String iconName) {
+        IconName = iconName;
     }
-
-    public void setUserId(String userId) {
-        this.userId = userId;
+    public void setTarget(String target) {
+        Target = target;
     }
-
-    public String getIconId() {
-        return iconId;
+    public void setCurrentMoney(String currentMoney) {
+        CurrentMoney = currentMoney;
     }
-
-    public void setIconId(String iconId) {
-        this.iconId = iconId;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public BigDecimal getCurrentAmount() {
-        return currentAmount;
-    }
-
-    public void setCurrentAmount(BigDecimal currentAmount) {
-        this.currentAmount = currentAmount;
-    }
-
-    public BigDecimal getTargetAmount() {
-        return targetAmount;
-    }
-
-    public void setTargetAmount(BigDecimal targetAmount) {
-        this.targetAmount = targetAmount;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public Date getCreatedDate() {
-        return createdDate;
-    }
-
-    public void setCreatedDate(Date createdDate) {
-        this.createdDate = createdDate;
-    }
-
-    public Date getUpdatedDate() {
-        return updatedDate;
-    }
-
-    public void setUpdatedDate(Date updatedDate) {
-        this.updatedDate = updatedDate;
-    }
-
-    public Date getDeletedDate() {
-        return deletedDate;
-    }
-
-    public void setDeletedDate(Date deletedDate) {
-        this.deletedDate = deletedDate;
+    public void setColor(String color) {
+        Color = color;
     }
 }

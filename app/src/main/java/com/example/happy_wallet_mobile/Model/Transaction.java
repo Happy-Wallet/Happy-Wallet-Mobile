@@ -1,120 +1,44 @@
 package com.example.happy_wallet_mobile.Model;
 
-import java.math.BigDecimal;
-import java.util.Date;
-
 public class Transaction {
-    private String transactionId; // Chuyển từ int sang String
-    private String userId;
-    private String categoryId;
-    private String iconId; // Chuyển từ int sang String
-    private BigDecimal amount; // Sử dụng BigDecimal cho tiền tệ
-    private String description;
-    private Date date; // Thời gian giao dịch
-    private Date deletedDate;
+    private String id;
+    private String title;
+    private String amount;
+    private String date;
+    private String category;
+    private String note;
+    private String type; // "income" or "expenditure"
 
-    // Constructors
     public Transaction() {}
 
-    public Transaction(
-            String transactionId,
-            String userId,
-            String categoryId,
-            String iconId,
-            BigDecimal amount,
-            String description,
-            Date date,
-            Date deletedDate) {
-        this.transactionId = transactionId;
-        this.userId = userId;
-        this.categoryId = categoryId;
-        this.iconId = iconId;
+    public Transaction(String title, String amount, String date, String category, String note, String type) {
+        this.title = title;
         this.amount = amount;
-        this.description = description;
         this.date = date;
-        this.deletedDate = deletedDate;
+        this.category = category;
+        this.note = note;
+        this.type = type;
     }
 
-    public Transaction(
-            String userId,
-            String categoryId,
-            String iconId,
-            BigDecimal amount,
-            String description,
-            Date date,
-            Date deletedDate) {
-        this.transactionId = null;
-        this.userId = userId;
-        this.categoryId = categoryId;
-        this.iconId = iconId;
-        this.amount = amount;
-        this.description = description;
-        this.date = date;
-        this.deletedDate = deletedDate;
-    }
+    // Getters & Setters
+    public String getId() { return id; }
+    public void setId(String id) { this.id = id; }
 
-    // Getters and Setters
-    public String getTransactionId() {
-        return transactionId;
-    }
+    public String getTitle() { return title; }
+    public void setTitle(String title) { this.title = title; }
 
-    public void setTransactionId(String transactionId) {
-        this.transactionId = transactionId;
-    }
+    public String getAmount() { return amount; }
+    public void setAmount(String amount) { this.amount = amount; }
 
-    public String getUserId() {
-        return userId;
-    }
+    public String getDate() { return date; }
+    public void setDate(String date) { this.date = date; }
 
-    public void setUserId(String userId) {
-        this.userId = userId;
-    }
+    public String getCategory() { return category; }
+    public void setCategory(String category) { this.category = category; }
 
-    public String getCategoryId() {
-        return categoryId;
-    }
+    public String getNote() { return note; }
+    public void setNote(String note) { this.note = note; }
 
-    public void setCategoryId(String categoryId) {
-        this.categoryId = categoryId;
-    }
-
-    public String getIconId() {
-        return iconId;
-    }
-
-    public void setIconId(String iconId) {
-        this.iconId = iconId;
-    }
-
-    public BigDecimal getAmount() {
-        return amount;
-    }
-
-    public void setAmount(BigDecimal amount) {
-        this.amount = amount;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public Date getDate() {
-        return date;
-    }
-
-    public void setDate(Date date) {
-        this.date = date;
-    }
-
-    public Date getDeletedDate() {
-        return deletedDate;
-    }
-
-    public void setDeletedDate(Date deletedDate) {
-        this.deletedDate = deletedDate;
-    }
+    public String getType() { return type; }
+    public void setType(String type) { this.type = type; }
 }

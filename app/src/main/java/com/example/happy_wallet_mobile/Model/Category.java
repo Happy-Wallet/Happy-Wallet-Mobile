@@ -1,119 +1,26 @@
 package com.example.happy_wallet_mobile.Model;
 
-import java.util.Date;
-
 public class Category {
-    private String categoryId;  // Chuyển từ int sang String
-    private String userId;  // Chuyển từ int sang String
-    private String iconId;  // Chuyển từ int sang String
-    private String name;
-    private boolean isDefault;
-    private Date createdDate;
-    private Date updatedDate;
-    private Date deletedDate;
+    private String IconPath, Title;
 
-    // Constructors
-    public Category() {}
-
-    public Category(
-            String categoryId,
-            String userId,
-            String iconId,
-            String name,
-            boolean isDefault,
-            Date createdDate,
-            Date updatedDate,
-            Date deletedDate) {
-        this.categoryId = categoryId;
-        this.userId = userId;
-        this.iconId = iconId;
-        this.name = name;
-        this.isDefault = isDefault;
-        this.createdDate = createdDate;
-        this.updatedDate = updatedDate;
-        this.deletedDate = deletedDate;
+    public Category(String _title){
+        Title = _title;
+        IconPath = null;
     }
 
-    public Category(
-            String userId,
-            String iconId,
-            String name,
-            boolean isDefault,
-            Date createdDate,
-            Date updatedDate,
-            Date deletedDate) {
-        this.categoryId = null;
-        this.userId = userId;
-        this.iconId = iconId;
-        this.name = name;
-        this.isDefault = isDefault;
-        this.createdDate = createdDate;
-        this.updatedDate = updatedDate;
-        this.deletedDate = deletedDate;
+    public void setTitle(String title) {
+        Title = title;
     }
 
-    // Getters and Setters
-    public String getCategoryId() {
-        return categoryId;
+    public void setIconPath(String iconPath) {
+        IconPath = iconPath;
     }
 
-    public void setCategoryId(String categoryId) {
-        this.categoryId = categoryId;
+    public String getIconPath() {
+        return IconPath;
     }
 
-    public String getUserId() {
-        return userId;
-    }
-
-    public void setUserId(String userId) {
-        this.userId = userId;
-    }
-
-    public String getIconId() {
-        return iconId;
-    }
-
-    public void setIconId(String iconId) {
-        this.iconId = iconId;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public boolean isDefault() { // Getter cho boolean thường là is<TenBien>
-        return isDefault;
-    }
-
-    public void setDefault(boolean aDefault) {
-        isDefault = aDefault;
-    }
-
-    public Date getCreatedDate() {
-        return createdDate;
-    }
-
-    public void setCreatedDate(Date createdDate) {
-        this.createdDate = createdDate;
-    }
-
-    public Date getUpdatedDate() {
-        return updatedDate;
-    }
-
-    public void setUpdatedDate(Date updatedDate) {
-        this.updatedDate = updatedDate;
-    }
-
-    public Date getDeletedDate() {
-        return deletedDate;
-    }
-
-    public void setDeletedDate(Date deletedDate) {
-        this.deletedDate = deletedDate;
+    public String getTitle() {
+        return Title;
     }
 }
