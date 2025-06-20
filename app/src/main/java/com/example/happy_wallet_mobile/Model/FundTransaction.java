@@ -3,57 +3,70 @@ package com.example.happy_wallet_mobile.Model;
 import java.math.BigDecimal;
 import java.util.Date;
 
-public class Transaction {
+public class FundTransaction {
+    private String fundId; // Chuyển từ int sang String
     private String transactionId; // Chuyển từ int sang String
     private String userId;
     private String categoryId;
-    private String iconId; // Chuyển từ int sang String
-    private BigDecimal amount; // Sử dụng BigDecimal cho tiền tệ
+    private BigDecimal amount;
     private String description;
-    private Date date; // Thời gian giao dịch
+    private Date createdDate;
+    private Date updatedDate;
     private Date deletedDate;
 
     // Constructors
-    public Transaction() {}
+    public FundTransaction() {}
 
-    public Transaction(
+    public FundTransaction(
+            String fundId,
             String transactionId,
             String userId,
             String categoryId,
-            String iconId,
             BigDecimal amount,
             String description,
-            Date date,
+            Date createdDate,
+            Date updatedDate,
             Date deletedDate) {
+        this.fundId = fundId;
         this.transactionId = transactionId;
         this.userId = userId;
         this.categoryId = categoryId;
-        this.iconId = iconId;
         this.amount = amount;
         this.description = description;
-        this.date = date;
+        this.createdDate = createdDate;
+        this.updatedDate = updatedDate;
         this.deletedDate = deletedDate;
     }
 
-    public Transaction(
+    public FundTransaction(
+            String transactionId,
             String userId,
             String categoryId,
-            String iconId,
             BigDecimal amount,
             String description,
-            Date date,
+            Date createdDate,
+            Date updatedDate,
             Date deletedDate) {
-        this.transactionId = null;
+        this.fundId = null;
+        this.transactionId = transactionId;
         this.userId = userId;
         this.categoryId = categoryId;
-        this.iconId = iconId;
         this.amount = amount;
         this.description = description;
-        this.date = date;
+        this.createdDate = createdDate;
+        this.updatedDate = updatedDate;
         this.deletedDate = deletedDate;
     }
 
     // Getters and Setters
+    public String getFundId() {
+        return fundId;
+    }
+
+    public void setFundId(String fundId) {
+        this.fundId = fundId;
+    }
+
     public String getTransactionId() {
         return transactionId;
     }
@@ -78,14 +91,6 @@ public class Transaction {
         this.categoryId = categoryId;
     }
 
-    public String getIconId() {
-        return iconId;
-    }
-
-    public void setIconId(String iconId) {
-        this.iconId = iconId;
-    }
-
     public BigDecimal getAmount() {
         return amount;
     }
@@ -102,12 +107,20 @@ public class Transaction {
         this.description = description;
     }
 
-    public Date getDate() {
-        return date;
+    public Date getCreatedDate() {
+        return createdDate;
     }
 
-    public void setDate(Date date) {
-        this.date = date;
+    public void setCreatedDate(Date createdDate) {
+        this.createdDate = createdDate;
+    }
+
+    public Date getUpdatedDate() {
+        return updatedDate;
+    }
+
+    public void setUpdatedDate(Date updatedDate) {
+        this.updatedDate = updatedDate;
     }
 
     public Date getDeletedDate() {

@@ -3,12 +3,12 @@ package com.example.happy_wallet_mobile.Model;
 import java.math.BigDecimal;
 import java.util.Date;
 
-public class SavingGoal {
-    private String goalId; // Chuyển từ int sang String
-    private String userId;
+public class Fund {
+    private String fundId; // Chuyển từ int sang String
     private String iconId; // Chuyển từ int sang String
     private String name;
     private BigDecimal currentAmount;
+    private boolean hasTarget; // Đổi tên biến
     private BigDecimal targetAmount;
     private String description;
     private Date createdDate;
@@ -16,24 +16,24 @@ public class SavingGoal {
     private Date deletedDate;
 
     // Constructors
-    public SavingGoal() {}
+    public Fund() {}
 
-    public SavingGoal(
-            String goalId,
-            String userId,
+    public Fund(
+            String fundId,
             String iconId,
             String name,
             BigDecimal currentAmount,
+            boolean hasTarget,
             BigDecimal targetAmount,
             String description,
             Date createdDate,
             Date updatedDate,
             Date deletedDate) {
-        this.goalId = goalId;
-        this.userId = userId;
+        this.fundId = fundId;
         this.iconId = iconId;
         this.name = name;
         this.currentAmount = currentAmount;
+        this.hasTarget = hasTarget;
         this.targetAmount = targetAmount;
         this.description = description;
         this.createdDate = createdDate;
@@ -41,21 +41,21 @@ public class SavingGoal {
         this.deletedDate = deletedDate;
     }
 
-    public SavingGoal(
-            String userId,
+    public Fund(
             String iconId,
             String name,
             BigDecimal currentAmount,
+            boolean hasTarget,
             BigDecimal targetAmount,
             String description,
             Date createdDate,
             Date updatedDate,
             Date deletedDate) {
-        this.goalId = null;
-        this.userId = userId;
+        this.fundId = null;
         this.iconId = iconId;
         this.name = name;
         this.currentAmount = currentAmount;
+        this.hasTarget = hasTarget;
         this.targetAmount = targetAmount;
         this.description = description;
         this.createdDate = createdDate;
@@ -64,20 +64,12 @@ public class SavingGoal {
     }
 
     // Getters and Setters
-    public String getGoalId() {
-        return goalId;
+    public String getFundId() {
+        return fundId;
     }
 
-    public void setGoalId(String goalId) {
-        this.goalId = goalId;
-    }
-
-    public String getUserId() {
-        return userId;
-    }
-
-    public void setUserId(String userId) {
-        this.userId = userId;
+    public void setFundId(String fundId) {
+        this.fundId = fundId;
     }
 
     public String getIconId() {
@@ -102,6 +94,14 @@ public class SavingGoal {
 
     public void setCurrentAmount(BigDecimal currentAmount) {
         this.currentAmount = currentAmount;
+    }
+
+    public boolean isHasTarget() {
+        return hasTarget;
+    }
+
+    public void setHasTarget(boolean hasTarget) {
+        this.hasTarget = hasTarget;
     }
 
     public BigDecimal getTargetAmount() {

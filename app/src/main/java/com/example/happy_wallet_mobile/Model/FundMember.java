@@ -2,63 +2,53 @@ package com.example.happy_wallet_mobile.Model;
 
 import java.util.Date;
 
-public class Category {
-    private String categoryId;  // Chuyển từ int sang String
-    private String userId;  // Chuyển từ int sang String
-    private String iconId;  // Chuyển từ int sang String
-    private String name;
-    private boolean isDefault;
+public class FundMember {
+    private String fundId; // Chuyển từ int sang String
+    private String userId; // Chuyển từ int sang String
+    private String role;
     private Date createdDate;
     private Date updatedDate;
     private Date deletedDate;
 
     // Constructors
-    public Category() {}
+    public FundMember() {}
 
-    public Category(
-            String categoryId,
+    public FundMember(
+            String fundId,
             String userId,
-            String iconId,
-            String name,
-            boolean isDefault,
+            String role,
             Date createdDate,
             Date updatedDate,
             Date deletedDate) {
-        this.categoryId = categoryId;
+        this.fundId = fundId;
         this.userId = userId;
-        this.iconId = iconId;
-        this.name = name;
-        this.isDefault = isDefault;
+        this.role = role;
         this.createdDate = createdDate;
         this.updatedDate = updatedDate;
         this.deletedDate = deletedDate;
     }
 
-    public Category(
+    public FundMember(
             String userId,
-            String iconId,
-            String name,
-            boolean isDefault,
+            String role,
             Date createdDate,
             Date updatedDate,
             Date deletedDate) {
-        this.categoryId = null;
+        this.fundId = null;
         this.userId = userId;
-        this.iconId = iconId;
-        this.name = name;
-        this.isDefault = isDefault;
+        this.role = role;
         this.createdDate = createdDate;
         this.updatedDate = updatedDate;
         this.deletedDate = deletedDate;
     }
 
     // Getters and Setters
-    public String getCategoryId() {
-        return categoryId;
+    public String getFundId() {
+        return fundId;
     }
 
-    public void setCategoryId(String categoryId) {
-        this.categoryId = categoryId;
+    public void setFundId(String fundId) {
+        this.fundId = fundId;
     }
 
     public String getUserId() {
@@ -69,28 +59,12 @@ public class Category {
         this.userId = userId;
     }
 
-    public String getIconId() {
-        return iconId;
+    public String getRole() {
+        return role;
     }
 
-    public void setIconId(String iconId) {
-        this.iconId = iconId;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public boolean isDefault() { // Getter cho boolean thường là is<TenBien>
-        return isDefault;
-    }
-
-    public void setDefault(boolean aDefault) {
-        isDefault = aDefault;
+    public void setRole(String role) {
+        this.role = role;
     }
 
     public Date getCreatedDate() {
