@@ -2,6 +2,7 @@ package com.example.happy_wallet_mobile.View.Activity;
 
 import android.graphics.PorterDuff;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import androidx.activity.EdgeToEdge;
@@ -13,8 +14,12 @@ import androidx.core.view.WindowInsetsCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.example.happy_wallet_mobile.API.ApiClient;
+import com.example.happy_wallet_mobile.API.ApiService;
 import com.example.happy_wallet_mobile.Model.MainDestination;
 import com.example.happy_wallet_mobile.Model.SubDestination;
+import com.example.happy_wallet_mobile.Model.User;
+import com.example.happy_wallet_mobile.Model.UserResponse;
 import com.example.happy_wallet_mobile.R;
 import com.example.happy_wallet_mobile.View.Fragment.CategoryListFragment;
 import com.example.happy_wallet_mobile.View.Fragment.EditProfileFragment;
@@ -26,11 +31,16 @@ import com.example.happy_wallet_mobile.View.Fragment.SettingFragment;
 import com.example.happy_wallet_mobile.View.Fragment.WalletFragment;
 import com.example.happy_wallet_mobile.ViewModel.MainViewModel;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 public class MainActivity extends AppCompatActivity {
 
     ImageView ivHome, ivWallet, ivGroups, ivSetting, ivChatBot;
     FrameLayout flNotification;
     MainViewModel mainViewModel;
+    private static final String TAG = "API";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -179,6 +189,28 @@ public class MainActivity extends AppCompatActivity {
                             .addToBackStack("above")
                             .commit();
                 }
+            }
+        });
+
+        // Create API instance
+        ApiService api = ApiClient.getApiService();
+        // Test user
+        User newUser = new User("test@example.com", "Tester", "user");
+        // Send POST request to create user
+        api.createUser(newUser).enqueue(new Callback<UserResponse>() {
+            @Override
+            public void onResponse(Call<UserResponse> call, Response<UserResponse> response) {
+                if (response.isSuccessful()) {
+                    int id = response.body().getId();
+                    Log.d(TAG, "User created with ID: " + id);
+                } else {
+                    Log.e(TAG, "Server error: " + response.code());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<UserResponse> call, Throwable t) {
+                Log.e("API", "Failed: " + t.getMessage());
             }
         });
 

@@ -3,10 +3,9 @@ package com.example.happy_wallet_mobile.Model;
 import java.util.Date;
 
 public class User {
-    private String Id;
+    private String UserID;
     private String UserName;
     private String Email;
-    private Date DateOfBirth;
     private String Role;
     private Date CreatedDate;
 
@@ -16,35 +15,28 @@ public class User {
             String id,
             String userName,
             String email,
-            Date dateOfBirth,
-            String role,
-            Date createdDate){
-        Id = id;
+            String role){
+        UserID = id;
         UserName = userName;
         Email = email;
-        DateOfBirth = dateOfBirth;
         Role = role;
-        CreatedDate = createdDate;
     }
 
     public User(
             String userName,
             String email,
-            Date dateOfBirth,
-            String role,
-            Date createdDate){
-        Id = null;
+            String role)
+    {
+        UserID = null;
         UserName = userName;
         Email = email;
-        DateOfBirth = dateOfBirth;
         Role = role;
-        CreatedDate = createdDate;
     }
 
 
     // getters
     public String getId() {
-        return Id;
+        return UserID;
     }
 
     public String getUserName() {
@@ -55,22 +47,17 @@ public class User {
         return Email;
     }
 
-    public Date getDateOfBirth() {
-        return DateOfBirth;
-    }
 
     public String getRole() {
         return Role;
     }
 
-    public Date getCreatedDate() {
-        return CreatedDate;
-    }
+    public Date getCreatedDate() {return CreatedDate;}
 
 
     // setters
     public void setId(String id) {
-        Id = id;
+        UserID = id;
     }
 
     public void setUserName(String userName) {
@@ -81,15 +68,10 @@ public class User {
         Email = email;
     }
 
-    public void setDateOfBirth(Date dateOfBirth) {
-        DateOfBirth = dateOfBirth;
-    }
 
     public void setRole(String role) {
         Role = role;
     }
 
-    public void setCreatedDate(Date createdDate) {
-        CreatedDate = createdDate;
-    }
+    public void setCreatedDate(Date createdDate) {CreatedDate = createdDate; }
 }
