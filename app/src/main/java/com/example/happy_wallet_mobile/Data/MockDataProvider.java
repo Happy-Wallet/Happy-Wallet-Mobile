@@ -1,12 +1,21 @@
 package com.example.happy_wallet_mobile.Data;
 
 import com.example.happy_wallet_mobile.Model.*;
+import com.example.happy_wallet_mobile.View.Adapter.UIModel.DailyTransactionHeader;
+import com.example.happy_wallet_mobile.View.Adapter.UIModel.TransactionItem;
+import com.example.happy_wallet_mobile.View.Adapter.UIModel.TransactionUiModel;
 
 import java.math.BigDecimal;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
+import java.util.Map;
 import java.util.Random;
+import java.util.TreeMap;
 
 public class MockDataProvider {
 
@@ -61,22 +70,39 @@ public class MockDataProvider {
         List<Transaction> transactions = new ArrayList<>();
         String[] titles = {"Mua cơm", "Grab", "Mua thuốc", "Shopee", "Học phí"};
         String[] descriptions = {"Cơm trưa", "Đi làm", "Kháng sinh", "Áo quần", "Trường đại học"};
+
         for (int i = 1; i <= 15; i++) {
             int catId = (i % 5) + 1;
+
+            // Random ngày trong 0 đến 4 ngày trước
+            Calendar calendar = Calendar.getInstance();
+            int dayOffset = random.nextInt(5); // 0 - 4
+            calendar.add(Calendar.DAY_OF_MONTH, -dayOffset);
+            Date transactionDate = calendar.getTime();
+
+            // Random số tiền: dương hoặc âm
+            int amountValue = (random.nextInt(50) + 1) * 1000;
+            BigDecimal amount = BigDecimal.valueOf(amountValue);
+            if (random.nextBoolean()) {
+                amount = amount.negate(); // chi tiêu
+            }
+
             transactions.add(new Transaction(
                     i,
                     1, // userId
                     catId,
-                    catId, // iconId theo category
+                    catId, // iconId
                     titles[i % titles.length],
-                    BigDecimal.valueOf((random.nextInt(50) + 1) * 1000),
+                    amount,
                     descriptions[i % descriptions.length],
-                    new Date(),
+                    transactionDate,
                     null
             ));
         }
         return transactions;
     }
+
+
 
     public static List<SavingGoal> getMockSavingGoals() {
         List<SavingGoal> goals = new ArrayList<>();
@@ -118,5 +144,56 @@ public class MockDataProvider {
             ));
         }
         return groups;
+    }
+
+    public static List<TransactionUiModel> groupTransactionsByDate(
+            List<Transaction> transactions,
+            List<Category> categories,
+            List<Icon> icons
+    ) {
+        List<TransactionUiModel> uiModels = new ArrayList<>();
+
+        // Group transactions by date
+        Map<String, List<Transaction>> groupedMap = new TreeMap<>(Collections.reverseOrder());
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", Locale.US);
+        for (Transaction t : transactions) {
+            String key = sdf.format(t.getDate());
+            groupedMap.computeIfAbsent(key, k -> new ArrayList<>()).add(t);
+        }
+
+        // Convert groupedMap into uiModels
+        for (Map.Entry<String, List<Transaction>> entry : groupedMap.entrySet()) {
+            String date = entry.getKey();
+            List<Transaction> dayTransactions = entry.getValue();
+
+            BigDecimal total = BigDecimal.ZERO;
+            for (Transaction t : dayTransactions) {
+                total = total.add(t.getAmount());
+            }
+
+            uiModels.add(new DailyTransactionHeader(date, total));
+
+            for (Transaction t : dayTransactions) {
+                Category c = findCategoryById(categories, t.getCategoryId());
+                Icon i = findIconById(icons, t.getIconId());
+                uiModels.add(new TransactionItem(t, c, i));
+            }
+        }
+
+        return uiModels;
+    }
+
+    private static Category findCategoryById(List<Category> list, int id) {
+        for (Category c : list) {
+            if (c.getCategoryId() == id) return c;
+        }
+        return null;
+    }
+
+    private static Icon findIconById(List<Icon> list, int id) {
+        for (Icon i : list) {
+            if (i.getIconId() == id) return i;
+        }
+        return null;
     }
 }

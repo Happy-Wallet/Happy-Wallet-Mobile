@@ -10,18 +10,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.happy_wallet_mobile.Model.Transaction;
+import com.example.happy_wallet_mobile.Data.MockDataProvider;
 import com.example.happy_wallet_mobile.R;
 import com.example.happy_wallet_mobile.View.Adapter.DailyTransactionsRecyclerViewAdapter;
-import com.example.happy_wallet_mobile.View.Adapter.UIModel.DailyTransactionList;
+import com.example.happy_wallet_mobile.View.Adapter.UIModel.TransactionUiModel;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
+
 
 public class WalletFragment extends Fragment {
 
-    List<DailyTransactionList> dailyTransactionListItemList = new ArrayList<DailyTransactionList>();
     RecyclerView rvTransactions;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -32,8 +30,13 @@ public class WalletFragment extends Fragment {
         rvTransactions = view.findViewById(R.id.rvTransactions);
 
 
-        DailyTransactionsRecyclerViewAdapter adapter = new DailyTransactionsRecyclerViewAdapter(dailyTransactionListItemList);
-        rvTransactions.setLayoutManager(new LinearLayoutManager(requireContext()));
+        List<TransactionUiModel> uiModels = MockDataProvider.groupTransactionsByDate(
+                MockDataProvider.getMockTransactions(),
+                MockDataProvider.getMockCategories(),
+                MockDataProvider.getMockIcons()
+        );
+        DailyTransactionsRecyclerViewAdapter adapter = new DailyTransactionsRecyclerViewAdapter(getContext(), uiModels);
+        rvTransactions.setLayoutManager(new LinearLayoutManager(getContext()));
         rvTransactions.setAdapter(adapter);
         return view;
     }
