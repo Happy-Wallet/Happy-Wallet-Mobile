@@ -15,7 +15,9 @@ import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.happy_wallet_mobile.Model.Category;
 import com.example.happy_wallet_mobile.Model.Group;
+import com.example.happy_wallet_mobile.Model.Icon;
 import com.example.happy_wallet_mobile.Model.SavingGoal;
 import com.example.happy_wallet_mobile.R;
 
@@ -28,11 +30,16 @@ public class GroupRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.
     private static final int TYPE_ADD = 1;
     private Context context;
     private List<Group> GroupList;
+    private List<Category> categoryList;
+    private List<Icon> iconList;
 
-    public GroupRecyclerViewAdapter(Context context, List<Group> groupList) {
+    public GroupRecyclerViewAdapter(Context context, List<Group> groupList, List<Category> categoryList, List<Icon> iconList) {
         this.context = context;
         this.GroupList = groupList;
+        this.categoryList = categoryList;
+        this.iconList = iconList;
     }
+
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         FrameLayout flIconBackground;
@@ -80,21 +87,41 @@ public class GroupRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         if (getItemViewType(position) == TYPE_ADD) {
-            GroupRecyclerViewAdapter.AddViewHolder addHolder = (GroupRecyclerViewAdapter.AddViewHolder) holder;
+            AddViewHolder addHolder = (AddViewHolder) holder;
             addHolder.ivPlusIcon.setColorFilter(ContextCompat.getColor(context, R.color.white), PorterDuff.Mode.SRC_IN);
             addHolder.itemView.setOnClickListener(v -> {
-                if (onAddClickListener != null) {
-                    onAddClickListener.onAddClick();
-                }
+                if (onAddClickListener != null) onAddClickListener.onAddClick();
             });
             return;
         }
 
-        GroupRecyclerViewAdapter.ViewHolder itemHolder = (GroupRecyclerViewAdapter.ViewHolder) holder;
+        ViewHolder itemHolder = (ViewHolder) holder;
         Group item = GroupList.get(position);
-        
         itemHolder.tvTitle.setText(item.getName());
+
+        // Lấy category
+        Category category = getCategoryById(item.getCategoryId());
+        if (category != null) {
+            // Gán màu nền
+            try {
+                int color = android.graphics.Color.parseColor(category.getColorCode());
+                itemHolder.flIconBackground.getBackground().setColorFilter(color, PorterDuff.Mode.SRC_IN);
+            } catch (IllegalArgumentException e) {
+                e.printStackTrace(); // Nếu colorCode không hợp lệ
+            }
+
+            // Lấy và gán icon
+            Icon icon = getIconById(category.getIconId());
+            if (icon != null) {
+                int iconResId = context.getResources().getIdentifier(icon.getIconPath(), "drawable", context.getPackageName());
+                if (iconResId != 0) {
+                    itemHolder.ivIcon.setImageResource(iconResId);
+                    itemHolder.ivIcon.setColorFilter(ContextCompat.getColor(context, R.color.white), PorterDuff.Mode.SRC_IN);
+                }
+            }
+        }
     }
+
 
 
     @Override
@@ -112,5 +139,18 @@ public class GroupRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.
         this.onAddClickListener = listener;
     }
 
+    private Category getCategoryById(int categoryId) {
+        for (Category category : categoryList) {
+            if (category.getCategoryId() == categoryId) return category;
+        }
+        return null;
+    }
+
+    private Icon getIconById(int iconId) {
+        for (Icon icon : iconList) {
+            if (icon.getIconId() == iconId) return icon;
+        }
+        return null;
+    }
 
 }

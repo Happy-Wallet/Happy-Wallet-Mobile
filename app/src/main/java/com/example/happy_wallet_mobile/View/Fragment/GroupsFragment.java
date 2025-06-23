@@ -22,7 +22,6 @@ import java.util.List;
 
 public class GroupsFragment extends Fragment {
 
-    List<Group> groupList = MockDataProvider.getMockGroups();
     RecyclerView rcvGroup;
 
     @Override
@@ -36,7 +35,11 @@ public class GroupsFragment extends Fragment {
         // set data for rcvGroup
         LinearLayoutManager layoutManager = new LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false);
         rcvGroup.setLayoutManager(layoutManager);
-        GroupRecyclerViewAdapter groupRecyclerViewAdapter = new GroupRecyclerViewAdapter(requireContext(), groupList);
+        GroupRecyclerViewAdapter groupRecyclerViewAdapter = new GroupRecyclerViewAdapter(
+                requireContext(),
+                MockDataProvider.getMockGroups(),
+                MockDataProvider.getMockCategories(),
+                MockDataProvider.getMockIcons());
         rcvGroup.setAdapter(groupRecyclerViewAdapter);
 
         return view;
