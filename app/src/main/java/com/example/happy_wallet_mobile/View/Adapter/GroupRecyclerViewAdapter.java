@@ -92,27 +92,8 @@ public class GroupRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.
 
         GroupRecyclerViewAdapter.ViewHolder itemHolder = (GroupRecyclerViewAdapter.ViewHolder) holder;
         Group item = GroupList.get(position);
-
-        Drawable background = ContextCompat.getDrawable(context, R.drawable.bg_rounded_50_paolo_veronese_green);
-        if (background instanceof android.graphics.drawable.GradientDrawable) {
-            ((android.graphics.drawable.GradientDrawable) background).setColor(android.graphics.Color.parseColor(item.getColor()));
-        }
-        itemHolder.flIconBackground.setBackground(background);
-
-
-        int resId = context.getResources().getIdentifier(
-                item.getIconPath(),
-                "drawable",
-                context.getPackageName()
-        );
-        if (resId != 0) {
-            itemHolder.ivIcon.setImageResource(resId);
-        } else {
-            itemHolder.ivIcon.setImageResource(R.drawable.ic_wallet);
-        }
-
-        itemHolder.ivIcon.setColorFilter(ContextCompat.getColor(context, R.color.white), PorterDuff.Mode.SRC_IN);
-        itemHolder.tvTitle.setText(item.getTitle());
+        
+        itemHolder.tvTitle.setText(item.getName());
     }
 
 
