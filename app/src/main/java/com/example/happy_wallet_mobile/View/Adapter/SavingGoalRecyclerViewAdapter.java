@@ -18,7 +18,11 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.happy_wallet_mobile.Model.SavingGoal;
 import com.example.happy_wallet_mobile.R;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.text.NumberFormat;
 import java.util.List;
+import java.util.Locale;
 
 public class SavingGoalRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
@@ -93,28 +97,17 @@ public class SavingGoalRecyclerViewAdapter extends RecyclerView.Adapter<Recycler
         ViewHolder itemHolder = (ViewHolder) holder;
         SavingGoal item = savingGoalList.get(position);
 
-        Drawable background = ContextCompat.getDrawable(context, R.drawable.bg_rounded_50_paolo_veronese_green);
-        if (background instanceof android.graphics.drawable.GradientDrawable) {
-            ((android.graphics.drawable.GradientDrawable) background).setColor(android.graphics.Color.parseColor(item.getColor()));
-        }
-        itemHolder.flIconBackground.setBackground(background);
-
-
-        int resId = context.getResources().getIdentifier(
-                item.getIconPath(),
-                "drawable",
-                context.getPackageName()
-        );
-        if (resId != 0) {
-            itemHolder.ivIcon.setImageResource(resId);
-        } else {
-            itemHolder.ivIcon.setImageResource(R.drawable.ic_wallet);
-        }
-
         itemHolder.ivIcon.setColorFilter(ContextCompat.getColor(context, R.color.white), PorterDuff.Mode.SRC_IN);
-        itemHolder.tvTitle.setText(item.getTitle());
-        itemHolder.pbProgress.setMax(Integer.parseInt(item.getTarget()));
-        itemHolder.pbProgress.setProgress(Integer.parseInt(item.getCurrentMoney()));
+        itemHolder.tvTitle.setText(item.getName());
+
+        BigDecimal current = item.getCurrentAmount();
+        BigDecimal target = item.getTargetAmount();
+        int progress = current.multiply(BigDecimal.valueOf(100))
+                .divide(target, RoundingMode.HALF_UP)
+                .intValue();
+        itemHolder.pbProgress.setMax(100);
+        itemHolder.pbProgress.setProgress(progress);
+
     }
 
 
