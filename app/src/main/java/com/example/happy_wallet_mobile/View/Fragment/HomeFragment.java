@@ -31,7 +31,6 @@ public class HomeFragment extends Fragment {
     TextView tvAccountBalance;
     RecyclerView rcvMonthIAE, rcvSavingGoals;
     TextView tvDay, tvMonth, tvYear;
-    List<SavingGoal> savingGoalList = MockDataProvider.getMockSavingGoals();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -57,7 +56,11 @@ public class HomeFragment extends Fragment {
         // set data for rcvSavingGoal
         LinearLayoutManager layoutManager = new LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false);
         rcvSavingGoals.setLayoutManager(layoutManager);
-        SavingGoalRecyclerViewAdapter savingGoalRecyclerViewAdapter = new SavingGoalRecyclerViewAdapter(requireContext(), savingGoalList);
+        SavingGoalRecyclerViewAdapter savingGoalRecyclerViewAdapter = new SavingGoalRecyclerViewAdapter(
+                requireContext(),
+                MockDataProvider.getMockSavingGoals(),
+                MockDataProvider.getMockCategories(),
+                MockDataProvider.getMockIcons());
         rcvSavingGoals.setAdapter(savingGoalRecyclerViewAdapter);
 
         //AddSavingGoal click

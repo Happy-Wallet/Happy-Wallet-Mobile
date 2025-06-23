@@ -30,7 +30,7 @@ public class MockDataProvider {
 
     public static List<Icon> getMockIcons() {
         List<Icon> icons = new ArrayList<>();
-        String[] paths = {"ic_food", "ic_travel", "ic_health", "ic_shopping", "ic_education"};
+        String[] paths = {"ic_bell", "ic_paper_plane_tilt", "ic_house", "ic_gear_six", "ic_wallet"};
         for (int i = 0; i < paths.length; i++) {
             icons.add(new Icon(i + 1, paths[i]));
         }

@@ -15,6 +15,8 @@ import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.happy_wallet_mobile.Model.Category;
+import com.example.happy_wallet_mobile.Model.Icon;
 import com.example.happy_wallet_mobile.Model.SavingGoal;
 import com.example.happy_wallet_mobile.R;
 
@@ -30,11 +32,16 @@ public class SavingGoalRecyclerViewAdapter extends RecyclerView.Adapter<Recycler
     private static final int TYPE_ADD = 1;
     private Context context;
     private List<SavingGoal> savingGoalList;
+    private List<Category> categoryList;
+    private List<Icon> iconList;
 
-    public SavingGoalRecyclerViewAdapter(Context context, List<SavingGoal> savingGoalList) {
+    public SavingGoalRecyclerViewAdapter(Context context, List<SavingGoal> savingGoalList, List<Category> categoryList, List<Icon> iconList) {
         this.context = context;
         this.savingGoalList = savingGoalList;
+        this.categoryList = categoryList;
+        this.iconList = iconList;
     }
+
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         FrameLayout flIconBackground;
@@ -96,10 +103,33 @@ public class SavingGoalRecyclerViewAdapter extends RecyclerView.Adapter<Recycler
 
         ViewHolder itemHolder = (ViewHolder) holder;
         SavingGoal item = savingGoalList.get(position);
-
-        itemHolder.ivIcon.setColorFilter(ContextCompat.getColor(context, R.color.white), PorterDuff.Mode.SRC_IN);
         itemHolder.tvTitle.setText(item.getName());
 
+        // Gán màu và icon từ Category
+        Category category = getCategoryById(item.getCategoryId());
+        if (category != null) {
+            Icon icon = getIconById(category.getIconId());
+
+            // Gán icon
+            if (icon != null) {
+                int iconResId = context.getResources().getIdentifier(icon.getIconPath(), "drawable", context.getPackageName());
+                if (iconResId != 0) {
+                    itemHolder.ivIcon.setImageResource(iconResId);
+                }
+                itemHolder.ivIcon.setColorFilter(ContextCompat.getColor(context, R.color.white), PorterDuff.Mode.SRC_IN);
+
+            }
+
+            // Gán màu
+            try {
+                int color = android.graphics.Color.parseColor(category.getColorCode());
+                itemHolder.flIconBackground.getBackground().setColorFilter(color, PorterDuff.Mode.SRC_IN);
+            } catch (IllegalArgumentException e) {
+                e.printStackTrace(); // Màu không hợp lệ
+            }
+        }
+
+        // Gán progress
         BigDecimal current = item.getCurrentAmount();
         BigDecimal target = item.getTargetAmount();
         int progress = current.multiply(BigDecimal.valueOf(100))
@@ -107,8 +137,8 @@ public class SavingGoalRecyclerViewAdapter extends RecyclerView.Adapter<Recycler
                 .intValue();
         itemHolder.pbProgress.setMax(100);
         itemHolder.pbProgress.setProgress(progress);
-
     }
+
 
 
     @Override
@@ -124,6 +154,24 @@ public class SavingGoalRecyclerViewAdapter extends RecyclerView.Adapter<Recycler
 
     public void setOnAddClickListener(OnAddClickListener listener) {
         this.onAddClickListener = listener;
+    }
+
+    private Category getCategoryById(int categoryId) {
+        for (Category category : categoryList) {
+            if (category.getCategoryId() == categoryId) {
+                return category;
+            }
+        }
+        return null;
+    }
+
+    private Icon getIconById(int iconId) {
+        for (Icon icon : iconList) {
+            if (icon.getIconId() == iconId) {
+                return icon;
+            }
+        }
+        return null;
     }
 
 }
