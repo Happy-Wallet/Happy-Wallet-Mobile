@@ -22,7 +22,7 @@ public class CategoryListFragment extends Fragment {
 
     FrameLayout flAddCategory;
     ListView lvCategoryList;
-    List<Category> categoryList;
+    List<Category> categoryList = new ArrayList<Category>();
     CategoryListViewAdapter categoryListViewAdapter;
 
     @Override
@@ -32,10 +32,6 @@ public class CategoryListFragment extends Fragment {
 
         flAddCategory = view.findViewById(R.id.flAddCategory);
         lvCategoryList = view.findViewById(R.id.lvCategoryList);
-
-        categoryList = new ArrayList<Category>();
-        categoryList.add(new Category("Title 1"));
-        categoryList.add(new Category("Title 2"));
 
         categoryListViewAdapter = new CategoryListViewAdapter(requireContext(), categoryList);
         lvCategoryList.setAdapter(categoryListViewAdapter);

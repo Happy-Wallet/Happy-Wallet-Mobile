@@ -3,7 +3,7 @@ package com.example.happy_wallet_mobile.Model;
 import java.util.Date;
 
 public class User {
-    private String Id;
+    private int Id;
     private String UserName;
     private String Email;
     private String Role;
@@ -15,7 +15,7 @@ public class User {
     // constructor\
     public User(){}
     public User(
-            String id,
+            int id,
             String userName,
             String email,
             Date dateOfBirth,
@@ -49,7 +49,7 @@ public class User {
 
 
     // getters
-    public String getId() {
+    public int getId() {
         return Id;
     }
 
@@ -78,7 +78,7 @@ public class User {
     }
 
     // setters
-    public void setId(String id) {
+    public void setId(int id) {
         Id = id;
     }
 
