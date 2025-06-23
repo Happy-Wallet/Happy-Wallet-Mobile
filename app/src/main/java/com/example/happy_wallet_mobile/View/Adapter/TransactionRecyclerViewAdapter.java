@@ -13,7 +13,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.happy_wallet_mobile.Model.Transaction;
 import com.example.happy_wallet_mobile.R;
 
+import java.text.NumberFormat;
 import java.util.List;
+import java.util.Locale;
 
 public class TransactionRecyclerViewAdapter extends RecyclerView.Adapter<TransactionRecyclerViewAdapter.ViewHolder> {
     List<Transaction> transactionList;
@@ -49,8 +51,9 @@ public class TransactionRecyclerViewAdapter extends RecyclerView.Adapter<Transac
     public void onBindViewHolder(ViewHolder holder, int position) {
         Transaction t = transactionList.get(position);
         holder.tvTitle.setText(t.getTitle());
-        holder.tvDetail.setText(t.getNote());
-        holder.tvAmount.setText(String.valueOf(t.getAmount()));
+        holder.tvDetail.setText(t.getDescription());
+        NumberFormat format = NumberFormat.getNumberInstance(new Locale("vi", "VN"));
+        holder.tvAmount.setText(format.format(t.getAmount()));
     }
 
     @Override
