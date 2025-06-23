@@ -18,7 +18,6 @@ public class User {
             int id,
             String userName,
             String email,
-            Date dateOfBirth,
             String role,
             Date createdDate,
             Date updatedDate,
@@ -34,7 +33,6 @@ public class User {
     public User(
             String userName,
             String email,
-            Date dateOfBirth,
             String role,
             Date createdDate,
             Date updatedDate,
