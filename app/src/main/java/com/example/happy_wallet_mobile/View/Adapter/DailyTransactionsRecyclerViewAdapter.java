@@ -12,6 +12,8 @@ import com.example.happy_wallet_mobile.Model.Transaction;
 import com.example.happy_wallet_mobile.R;
 import com.example.happy_wallet_mobile.View.Adapter.UIModel.DailyTransactionList;
 
+import java.util.Locale;
+import java.text.NumberFormat;
 import java.util.List;
 
 public class DailyTransactionsRecyclerViewAdapter extends RecyclerView.Adapter<DailyTransactionsRecyclerViewAdapter.GroupViewHolder>{
@@ -64,8 +66,9 @@ public class DailyTransactionsRecyclerViewAdapter extends RecyclerView.Adapter<D
                 TextView tvAmount = itemView.findViewById(R.id.tvAmount);
 
                 tvTitle.setText(transaction.getTitle());
-                tvDetail.setText(transaction.getNote());
-                tvAmount.setText((transaction.getType().equals("expenditure") ? "-" : "+") + transaction.getAmount());
+                tvDetail.setText(transaction.getDescription());
+                NumberFormat format = NumberFormat.getNumberInstance(new Locale("vi", "VN"));
+                tvAmount.setText(format.format(transaction.getAmount()));
 
                 transactionContainer.addView(itemView);
             }
