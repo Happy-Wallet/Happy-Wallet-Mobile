@@ -13,6 +13,9 @@
         android:theme="@style/Theme.HappyWalletMobile"
         tools:targetApi="31">
         <activity
+            android:name=".View.Activity.CommunityActivity"
+            android:exported="false" />
+        <activity
             android:name=".View.Activity.SplashActivity"
             android:exported="true">
             <intent-filter>
@@ -21,15 +24,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".View.Activity.SignInActivity"
             android:exported="false" />
-
         <activity
             android:name=".View.Activity.MainActivity"
             android:exported="false" />
-
     </application>
 
 </manifest>

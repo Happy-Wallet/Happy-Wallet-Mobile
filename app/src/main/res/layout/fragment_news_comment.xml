@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".View.Fragment.NewsCommentFragment">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="820dp"
+        android:layout_gravity="bottom"
+        android:layout_marginBottom="-20dp"
+
+        android:padding="20dp"
+        android:background="@drawable/bg_rounded_20_paolo_veronese_green"
+        android:backgroundTint="@color/Silver_Phoenix"
+        >
+
+        <!-- back -->
+        <ImageView
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+
+            android:id="@+id/ivBack"
+
+            android:src="@drawable/ic_arrow_left_bold"
+            />
+
+        <!-- comments -->
+        <androidx.recyclerview.widget.RecyclerView
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintTop_toBottomOf="@id/ivBack"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/etWriteComment"
+
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="20dp"
+
+            android:id="@+id/rcvComments"
+            />
+
+        <!-- write comment -->
+        <EditText
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:minHeight="50dp"
+
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/ivSend"
+            app:layout_constraintBottom_toBottomOf="parent"
+
+            android:layout_marginEnd="10dp"
+            android:layout_marginBottom="20dp"
+
+            android:paddingStart="15dp"
+            android:paddingEnd="15dp"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp"
+
+            android:id="@+id/etWriteComment"
+
+            android:background="@drawable/bg_rounded_50_paolo_veronese_green"
+            android:backgroundTint="@color/Silver_Phoenix"
+
+            android:hint="Write your comment!"
+            android:fontFamily="@font/poppins_semibold_600"
+            android:textSize="15sp"
+            android:textColor="@color/Nautical"
+            android:maxLines="4"
+            />
+
+        <!-- send -->
+        <ImageView
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+
+            app:layout_constraintTop_toTopOf="@id/etWriteComment"
+            app:layout_constraintBottom_toBottomOf="@id/etWriteComment"
+            app:layout_constraintEnd_toEndOf="parent"
+
+            android:id="@+id/ivSend"
+
+            android:src="@drawable/ic_paper_plane_tilt"
+            />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</FrameLayout>

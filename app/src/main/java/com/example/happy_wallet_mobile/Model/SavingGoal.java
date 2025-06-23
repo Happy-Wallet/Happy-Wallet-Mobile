@@ -1,48 +1,147 @@
 package com.example.happy_wallet_mobile.Model;
 
+import java.math.BigDecimal;
+import java.util.Date;
+
 public class SavingGoal {
-    private String Color, IconName, Title, Target, CurrentMoney;
+    private int GoalId; 
+    private int UserId; 
+    private int CategoryId;
+    private String Name; 
+    private BigDecimal CurrentAmount; 
+    private BigDecimal TargetAmount; 
+    private String Description; 
+    private Date CreatedDate; 
+    private Date UpdatedDate; 
+    private Date DeletedDate; 
 
-    public SavingGoal(String color, String iconName, String title, String target, String currentMoney){
-        Color = color;
-        IconName = iconName;
-        Title = title;
-        Target = target;
-        CurrentMoney = currentMoney;
-    }
-
-    // getters
-    public String getTitle() {
-        return Title;
-    }
-    public String getIconPath() {
-        return IconName;
-    }
-    public String getTarget() {
-        return Target;
-    }
-    public String getCurrentMoney() {
-        return CurrentMoney;
+    // Constructors
+    public SavingGoal() {
     }
 
-    public String getColor() {
-        return Color;
+    public SavingGoal(
+            int goalId, 
+                    int userId, 
+                    int categoryId,
+                    String name, 
+                    BigDecimal currentAmount, 
+                    BigDecimal targetAmount, 
+                    String description, 
+                    Date createdDate,
+                    Date updatedDate,
+                    Date deletedDate) {
+        GoalId = goalId;
+        UserId = userId;
+        CategoryId = categoryId;
+        Name = name;
+        CurrentAmount = currentAmount;
+        TargetAmount = targetAmount;
+        Description = description;
+        CreatedDate = createdDate;
+        UpdatedDate = updatedDate;
+        DeletedDate = deletedDate;
     }
 
-    // setters
-    public void setTitle(String title) {
-        Title = title;
+    public SavingGoal(
+            int userId, 
+                    int categoryId,
+                    String name, 
+                    BigDecimal currentAmount, 
+                    BigDecimal targetAmount, 
+                    String description, 
+                    Date createdDate,
+                    Date updatedDate,
+                    Date deletedDate) {
+        UserId = userId;
+        CategoryId = categoryId;
+        Name = name;
+        CurrentAmount = currentAmount;
+        TargetAmount = targetAmount;
+        Description = description;
+        CreatedDate = createdDate;
+        UpdatedDate = updatedDate;
+        DeletedDate = deletedDate;
     }
-    public void setIcon(String iconName) {
-        IconName = iconName;
+
+    // Getters
+    public int getGoalId() {
+        return GoalId;
     }
-    public void setTarget(String target) {
-        Target = target;
+
+    public int getUserId() {
+        return UserId;
     }
-    public void setCurrentMoney(String currentMoney) {
-        CurrentMoney = currentMoney;
+
+    public int getCategoryId() {
+        return CategoryId;
     }
-    public void setColor(String color) {
-        Color = color;
+
+    public String getName() {
+        return Name;
+    }
+
+    public BigDecimal getCurrentAmount() {
+        return CurrentAmount;
+    }
+
+    public BigDecimal getTargetAmount() {
+        return TargetAmount;
+    }
+
+    public String getDescription() {
+        return Description;
+    }
+
+    public Date getCreatedDate() {
+        return CreatedDate;
+    }
+
+    public Date getUpdatedDate() {
+        return UpdatedDate;
+    }
+
+    public Date getDeletedDate() {
+        return DeletedDate;
+    }
+
+    // Setters
+    public void setGoalId(int goalId) {
+        GoalId = goalId;
+    }
+
+    public void setUserId(int userId) {
+        UserId = userId;
+    }
+
+    public void setCategoryId(int categoryId) {
+        CategoryId = categoryId;
+    }
+
+    public void setName(String name) {
+        Name = name;
+    }
+
+    public void setCurrentAmount(BigDecimal currentAmount) {
+        CurrentAmount = currentAmount;
+    }
+
+    public void setTargetAmount(BigDecimal targetAmount) {
+        TargetAmount = targetAmount;
+    }
+
+    public void setDescription(String description) {
+        Description = description;
+    }
+
+    public void setCreatedDate(Date createdDate) {
+        CreatedDate = createdDate;
+    }
+
+    public void setUpdatedDate(Date updatedDate) {
+        UpdatedDate = updatedDate;
+    }
+
+    public void setDeletedDate(Date deletedDate) {
+        DeletedDate = deletedDate;
     }
 }

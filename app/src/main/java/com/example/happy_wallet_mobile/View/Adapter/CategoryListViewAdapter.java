@@ -65,7 +65,7 @@ public class CategoryListViewAdapter extends BaseAdapter {
         Category category = CategoryList.get(position);
 
         // thieu icon
-        holder.tvTitle.setText(category.getTitle());
+        holder.tvTitle.setText(category.getName());
 
         return convertView;
     }

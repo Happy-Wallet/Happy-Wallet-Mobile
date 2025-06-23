@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".View.Fragment.TransactionDetailFragment"
+    android:background="#80000000">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:padding="20dp"
+        android:paddingTop="10dp"
+        android:background="@drawable/bg_rounded_20_white"
+        android:backgroundTint="@color/white">
+
+        <!-- cancel -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="top|start"
+            android:layout_marginTop="-10dp"
+
+            android:id="@+id/tvCancel"
+
+            android:text="X"
+            android:fontFamily="@font/poppins_bold_700"
+            android:textSize="24sp"
+            android:textColor="@color/Nautical"
+            />
+
+        <!-- edit -->
+        <ImageView
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_gravity="top|end"
+
+            android:id="@+id/tvEdit"
+
+            android:src="@drawable/ic_pen"
+            />
+
+        <!-- detail -->
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="20dp"
+            
+            android:padding="20dp"
+            android:background="@drawable/bg_rounded_20_nautical"
+            android:backgroundTint="@color/Silver_Phoenix">
+
+            <!-- icon -->
+            <FrameLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+
+                android:id="@+id/flIconBackground"
+
+                android:padding="5dp"
+                android:background="@drawable/bg_rounded_50_paolo_veronese_green"
+                android:backgroundTint="@color/Paolo_Veronese_Green"
+                >
+
+                <ImageView
+                    android:layout_width="55dp"
+                    android:layout_height="55dp"
+                    android:layout_gravity="center"
+
+                    android:id="@+id/ivIcon"
+
+                    android:src="@drawable/ic_house"/>
+
+            </FrameLayout>
+
+            <!-- Title -->
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toTopOf="@id/flIconBackground"
+                app:layout_constraintBottom_toBottomOf="@id/flIconBackground"
+                app:layout_constraintStart_toEndOf="@id/flIconBackground"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+
+                android:id="@+id/tvTitle"
+
+                android:gravity="start"
+                android:text="Transaction Title"
+                android:fontFamily="@font/poppins_regular_400"
+                android:textSize="20sp"
+                android:textColor="@color/Paolo_Veronese_Green"
+                android:maxLines="2"
+                android:ellipsize="end"
+                />
+
+            <!-- date -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@id/flIconBackground"
+                app:layout_constraintStart_toStartOf="parent"
+                android:layout_marginTop="20dp"
+
+                android:id="@+id/Date"
+
+                android:text="Date: "
+                android:textColor="@color/Nautical"
+                android:fontFamily="@font/poppins_medium_500"
+                android:textSize="16sp"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@id/flIconBackground"
+                app:layout_constraintStart_toEndOf="@id/Date"
+                android:layout_marginTop="20dp"
+
+                android:id="@+id/tvDate"
+
+                android:text="21/10/2025"
+                android:textColor="@color/Nautical"
+                android:fontFamily="@font/poppins_regular_400"
+                android:textSize="16sp"
+                />
+
+            <!-- description -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tvDate"
+                android:layout_marginTop="10dp"
+
+                android:id="@+id/tvDescription"
+
+                android:gravity="start|top"
+                android:text="bun bo ngon da ma te ku da sai o ta wa ki ma su des ka"
+                android:fontFamily="@font/poppins_regular_400"
+                android:textSize="16sp"
+                android:textColor="@color/Nautical"
+                android:maxLines="4"
+                android:ellipsize="end"
+                />
+
+            <!-- amount -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tvDescription"
+                android:layout_marginTop="10dp"
+
+                android:id="@+id/Amount"
+                android:text="Amount: "
+                android:textColor="@color/Nautical"
+                android:fontFamily="@font/poppins_medium_500"
+                android:textSize="16sp"
+                />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toEndOf="@id/Amount"
+                app:layout_constraintTop_toBottomOf="@id/tvDescription"
+                android:layout_marginTop="10dp"
+
+                android:id="@+id/tvAmount"
+                android:text="+35.000"
+                android:textColor="@color/Paolo_Veronese_Green"
+                android:fontFamily="@font/poppins_bold_700"
+                android:textSize="16sp"
+                />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </FrameLayout>
+    
+</FrameLayout>

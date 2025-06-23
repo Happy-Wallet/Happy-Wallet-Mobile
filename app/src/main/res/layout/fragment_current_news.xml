@@ -1,0 +1,268 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".View.Fragment.CurrentNewsFragment"
+    android:padding="20dp">
+
+    <!-- avatar & username -->
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/clContentLayout"
+
+        android:layout_marginBottom="20dp"
+
+        android:orientation="horizontal"
+        android:gravity="center"
+        >
+
+        <FrameLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:padding="2dp"
+
+            android:background="@drawable/bg_rounded_50_nautical"
+            android:backgroundTint="@color/Nautical">
+
+            <ImageView
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+
+                android:id="@+id/ivAvatar"
+
+                android:src="@drawable/ic_users_three"
+
+                android:background="@drawable/bg_rounded_50_white"
+                android:backgroundTint="@color/white"
+                />
+
+        </FrameLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+
+            android:id="@+id/tvUserName"
+
+            android:text="User Name"
+            android:fontFamily="@font/poppins_bold_700"
+            android:textSize="15sp"
+            android:textColor="@color/Nautical"
+            />
+
+    </LinearLayout>
+
+    <!-- content -->
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+
+        android:layout_marginBottom="100dp"
+
+        android:id="@+id/clContentLayout"
+
+        android:padding="20dp"
+        android:background="@drawable/bg_rounded_20_nautical"
+        android:backgroundTint="@color/Silver_Phoenix">
+
+        <!-- image -->
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+
+            android:id="@+id/ivImage"
+
+            android:src="@drawable/ic_remind"
+
+            android:background="@drawable/bg_rounded_20_white"
+            />
+
+        <!-- description -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            app:layout_constraintStart_toStartOf="@id/ivImage"
+            app:layout_constraintEnd_toEndOf="@id/ivImage"
+            app:layout_constraintBottom_toBottomOf="@id/ivImage"
+            app:layout_constrainedWidth="true"
+
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginBottom="20dp"
+
+            android:id="@+id/tvDescription"
+
+            android:paddingStart="12dp"
+            android:paddingEnd="12dp"
+            android:paddingTop="6dp"
+            android:paddingBottom="6dp"
+
+            android:gravity="center"
+            android:text="Buying new canyon is a good idea!"
+            android:fontFamily="@font/poppins_semibold_600"
+            android:textSize="12sp"
+            android:textColor="@color/Nautical"
+            android:maxLines="2"
+            android:ellipsize="end"
+
+            android:background="@drawable/bg_rounded_20_white"
+            android:backgroundTint="@color/Silver_Phoenix"
+            />
+
+        <!-- activities -->
+        <androidx.recyclerview.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            app:layout_constraintTop_toBottomOf="@id/ivImage"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+
+            android:layout_margin="20dp"
+
+            android:id="@+id/rcvActivities"
+            />
+        
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <!-- comment -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/clContentLayout"
+
+        android:layout_marginTop="20dp"
+
+        android:orientation="vertical"
+        android:padding="20dp"
+
+        android:background="@drawable/bg_rounded_20_white"
+        android:backgroundTint="@color/Silver_Phoenix"
+        >
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:orientation="horizontal"
+            android:gravity="center"
+            >
+
+            <FrameLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:padding="2dp"
+
+                android:background="@drawable/bg_rounded_50_nautical"
+                android:backgroundTint="@color/Nautical">
+
+                <ImageView
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+
+                    android:id="@+id/ivCommentAvatar"
+
+                    android:src="@drawable/ic_users_three"
+
+                    android:background="@drawable/bg_rounded_50_white"
+                    android:backgroundTint="@color/white"
+                    />
+
+            </FrameLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+
+                android:id="@+id/tvCommentUserName"
+
+                android:text="User Name"
+                android:fontFamily="@font/poppins_bold_700"
+                android:textSize="15sp"
+                android:textColor="@color/Nautical"
+                />
+
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+
+            android:text="hahahahhhhhhhhhhhhhhhhhh hhhhhh h h hh h h h h h hh h h h h h h h hh jjddwerw erwer ẻ ewerww"
+            android:fontFamily="@font/poppins_semibold_600"
+            android:textSize="15sp"
+            android:textColor="@color/Nautical"
+            android:maxLines="2"
+            android:ellipsize="end"
+            />
+
+    </LinearLayout>
+
+    <!-- write comment -->
+    <EditText
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:minHeight="50dp"
+
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/ivSend"
+        app:layout_constraintBottom_toBottomOf="parent"
+
+        android:layout_marginEnd="10dp"
+
+        android:paddingStart="15dp"
+        android:paddingEnd="15dp"
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp"
+
+        android:id="@+id/etWriteComment"
+
+        android:background="@drawable/bg_rounded_50_paolo_veronese_green"
+        android:backgroundTint="@color/Silver_Phoenix"
+
+        android:hint="Write your comment!"
+        android:fontFamily="@font/poppins_semibold_600"
+        android:textSize="15sp"
+        android:textColor="@color/Nautical"
+        android:maxLines="4"
+        />
+
+    <!-- send -->
+    <ImageView
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+
+        app:layout_constraintTop_toTopOf="@id/etWriteComment"
+        app:layout_constraintBottom_toBottomOf="@id/etWriteComment"
+        app:layout_constraintEnd_toEndOf="parent"
+
+        android:id="@+id/ivSend"
+
+        android:src="@drawable/ic_paper_plane_tilt"
+        />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,44 +1,135 @@
 package com.example.happy_wallet_mobile.Model;
 
+import java.math.BigDecimal;
+import java.util.Date;
+import java.util.concurrent.TimeoutException;
+
 public class Transaction {
-    private String id;
-    private String title;
-    private String amount;
-    private String date;
-    private String category;
-    private String note;
-    private String type; // "income" or "expenditure"
+    private int TransactionId;
+    private int UserId;
+    private int CategoryId;
+    private int IconId;
+    private String Title;
+    private BigDecimal Amount;
+    private String Description;
+    private Date Date;
+    private Date DeletedDate;
 
-    public Transaction() {}
-
-    public Transaction(String title, String amount, String date, String category, String note, String type) {
-        this.title = title;
-        this.amount = amount;
-        this.date = date;
-        this.category = category;
-        this.note = note;
-        this.type = type;
+    // Constructors
+    public Transaction() {
     }
 
-    // Getters & Setters
-    public String getId() { return id; }
-    public void setId(String id) { this.id = id; }
+    public Transaction(
+            int transactionId,
+            int userId,
+            int categoryId,
+            int iconId,
+            String title,
+            BigDecimal amount,
+            String description,
+            Date date,
+            Date deletedDate) {
+        TransactionId = transactionId;
+        UserId = userId;
+        CategoryId = categoryId;
+        IconId = iconId;
+        Title = title;
+        Amount = amount;
+        Description = description;
+        Date = date;
+        DeletedDate = deletedDate;
+    }
 
-    public String getTitle() { return title; }
-    public void setTitle(String title) { this.title = title; }
+    public Transaction(
+            int userId,
+            int categoryId,
+            int iconId,
+            String title,
+            BigDecimal amount,
+            String description,
+            Date date,
+            Date deletedDate) {
+        UserId = userId;
+        CategoryId = categoryId;
+        IconId = iconId;
+        Title = title;
+        Amount = amount;
+        Description = description;
+        Date = date;
+        DeletedDate = deletedDate;
+    }
 
-    public String getAmount() { return amount; }
-    public void setAmount(String amount) { this.amount = amount; }
+    // Getters
+    public int getTransactionId() {
+        return TransactionId;
+    }
 
-    public String getDate() { return date; }
-    public void setDate(String date) { this.date = date; }
+    public int getUserId() {
+        return UserId;
+    }
 
-    public String getCategory() { return category; }
-    public void setCategory(String category) { this.category = category; }
+    public int getCategoryId() {
+        return CategoryId;
+    }
 
-    public String getNote() { return note; }
-    public void setNote(String note) { this.note = note; }
+    public int getIconId() {
+        return IconId;
+    }
 
-    public String getType() { return type; }
-    public void setType(String type) { this.type = type; }
+    public String getTitle() {
+        return Title;
+    }
+
+    public BigDecimal getAmount() {
+        return Amount;
+    }
+
+    public String getDescription() {
+        return Description;
+    }
+
+    public Date getDate() {
+        return Date;
+    }
+
+    public Date getDeletedDate() {
+        return DeletedDate;
+    }
+
+    // Setters
+    public void setTransactionId(int transactionId) {
+        TransactionId = transactionId;
+    }
+
+    public void setUserId(int userId) {
+        UserId = userId;
+    }
+
+    public void setCategoryId(int categoryId) {
+        CategoryId = categoryId;
+    }
+
+    public void setIconId(int iconId) {
+        IconId = iconId;
+    }
+
+    public void setTitle(String title) {
+        Title = title;
+    }
+
+    public void setAmount(BigDecimal amount) {
+        Amount = amount;
+    }
+
+    public void setDescription(String description) {
+        Description = description;
+    }
+
+    public void setDate(Date date) {
+        Date = date;
+    }
+
+    public void setDeletedDate(Date deletedDate) {
+        DeletedDate = deletedDate;
+    }
 }

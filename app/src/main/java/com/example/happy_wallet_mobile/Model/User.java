@@ -3,47 +3,51 @@ package com.example.happy_wallet_mobile.Model;
 import java.util.Date;
 
 public class User {
-    private String Id;
+    private int Id;
     private String UserName;
     private String Email;
-    private Date DateOfBirth;
     private String Role;
     private Date CreatedDate;
+    private Date UpdatedDate;
+    private Date DeletedDate;
 
 
-    // constructor
+    // constructor\
+    public User(){}
     public User(
-            String id,
+            int id,
             String userName,
             String email,
-            Date dateOfBirth,
             String role,
-            Date createdDate){
+            Date createdDate,
+            Date updatedDate,
+            Date deletedDate){
         Id = id;
         UserName = userName;
         Email = email;
-        DateOfBirth = dateOfBirth;
         Role = role;
         CreatedDate = createdDate;
+        UpdatedDate = updatedDate;
+        DeletedDate = deletedDate;
     }
-
     public User(
             String userName,
             String email,
-            Date dateOfBirth,
             String role,
-            Date createdDate){
-        Id = null;
+            Date createdDate,
+            Date updatedDate,
+            Date deletedDate){
         UserName = userName;
         Email = email;
-        DateOfBirth = dateOfBirth;
         Role = role;
         CreatedDate = createdDate;
+        UpdatedDate = updatedDate;
+        DeletedDate = deletedDate;
     }
 
 
     // getters
-    public String getId() {
+    public int getId() {
         return Id;
     }
 
@@ -55,10 +59,6 @@ public class User {
         return Email;
     }
 
-    public Date getDateOfBirth() {
-        return DateOfBirth;
-    }
-
     public String getRole() {
         return Role;
     }
@@ -67,9 +67,16 @@ public class User {
         return CreatedDate;
     }
 
+    public Date getDeletedDate() {
+        return DeletedDate;
+    }
+
+    public Date getUpdatedDate() {
+        return UpdatedDate;
+    }
 
     // setters
-    public void setId(String id) {
+    public void setId(int id) {
         Id = id;
     }
 
@@ -81,9 +88,6 @@ public class User {
         Email = email;
     }
 
-    public void setDateOfBirth(Date dateOfBirth) {
-        DateOfBirth = dateOfBirth;
-    }
 
     public void setRole(String role) {
         Role = role;
@@ -91,5 +95,13 @@ public class User {
 
     public void setCreatedDate(Date createdDate) {
         CreatedDate = createdDate;
+    }
+
+    public void setUpdatedDate(Date updatedDate) {
+        UpdatedDate = updatedDate;
+    }
+
+    public void setDeletedDate(Date deletedDate) {
+        DeletedDate = deletedDate;
     }
 }

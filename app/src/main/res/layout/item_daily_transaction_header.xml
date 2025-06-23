@@ -4,7 +4,7 @@
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@drawable/bg_rounded_20_white"
-    android:layout_marginBottom="20dp">
+    android:layout_marginTop="20dp">
     
     <FrameLayout
         android:layout_width="match_parent"
@@ -39,7 +39,7 @@
             android:gravity="center_vertical"
             android:layout_marginEnd="20dp"
 
-            android:id="@+id/tvTotal"
+            android:id="@+id/tvTotalAmount"
 
             android:text="200.000"
             android:textSize="14sp"
@@ -47,16 +47,5 @@
             android:textColor="@color/white"/>
 
     </FrameLayout>
-
-    <!-- Container cho list transaction -->
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/flHeader"
-        android:paddingStart="10dp"
-        android:paddingEnd="10dp"
-
-        android:id="@+id/transactionContainer"
-        android:orientation="vertical" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
