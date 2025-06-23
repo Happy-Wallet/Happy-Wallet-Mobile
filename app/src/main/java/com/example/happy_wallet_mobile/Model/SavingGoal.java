@@ -6,7 +6,7 @@ import java.util.Date;
 public class SavingGoal {
     private int GoalId; 
     private int UserId; 
-    private int IconId; 
+    private int CategoryId;
     private String Name; 
     private BigDecimal CurrentAmount; 
     private BigDecimal TargetAmount; 
@@ -22,29 +22,29 @@ public class SavingGoal {
     public SavingGoal(
             int goalId, 
                     int userId, 
-                    int iconId, 
+                    int categoryId,
                     String name, 
                     BigDecimal currentAmount, 
                     BigDecimal targetAmount, 
                     String description, 
-                    Date CreatedDate, 
-                    Date UpdatedDate, 
-                    Date DeletedDate) { 
+                    Date createdDate,
+                    Date updatedDate,
+                    Date deletedDate) {
         GoalId = goalId;
         UserId = userId;
-        IconId = iconId;
+        CategoryId = categoryId;
         Name = name;
         CurrentAmount = currentAmount;
         TargetAmount = targetAmount;
         Description = description;
-        CreatedDate = CreatedDate;
-        UpdatedDate = UpdatedDate;
-        DeletedDate = DeletedDate;
+        CreatedDate = createdDate;
+        UpdatedDate = updatedDate;
+        DeletedDate = deletedDate;
     }
 
     public SavingGoal(
             int userId, 
-                    int iconId, 
+                    int categoryId,
                     String name, 
                     BigDecimal currentAmount, 
                     BigDecimal targetAmount, 
@@ -53,7 +53,7 @@ public class SavingGoal {
                     Date updatedDate,
                     Date deletedDate) {
         UserId = userId;
-        IconId = iconId;
+        CategoryId = categoryId;
         Name = name;
         CurrentAmount = currentAmount;
         TargetAmount = targetAmount;
@@ -72,8 +72,8 @@ public class SavingGoal {
         return UserId;
     }
 
-    public int getIconId() {
-        return IconId;
+    public int getCategoryId() {
+        return CategoryId;
     }
 
     public String getName() {
@@ -113,8 +113,8 @@ public class SavingGoal {
         UserId = userId;
     }
 
-    public void setIconId(int iconId) {
-        IconId = iconId;
+    public void setCategoryId(int categoryId) {
+        CategoryId = categoryId;
     }
 
     public void setName(String name) {
