@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.example.happy_wallet_mobile.Data.MockDataProvider;
 import com.example.happy_wallet_mobile.Model.MainDestination;
 import com.example.happy_wallet_mobile.Model.SavingGoal;
 import com.example.happy_wallet_mobile.Model.SubDestination;
@@ -30,7 +31,7 @@ public class HomeFragment extends Fragment {
     TextView tvAccountBalance;
     RecyclerView rcvMonthIAE, rcvSavingGoals;
     TextView tvDay, tvMonth, tvYear;
-    ArrayList<SavingGoal> savingGoalList = new ArrayList<SavingGoal>();
+    List<SavingGoal> savingGoalList = MockDataProvider.getMockSavingGoals();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,

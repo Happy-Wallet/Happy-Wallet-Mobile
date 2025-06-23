@@ -9,6 +9,7 @@ import android.widget.ListView;
 
 import androidx.fragment.app.Fragment;
 
+import com.example.happy_wallet_mobile.Data.MockDataProvider;
 import com.example.happy_wallet_mobile.Model.Category;
 import com.example.happy_wallet_mobile.R;
 import com.example.happy_wallet_mobile.View.Adapter.CategoryListViewAdapter;
@@ -22,7 +23,7 @@ public class CategoryListFragment extends Fragment {
 
     FrameLayout flAddCategory;
     ListView lvCategoryList;
-    List<Category> categoryList = new ArrayList<Category>();
+    List<Category> categoryList = MockDataProvider.getMockCategories();
     CategoryListViewAdapter categoryListViewAdapter;
 
     @Override

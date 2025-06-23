@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.happy_wallet_mobile.Data.MockDataProvider;
 import com.example.happy_wallet_mobile.Model.Group;
 import com.example.happy_wallet_mobile.R;
 import com.example.happy_wallet_mobile.View.Adapter.GroupRecyclerViewAdapter;
@@ -21,6 +22,7 @@ import java.util.List;
 
 public class GroupsFragment extends Fragment {
 
+    List<Group> groupList = MockDataProvider.getMockGroups();
     RecyclerView rcvGroup;
 
     @Override
@@ -32,7 +34,6 @@ public class GroupsFragment extends Fragment {
         rcvGroup = view.findViewById(R.id.rvGroups);
 
         // set data for rcvGroup
-        List<Group> groupList = new ArrayList<Group>();
         LinearLayoutManager layoutManager = new LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false);
         rcvGroup.setLayoutManager(layoutManager);
         GroupRecyclerViewAdapter groupRecyclerViewAdapter = new GroupRecyclerViewAdapter(requireContext(), groupList);
