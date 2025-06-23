@@ -6,6 +6,7 @@ public class Category {
     private int CategoryId;
     private int UserId;
     private int IconId;
+    private String ColorCode;
     private String Name;
     private boolean IsDefault;
     private Date CreatedAt;
@@ -20,6 +21,7 @@ public class Category {
             int categoryId,
             Integer userId,
             int iconId,
+            String colorCode,
             String name,
             boolean isDefault,
             Date createdAt,
@@ -28,6 +30,7 @@ public class Category {
         CategoryId = categoryId;
         UserId = userId;
         IconId = iconId;
+        ColorCode = colorCode;
         Name = name;
         IsDefault = isDefault;
         CreatedAt = createdAt;
@@ -38,6 +41,7 @@ public class Category {
     public Category(
             Integer userId,
             int iconId,
+            String colorCode,
             String name,
             boolean isDefault,
             Date createdAt,
@@ -45,6 +49,7 @@ public class Category {
             Date deletedAt) {
         UserId = userId;
         IconId = iconId;
+        ColorCode = colorCode;
         Name = name;
         IsDefault = isDefault;
         CreatedAt = createdAt;
@@ -63,6 +68,10 @@ public class Category {
 
     public int getIconId() {
         return IconId;
+    }
+
+    public String getColorCode() {
+        return ColorCode;
     }
 
     public String getName() {
@@ -96,6 +105,10 @@ public class Category {
 
     public void setIconId(int iconId) {
         IconId = iconId;
+    }
+
+    public void setColorCode(String colorCode) {
+        ColorCode = colorCode;
     }
 
     public void setName(String name) {
