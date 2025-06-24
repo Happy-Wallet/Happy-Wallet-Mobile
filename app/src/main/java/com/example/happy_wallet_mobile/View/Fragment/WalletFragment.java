@@ -30,7 +30,7 @@ public class WalletFragment extends Fragment {
 
     MainViewModel mainViewModel;
     WalletViewModel walletViewModel;
-    FrameLayout flAddIncome;
+    FrameLayout flAddIncome, flAddExpenditure;
     RecyclerView rvTransactions;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -43,13 +43,19 @@ public class WalletFragment extends Fragment {
 
         rvTransactions = view.findViewById(R.id.rvTransactions);
         flAddIncome = view.findViewById(R.id.flAddIncome);
+        flAddExpenditure = view.findViewById(R.id.flAddExpenditure);
 
         // add income
         flAddIncome.setOnClickListener(v -> {
-            Log.d("WalletFragment", "tvIncome on click");
+            Log.d("WalletFragment", "tvIncome clicked");
             mainViewModel.onNavItemClickedSubBelow(SubDestination.ADD_INCOME);
         });
 
+        // add expenditure
+        flAddExpenditure.setOnClickListener(v -> {
+            Log.d("WalletFragment", "tvExpenditure clicked");
+            mainViewModel.onNavItemClickedSubBelow(SubDestination.ADD_EXPENDITURE);
+        });
 
         walletViewModel.uiModels.observe(getViewLifecycleOwner(), uiModels -> {
             DailyTransactionsRecyclerViewAdapter adapter = new DailyTransactionsRecyclerViewAdapter(getContext(), uiModels);

@@ -18,6 +18,7 @@ import com.example.happy_wallet_mobile.Model.MainDestination;
 import com.example.happy_wallet_mobile.Model.SubDestination;
 import com.example.happy_wallet_mobile.R;
 import com.example.happy_wallet_mobile.View.Fragment.AddCategoryFragment;
+import com.example.happy_wallet_mobile.View.Fragment.AddExpenditureFragment;
 import com.example.happy_wallet_mobile.View.Fragment.AddIncomeFragment;
 import com.example.happy_wallet_mobile.View.Fragment.CategoryListFragment;
 import com.example.happy_wallet_mobile.View.Fragment.EditProfileFragment;
@@ -158,6 +159,9 @@ public class MainActivity extends AppCompatActivity {
                         break;
                     case ADD_INCOME:
                         fragment = new AddIncomeFragment();
+                        break;
+                    case ADD_EXPENDITURE:
+                        fragment = new AddExpenditureFragment();
                         break;
                 }
 

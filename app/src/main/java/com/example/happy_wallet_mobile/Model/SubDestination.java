@@ -7,4 +7,5 @@ public enum SubDestination {
     ADD_SAVING_GOAL,
     ADD_CATEGORY,
     ADD_INCOME,
+    ADD_EXPENDITURE,
 }
