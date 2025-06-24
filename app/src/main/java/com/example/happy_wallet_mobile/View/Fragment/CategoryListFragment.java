@@ -1,11 +1,13 @@
 package com.example.happy_wallet_mobile.View.Fragment;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 
@@ -23,7 +25,6 @@ public class CategoryListFragment extends Fragment {
 
     FrameLayout flAddCategory;
     ListView lvCategoryList;
-    List<Category> categoryList = MockDataProvider.getMockCategories();
     CategoryListViewAdapter categoryListViewAdapter;
 
     @Override
@@ -31,10 +32,20 @@ public class CategoryListFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_category_list, container, false);
 
+        Log.d("CategoryListFragment", "CategoryListFragment on create view");
+
         flAddCategory = view.findViewById(R.id.flAddCategory);
         lvCategoryList = view.findViewById(R.id.lvCategoryList);
 
-        categoryListViewAdapter = new CategoryListViewAdapter(requireContext(), categoryList);
+        categoryListViewAdapter = new CategoryListViewAdapter(
+                requireContext(),
+                MockDataProvider.getMockCategories(),
+                MockDataProvider.getMockIcons()
+        );
+        categoryListViewAdapter.setOnCategoryClickListener(category -> {
+            Toast.makeText(getContext(), "Bạn đã chọn: " + category.getName(), Toast.LENGTH_SHORT).show();
+            // xử lý thêm tại đây (mở Fragment khác, truyền data,...)
+        });
         lvCategoryList.setAdapter(categoryListViewAdapter);
 
         return view;
