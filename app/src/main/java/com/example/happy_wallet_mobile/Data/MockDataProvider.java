@@ -111,19 +111,25 @@ public class MockDataProvider {
         return transactions;
     }
 
-
-
     public static List<SavingGoal> getMockSavingGoals() {
         List<SavingGoal> goals = new ArrayList<>();
         String[] names = {"MacBook", "Xe máy", "Chuyến đi Hà Giang", "Tiền cưới", "Quỹ học cao học"};
         for (int i = 1; i <= names.length; i++) {
+            // Target: 5 triệu đến 50 triệu
+            int targetValue = 5_000_000 + random.nextInt(45_000_000);
+            BigDecimal targetAmount = BigDecimal.valueOf(targetValue);
+
+            // Current: từ 0 đến 80% của target
+            int currentValue = random.nextInt((int)(targetValue * 0.8));
+            BigDecimal currentAmount = BigDecimal.valueOf(currentValue);
+
             goals.add(new SavingGoal(
                     i,
                     1, // userId
                     i, // categoryId
                     names[i - 1],
-                    BigDecimal.valueOf(random.nextInt(5_000_000)),
-                    BigDecimal.valueOf(10_000_000 + random.nextInt(10_000_000)),
+                    currentAmount,
+                    targetAmount,
                     "Mục tiêu: " + names[i - 1],
                     new Date(),
                     new Date(),

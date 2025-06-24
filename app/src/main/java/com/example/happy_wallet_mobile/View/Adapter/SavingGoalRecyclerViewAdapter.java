@@ -114,6 +114,12 @@ public class SavingGoalRecyclerViewAdapter extends RecyclerView.Adapter<Recycler
         SavingGoal item = savingGoalList.get(position);
         itemHolder.tvTitle.setText(item.getName());
 
+        BigDecimal current = item.getCurrentAmount();
+        BigDecimal target = item.getTargetAmount();
+        int progress = current.multiply(BigDecimal.valueOf(100))
+                .divide(target, RoundingMode.HALF_UP)
+                .intValue();
+        itemHolder.pbProgress.setProgress(progress);
 
         Icon icon = null;
         Category category = getCategoryById(item.getCategoryId());
