@@ -29,7 +29,7 @@
         android:id="@+id/ivPlusIcon"
 
         android:src="@drawable/ic_plus_solid"
-
+        app:tint="@color/white"
         android:background="@drawable/bg_rounded_50_white"
         android:backgroundTint="@color/Argent"
         />

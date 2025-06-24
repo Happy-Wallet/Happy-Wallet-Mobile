@@ -61,6 +61,9 @@
 
             android:id="@+id/ivIcon"
 
+            android:padding="5dp"
+            android:src="@drawable/ic_users_three"
+            app:tint="@color/white"
             android:background="@drawable/bg_rounded_50_nautical"
             />
 
@@ -106,6 +109,8 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintBottom_toTopOf="@id/pbProgress"
             android:layout_marginBottom="5dp"
+
+            android:id="@+id/tvCurrentAmount"
 
             android:text="5000000 / 10000000"
             android:fontFamily="@font/poppins_bold_700"

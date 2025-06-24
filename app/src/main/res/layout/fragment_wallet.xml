@@ -22,10 +22,10 @@
         android:backgroundTint="#FFDCDC">
 
         <ImageView
-            android:layout_width="45dp"
+            android:layout_width="51dp"
             android:layout_height="45dp"
-            android:src="@drawable/ic_expenditure"
-            android:layout_gravity="center"/>
+            android:layout_gravity="center"
+            android:src="@drawable/ic_expenditure" />
 
     </FrameLayout>
 

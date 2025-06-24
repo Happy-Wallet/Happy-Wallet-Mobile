@@ -19,29 +19,26 @@ import com.example.happy_wallet_mobile.R;
 import com.example.happy_wallet_mobile.View.Adapter.CategoryRecyclerViewAdapter;
 import com.example.happy_wallet_mobile.ViewModel.MainViewModel;
 
+public class AddIncomeFragment extends Fragment {
 
-public class AddSavingGoalFragment extends Fragment {
-
-    TextView tvCancel, tvDate;
-    EditText etTitle, etDescription, etTarget;
-    RecyclerView rcvCategories;
     MainViewModel mainViewModel;
+    EditText etTitle, etDescription, etMoney;
+    RecyclerView rcvCategories;
+    TextView tvCancel;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_add_saving_goal, container, false);
+        // Inflate the layout for this fragment
+        View view = inflater.inflate(R.layout.fragment_add_income, container, false);
 
         mainViewModel = new ViewModelProvider(requireActivity()).get(MainViewModel.class);
 
-
-        tvCancel = view.findViewById(R.id.tvCancel);
-        tvDate = view.findViewById(R.id.tvDate);
         etTitle = view.findViewById(R.id.etTitle);
         etDescription = view.findViewById(R.id.etDescription);
-        etTarget = view.findViewById(R.id.etTarget);
+        etMoney = view.findViewById(R.id.etMoney);
         rcvCategories = view.findViewById(R.id.rcvCategories);
-
+        tvCancel = view.findViewById(R.id.tvCancel);
 
         GridLayoutManager layoutManager = new GridLayoutManager(requireContext(), 3);
         rcvCategories.setLayoutManager(layoutManager);
@@ -54,7 +51,7 @@ public class AddSavingGoalFragment extends Fragment {
                 });
         categoryRecyclerViewAdapter.setOnAddClickListener(() -> {
             Toast.makeText(getContext(), "Bạn đã nhấn Add More", Toast.LENGTH_SHORT).show();
-            mainViewModel.navigateSubBelow(new CategoryListFragment());
+            mainViewModel.navigateMainBelow(new CategoryListFragment());
 
         });
         rcvCategories.setAdapter(categoryRecyclerViewAdapter);
@@ -66,6 +63,4 @@ public class AddSavingGoalFragment extends Fragment {
 
         return view;
     }
-
-
 }

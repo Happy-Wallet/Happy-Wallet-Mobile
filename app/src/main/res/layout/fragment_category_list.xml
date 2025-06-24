@@ -26,6 +26,7 @@
         android:textSize="24sp"
         android:textColor="@color/Nautical"
 
+        android:backgroundTint="@color/Paolo_Veronese_Green"
         android:background="@drawable/bg_rounded_50_paolo_veronese_green"
         />
 

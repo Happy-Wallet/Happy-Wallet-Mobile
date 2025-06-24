@@ -14,15 +14,10 @@ import androidx.core.view.WindowInsetsCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.example.happy_wallet_mobile.Model.MainDestination;
-import com.example.happy_wallet_mobile.Model.SubDestination;
 import com.example.happy_wallet_mobile.R;
-import com.example.happy_wallet_mobile.View.Fragment.CategoryListFragment;
-import com.example.happy_wallet_mobile.View.Fragment.EditProfileFragment;
 import com.example.happy_wallet_mobile.View.Fragment.GroupsFragment;
 import com.example.happy_wallet_mobile.View.Fragment.HomeFragment;
 import com.example.happy_wallet_mobile.View.Fragment.NotificationFragment;
-import com.example.happy_wallet_mobile.View.Fragment.AddSavingGoalFragment;
 import com.example.happy_wallet_mobile.View.Fragment.SettingFragment;
 import com.example.happy_wallet_mobile.View.Fragment.WalletFragment;
 import com.example.happy_wallet_mobile.ViewModel.MainViewModel;
@@ -59,12 +54,12 @@ public class MainActivity extends AppCompatActivity {
         setTexiviewColor(ivWallet, false);
         setTexiviewColor(ivGroups, false);
         setTexiviewColor(ivSetting, false);
-        mainViewModel.onNavItemClickedMainBelow(MainDestination.HOME);
+        mainViewModel.navigateMainBelow(new HomeFragment());
         ivChatBot.setColorFilter(ContextCompat.getColor(this, R.color.white), PorterDuff.Mode.SRC_IN);
 
         // flnotification click listener
         flNotification.setOnClickListener(v ->  {
-            mainViewModel.onNavItemClickedSubAbove(SubDestination.NOTIFICATION);
+            mainViewModel.navigateSubAbove(new NotificationFragment());
         });
 
         //set image views click listener
@@ -74,7 +69,7 @@ public class MainActivity extends AppCompatActivity {
             setTexiviewColor(ivWallet, false);
             setTexiviewColor(ivGroups, false);
             setTexiviewColor(ivSetting, false);
-            mainViewModel.onNavItemClickedMainBelow(MainDestination.HOME);
+            mainViewModel.navigateMainBelow(new HomeFragment());
         });
 
         //ivWallet click listener
@@ -83,7 +78,7 @@ public class MainActivity extends AppCompatActivity {
             setTexiviewColor(ivWallet, true);
             setTexiviewColor(ivGroups, false);
             setTexiviewColor(ivSetting, false);
-            mainViewModel.onNavItemClickedMainBelow(MainDestination.WALLET);
+            mainViewModel.navigateMainBelow(new WalletFragment());
         });
 
         //ivGroups click listener
@@ -92,7 +87,7 @@ public class MainActivity extends AppCompatActivity {
             setTexiviewColor(ivWallet, false);
             setTexiviewColor(ivGroups, true);
             setTexiviewColor(ivSetting, false);
-            mainViewModel.onNavItemClickedMainBelow(MainDestination.GROUPS);
+            mainViewModel.navigateMainBelow(new GroupsFragment());
         });
 
         //ivSetting click listener
@@ -101,7 +96,7 @@ public class MainActivity extends AppCompatActivity {
             setTexiviewColor(ivWallet, false);
             setTexiviewColor(ivGroups, false);
             setTexiviewColor(ivSetting, true);
-            mainViewModel.onNavItemClickedMainBelow(MainDestination.SETTING);
+            mainViewModel.navigateMainBelow(new SettingFragment());
         });
 
         //ivChat click listener
@@ -112,82 +107,38 @@ public class MainActivity extends AppCompatActivity {
 
         // main fragment under navigation
         mainViewModel.navigateMainBelow.observe(this, event -> {
-            MainDestination destination = event.getContentIfNotHandled();
-            if (destination != null) {
-                Fragment fragment = null;
-                switch (destination) {
-                    case HOME:
-                        fragment = new HomeFragment();
-                        break;
-                    case WALLET:
-                        fragment = new WalletFragment();
-                        break;
-                    case GROUPS:
-                        fragment = new GroupsFragment();
-                        break;
-                    case SETTING:
-                        fragment = new SettingFragment();
-                        break;
-                }
-
-                if (fragment != null) {
-                    getSupportFragmentManager()
-                            .beginTransaction()
-                            .replace(R.id.fragment_container_below, fragment)
-                            .commit();
-                }
+            Fragment fragment = event.getContentIfNotHandled();
+            if (fragment != null) {
+                getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.fragment_container_below, fragment)
+                        .commit();
             }
         });
 
         // main fragment under navigation
-        mainViewModel.navigateSubBelow.observe(this, event ->{
-            SubDestination subDestination = event.getContentIfNotHandled();
-            if (subDestination != null){
-                Fragment fragment = null;
-                switch (subDestination){
-                    case ADD_SAVING_GOAL:
-                        fragment = new AddSavingGoalFragment();
-                        break;
-                    case CATEGORY_LIST:
-                        fragment = new CategoryListFragment();
-                        break;
-                }
-
-                if (fragment != null) {
-                    getSupportFragmentManager()
-                            .beginTransaction()
-                            .add(R.id.fragment_container_below, fragment)
-                            .addToBackStack("below")
-                            .commit();
-                }
+        mainViewModel.navigateSubBelow.observe(this, event -> {
+            Fragment fragment = event.getContentIfNotHandled();
+            if (fragment != null) {
+                getSupportFragmentManager()
+                        .beginTransaction()
+                        .add(R.id.fragment_container_below, fragment)
+                        .addToBackStack("below")
+                        .commit();
             }
         });
 
         // sub fragment above navigation
         mainViewModel.navigateSubAbove.observe(this, event -> {
-            SubDestination subDestination = event.getContentIfNotHandled();
-            if (subDestination != null) {
-                Fragment fragment = null;
-                switch (subDestination) {
-                    case NOTIFICATION:
-                        fragment = new NotificationFragment();
-                        break;
-                    case EDIT_PROFILE:
-                        fragment = new EditProfileFragment();
-                        break;
-
-                }
-
-                if (fragment != null) {
-                    getSupportFragmentManager()
-                            .beginTransaction()
-                            .add(R.id.fragment_container_above, fragment)
-                            .addToBackStack("above")
-                            .commit();
-                }
+            Fragment fragment = event.getContentIfNotHandled();
+            if (fragment != null) {
+                getSupportFragmentManager()
+                        .beginTransaction()
+                        .add(R.id.fragment_container_above, fragment)
+                        .addToBackStack("above")
+                        .commit();
             }
         });
-
     }
 
     // set iv color funcs

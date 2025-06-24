@@ -15,15 +15,9 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.happy_wallet_mobile.Data.MockDataProvider;
-import com.example.happy_wallet_mobile.Model.MainDestination;
-import com.example.happy_wallet_mobile.Model.SavingGoal;
-import com.example.happy_wallet_mobile.Model.SubDestination;
 import com.example.happy_wallet_mobile.R;
 import com.example.happy_wallet_mobile.View.Adapter.SavingGoalRecyclerViewAdapter;
 import com.example.happy_wallet_mobile.ViewModel.MainViewModel;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class HomeFragment extends Fragment {
 
@@ -61,12 +55,26 @@ public class HomeFragment extends Fragment {
                 MockDataProvider.getMockSavingGoals(),
                 MockDataProvider.getMockCategories(),
                 MockDataProvider.getMockIcons());
+
+        savingGoalRecyclerViewAdapter.setOnItemClickListener((goal, category, icon) -> {
+            Log.d("HomeFragment", "rcvSavingGoals item click");
+
+            Bundle bundle = new Bundle();
+            bundle.putSerializable("goal", goal);
+            bundle.putSerializable("category", category);
+            bundle.putSerializable("icon", icon);
+
+            SavingStatusFragment savingStatusFragment = new SavingStatusFragment();
+            savingStatusFragment.setArguments(bundle);
+
+            mainViewModel.navigateSubBelow(savingStatusFragment);
+        });
         rcvSavingGoals.setAdapter(savingGoalRecyclerViewAdapter);
 
         //AddSavingGoal click
         savingGoalRecyclerViewAdapter.setOnAddClickListener(() -> {
             Log.d("HomeFragment", "rcvSavingGoals add new saving goal click");
-            mainViewModel.onNavItemClickedSubBelow(SubDestination.ADD_SAVING_GOAL);
+            mainViewModel.navigateSubBelow(new AddSavingGoalFragment());
         });
 
         //tvDay click

@@ -34,6 +34,7 @@
                 android:id="@+id/ivIcon"
 
                 android:src="@drawable/ic_users_three"
+                app:tint="@color/white"
                 android:backgroundTint="@color/transparent"/>
 
         </FrameLayout>
