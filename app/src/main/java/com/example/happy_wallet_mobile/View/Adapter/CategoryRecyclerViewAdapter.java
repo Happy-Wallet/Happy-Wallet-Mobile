@@ -1,6 +1,7 @@
 package com.example.happy_wallet_mobile.View.Adapter;
 
 import android.content.Context;
+import android.content.res.ColorStateList;
 import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
@@ -9,9 +10,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.happy_wallet_mobile.Model.Category;
@@ -30,6 +33,7 @@ public class CategoryRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVi
     private final List<Icon> icons;
     private final OnItemClickListener listener;
     private OnAddClickListener onAddClickListener;
+    private int selectedPosition = -1;
 
     public interface OnItemClickListener {
         void onItemClick(Category category);
@@ -54,15 +58,17 @@ public class CategoryRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVi
         FrameLayout flIconBackground;
         ImageView ivIcon;
         TextView tvName;
+        LinearLayout lnlItemContainer;
 
         public CategoryViewHolder(View itemView) {
             super(itemView);
             flIconBackground = itemView.findViewById(R.id.flIconBackground);
             ivIcon = itemView.findViewById(R.id.ivIcon);
             tvName = itemView.findViewById(R.id.tvName);
+            lnlItemContainer = itemView.findViewById(R.id.lnlItemContainer);
         }
 
-        public void bind(Category category, Icon icon, OnItemClickListener listener, Context context) {
+        public void bind(Category category, Icon icon, OnItemClickListener listener, Context context, int position, CategoryRecyclerViewAdapter adapter) {
             tvName.setText(category.getName());
 
             int iconResId = context.getResources().getIdentifier(icon.getIconPath(), "drawable", context.getPackageName());
@@ -75,7 +81,10 @@ public class CategoryRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVi
                 bg.setColor(Color.parseColor(category.getColorCode()));
             } catch (Exception ignored) {}
 
-            itemView.setOnClickListener(v -> listener.onItemClick(category));
+            itemView.setOnClickListener(v -> {
+                adapter.setSelectedPosition(position); // Cập nhật selected position
+                listener.onItemClick(category);
+            });
         }
     }
 
@@ -104,12 +113,27 @@ public class CategoryRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVi
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
+
         if (getItemViewType(position) == TYPE_CATEGORY) {
             Category category = categories.get(position);
             Icon icon = getIconById(category.getIconId());
+            CategoryViewHolder categoryHolder = (CategoryViewHolder) holder;
             if (icon != null) {
-                ((CategoryViewHolder) holder).bind(category, icon, listener, context);
+                categoryHolder.bind(category, icon, listener, context, position, this);
+
             }
+
+            // Đặt màu nền khi được chọn
+            categoryHolder.lnlItemContainer.setBackgroundTintList(
+                    ColorStateList.valueOf(
+                            ContextCompat.getColor(context,
+                                    selectedPosition == position
+                                            ? R.color.Silver_Phoenix   // Màu khi chọn
+                                            : R.color.white            // Màu mặc định
+                            )
+                    )
+            );
+
         } else {
             holder.itemView.setOnClickListener(v -> {
                 if (onAddClickListener != null) {
@@ -138,4 +162,12 @@ public class CategoryRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVi
         }
         return null;
     }
+
+    public void setSelectedPosition(int position) {
+        int oldPosition = selectedPosition;
+        selectedPosition = position;
+        notifyItemChanged(oldPosition);
+        notifyItemChanged(position);
+    }
+
 }

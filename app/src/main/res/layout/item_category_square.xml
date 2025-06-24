@@ -5,7 +5,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:gravity="center"
-    android:padding="5dp">
+    android:id="@+id/lnlItemContainer"
+    android:background="@color/white">
 
     <FrameLayout
         android:layout_width="50dp"
