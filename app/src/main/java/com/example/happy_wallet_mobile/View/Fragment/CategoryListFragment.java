@@ -13,15 +13,9 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.happy_wallet_mobile.Data.MockDataProvider;
-import com.example.happy_wallet_mobile.Model.Category;
-import com.example.happy_wallet_mobile.Model.SubDestination;
 import com.example.happy_wallet_mobile.R;
 import com.example.happy_wallet_mobile.View.Adapter.CategoryListViewAdapter;
-import com.example.happy_wallet_mobile.View.Adapter.NotificationListViewAdapter;
 import com.example.happy_wallet_mobile.ViewModel.MainViewModel;
-
-import java.util.ArrayList;
-import java.util.List;
 
 
 public class CategoryListFragment extends Fragment {
@@ -43,7 +37,7 @@ public class CategoryListFragment extends Fragment {
 
         // add category
         flAddCategory.setOnClickListener(v -> {
-            mainViewModel.onNavItemClickedSubBelow(SubDestination.ADD_CATEGORY);
+            mainViewModel.navigateSubBelow(new AddCategoryFragment());
         });
 
         categoryListViewAdapter = new CategoryListViewAdapter(

@@ -12,18 +12,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
-import android.widget.TextView;
 
 import com.example.happy_wallet_mobile.Data.MockDataProvider;
-import com.example.happy_wallet_mobile.Model.SubDestination;
 import com.example.happy_wallet_mobile.R;
-import com.example.happy_wallet_mobile.View.Activity.MainActivity;
 import com.example.happy_wallet_mobile.View.Adapter.DailyTransactionsRecyclerViewAdapter;
-import com.example.happy_wallet_mobile.View.Adapter.UIModel.TransactionUiModel;
 import com.example.happy_wallet_mobile.ViewModel.MainViewModel;
 import com.example.happy_wallet_mobile.ViewModel.WalletViewModel;
-
-import java.util.List;
 
 
 public class WalletFragment extends Fragment {
@@ -48,13 +42,13 @@ public class WalletFragment extends Fragment {
         // add income
         flAddIncome.setOnClickListener(v -> {
             Log.d("WalletFragment", "tvIncome clicked");
-            mainViewModel.onNavItemClickedSubBelow(SubDestination.ADD_INCOME);
+            mainViewModel.navigateSubBelow(new AddIncomeFragment());
         });
 
         // add expenditure
         flAddExpenditure.setOnClickListener(v -> {
             Log.d("WalletFragment", "tvExpenditure clicked");
-            mainViewModel.onNavItemClickedSubBelow(SubDestination.ADD_EXPENDITURE);
+            mainViewModel.navigateSubBelow(new AddExpenditureFragment());
         });
 
         walletViewModel.uiModels.observe(getViewLifecycleOwner(), uiModels -> {

@@ -15,7 +15,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.happy_wallet_mobile.Data.MockDataProvider;
-import com.example.happy_wallet_mobile.Model.SubDestination;
 import com.example.happy_wallet_mobile.R;
 import com.example.happy_wallet_mobile.View.Adapter.CategoryRecyclerViewAdapter;
 import com.example.happy_wallet_mobile.ViewModel.MainViewModel;
@@ -55,7 +54,7 @@ public class AddSavingGoalFragment extends Fragment {
                 });
         categoryRecyclerViewAdapter.setOnAddClickListener(() -> {
             Toast.makeText(getContext(), "Bạn đã nhấn Add More", Toast.LENGTH_SHORT).show();
-            mainViewModel.onNavItemClickedSubBelow(SubDestination.CATEGORY_LIST);
+            mainViewModel.navigateSubBelow(new CategoryListFragment());
 
         });
         rcvCategories.setAdapter(categoryRecyclerViewAdapter);
