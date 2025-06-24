@@ -1,9 +1,10 @@
 package com.example.happy_wallet_mobile.Model;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 
-public class SavingGoal {
+public class SavingGoal implements Serializable {
     private int GoalId; 
     private int UserId; 
     private int CategoryId;

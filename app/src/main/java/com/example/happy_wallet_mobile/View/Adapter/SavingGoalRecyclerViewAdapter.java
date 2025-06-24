@@ -42,6 +42,15 @@ public class SavingGoalRecyclerViewAdapter extends RecyclerView.Adapter<Recycler
         this.iconList = iconList;
     }
 
+    public interface OnItemClickListener {
+        void onItemClick(SavingGoal goal, Category category, Icon icon);
+    }
+
+    private OnItemClickListener onItemClickListener;
+
+    public void setOnItemClickListener(OnItemClickListener listener) {
+        this.onItemClickListener = listener;
+    }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         FrameLayout flIconBackground;
@@ -105,38 +114,36 @@ public class SavingGoalRecyclerViewAdapter extends RecyclerView.Adapter<Recycler
         SavingGoal item = savingGoalList.get(position);
         itemHolder.tvTitle.setText(item.getName());
 
-        // Gán màu và icon từ Category
+
+        Icon icon = null;
         Category category = getCategoryById(item.getCategoryId());
         if (category != null) {
-            Icon icon = getIconById(category.getIconId());
+            icon = getIconById(category.getIconId());
 
-            // Gán icon
             if (icon != null) {
                 int iconResId = context.getResources().getIdentifier(icon.getIconPath(), "drawable", context.getPackageName());
                 if (iconResId != 0) {
                     itemHolder.ivIcon.setImageResource(iconResId);
                 }
                 itemHolder.ivIcon.setColorFilter(ContextCompat.getColor(context, R.color.white), PorterDuff.Mode.SRC_IN);
-
             }
 
-            // Gán màu
             try {
                 int color = android.graphics.Color.parseColor(category.getColorCode());
                 itemHolder.flIconBackground.getBackground().setColorFilter(color, PorterDuff.Mode.SRC_IN);
             } catch (IllegalArgumentException e) {
-                e.printStackTrace(); // Màu không hợp lệ
+                e.printStackTrace();
             }
+        } else {
+            icon = null; // đảm bảo luôn gán giá trị cho final biến
         }
 
-        // Gán progress
-        BigDecimal current = item.getCurrentAmount();
-        BigDecimal target = item.getTargetAmount();
-        int progress = current.multiply(BigDecimal.valueOf(100))
-                .divide(target, RoundingMode.HALF_UP)
-                .intValue();
-        itemHolder.pbProgress.setMax(100);
-        itemHolder.pbProgress.setProgress(progress);
+        final Icon finalIcon = icon; // biến icon phải là final hoặc effectively final
+        itemHolder.itemView.setOnClickListener(v -> {
+            if (onItemClickListener != null) {
+                onItemClickListener.onItemClick(item, category, finalIcon);
+            }
+        });
     }
 
 

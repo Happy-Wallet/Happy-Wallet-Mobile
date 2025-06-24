@@ -1,8 +1,9 @@
 package com.example.happy_wallet_mobile.Model;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class Icon {
+public class Icon implements Serializable {
     private int IconId;
     private String IconPath;
 

@@ -1,8 +1,9 @@
 package com.example.happy_wallet_mobile.Model;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class Category {
+public class Category implements Serializable {
     private int CategoryId;
     private int UserId;
     private int IconId;

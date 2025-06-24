@@ -110,6 +110,8 @@
             app:layout_constraintBottom_toTopOf="@id/pbProgress"
             android:layout_marginBottom="5dp"
 
+            android:id="@+id/tvCurrentAmount"
+
             android:text="5000000 / 10000000"
             android:fontFamily="@font/poppins_bold_700"
             android:textSize="14sp"
