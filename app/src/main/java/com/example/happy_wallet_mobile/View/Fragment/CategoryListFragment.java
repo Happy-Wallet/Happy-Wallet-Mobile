@@ -10,19 +10,22 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.example.happy_wallet_mobile.Data.MockDataProvider;
 import com.example.happy_wallet_mobile.Model.Category;
+import com.example.happy_wallet_mobile.Model.SubDestination;
 import com.example.happy_wallet_mobile.R;
 import com.example.happy_wallet_mobile.View.Adapter.CategoryListViewAdapter;
 import com.example.happy_wallet_mobile.View.Adapter.NotificationListViewAdapter;
+import com.example.happy_wallet_mobile.ViewModel.MainViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
 
 
 public class CategoryListFragment extends Fragment {
-
+    MainViewModel mainViewModel;
     FrameLayout flAddCategory;
     ListView lvCategoryList;
     CategoryListViewAdapter categoryListViewAdapter;
@@ -31,11 +34,17 @@ public class CategoryListFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_category_list, container, false);
-
         Log.d("CategoryListFragment", "CategoryListFragment on create view");
+
+        mainViewModel = new ViewModelProvider(requireActivity()).get(MainViewModel.class);
 
         flAddCategory = view.findViewById(R.id.flAddCategory);
         lvCategoryList = view.findViewById(R.id.lvCategoryList);
+
+        // add category
+        flAddCategory.setOnClickListener(v -> {
+            mainViewModel.onNavItemClickedSubBelow(SubDestination.ADD_CATEGORY);
+        });
 
         categoryListViewAdapter = new CategoryListViewAdapter(
                 requireContext(),

@@ -41,7 +41,7 @@ public class MockDataProvider {
         List<Icon> icons = new ArrayList<>();
         String[] paths = {
                 "ic_bell", "ic_paper_plane_tilt", "ic_house", "ic_gear_six", "ic_wallet",
-                "ic_chat_circle", "ic_image_square_fill", "ic_pen", "ic_plus_solid", "ic_user_three"
+                "ic_chats_circle", "ic_image_square_fill", "ic_pen", "ic_plus_solid", "ic_users_three"
         };
         for (int i = 0; i < paths.length; i++) {
             icons.add(new Icon(i + 1, paths[i]));
@@ -154,5 +154,36 @@ public class MockDataProvider {
         }
         return groups;
     }
+
+    public static List<String> getMockColors() {
+        List<String> colors = new ArrayList<>();
+        Collections.addAll(colors,
+                "#FF6F61", // Coral Red
+                "#6A5ACD", // Slate Blue
+                "#00BCD4", // Cyan
+                "#FFD700", // Gold
+                "#8BC34A", // Light Green
+
+                "#BA68C8", // Light Purple
+                "#FF8A65", // Light Orange
+                "#4DD0E1", // Turquoise
+                "#A1887F", // Warm Grey
+                "#9575CD", // Medium Purple
+
+                "#F06292", // Pink
+                "#AED581", // Light Olive
+                "#7986CB", // Soft Indigo
+                "#FFB74D", // Apricot Orange
+                "#81D4FA", // Sky Blue
+
+                "#E57373", // Light Red
+                "#90A4AE", // Blue Grey
+                "#C5E1A5", // Lime Green
+                "#CE93D8", // Lavender
+                "#FFCC80"  // Peach
+        );
+        return colors;
+    }
+
 
 }

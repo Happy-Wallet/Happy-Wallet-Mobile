@@ -5,4 +5,5 @@ public enum SubDestination {
     EDIT_PROFILE,
     CATEGORY_LIST,
     ADD_SAVING_GOAL,
+    ADD_CATEGORY
 }
