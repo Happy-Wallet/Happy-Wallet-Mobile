@@ -7,14 +7,20 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
+import android.widget.TextView;
 
 import com.example.happy_wallet_mobile.Data.MockDataProvider;
+import com.example.happy_wallet_mobile.Model.SubDestination;
 import com.example.happy_wallet_mobile.R;
+import com.example.happy_wallet_mobile.View.Activity.MainActivity;
 import com.example.happy_wallet_mobile.View.Adapter.DailyTransactionsRecyclerViewAdapter;
 import com.example.happy_wallet_mobile.View.Adapter.UIModel.TransactionUiModel;
+import com.example.happy_wallet_mobile.ViewModel.MainViewModel;
 import com.example.happy_wallet_mobile.ViewModel.WalletViewModel;
 
 import java.util.List;
@@ -22,6 +28,9 @@ import java.util.List;
 
 public class WalletFragment extends Fragment {
 
+    MainViewModel mainViewModel;
+    WalletViewModel walletViewModel;
+    FrameLayout flAddIncome;
     RecyclerView rvTransactions;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -29,19 +38,26 @@ public class WalletFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_wallet, container, false);
 
-        WalletViewModel viewModel = new ViewModelProvider(this).get(WalletViewModel.class);
+        walletViewModel = new ViewModelProvider(this).get(WalletViewModel.class);
+        mainViewModel = new ViewModelProvider(requireActivity()).get(MainViewModel.class);
 
         rvTransactions = view.findViewById(R.id.rvTransactions);
+        flAddIncome = view.findViewById(R.id.flAddIncome);
 
-        
-        viewModel.uiModels.observe(getViewLifecycleOwner(), uiModels -> {
+        // add income
+        flAddIncome.setOnClickListener(v -> {
+            Log.d("WalletFragment", "tvIncome on click");
+            mainViewModel.onNavItemClickedSubBelow(SubDestination.ADD_INCOME);
+        });
+
+
+        walletViewModel.uiModels.observe(getViewLifecycleOwner(), uiModels -> {
             DailyTransactionsRecyclerViewAdapter adapter = new DailyTransactionsRecyclerViewAdapter(getContext(), uiModels);
             rvTransactions.setLayoutManager(new LinearLayoutManager(getContext()));
             rvTransactions.setAdapter(adapter);
         });
 
-
-        viewModel.loadGroupedTransactions(
+        walletViewModel.loadGroupedTransactions(
                 MockDataProvider.getMockTransactions(),
                 MockDataProvider.getMockCategories(),
                 MockDataProvider.getMockIcons()
