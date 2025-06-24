@@ -61,6 +61,9 @@
 
             android:id="@+id/ivIcon"
 
+            android:padding="5dp"
+            android:src="@drawable/ic_users_three"
+            app:tint="@color/white"
             android:background="@drawable/bg_rounded_50_nautical"
             />
 

@@ -14,6 +14,9 @@
         android:layout_marginTop="10dp"
 
         android:id="@+id/ivCategoryIcon"
+
+        android:src="@drawable/ic_users_three"
+        app:tint="@color/white"
         android:background="@drawable/bg_rounded_50_nautical"
         />
 

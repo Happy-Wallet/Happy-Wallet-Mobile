@@ -39,7 +39,10 @@ public class MockDataProvider {
 
     public static List<Icon> getMockIcons() {
         List<Icon> icons = new ArrayList<>();
-        String[] paths = {"ic_bell", "ic_paper_plane_tilt", "ic_house", "ic_gear_six", "ic_wallet"};
+        String[] paths = {
+                "ic_bell", "ic_paper_plane_tilt", "ic_house", "ic_gear_six", "ic_wallet",
+                "ic_chat_circle", "ic_image_square_fill", "ic_pen", "ic_plus_solid", "ic_user_three"
+        };
         for (int i = 0; i < paths.length; i++) {
             icons.add(new Icon(i + 1, paths[i]));
         }
@@ -48,8 +51,14 @@ public class MockDataProvider {
 
     public static List<Category> getMockCategories() {
         List<Category> categories = new ArrayList<>();
-        String[] names = {"Ăn uống", "Du lịch", "Sức khỏe", "Mua sắm", "Giáo dục"};
-        String[] colorCodes = {"#FF5722", "#4CAF50", "#2196F3", "#9C27B0", "#FFC107"};
+        String[] names = {
+                "Ăn uống", "Du lịch", "Sức khỏe", "Mua sắm", "Giáo dục",
+                "Giải trí", "Gia đình", "Thể thao", "Công việc", "Khác"
+        };
+        String[] colorCodes = {
+                "#FF5722", "#4CAF50", "#2196F3", "#9C27B0", "#FFC107",
+                "#E91E63", "#3F51B5", "#009688", "#FF9800", "#795548"
+        };
         for (int i = 0; i < names.length; i++) {
             categories.add(new Category(
                     i + 1,

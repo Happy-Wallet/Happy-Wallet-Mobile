@@ -76,6 +76,7 @@
 
                     android:id="@+id/ivIcon"
 
+                    app:tint="@color/white"
                     android:src="@drawable/ic_house"/>
 
             </FrameLayout>
