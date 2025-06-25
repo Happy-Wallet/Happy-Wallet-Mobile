@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.example.happy_wallet_mobile.Data.MockDataProvider;
@@ -28,6 +29,7 @@ public class GroupsFragment extends Fragment {
 
     MainViewModel mainViewModel;
     RecyclerView rcvGroup;
+    ImageView ivEditGroup;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -39,6 +41,7 @@ public class GroupsFragment extends Fragment {
         mainViewModel = new ViewModelProvider(requireActivity()).get(MainViewModel.class);
 
         rcvGroup = view.findViewById(R.id.rvGroups);
+        ivEditGroup = view.findViewById(R.id.ivEditGroup);
 
         // set data for rcvGroup
         LinearLayoutManager layoutManager = new LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false);
@@ -59,6 +62,13 @@ public class GroupsFragment extends Fragment {
         groupRecyclerViewAdapter.setOnAddClickListener(() -> {
             Log.d("GroupFragment", "rcvGroups add more clicked");
             mainViewModel.navigateSubBelow(new AddGroupFragment());
+        });
+
+        // ivEditGroup
+        ivEditGroup.setOnClickListener(v -> {
+            Log.d("GroupFragment", "ivEditGroup clicked");
+            EditGroupFragment editGroupFragment = new EditGroupFragment();
+            mainViewModel.navigateSubBelow(editGroupFragment);
         });
 
         return view;
