@@ -19,7 +19,9 @@ import com.example.happy_wallet_mobile.Model.Category;
 import com.example.happy_wallet_mobile.Model.Icon;
 import com.example.happy_wallet_mobile.Model.SavingGoal;
 import com.example.happy_wallet_mobile.R;
+import com.example.happy_wallet_mobile.ViewModel.EditSavingGoalViewModel;
 import com.example.happy_wallet_mobile.ViewModel.MainViewModel;
+import com.example.happy_wallet_mobile.ViewModel.SavingStatusViewModel;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -30,6 +32,9 @@ import java.util.Locale;
 public class SavingStatusFragment extends Fragment {
 
     MainViewModel mainViewModel;
+    SavingStatusViewModel savingStatusViewModel;
+    EditSavingGoalViewModel editSavingGoalViewModel;
+
     private SavingGoal savingGoal;
     private Category category;
     private Icon icon;
@@ -43,6 +48,8 @@ public class SavingStatusFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_saving_status, container, false);
 
         mainViewModel = new ViewModelProvider(requireActivity()).get(MainViewModel.class);
+        savingStatusViewModel = new ViewModelProvider(requireActivity()).get(SavingStatusViewModel.class);
+        editSavingGoalViewModel = new ViewModelProvider(requireActivity()).get(EditSavingGoalViewModel.class);
 
         ivIcon = view.findViewById(R.id.ivIcon);
         ivEditSavingGoal = view.findViewById(R.id.ivEditSavingGoal);
@@ -52,60 +59,51 @@ public class SavingStatusFragment extends Fragment {
         tvCancel = view.findViewById(R.id.tvCancel);
         tvCurrentAmount = view.findViewById(R.id.tvCurrentAmount);
 
-        if (getArguments() != null) {
-            savingGoal = (SavingGoal) getArguments().getSerializable("savingGoal");
-            category = (Category) getArguments().getSerializable("category");
-            icon = (Icon) getArguments().getSerializable("icon");
 
-            Log.d("SavingStatusFragment", "Received goal: " + savingGoal.getName());
+        savingStatusViewModel.savingGoal.observe(getViewLifecycleOwner(), goal -> {
+            if (goal != null) {
+                tvTitle.setText(goal.getName());
+                tvDescription.setText(goal.getDescription());
 
-            // set icon
+                NumberFormat currencyFormat = NumberFormat.getCurrencyInstance(new Locale("vi", "VN"));
+                String currentStr = currencyFormat.format(goal.getCurrentAmount());
+                String targetStr = currencyFormat.format(goal.getTargetAmount());
+
+                tvCurrentAmount.setText(currentStr + " / " + targetStr);
+
+                BigDecimal current = goal.getCurrentAmount();
+                BigDecimal target = goal.getTargetAmount();
+                int progress = current.multiply(BigDecimal.valueOf(100))
+                        .divide(target, RoundingMode.HALF_UP)
+                        .intValue();
+                pbProgress.setProgress(progress);
+            }
+        });
+
+        savingStatusViewModel.icon.observe(getViewLifecycleOwner(), icon -> {
             if (icon != null) {
                 int iconResId = requireContext().getResources().getIdentifier(icon.getIconPath(), "drawable", requireContext().getPackageName());
                 ivIcon.setImageResource(iconResId);
             }
+        });
 
-            // set icon background
+        savingStatusViewModel.category.observe(getViewLifecycleOwner(), category -> {
             if (category != null) {
                 try {
                     int color = Color.parseColor(category.getColorCode());
                     ivIcon.setBackgroundTintList(ColorStateList.valueOf(color));
                 } catch (Exception ignored) {}
             }
+        });
 
-            // set savingGoal data
-            if (savingGoal != null) {
-                tvTitle.setText(savingGoal.getName());
-                tvDescription.setText(savingGoal.getDescription());
+        // edit saving status
+        ivEditSavingGoal.setOnClickListener(v -> {
+            Log.d("SavingStatusFragment", "ivEditSavingStatus item click");
 
-                NumberFormat currencyFormat = NumberFormat.getCurrencyInstance(new Locale("vi", "VN")); // hoặc Locale.US
-                String currentStr = currencyFormat.format(savingGoal.getCurrentAmount());
-                String targetStr = currencyFormat.format(savingGoal.getTargetAmount());
-
-                tvCurrentAmount.setText(currentStr + " / " + targetStr);
-
-                BigDecimal current = savingGoal.getCurrentAmount();
-                BigDecimal target = savingGoal.getTargetAmount();
-                int progress = current.multiply(BigDecimal.valueOf(100))
-                        .divide(target, RoundingMode.HALF_UP)
-                        .intValue();
-                pbProgress.setProgress(progress);
-            }
-
-            // edit saving status
-            ivEditSavingGoal.setOnClickListener(v -> {
-                Log.d("SavingStatusFragment", "ivEditSavingStatus item click");
-
-                Bundle bundle = new Bundle();
-                bundle.putSerializable("savingGoal", savingGoal);
-                bundle.putSerializable("category", category);
-
-                EditSavingGoalFragment editSavingGoalFragment = new EditSavingGoalFragment();
-                editSavingGoalFragment.setArguments(bundle);
-
-                mainViewModel.navigateSubBelow(editSavingGoalFragment);
-            });
-        }
+            editSavingGoalViewModel.setCategory(savingStatusViewModel.category.getValue());
+            editSavingGoalViewModel.setSavingGoal(savingStatusViewModel.savingGoal.getValue());
+            mainViewModel.navigateSubBelow(new EditSavingGoalFragment());
+        });
 
         tvCancel.setOnClickListener(v -> {
             requireActivity().getSupportFragmentManager().popBackStack();

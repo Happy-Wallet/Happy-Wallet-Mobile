@@ -21,15 +21,18 @@ import com.example.happy_wallet_mobile.Model.SavingGoal;
 import com.example.happy_wallet_mobile.R;
 import com.example.happy_wallet_mobile.View.Adapter.CategoryRecyclerViewAdapter;
 import com.example.happy_wallet_mobile.View.Utilities.CurrencyTextWatcher;
+import com.example.happy_wallet_mobile.ViewModel.EditSavingGoalViewModel;
 import com.example.happy_wallet_mobile.ViewModel.MainViewModel;
 
 import java.text.NumberFormat;
+import java.util.List;
 import java.util.Locale;
 
 
 public class EditSavingGoalFragment extends Fragment {
 
     MainViewModel mainViewModel;
+    EditSavingGoalViewModel editSavingGoalViewModel;
 
     private SavingGoal savingGoal;
     private Category category;
@@ -45,6 +48,7 @@ public class EditSavingGoalFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_edit_saving_goal, container, false);
 
         mainViewModel = new ViewModelProvider(requireActivity()).get(MainViewModel.class);
+        editSavingGoalViewModel = new ViewModelProvider(requireActivity()).get(EditSavingGoalViewModel.class);
 
         tvCancel = view.findViewById(R.id.tvCancel);
         tvSave = view.findViewById(R.id.tvSave);
@@ -54,35 +58,39 @@ public class EditSavingGoalFragment extends Fragment {
         etTarget = view.findViewById(R.id.etTarget);
         rcvCategories = view.findViewById(R.id.rcvCategories);
 
-        if (getArguments() != null){
-            savingGoal = (SavingGoal) getArguments().getSerializable("savingGoal");
-            category = (Category) getArguments().getSerializable("category");
-        }
-
-        // set data
-        tvDate.setText(savingGoal.getCreatedDate().toString());
-        etTitle.setText(savingGoal.getName());
-        etDescription.setText(savingGoal.getDescription());
-        etTarget.setText(NumberFormat
-                .getCurrencyInstance(new Locale("vi", "VN"))
-                .format(savingGoal.getTargetAmount())
-        );
+        // Quan sát SavingGoal từ ViewModel
+        editSavingGoalViewModel.savingGoal.observe(getViewLifecycleOwner(), goal -> {
+            if (goal != null) {
+                tvDate.setText(goal.getCreatedDate().toString());
+                etTitle.setText(goal.getName());
+                etDescription.setText(goal.getDescription());
+                etTarget.setText(NumberFormat
+                        .getCurrencyInstance(new Locale("vi", "VN"))
+                        .format(goal.getTargetAmount()));
+            }
+        });
 
         GridLayoutManager layoutManager = new GridLayoutManager(requireContext(), 3);
         rcvCategories.setLayoutManager(layoutManager);
         CategoryRecyclerViewAdapter categoryRecyclerViewAdapter = new CategoryRecyclerViewAdapter(
                 requireContext(),
-                MockDataProvider.getMockCategories(),
-                MockDataProvider.getMockIcons(),
+                List.of(),
+                List.of(),
                 category -> {
                     Toast.makeText(getContext(), "Bạn chọn: " + category.getName(), Toast.LENGTH_SHORT).show();
                 });
         categoryRecyclerViewAdapter.setOnAddClickListener(() -> {
             Toast.makeText(getContext(), "Bạn đã nhấn Add More", Toast.LENGTH_SHORT).show();
             mainViewModel.navigateSubBelow(new CategoryListFragment());
-
         });
         rcvCategories.setAdapter(categoryRecyclerViewAdapter);
+        // Observe dữ liệu từ ViewModel
+        editSavingGoalViewModel.categoryList.observe(getViewLifecycleOwner(), categories -> {
+            categoryRecyclerViewAdapter.updateCategories(categories);
+        });
+        editSavingGoalViewModel.iconList.observe(getViewLifecycleOwner(), icons -> {
+            categoryRecyclerViewAdapter.updateIcons(icons);
+        });
 
         // cancel
         tvCancel.setOnClickListener(v -> {

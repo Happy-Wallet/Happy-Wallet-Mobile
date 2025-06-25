@@ -19,12 +19,14 @@ import com.example.happy_wallet_mobile.R;
 import com.example.happy_wallet_mobile.View.Adapter.SavingGoalRecyclerViewAdapter;
 import com.example.happy_wallet_mobile.ViewModel.HomeViewModel;
 import com.example.happy_wallet_mobile.ViewModel.MainViewModel;
+import com.example.happy_wallet_mobile.ViewModel.SavingStatusViewModel;
 
 import java.util.List;
 
 public class HomeFragment extends Fragment {
 
     MainViewModel mainViewModel;
+    SavingStatusViewModel savingStatusViewModel;
     HomeViewModel homeViewModel;
     TextView tvAccountBalance;
     RecyclerView rcvMonthIAE, rcvSavingGoals;
@@ -37,6 +39,7 @@ public class HomeFragment extends Fragment {
 
         mainViewModel = new ViewModelProvider(requireActivity()).get(MainViewModel.class);
         homeViewModel = new ViewModelProvider(this).get(HomeViewModel.class);
+        savingStatusViewModel = new ViewModelProvider(requireActivity()).get(SavingStatusViewModel.class);
 
         tvAccountBalance = view.findViewById(R.id.tvAccountBalance);
         rcvMonthIAE = view.findViewById(R.id.rcvMonthIAE);
@@ -62,20 +65,26 @@ public class HomeFragment extends Fragment {
                 List.of());
 
         rcvSavingGoals.setAdapter(savingGoalRecyclerViewAdapter);
+        // Observe dữ liệu từ ViewModel
+        homeViewModel.savingGoalList.observe(getViewLifecycleOwner(), savingGoals -> {
+            savingGoalRecyclerViewAdapter.updateSavingGoals(savingGoals);
+        });
+        homeViewModel.categoryList.observe(getViewLifecycleOwner(), categories -> {
+            savingGoalRecyclerViewAdapter.updateCategories(categories);
+        });
+        homeViewModel.iconList.observe(getViewLifecycleOwner(), icons -> {
+            savingGoalRecyclerViewAdapter.updateIcons(icons);
+        });
+
 
         //Item saving goal click
         savingGoalRecyclerViewAdapter.setOnItemClickListener((savingGoal, category, icon) -> {
             Log.d("HomeFragment", "rcvSavingGoals item click");
 
-            Bundle bundle = new Bundle();
-            bundle.putSerializable("savingGoal", savingGoal);
-            bundle.putSerializable("category", category);
-            bundle.putSerializable("icon", icon);
-
-            SavingStatusFragment savingStatusFragment = new SavingStatusFragment();
-            savingStatusFragment.setArguments(bundle);
-
-            mainViewModel.navigateSubBelow(savingStatusFragment);
+            savingStatusViewModel.setSavingGoal(savingGoal);
+            savingStatusViewModel.setCategory(category);
+            savingStatusViewModel.setIcon(icon);
+            mainViewModel.navigateSubBelow(new SavingStatusFragment());
         });
 
 
@@ -109,18 +118,7 @@ public class HomeFragment extends Fragment {
             tvYear.setBackground(ContextCompat.getDrawable(requireContext(), R.drawable.bg_rounded_20_paolo_veronese_green));
         });
 
-        // Observe dữ liệu từ ViewModel
-        homeViewModel.savingGoalList.observe(getViewLifecycleOwner(), savingGoals -> {
-            savingGoalRecyclerViewAdapter.updateSavingGoals(savingGoals);
-        });
 
-        homeViewModel.categoryList.observe(getViewLifecycleOwner(), categories -> {
-            savingGoalRecyclerViewAdapter.updateCategories(categories);
-        });
-
-        homeViewModel.iconList.observe(getViewLifecycleOwner(), icons -> {
-            savingGoalRecyclerViewAdapter.updateIcons(icons);
-        });
 
         return view;
     }
