@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
@@ -24,6 +25,8 @@ public class CategoryListFragment extends Fragment {
     ListView lvCategoryList;
     CategoryListViewAdapter categoryListViewAdapter;
 
+    TextView tvCancel;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -34,6 +37,7 @@ public class CategoryListFragment extends Fragment {
 
         flAddCategory = view.findViewById(R.id.flAddCategory);
         lvCategoryList = view.findViewById(R.id.lvCategoryList);
+        tvCancel = view.findViewById(R.id.tvCancel);
 
         // add category
         flAddCategory.setOnClickListener(v -> {
@@ -50,6 +54,11 @@ public class CategoryListFragment extends Fragment {
             // xử lý thêm tại đây (mở Fragment khác, truyền data,...)
         });
         lvCategoryList.setAdapter(categoryListViewAdapter);
+
+        //cancel
+        tvCancel.setOnClickListener(v->{
+            requireActivity().getSupportFragmentManager().popBackStack();
+        });
 
         return view;
     }

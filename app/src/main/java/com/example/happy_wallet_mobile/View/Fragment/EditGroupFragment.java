@@ -29,6 +29,12 @@ public class EditGroupFragment extends Fragment {
         tvSave = view.findViewById(R.id.tvSave);
         tvDelete = view.findViewById(R.id.tvDelete);
 
+        //cancel
+        tvCancel.setOnClickListener(v->{
+            requireActivity().getSupportFragmentManager().popBackStack();
+        });
+
+
         return view;
     }
 }

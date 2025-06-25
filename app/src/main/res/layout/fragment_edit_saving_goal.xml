@@ -4,8 +4,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".View.Fragment.EditSavingGoalFragment"
-    android:background="#80000000">
+    tools:context=".View.Fragment.AddSavingGoalFragment"
+    android:background="#80000000"
+    android:clickable="true"
+    android:focusable="true">
 
     <!-- "Saving Goals -->
     <TextView
@@ -26,6 +28,7 @@
         android:textColor="@color/Nautical"
 
         android:background="@drawable/bg_rounded_50_paolo_veronese_green"
+        android:backgroundTint="@color/Paolo_Veronese_Green"
         />
 
     <!-- cancel -->
@@ -91,6 +94,8 @@
                 android:layout_marginStart="90dp"
                 android:layout_marginEnd="26dp"
 
+                android:id="@+id/tvDate"
+
                 android:gravity="center_vertical"
                 android:text="00/00/0000"
                 android:fontFamily="@font/poppins_regular_400"
@@ -130,6 +135,8 @@
                 android:layout_height="match_parent"
                 android:layout_marginStart="90dp"
                 android:layout_marginEnd="26dp"
+
+                android:id="@+id/etTitle"
 
                 android:gravity="center_vertical"
                 android:hint="enter goals' title"
@@ -174,6 +181,8 @@
                 android:layout_marginEnd="26dp"
                 android:layout_gravity="center_vertical"
 
+                android:id="@+id/etDescription"
+
                 android:gravity="center_vertical"
                 android:hint="enter description"
                 android:fontFamily="@font/poppins_regular_400"
@@ -217,6 +226,8 @@
                 android:layout_marginEnd="26dp"
                 android:layout_gravity="center_vertical"
 
+                android:id="@+id/etTarget"
+
                 android:gravity="center_vertical"
                 android:hint="enter target savings"
                 android:fontFamily="@font/poppins_regular_400"
@@ -228,16 +239,19 @@
         </FrameLayout>
 
         <!-- icon -->
-        <FrameLayout
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="50dp"
+            android:layout_height="0dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/flTarget"
+            app:layout_constraintBottom_toTopOf="@id/tvSave"
             android:layout_marginTop="10dp"
+            android:layout_marginBottom="20dp"
 
-            android:id="@+id/flicon"
+            android:id="@+id/flCategory"
 
+            android:orientation="vertical"
             android:background="@drawable/bg_rounded_20_white"
             >
 
@@ -247,13 +261,22 @@
                 android:layout_marginStart="26dp"
 
                 android:gravity="center_vertical"
-                android:text="Choose icon"
+                android:text="Choose category"
                 android:fontFamily="@font/poppins_medium_500"
                 android:textSize="16sp"
                 android:textColor="@color/Nautical"
                 />
 
-        </FrameLayout>
+            <androidx.recyclerview.widget.RecyclerView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+
+                android:id="@+id/rcvCategories"
+
+                android:padding="8dp"
+                />
+
+        </LinearLayout>
 
         <!-- delete -->
         <TextView
@@ -261,9 +284,8 @@
             android:layout_height="50dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/tvSave"
             android:layout_marginBottom="100dp"
-            android:layout_marginEnd="180dp"
 
             android:id="@+id/tvDelete"
 
@@ -273,7 +295,8 @@
             android:textSize="24sp"
             android:textColor="@color/Nautical"
 
-            android:background="@drawable/bg_rounded_50_white"
+            android:background="@drawable/bg_rounded_50_paolo_veronese_green"
+            android:backgroundTint="@color/white"
             />
 
         <!-- Save -->
@@ -281,10 +304,9 @@
             android:layout_width="150dp"
             android:layout_height="50dp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/tvDelete"
             app:layout_constraintEnd_toEndOf="parent"
             android:layout_marginBottom="100dp"
-            android:layout_marginStart="180dp"
 
             android:id="@+id/tvSave"
 
@@ -295,6 +317,7 @@
             android:textColor="@color/white"
 
             android:background="@drawable/bg_rounded_50_paolo_veronese_green"
+            android:backgroundTint="@color/Paolo_Veronese_Green"
             />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

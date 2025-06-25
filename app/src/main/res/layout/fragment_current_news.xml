@@ -5,7 +5,9 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".View.Fragment.CurrentNewsFragment"
-    android:padding="20dp">
+    android:padding="20dp"
+    android:clickable="true"
+    android:focusable="true">
 
     <!-- avatar & username -->
     <LinearLayout

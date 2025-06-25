@@ -5,9 +5,11 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".View.Fragment.AddSavingGoalFragment"
-    android:background="#80000000">
+    android:background="#80000000"
+    android:clickable="true"
+    android:focusable="true">
 
-    <!-- "Saving Goals -->
+    <!-- Edit Group -->
     <TextView
         android:layout_width="match_parent"
         android:layout_height="100dp"
@@ -20,7 +22,7 @@
 
         android:padding="5dp"
         android:gravity="center_horizontal"
-        android:text="Create new group"
+        android:text="Edit group"
         android:fontFamily="@font/poppins_semibold_600"
         android:textSize="24sp"
         android:textColor="@color/Nautical"

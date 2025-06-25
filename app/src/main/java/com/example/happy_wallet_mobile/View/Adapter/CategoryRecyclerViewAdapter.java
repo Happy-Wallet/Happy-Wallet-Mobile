@@ -29,11 +29,22 @@ public class CategoryRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVi
     private static final int TYPE_ADD_MORE = 1;
 
     private final Context context;
-    private final List<Category> categories;
-    private final List<Icon> icons;
+    private List<Category> categories;
+    private List<Icon> icons;
     private final OnItemClickListener listener;
     private OnAddClickListener onAddClickListener;
     private int selectedPosition = -1;
+
+    public void updateCategories(List<Category> list) {
+        this.categories = list;
+        notifyDataSetChanged();
+    }
+
+    public void updateIcons(List<Icon> list) {
+        this.icons = list;
+        notifyDataSetChanged();
+    }
+
 
     public interface OnItemClickListener {
         void onItemClick(Category category);

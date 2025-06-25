@@ -120,6 +120,13 @@ public class GroupRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.
                 }
             }
         }
+
+        itemHolder.itemView.setOnClickListener(v -> {
+            if (onItemClickListener != null) {
+                onItemClickListener.onItemClick(item);
+            }
+        });
+
     }
 
 
@@ -132,12 +139,19 @@ public class GroupRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.
     public interface OnAddClickListener {
         void onAddClick();
     }
-
     private GroupRecyclerViewAdapter.OnAddClickListener onAddClickListener;
-
     public void setOnAddClickListener(GroupRecyclerViewAdapter.OnAddClickListener listener) {
         this.onAddClickListener = listener;
     }
+
+    public interface OnItemClickListener {
+        void onItemClick(Group group);
+    }
+    private OnItemClickListener onItemClickListener;
+    public void setOnItemClickListener(OnItemClickListener listener) {
+        this.onItemClickListener = listener;
+    }
+
 
     private Category getCategoryById(int categoryId) {
         for (Category category : categoryList) {

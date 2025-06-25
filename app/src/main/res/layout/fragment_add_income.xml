@@ -5,7 +5,9 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".View.Fragment.AddSavingGoalFragment"
-    android:background="#80000000">
+    android:background="#80000000"
+    android:clickable="true"
+    android:focusable="true">
 
     <!-- Income -->
     <TextView
@@ -24,6 +26,7 @@
         android:fontFamily="@font/poppins_semibold_600"
         android:textSize="24sp"
         android:textColor="@color/Nautical"
+        android:inputType="number"
 
         android:background="@drawable/bg_rounded_50_paolo_veronese_green"
         android:backgroundTint="@color/Paolo_Veronese_Green"

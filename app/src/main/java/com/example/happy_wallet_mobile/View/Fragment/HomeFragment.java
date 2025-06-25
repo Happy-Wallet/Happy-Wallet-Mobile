@@ -17,11 +17,17 @@ import android.widget.TextView;
 import com.example.happy_wallet_mobile.Data.MockDataProvider;
 import com.example.happy_wallet_mobile.R;
 import com.example.happy_wallet_mobile.View.Adapter.SavingGoalRecyclerViewAdapter;
+import com.example.happy_wallet_mobile.ViewModel.HomeViewModel;
 import com.example.happy_wallet_mobile.ViewModel.MainViewModel;
+import com.example.happy_wallet_mobile.ViewModel.SavingStatusViewModel;
+
+import java.util.List;
 
 public class HomeFragment extends Fragment {
 
     MainViewModel mainViewModel;
+    SavingStatusViewModel savingStatusViewModel;
+    HomeViewModel homeViewModel;
     TextView tvAccountBalance;
     RecyclerView rcvMonthIAE, rcvSavingGoals;
     TextView tvDay, tvMonth, tvYear;
@@ -32,6 +38,8 @@ public class HomeFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
 
         mainViewModel = new ViewModelProvider(requireActivity()).get(MainViewModel.class);
+        homeViewModel = new ViewModelProvider(this).get(HomeViewModel.class);
+        savingStatusViewModel = new ViewModelProvider(requireActivity()).get(SavingStatusViewModel.class);
 
         tvAccountBalance = view.findViewById(R.id.tvAccountBalance);
         rcvMonthIAE = view.findViewById(R.id.rcvMonthIAE);
@@ -52,24 +60,33 @@ public class HomeFragment extends Fragment {
         rcvSavingGoals.setLayoutManager(layoutManager);
         SavingGoalRecyclerViewAdapter savingGoalRecyclerViewAdapter = new SavingGoalRecyclerViewAdapter(
                 requireContext(),
-                MockDataProvider.getMockSavingGoals(),
-                MockDataProvider.getMockCategories(),
-                MockDataProvider.getMockIcons());
+                List.of(),
+                List.of(),
+                List.of());
 
-        savingGoalRecyclerViewAdapter.setOnItemClickListener((goal, category, icon) -> {
+        rcvSavingGoals.setAdapter(savingGoalRecyclerViewAdapter);
+        // Observe dữ liệu từ ViewModel
+        homeViewModel.savingGoalList.observe(getViewLifecycleOwner(), savingGoals -> {
+            savingGoalRecyclerViewAdapter.updateSavingGoals(savingGoals);
+        });
+        homeViewModel.categoryList.observe(getViewLifecycleOwner(), categories -> {
+            savingGoalRecyclerViewAdapter.updateCategories(categories);
+        });
+        homeViewModel.iconList.observe(getViewLifecycleOwner(), icons -> {
+            savingGoalRecyclerViewAdapter.updateIcons(icons);
+        });
+
+
+        //Item saving goal click
+        savingGoalRecyclerViewAdapter.setOnItemClickListener((savingGoal, category, icon) -> {
             Log.d("HomeFragment", "rcvSavingGoals item click");
 
-            Bundle bundle = new Bundle();
-            bundle.putSerializable("goal", goal);
-            bundle.putSerializable("category", category);
-            bundle.putSerializable("icon", icon);
-
-            SavingStatusFragment savingStatusFragment = new SavingStatusFragment();
-            savingStatusFragment.setArguments(bundle);
-
-            mainViewModel.navigateSubBelow(savingStatusFragment);
+            savingStatusViewModel.setSavingGoal(savingGoal);
+            savingStatusViewModel.setCategory(category);
+            savingStatusViewModel.setIcon(icon);
+            mainViewModel.navigateSubBelow(new SavingStatusFragment());
         });
-        rcvSavingGoals.setAdapter(savingGoalRecyclerViewAdapter);
+
 
         //AddSavingGoal click
         savingGoalRecyclerViewAdapter.setOnAddClickListener(() -> {
@@ -100,6 +117,8 @@ public class HomeFragment extends Fragment {
             tvMonth.setBackground(ContextCompat.getDrawable(requireContext(), R.drawable.bg_rounded_20_white));
             tvYear.setBackground(ContextCompat.getDrawable(requireContext(), R.drawable.bg_rounded_20_paolo_veronese_green));
         });
+
+
 
         return view;
     }
