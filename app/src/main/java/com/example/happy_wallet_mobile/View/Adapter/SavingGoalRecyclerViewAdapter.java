@@ -35,6 +35,22 @@ public class SavingGoalRecyclerViewAdapter extends RecyclerView.Adapter<Recycler
     private List<Category> categoryList;
     private List<Icon> iconList;
 
+    public void updateSavingGoals(List<SavingGoal> list) {
+        this.savingGoalList = list;
+        notifyDataSetChanged();
+    }
+
+    public void updateCategories(List<Category> list) {
+        this.categoryList = list;
+        notifyDataSetChanged();
+    }
+
+    public void updateIcons(List<Icon> list) {
+        this.iconList = list;
+        notifyDataSetChanged();
+    }
+
+
     public SavingGoalRecyclerViewAdapter(Context context, List<SavingGoal> savingGoalList, List<Category> categoryList, List<Icon> iconList) {
         this.context = context;
         this.savingGoalList = savingGoalList;
@@ -42,15 +58,6 @@ public class SavingGoalRecyclerViewAdapter extends RecyclerView.Adapter<Recycler
         this.iconList = iconList;
     }
 
-    public interface OnItemClickListener {
-        void onItemClick(SavingGoal goal, Category category, Icon icon);
-    }
-
-    private OnItemClickListener onItemClickListener;
-
-    public void setOnItemClickListener(OnItemClickListener listener) {
-        this.onItemClickListener = listener;
-    }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         FrameLayout flIconBackground;
@@ -159,15 +166,24 @@ public class SavingGoalRecyclerViewAdapter extends RecyclerView.Adapter<Recycler
         return savingGoalList.size() + 1;
     }
 
+    // add click listener
     public interface OnAddClickListener {
         void onAddClick();
     }
-
     private OnAddClickListener onAddClickListener;
-
     public void setOnAddClickListener(OnAddClickListener listener) {
         this.onAddClickListener = listener;
     }
+
+    // item click listener
+    public interface OnItemClickListener {
+        void onItemClick(SavingGoal goal, Category category, Icon icon);
+    }
+    private OnItemClickListener onItemClickListener;
+    public void setOnItemClickListener(OnItemClickListener listener) {
+        this.onItemClickListener = listener;
+    }
+
 
     private Category getCategoryById(int categoryId) {
         for (Category category : categoryList) {
