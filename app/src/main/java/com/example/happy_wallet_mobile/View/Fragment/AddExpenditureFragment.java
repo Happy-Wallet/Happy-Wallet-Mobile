@@ -7,6 +7,8 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,7 +19,11 @@ import android.widget.Toast;
 import com.example.happy_wallet_mobile.Data.MockDataProvider;
 import com.example.happy_wallet_mobile.R;
 import com.example.happy_wallet_mobile.View.Adapter.CategoryRecyclerViewAdapter;
+import com.example.happy_wallet_mobile.View.Utilities.CurrencyTextWatcher;
 import com.example.happy_wallet_mobile.ViewModel.MainViewModel;
+
+import java.text.NumberFormat;
+import java.util.Locale;
 
 public class AddExpenditureFragment extends Fragment {
 
@@ -61,6 +67,10 @@ public class AddExpenditureFragment extends Fragment {
         tvCancel.setOnClickListener(v->{
             requireActivity().getSupportFragmentManager().popBackStack();
         });
+
+        // set money format
+        etMoney.addTextChangedListener(new CurrencyTextWatcher(etMoney));
+
 
         return view;
     }

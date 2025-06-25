@@ -5,7 +5,9 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".View.Fragment.AddSavingGoalFragment"
-    android:background="#80000000">
+    android:background="#80000000"
+    android:clickable="true"
+    android:focusable="true">
 
     <!-- Income -->
     <TextView
@@ -188,6 +190,7 @@
                 android:hint="enter money amount"
                 android:fontFamily="@font/poppins_regular_400"
                 android:textSize="15sp"
+                android:inputType="number"
 
                 android:background="@color/white"
                 />

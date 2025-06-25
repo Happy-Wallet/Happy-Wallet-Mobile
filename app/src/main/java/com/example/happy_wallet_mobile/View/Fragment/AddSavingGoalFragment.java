@@ -17,6 +17,7 @@ import android.widget.Toast;
 import com.example.happy_wallet_mobile.Data.MockDataProvider;
 import com.example.happy_wallet_mobile.R;
 import com.example.happy_wallet_mobile.View.Adapter.CategoryRecyclerViewAdapter;
+import com.example.happy_wallet_mobile.View.Utilities.CurrencyTextWatcher;
 import com.example.happy_wallet_mobile.ViewModel.MainViewModel;
 
 
@@ -63,6 +64,9 @@ public class AddSavingGoalFragment extends Fragment {
         tvCancel.setOnClickListener(v->{
             requireActivity().getSupportFragmentManager().popBackStack();
         });
+
+        // set money format
+        etTarget.addTextChangedListener(new CurrencyTextWatcher(etTarget));
 
         return view;
     }

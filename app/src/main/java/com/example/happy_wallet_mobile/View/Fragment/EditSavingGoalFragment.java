@@ -20,6 +20,7 @@ import com.example.happy_wallet_mobile.Model.Icon;
 import com.example.happy_wallet_mobile.Model.SavingGoal;
 import com.example.happy_wallet_mobile.R;
 import com.example.happy_wallet_mobile.View.Adapter.CategoryRecyclerViewAdapter;
+import com.example.happy_wallet_mobile.View.Utilities.CurrencyTextWatcher;
 import com.example.happy_wallet_mobile.ViewModel.MainViewModel;
 
 import java.text.NumberFormat;
@@ -87,6 +88,8 @@ public class EditSavingGoalFragment extends Fragment {
         tvCancel.setOnClickListener(v -> {
             requireActivity().getSupportFragmentManager().popBackStack();
         });
+
+        etTarget.addTextChangedListener(new CurrencyTextWatcher(etTarget));
 
         return view;
 

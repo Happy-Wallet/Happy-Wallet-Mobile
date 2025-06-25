@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.happy_wallet_mobile.Data.MockDataProvider;
@@ -20,6 +21,7 @@ import com.example.happy_wallet_mobile.View.Adapter.IconRecyclerViewAdapter;
 public class AddCategoryFragment extends Fragment {
 
     RecyclerView rcvIcons, rcvColors;
+    TextView tvCancel;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -29,6 +31,7 @@ public class AddCategoryFragment extends Fragment {
 
         rcvIcons = view.findViewById(R.id.rcvIcons);
         rcvColors = view.findViewById(R.id.rcvColors);
+        tvCancel = view.findViewById(R.id.tvCancel);
 
         // rcvIcons data setter
         rcvIcons.setLayoutManager(new GridLayoutManager(requireContext(), 5));
@@ -46,6 +49,10 @@ public class AddCategoryFragment extends Fragment {
         });
         rcvColors.setAdapter(colorAdapter);
 
+        //cancel
+        tvCancel.setOnClickListener(v->{
+            requireActivity().getSupportFragmentManager().popBackStack();
+        });
 
         return view;
     }
