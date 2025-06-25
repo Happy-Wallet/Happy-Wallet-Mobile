@@ -247,7 +247,7 @@
             android:layout_marginTop="10dp"
             android:layout_marginBottom="20dp"
 
-            android:id="@+id/flicon"
+            android:id="@+id/flCategory"
 
             android:orientation="vertical"
             android:background="@drawable/bg_rounded_20_white"
@@ -259,7 +259,7 @@
                 android:layout_marginStart="26dp"
 
                 android:gravity="center_vertical"
-                android:text="Choose icon"
+                android:text="Choose category"
                 android:fontFamily="@font/poppins_medium_500"
                 android:textSize="16sp"
                 android:textColor="@color/Nautical"

@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -18,6 +19,7 @@ import com.example.happy_wallet_mobile.Model.Category;
 import com.example.happy_wallet_mobile.Model.Icon;
 import com.example.happy_wallet_mobile.Model.SavingGoal;
 import com.example.happy_wallet_mobile.R;
+import com.example.happy_wallet_mobile.ViewModel.MainViewModel;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -27,11 +29,12 @@ import java.util.Locale;
 
 public class SavingStatusFragment extends Fragment {
 
+    MainViewModel mainViewModel;
     private SavingGoal savingGoal;
     private Category category;
     private Icon icon;
     TextView tvCancel, tvTitle, tvDescription, tvCurrentAmount;
-    ImageView ivIcon;
+    ImageView ivIcon, ivEditSavingGoal;
     ProgressBar pbProgress;
 
     @Override
@@ -39,7 +42,10 @@ public class SavingStatusFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_saving_status, container, false);
 
+        mainViewModel = new ViewModelProvider(requireActivity()).get(MainViewModel.class);
+
         ivIcon = view.findViewById(R.id.ivIcon);
+        ivEditSavingGoal = view.findViewById(R.id.ivEditSavingGoal);
         tvTitle = view.findViewById(R.id.tvTitle);
         tvDescription = view.findViewById(R.id.tvDescription);
         pbProgress = view.findViewById(R.id.pbProgress);
@@ -47,7 +53,7 @@ public class SavingStatusFragment extends Fragment {
         tvCurrentAmount = view.findViewById(R.id.tvCurrentAmount);
 
         if (getArguments() != null) {
-            savingGoal = (SavingGoal) getArguments().getSerializable("goal");
+            savingGoal = (SavingGoal) getArguments().getSerializable("savingGoal");
             category = (Category) getArguments().getSerializable("category");
             icon = (Icon) getArguments().getSerializable("icon");
 
@@ -85,6 +91,20 @@ public class SavingStatusFragment extends Fragment {
                         .intValue();
                 pbProgress.setProgress(progress);
             }
+
+            // edit saving status
+            ivEditSavingGoal.setOnClickListener(v -> {
+                Log.d("SavingStatusFragment", "ivEditSavingStatus item click");
+
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("savingGoal", savingGoal);
+                bundle.putSerializable("category", category);
+
+                EditSavingGoalFragment editSavingGoalFragment = new EditSavingGoalFragment();
+                editSavingGoalFragment.setArguments(bundle);
+
+                mainViewModel.navigateSubBelow(editSavingGoalFragment);
+            });
         }
 
         tvCancel.setOnClickListener(v -> {

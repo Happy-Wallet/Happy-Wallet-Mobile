@@ -56,11 +56,14 @@ public class HomeFragment extends Fragment {
                 MockDataProvider.getMockCategories(),
                 MockDataProvider.getMockIcons());
 
-        savingGoalRecyclerViewAdapter.setOnItemClickListener((goal, category, icon) -> {
+        rcvSavingGoals.setAdapter(savingGoalRecyclerViewAdapter);
+
+        //Item saving goal click
+        savingGoalRecyclerViewAdapter.setOnItemClickListener((savingGoal, category, icon) -> {
             Log.d("HomeFragment", "rcvSavingGoals item click");
 
             Bundle bundle = new Bundle();
-            bundle.putSerializable("goal", goal);
+            bundle.putSerializable("savingGoal", savingGoal);
             bundle.putSerializable("category", category);
             bundle.putSerializable("icon", icon);
 
@@ -69,7 +72,7 @@ public class HomeFragment extends Fragment {
 
             mainViewModel.navigateSubBelow(savingStatusFragment);
         });
-        rcvSavingGoals.setAdapter(savingGoalRecyclerViewAdapter);
+
 
         //AddSavingGoal click
         savingGoalRecyclerViewAdapter.setOnAddClickListener(() -> {
