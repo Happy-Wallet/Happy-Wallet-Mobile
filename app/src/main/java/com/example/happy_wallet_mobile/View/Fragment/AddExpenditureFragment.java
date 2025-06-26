@@ -51,7 +51,7 @@ public class AddExpenditureFragment extends Fragment {
         tvCancel = view.findViewById(R.id.tvCancel);
 
         // Gọi load data
-        addExpenditureViewModel.setDate();
+        addExpenditureViewModel.setData();
 
         GridLayoutManager layoutManager = new GridLayoutManager(requireContext(), 3);
         rcvCategories.setLayoutManager(layoutManager);
@@ -61,10 +61,10 @@ public class AddExpenditureFragment extends Fragment {
                 category -> {
                     Toast.makeText(getContext(), "Bạn chọn: " + category.getName(), Toast.LENGTH_SHORT).show();
                 });
+
         categoryRecyclerViewAdapter.setOnAddClickListener(() -> {
             Toast.makeText(getContext(), "Bạn đã nhấn Add More", Toast.LENGTH_SHORT).show();
             mainViewModel.navigateSubAbove(new CategoryListFragment());
-
         });
         rcvCategories.setAdapter(categoryRecyclerViewAdapter);
         // Observe LiveData để cập nhật adapter

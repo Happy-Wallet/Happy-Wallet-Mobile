@@ -14,7 +14,7 @@ public class AddExpenditureViewModel extends ViewModel {
     private final MutableLiveData<List<Category>> _categoryList = new MutableLiveData<>();
     public LiveData<List<Category>> CategoryList = _categoryList;
 
-    public void setDate(){
+    public void setData(){
         _categoryList.setValue(MockDataProvider.getMockCategories());
     }
 }
