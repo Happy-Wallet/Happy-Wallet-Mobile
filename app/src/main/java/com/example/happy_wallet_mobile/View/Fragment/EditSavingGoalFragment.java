@@ -14,9 +14,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.happy_wallet_mobile.Data.MockDataProvider;
 import com.example.happy_wallet_mobile.Model.Category;
-import com.example.happy_wallet_mobile.Model.Icon;
 import com.example.happy_wallet_mobile.Model.SavingGoal;
 import com.example.happy_wallet_mobile.R;
 import com.example.happy_wallet_mobile.View.Adapter.CategoryRecyclerViewAdapter;
@@ -75,7 +73,6 @@ public class EditSavingGoalFragment extends Fragment {
         CategoryRecyclerViewAdapter categoryRecyclerViewAdapter = new CategoryRecyclerViewAdapter(
                 requireContext(),
                 List.of(),
-                List.of(),
                 category -> {
                     Toast.makeText(getContext(), "Bạn chọn: " + category.getName(), Toast.LENGTH_SHORT).show();
                 });
@@ -87,9 +84,6 @@ public class EditSavingGoalFragment extends Fragment {
         // Observe dữ liệu từ ViewModel
         editSavingGoalViewModel.categoryList.observe(getViewLifecycleOwner(), categories -> {
             categoryRecyclerViewAdapter.updateCategories(categories);
-        });
-        editSavingGoalViewModel.iconList.observe(getViewLifecycleOwner(), icons -> {
-            categoryRecyclerViewAdapter.updateIcons(icons);
         });
 
         // cancel

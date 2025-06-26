@@ -2,8 +2,6 @@ package com.example.happy_wallet_mobile.View.Adapter;
 
 import android.content.Context;
 import android.content.res.ColorStateList;
-import android.graphics.Color;
-import android.graphics.drawable.GradientDrawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,8 +12,6 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.happy_wallet_mobile.Model.Category;
-import com.example.happy_wallet_mobile.Model.Icon;
 import com.example.happy_wallet_mobile.R;
 
 import java.util.List;
@@ -23,16 +19,15 @@ import java.util.List;
 public class IconRecyclerViewAdapter extends RecyclerView.Adapter<IconRecyclerViewAdapter.IconViewHolder> {
 
     public interface OnIconClickListener {
-        void onIconClick(Icon icon);
+        void onIconClick(int iconResId); // Trả về resource ID thay vì object
     }
 
-    private Context context;
-    private List<Icon> iconList;
+    private final Context context;
+    private final List<Integer> iconList; // Danh sách R.drawable.*
     private OnIconClickListener onIconClickListener;
     private int selectedPosition = -1;
 
-
-    public IconRecyclerViewAdapter(Context context, List<Icon> iconList) {
+    public IconRecyclerViewAdapter(Context context, List<Integer> iconList) {
         this.context = context;
         this.iconList = iconList;
     }
@@ -50,21 +45,18 @@ public class IconRecyclerViewAdapter extends RecyclerView.Adapter<IconRecyclerVi
 
     @Override
     public void onBindViewHolder(@NonNull IconViewHolder holder, int position) {
-        Icon icon = iconList.get(position);
+        int iconResId = iconList.get(position);
 
-        int resId = context.getResources().getIdentifier(icon.getIconPath(), "drawable", context.getPackageName());
-        holder.ivIcon.setImageResource(resId);
+        holder.ivIcon.setImageResource(iconResId);
 
-
-        // Hiển thị viền nếu được chọn
+        // Viền nếu được chọn
         holder.clItemContainer.setBackgroundTintList(
                 ColorStateList.valueOf(
                         selectedPosition == position
-                                ? ContextCompat.getColor(context, R.color.Radishical)   // màu khi được chọn
-                                : ContextCompat.getColor(context, R.color.Canadian_Tuxedo) // màu mặc định
+                                ? ContextCompat.getColor(context, R.color.Radishical)
+                                : ContextCompat.getColor(context, R.color.Canadian_Tuxedo)
                 )
         );
-
 
         holder.itemView.setOnClickListener(v -> {
             int adapterPosition = holder.getAdapterPosition();
@@ -76,7 +68,7 @@ public class IconRecyclerViewAdapter extends RecyclerView.Adapter<IconRecyclerVi
             notifyItemChanged(adapterPosition);
 
             if (onIconClickListener != null) {
-                onIconClickListener.onIconClick(icon);
+                onIconClickListener.onIconClick(iconResId);
             }
         });
     }
@@ -97,8 +89,7 @@ public class IconRecyclerViewAdapter extends RecyclerView.Adapter<IconRecyclerVi
         }
     }
 
-    public Icon getSelectedIcon() {
+    public Integer getSelectedIconResId() {
         return selectedPosition >= 0 ? iconList.get(selectedPosition) : null;
     }
-
 }

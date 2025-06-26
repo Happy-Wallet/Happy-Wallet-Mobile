@@ -118,12 +118,12 @@ public class DailyTransactionsRecyclerViewAdapter extends RecyclerView.Adapter<R
             i.tvDetail.setText(item.getTransaction().getDescription());
 
             // Set icon
-            int iconResId = context.getResources().getIdentifier(
-                    item.getIcon().getIconPath(), "drawable", context.getPackageName());
+            int iconResId = item.getCategory().getIconRes();
             if (iconResId != 0) {
                 i.ivIcon.setImageResource(iconResId);
                 i.ivIcon.setColorFilter(ContextCompat.getColor(context, R.color.white), PorterDuff.Mode.SRC_IN);
             }
+
 
             // Set amount
             BigDecimal amount = item.getTransaction().getAmount();
@@ -134,7 +134,7 @@ public class DailyTransactionsRecyclerViewAdapter extends RecyclerView.Adapter<R
                     amount.signum() >= 0 ? R.color.Paolo_Veronese_Green : R.color.Radishical));
 
             try {
-                int color = Color.parseColor(item.getCategory().getColorCode());
+                int color = ContextCompat.getColor(context, item.getCategory().getColorRes());
                 i.tvTitle.setTextColor(color);
                 i.tvDetail.setTextColor(color);
                 i.flIconBackground.getBackground().setColorFilter(color, PorterDuff.Mode.SRC_IN);

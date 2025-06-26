@@ -7,7 +7,6 @@ import androidx.lifecycle.ViewModel;
 
 import com.example.happy_wallet_mobile.Data.MockDataProvider;
 import com.example.happy_wallet_mobile.Model.Category;
-import com.example.happy_wallet_mobile.Model.Icon;
 import com.example.happy_wallet_mobile.Model.Transaction;
 import com.example.happy_wallet_mobile.View.Adapter.UIModel.DailyTransactionHeader;
 import com.example.happy_wallet_mobile.View.Adapter.UIModel.TransactionItem;
@@ -28,8 +27,6 @@ public class WalletViewModel extends ViewModel {
     private final MutableLiveData<List<Category>> _categoryList = new MutableLiveData<>();
     public LiveData<List<Category>> categoryList = _categoryList;
 
-    private final MutableLiveData<List<Icon>> _iconList = new MutableLiveData<>();
-    public LiveData<List<Icon>> iconList = _iconList;
 
     private final MediatorLiveData<BigDecimal> _totalIncome = new MediatorLiveData<>();
     public LiveData<BigDecimal> totalIncome = _totalIncome;
@@ -44,11 +41,9 @@ public class WalletViewModel extends ViewModel {
     public void getData() {
         List<Transaction> transactions = MockDataProvider.getMockTransactions();
         List<Category> categories = MockDataProvider.getMockCategories();
-        List<Icon> icons = MockDataProvider.getMockIcons();
 
         _transactionList.setValue(transactions);
         _categoryList.setValue(categories);
-        _iconList.setValue(icons);
 
         _uiModels.setValue(groupTransactionsByDate());
         updateTotals();
@@ -74,7 +69,6 @@ public class WalletViewModel extends ViewModel {
 
         List<Transaction> transactions = _transactionList.getValue();
         List<Category> categories = _categoryList.getValue();
-        List<Icon> icons = _iconList.getValue();
 
         Map<String, List<Transaction>> groupedMap = new TreeMap<>(Collections.reverseOrder());
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", Locale.US);
@@ -96,8 +90,7 @@ public class WalletViewModel extends ViewModel {
 
             for (Transaction t : dayTransactions) {
                 Category c = findCategoryById(categories, t.getCategoryId());
-                Icon i = findIconById(icons, t.getIconId());
-                uiModels.add(new TransactionItem(t, c, i));
+                uiModels.add(new TransactionItem(t, c));
             }
         }
 
@@ -107,13 +100,6 @@ public class WalletViewModel extends ViewModel {
     private Category findCategoryById(List<Category> list, int id) {
         for (Category c : list) {
             if (c.getCategoryId() == id) return c;
-        }
-        return null;
-    }
-
-    private Icon findIconById(List<Icon> list, int id) {
-        for (Icon i : list) {
-            if (i.getIconId() == id) return i;
         }
         return null;
     }

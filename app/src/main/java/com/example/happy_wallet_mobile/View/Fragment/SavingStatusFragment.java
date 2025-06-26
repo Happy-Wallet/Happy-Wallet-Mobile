@@ -16,7 +16,6 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.example.happy_wallet_mobile.Model.Category;
-import com.example.happy_wallet_mobile.Model.Icon;
 import com.example.happy_wallet_mobile.Model.SavingGoal;
 import com.example.happy_wallet_mobile.R;
 import com.example.happy_wallet_mobile.ViewModel.EditSavingGoalViewModel;
@@ -37,7 +36,6 @@ public class SavingStatusFragment extends Fragment {
 
     private SavingGoal savingGoal;
     private Category category;
-    private Icon icon;
     TextView tvCancel, tvTitle, tvDescription, tvCurrentAmount;
     ImageView ivIcon, ivEditSavingGoal;
     ProgressBar pbProgress;
@@ -80,18 +78,11 @@ public class SavingStatusFragment extends Fragment {
             }
         });
 
-        savingStatusViewModel.icon.observe(getViewLifecycleOwner(), icon -> {
-            if (icon != null) {
-                int iconResId = requireContext().getResources().getIdentifier(icon.getIconPath(), "drawable", requireContext().getPackageName());
-                ivIcon.setImageResource(iconResId);
-            }
-        });
-
         savingStatusViewModel.category.observe(getViewLifecycleOwner(), category -> {
             if (category != null) {
                 try {
-                    int color = Color.parseColor(category.getColorCode());
-                    ivIcon.setBackgroundTintList(ColorStateList.valueOf(color));
+                    ivIcon.setBackgroundTintList(ColorStateList.valueOf(category.getColorRes()));
+                    ivIcon.setImageResource(category.getIconRes());
                 } catch (Exception ignored) {}
             }
         });

@@ -61,7 +61,6 @@ public class HomeFragment extends Fragment {
         SavingGoalRecyclerViewAdapter savingGoalRecyclerViewAdapter = new SavingGoalRecyclerViewAdapter(
                 requireContext(),
                 List.of(),
-                List.of(),
                 List.of());
 
         rcvSavingGoals.setAdapter(savingGoalRecyclerViewAdapter);
@@ -72,18 +71,14 @@ public class HomeFragment extends Fragment {
         homeViewModel.categoryList.observe(getViewLifecycleOwner(), categories -> {
             savingGoalRecyclerViewAdapter.updateCategories(categories);
         });
-        homeViewModel.iconList.observe(getViewLifecycleOwner(), icons -> {
-            savingGoalRecyclerViewAdapter.updateIcons(icons);
-        });
 
 
         //Item saving goal click
-        savingGoalRecyclerViewAdapter.setOnItemClickListener((savingGoal, category, icon) -> {
+        savingGoalRecyclerViewAdapter.setOnItemClickListener((savingGoal, category) -> {
             Log.d("HomeFragment", "rcvSavingGoals item click");
 
             savingStatusViewModel.setSavingGoal(savingGoal);
             savingStatusViewModel.setCategory(category);
-            savingStatusViewModel.setIcon(icon);
             mainViewModel.navigateSubBelow(new SavingStatusFragment());
         });
 

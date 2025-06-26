@@ -49,7 +49,6 @@ public class AddSavingGoalFragment extends Fragment {
         CategoryRecyclerViewAdapter categoryRecyclerViewAdapter = new CategoryRecyclerViewAdapter(
                 requireContext(),
                 MockDataProvider.getMockCategories(),
-                MockDataProvider.getMockIcons(),
                 category -> {
                     Toast.makeText(getContext(), "Bạn chọn: " + category.getName(), Toast.LENGTH_SHORT).show();
                 });

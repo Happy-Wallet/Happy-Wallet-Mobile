@@ -46,8 +46,7 @@ public class CategoryListFragment extends Fragment {
 
         categoryListViewAdapter = new CategoryListViewAdapter(
                 requireContext(),
-                MockDataProvider.getMockCategories(),
-                MockDataProvider.getMockIcons()
+                MockDataProvider.getMockCategories()
         );
         categoryListViewAdapter.setOnCategoryClickListener(category -> {
             Toast.makeText(getContext(), "Bạn đã chọn: " + category.getName(), Toast.LENGTH_SHORT).show();

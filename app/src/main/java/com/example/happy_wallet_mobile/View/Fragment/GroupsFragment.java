@@ -49,8 +49,7 @@ public class GroupsFragment extends Fragment {
         GroupRecyclerViewAdapter groupRecyclerViewAdapter = new GroupRecyclerViewAdapter(
                 requireContext(),
                 MockDataProvider.getMockGroups(),
-                MockDataProvider.getMockCategories(),
-                MockDataProvider.getMockIcons());
+                MockDataProvider.getMockCategories());
         rcvGroup.setAdapter(groupRecyclerViewAdapter);
 
         // rcvGroups item click

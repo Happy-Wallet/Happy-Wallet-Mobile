@@ -36,10 +36,10 @@ public class AddCategoryFragment extends Fragment {
 
         // rcvIcons data setter
         rcvIcons.setLayoutManager(new GridLayoutManager(requireContext(), 5));
-        IconRecyclerViewAdapter iconAdapter = new IconRecyclerViewAdapter(requireContext(), MockDataProvider.getMockIcons());
+        IconRecyclerViewAdapter iconAdapter = new IconRecyclerViewAdapter(requireContext(), StaticDataProvider.getIconList());
 
-        iconAdapter.setOnIconClickListener(icon -> {
-            Toast.makeText(requireContext(), "Chọn icon: " + icon.getIconPath(), Toast.LENGTH_SHORT).show();
+        iconAdapter.setOnIconClickListener(iconResId -> {
+            Toast.makeText(requireContext(), "Chọn icon: " + iconResId, Toast.LENGTH_SHORT).show();
         });
         rcvIcons.setAdapter(iconAdapter);
 
