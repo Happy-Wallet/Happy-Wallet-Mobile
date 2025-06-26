@@ -100,9 +100,6 @@ public class WalletFragment extends Fragment {
             tvAvailableBalance.setTextColor(color);
         });
 
-
-
-
         return view;
     }
 }
