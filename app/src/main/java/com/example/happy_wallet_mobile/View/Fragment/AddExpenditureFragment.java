@@ -64,7 +64,7 @@ public class AddExpenditureFragment extends Fragment {
 
         categoryRecyclerViewAdapter.setOnAddClickListener(() -> {
             Toast.makeText(getContext(), "Bạn đã nhấn Add More", Toast.LENGTH_SHORT).show();
-            mainViewModel.navigateSubAbove(new CategoryListFragment());
+            mainViewModel.navigateSubBelow(new CategoryListFragment());
         });
         rcvCategories.setAdapter(categoryRecyclerViewAdapter);
         // Observe LiveData để cập nhật adapter

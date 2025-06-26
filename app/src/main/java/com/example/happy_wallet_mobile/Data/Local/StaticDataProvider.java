@@ -28,7 +28,7 @@ public class StaticDataProvider {
     public static List<Integer> getIconList(){
         return Arrays.asList(
                 R.drawable.ic_bell, R.drawable.ic_arrow_left_bold, R.drawable.ic_chats_circle, R.drawable.ic_gear_six, R.drawable.ic_house,
-                R.drawable.ic_image_square_fill, R.drawable.ic_paper_plane_tilt, R.drawable.ic_plus_solid, R.drawable.ic_users_three, R.drawable.ic_wallet, R.drawable.ic_pen
+                R.drawable.ic_image_square_fill, R.drawable.ic_paper_plane_tilt, R.drawable.ic_plus_solid, R.drawable.ic_users_three, R.drawable.ic_wallet
         );
     }
 }
