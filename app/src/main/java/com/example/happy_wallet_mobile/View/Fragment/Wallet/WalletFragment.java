@@ -1,4 +1,4 @@
-package com.example.happy_wallet_mobile.View.Fragment;
+package com.example.happy_wallet_mobile.View.Fragment.Wallet;
 
 import android.os.Bundle;
 
@@ -15,12 +15,12 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
-import com.example.happy_wallet_mobile.Data.MockDataProvider;
 import com.example.happy_wallet_mobile.R;
 import com.example.happy_wallet_mobile.View.Adapter.DailyTransactionsRecyclerViewAdapter;
+import com.example.happy_wallet_mobile.View.Fragment.SelectDateRangeFragment;
 import com.example.happy_wallet_mobile.View.Utilities.CurrencyUtility;
 import com.example.happy_wallet_mobile.ViewModel.MainViewModel;
-import com.example.happy_wallet_mobile.ViewModel.WalletViewModel;
+import com.example.happy_wallet_mobile.ViewModel.Setting.WalletViewModel;
 
 import java.math.BigDecimal;
 

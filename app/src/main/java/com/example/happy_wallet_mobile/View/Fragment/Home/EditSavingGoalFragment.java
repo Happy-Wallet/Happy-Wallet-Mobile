@@ -1,4 +1,4 @@
-package com.example.happy_wallet_mobile.View.Fragment;
+package com.example.happy_wallet_mobile.View.Fragment.Home;
 
 import android.os.Bundle;
 
@@ -14,39 +14,60 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.happy_wallet_mobile.Data.MockDataProvider;
+import com.example.happy_wallet_mobile.Model.Category;
+import com.example.happy_wallet_mobile.Model.SavingGoal;
 import com.example.happy_wallet_mobile.R;
 import com.example.happy_wallet_mobile.View.Adapter.CategoryRecyclerViewAdapter;
+import com.example.happy_wallet_mobile.View.Fragment.CategoryListFragment;
 import com.example.happy_wallet_mobile.View.Utilities.CurrencyTextWatcher;
-import com.example.happy_wallet_mobile.ViewModel.AddIncomeViewModel;
+import com.example.happy_wallet_mobile.ViewModel.Home.EditSavingGoalViewModel;
 import com.example.happy_wallet_mobile.ViewModel.MainViewModel;
 
+import java.text.NumberFormat;
 import java.util.List;
+import java.util.Locale;
 
-public class AddIncomeFragment extends Fragment {
+
+public class EditSavingGoalFragment extends Fragment {
 
     MainViewModel mainViewModel;
-    AddIncomeViewModel addIncomeViewModel;
-    EditText etTitle, etDescription, etMoney;
+    EditSavingGoalViewModel editSavingGoalViewModel;
+
+    private SavingGoal savingGoal;
+    private Category category;
+
+    TextView tvCancel, tvDelete, tvSave, tvDate;
+    EditText etTitle, etDescription, etTarget;
     RecyclerView rcvCategories;
-    TextView tvCancel;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_add_income, container, false);
+        View view = inflater.inflate(R.layout.fragment_edit_saving_goal, container, false);
 
         mainViewModel = new ViewModelProvider(requireActivity()).get(MainViewModel.class);
-        addIncomeViewModel = new ViewModelProvider(requireActivity()).get(AddIncomeViewModel.class);
+        editSavingGoalViewModel = new ViewModelProvider(requireActivity()).get(EditSavingGoalViewModel.class);
 
+        tvCancel = view.findViewById(R.id.tvCancel);
+        tvSave = view.findViewById(R.id.tvSave);
+        tvDate = view.findViewById(R.id.tvDate);
         etTitle = view.findViewById(R.id.etTitle);
         etDescription = view.findViewById(R.id.etDescription);
-        etMoney = view.findViewById(R.id.etMoney);
+        etTarget = view.findViewById(R.id.etTarget);
         rcvCategories = view.findViewById(R.id.rcvCategories);
-        tvCancel = view.findViewById(R.id.tvCancel);
 
-        addIncomeViewModel.setData();
+        // Quan sát SavingGoal từ ViewModel
+        editSavingGoalViewModel.savingGoal.observe(getViewLifecycleOwner(), goal -> {
+            if (goal != null) {
+                tvDate.setText(goal.getCreatedDate().toString());
+                etTitle.setText(goal.getName());
+                etDescription.setText(goal.getDescription());
+                etTarget.setText(NumberFormat
+                        .getCurrencyInstance(new Locale("vi", "VN"))
+                        .format(goal.getTargetAmount()));
+            }
+        });
 
         GridLayoutManager layoutManager = new GridLayoutManager(requireContext(), 3);
         rcvCategories.setLayoutManager(layoutManager);
@@ -56,26 +77,26 @@ public class AddIncomeFragment extends Fragment {
                 category -> {
                     Toast.makeText(getContext(), "Bạn chọn: " + category.getName(), Toast.LENGTH_SHORT).show();
                 });
-
         categoryRecyclerViewAdapter.setOnAddClickListener(() -> {
             Toast.makeText(getContext(), "Bạn đã nhấn Add More", Toast.LENGTH_SHORT).show();
             mainViewModel.navigateSubBelow(new CategoryListFragment());
         });
         rcvCategories.setAdapter(categoryRecyclerViewAdapter);
-        // Observe LiveData để cập nhật adapter
-        addIncomeViewModel.CategoryList.observe(getViewLifecycleOwner(), categories -> {
+        // Observe dữ liệu từ ViewModel
+        editSavingGoalViewModel.categoryList.observe(getViewLifecycleOwner(), categories -> {
             categoryRecyclerViewAdapter.updateCategories(categories);
         });
 
-
-        //cancel
-        tvCancel.setOnClickListener(v->{
+        // cancel
+        tvCancel.setOnClickListener(v -> {
             requireActivity().getSupportFragmentManager().popBackStack();
         });
 
-        // set money format
-        etMoney.addTextChangedListener(new CurrencyTextWatcher(etMoney));
+        etTarget.addTextChangedListener(new CurrencyTextWatcher(etTarget));
 
         return view;
+
+
+
     }
 }

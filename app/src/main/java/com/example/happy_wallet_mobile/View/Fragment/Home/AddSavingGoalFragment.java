@@ -1,4 +1,4 @@
-package com.example.happy_wallet_mobile.View.Fragment;
+package com.example.happy_wallet_mobile.View.Fragment.Home;
 
 import android.os.Bundle;
 
@@ -7,8 +7,6 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,58 +17,48 @@ import android.widget.Toast;
 import com.example.happy_wallet_mobile.Data.MockDataProvider;
 import com.example.happy_wallet_mobile.R;
 import com.example.happy_wallet_mobile.View.Adapter.CategoryRecyclerViewAdapter;
+import com.example.happy_wallet_mobile.View.Fragment.CategoryListFragment;
 import com.example.happy_wallet_mobile.View.Utilities.CurrencyTextWatcher;
-import com.example.happy_wallet_mobile.ViewModel.AddExpenditureViewModel;
 import com.example.happy_wallet_mobile.ViewModel.MainViewModel;
 
-import java.text.NumberFormat;
-import java.util.List;
-import java.util.Locale;
 
-public class AddExpenditureFragment extends Fragment {
+public class AddSavingGoalFragment extends Fragment {
 
-    MainViewModel mainViewModel;
-    AddExpenditureViewModel addExpenditureViewModel;
-    EditText etTitle, etDescription, etMoney;
+    TextView tvCancel, tvDate;
+    EditText etTitle, etDescription, etTarget;
     RecyclerView rcvCategories;
-    TextView tvCancel;
+    MainViewModel mainViewModel;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_add_expenditure, container, false);
+        View view = inflater.inflate(R.layout.fragment_add_saving_goal, container, false);
 
         mainViewModel = new ViewModelProvider(requireActivity()).get(MainViewModel.class);
-        addExpenditureViewModel = new ViewModelProvider(requireActivity()).get(AddExpenditureViewModel.class);
 
+
+        tvCancel = view.findViewById(R.id.tvCancel);
+        tvDate = view.findViewById(R.id.tvDate);
         etTitle = view.findViewById(R.id.etTitle);
         etDescription = view.findViewById(R.id.etDescription);
-        etMoney = view.findViewById(R.id.etMoney);
+        etTarget = view.findViewById(R.id.etTarget);
         rcvCategories = view.findViewById(R.id.rcvCategories);
-        tvCancel = view.findViewById(R.id.tvCancel);
 
-        // Gọi load data
-        addExpenditureViewModel.setData();
 
         GridLayoutManager layoutManager = new GridLayoutManager(requireContext(), 3);
         rcvCategories.setLayoutManager(layoutManager);
         CategoryRecyclerViewAdapter categoryRecyclerViewAdapter = new CategoryRecyclerViewAdapter(
                 requireContext(),
-                List.of(),
+                MockDataProvider.getMockCategories(),
                 category -> {
                     Toast.makeText(getContext(), "Bạn chọn: " + category.getName(), Toast.LENGTH_SHORT).show();
                 });
-
         categoryRecyclerViewAdapter.setOnAddClickListener(() -> {
             Toast.makeText(getContext(), "Bạn đã nhấn Add More", Toast.LENGTH_SHORT).show();
             mainViewModel.navigateSubBelow(new CategoryListFragment());
+
         });
         rcvCategories.setAdapter(categoryRecyclerViewAdapter);
-        // Observe LiveData để cập nhật adapter
-        addExpenditureViewModel.CategoryList.observe(getViewLifecycleOwner(), categories -> {
-            categoryRecyclerViewAdapter.updateCategories(categories);
-        });
 
         //cancel
         tvCancel.setOnClickListener(v->{
@@ -78,9 +66,10 @@ public class AddExpenditureFragment extends Fragment {
         });
 
         // set money format
-        etMoney.addTextChangedListener(new CurrencyTextWatcher(etMoney));
-
+        etTarget.addTextChangedListener(new CurrencyTextWatcher(etTarget));
 
         return view;
     }
+
+
 }

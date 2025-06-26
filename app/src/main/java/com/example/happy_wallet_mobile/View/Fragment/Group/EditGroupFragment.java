@@ -1,4 +1,4 @@
-package com.example.happy_wallet_mobile.View.Fragment;
+package com.example.happy_wallet_mobile.View.Fragment.Group;
 
 import android.os.Bundle;
 

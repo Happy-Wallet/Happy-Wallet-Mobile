@@ -1,4 +1,4 @@
-package com.example.happy_wallet_mobile.View.Fragment;
+package com.example.happy_wallet_mobile.View.Fragment.Setting;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -7,12 +7,10 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 
 import com.example.happy_wallet_mobile.R;
-import com.example.happy_wallet_mobile.ViewModel.SignUpViewModel;
 
 
 public class EditProfileFragment extends Fragment {

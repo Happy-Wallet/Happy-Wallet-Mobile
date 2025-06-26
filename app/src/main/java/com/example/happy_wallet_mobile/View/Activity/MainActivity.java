@@ -15,11 +15,11 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.happy_wallet_mobile.R;
-import com.example.happy_wallet_mobile.View.Fragment.GroupsFragment;
-import com.example.happy_wallet_mobile.View.Fragment.HomeFragment;
+import com.example.happy_wallet_mobile.View.Fragment.Group.GroupsFragment;
+import com.example.happy_wallet_mobile.View.Fragment.Home.HomeFragment;
 import com.example.happy_wallet_mobile.View.Fragment.NotificationFragment;
-import com.example.happy_wallet_mobile.View.Fragment.SettingFragment;
-import com.example.happy_wallet_mobile.View.Fragment.WalletFragment;
+import com.example.happy_wallet_mobile.View.Fragment.Setting.SettingFragment;
+import com.example.happy_wallet_mobile.View.Fragment.Wallet.WalletFragment;
 import com.example.happy_wallet_mobile.ViewModel.MainViewModel;
 
 public class MainActivity extends AppCompatActivity {

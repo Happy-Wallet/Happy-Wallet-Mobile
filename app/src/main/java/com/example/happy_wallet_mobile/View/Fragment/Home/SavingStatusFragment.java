@@ -1,7 +1,6 @@
-package com.example.happy_wallet_mobile.View.Fragment;
+package com.example.happy_wallet_mobile.View.Fragment.Home;
 
 import android.content.res.ColorStateList;
-import android.graphics.Color;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -18,9 +17,9 @@ import android.widget.TextView;
 import com.example.happy_wallet_mobile.Model.Category;
 import com.example.happy_wallet_mobile.Model.SavingGoal;
 import com.example.happy_wallet_mobile.R;
-import com.example.happy_wallet_mobile.ViewModel.EditSavingGoalViewModel;
+import com.example.happy_wallet_mobile.ViewModel.Home.EditSavingGoalViewModel;
 import com.example.happy_wallet_mobile.ViewModel.MainViewModel;
-import com.example.happy_wallet_mobile.ViewModel.SavingStatusViewModel;
+import com.example.happy_wallet_mobile.ViewModel.Home.SavingStatusViewModel;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;

@@ -1,4 +1,4 @@
-package com.example.happy_wallet_mobile.View.Fragment;
+package com.example.happy_wallet_mobile.View.Fragment.Home;
 
 import android.os.Bundle;
 
@@ -14,13 +14,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.example.happy_wallet_mobile.Data.MockDataProvider;
 import com.example.happy_wallet_mobile.R;
 import com.example.happy_wallet_mobile.View.Adapter.SavingGoalRecyclerViewAdapter;
 import com.example.happy_wallet_mobile.View.Utilities.CurrencyUtility;
-import com.example.happy_wallet_mobile.ViewModel.HomeViewModel;
+import com.example.happy_wallet_mobile.ViewModel.Home.HomeViewModel;
 import com.example.happy_wallet_mobile.ViewModel.MainViewModel;
-import com.example.happy_wallet_mobile.ViewModel.SavingStatusViewModel;
+import com.example.happy_wallet_mobile.ViewModel.Home.SavingStatusViewModel;
 
 import java.math.BigDecimal;
 import java.util.List;

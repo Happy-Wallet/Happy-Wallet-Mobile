@@ -11,7 +11,7 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.example.happy_wallet_mobile.R;
-import com.example.happy_wallet_mobile.View.Fragment.AddNewsFragment;
+import com.example.happy_wallet_mobile.View.Fragment.Community.AddNewsFragment;
 
 public class CommunityActivity extends AppCompatActivity {
 
