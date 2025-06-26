@@ -20,14 +20,17 @@ import com.example.happy_wallet_mobile.Data.MockDataProvider;
 import com.example.happy_wallet_mobile.R;
 import com.example.happy_wallet_mobile.View.Adapter.CategoryRecyclerViewAdapter;
 import com.example.happy_wallet_mobile.View.Utilities.CurrencyTextWatcher;
+import com.example.happy_wallet_mobile.ViewModel.AddExpenditureViewModel;
 import com.example.happy_wallet_mobile.ViewModel.MainViewModel;
 
 import java.text.NumberFormat;
+import java.util.List;
 import java.util.Locale;
 
 public class AddExpenditureFragment extends Fragment {
 
     MainViewModel mainViewModel;
+    AddExpenditureViewModel addExpenditureViewModel;
     EditText etTitle, etDescription, etMoney;
     RecyclerView rcvCategories;
     TextView tvCancel;
@@ -38,8 +41,8 @@ public class AddExpenditureFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_add_expenditure, container, false);
 
-
         mainViewModel = new ViewModelProvider(requireActivity()).get(MainViewModel.class);
+        addExpenditureViewModel = new ViewModelProvider(requireActivity()).get(AddExpenditureViewModel.class);
 
         etTitle = view.findViewById(R.id.etTitle);
         etDescription = view.findViewById(R.id.etDescription);
@@ -47,11 +50,14 @@ public class AddExpenditureFragment extends Fragment {
         rcvCategories = view.findViewById(R.id.rcvCategories);
         tvCancel = view.findViewById(R.id.tvCancel);
 
+        // Gọi load data
+        addExpenditureViewModel.setDate();
+
         GridLayoutManager layoutManager = new GridLayoutManager(requireContext(), 3);
         rcvCategories.setLayoutManager(layoutManager);
         CategoryRecyclerViewAdapter categoryRecyclerViewAdapter = new CategoryRecyclerViewAdapter(
                 requireContext(),
-                MockDataProvider.getMockCategories(),
+                List.of(),
                 category -> {
                     Toast.makeText(getContext(), "Bạn chọn: " + category.getName(), Toast.LENGTH_SHORT).show();
                 });
@@ -61,6 +67,10 @@ public class AddExpenditureFragment extends Fragment {
 
         });
         rcvCategories.setAdapter(categoryRecyclerViewAdapter);
+        // Observe LiveData để cập nhật adapter
+        addExpenditureViewModel.CategoryList.observe(getViewLifecycleOwner(), categories -> {
+            categoryRecyclerViewAdapter.updateCategories(categories);
+        });
 
         //cancel
         tvCancel.setOnClickListener(v->{
