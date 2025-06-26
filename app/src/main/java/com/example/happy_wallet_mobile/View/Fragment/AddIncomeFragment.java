@@ -18,11 +18,15 @@ import com.example.happy_wallet_mobile.Data.MockDataProvider;
 import com.example.happy_wallet_mobile.R;
 import com.example.happy_wallet_mobile.View.Adapter.CategoryRecyclerViewAdapter;
 import com.example.happy_wallet_mobile.View.Utilities.CurrencyTextWatcher;
+import com.example.happy_wallet_mobile.ViewModel.AddIncomeViewModel;
 import com.example.happy_wallet_mobile.ViewModel.MainViewModel;
+
+import java.util.List;
 
 public class AddIncomeFragment extends Fragment {
 
     MainViewModel mainViewModel;
+    AddIncomeViewModel addIncomeViewModel;
     EditText etTitle, etDescription, etMoney;
     RecyclerView rcvCategories;
     TextView tvCancel;
@@ -34,6 +38,7 @@ public class AddIncomeFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_add_income, container, false);
 
         mainViewModel = new ViewModelProvider(requireActivity()).get(MainViewModel.class);
+        addIncomeViewModel = new ViewModelProvider(requireActivity()).get(AddIncomeViewModel.class);
 
         etTitle = view.findViewById(R.id.etTitle);
         etDescription = view.findViewById(R.id.etDescription);
@@ -41,20 +46,27 @@ public class AddIncomeFragment extends Fragment {
         rcvCategories = view.findViewById(R.id.rcvCategories);
         tvCancel = view.findViewById(R.id.tvCancel);
 
+        addIncomeViewModel.setData();
+
         GridLayoutManager layoutManager = new GridLayoutManager(requireContext(), 3);
         rcvCategories.setLayoutManager(layoutManager);
         CategoryRecyclerViewAdapter categoryRecyclerViewAdapter = new CategoryRecyclerViewAdapter(
                 requireContext(),
-                MockDataProvider.getMockCategories(),
+                List.of(),
                 category -> {
                     Toast.makeText(getContext(), "Bạn chọn: " + category.getName(), Toast.LENGTH_SHORT).show();
                 });
+
         categoryRecyclerViewAdapter.setOnAddClickListener(() -> {
             Toast.makeText(getContext(), "Bạn đã nhấn Add More", Toast.LENGTH_SHORT).show();
             mainViewModel.navigateMainBelow(new CategoryListFragment());
-
         });
         rcvCategories.setAdapter(categoryRecyclerViewAdapter);
+        // Observe LiveData để cập nhật adapter
+        addIncomeViewModel.CategoryList.observe(getViewLifecycleOwner(), categories -> {
+            categoryRecyclerViewAdapter.updateCategories(categories);
+        });
+
 
         //cancel
         tvCancel.setOnClickListener(v->{
