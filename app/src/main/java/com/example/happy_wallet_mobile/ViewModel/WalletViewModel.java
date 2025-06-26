@@ -1,9 +1,11 @@
 package com.example.happy_wallet_mobile.ViewModel;
 
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MediatorLiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import com.example.happy_wallet_mobile.Data.MockDataProvider;
 import com.example.happy_wallet_mobile.Model.Category;
 import com.example.happy_wallet_mobile.Model.Icon;
 import com.example.happy_wallet_mobile.Model.Transaction;
@@ -20,16 +22,59 @@ public class WalletViewModel extends ViewModel {
     private final MutableLiveData<List<TransactionUiModel>> _uiModels = new MutableLiveData<>();
     public LiveData<List<TransactionUiModel>> uiModels = _uiModels;
 
-    public void loadGroupedTransactions(List<Transaction> transactions, List<Category> categories, List<Icon> icons) {
-        _uiModels.setValue(groupTransactionsByDate(transactions, categories, icons));
+    private final MutableLiveData<List<Transaction>> _transactionList = new MutableLiveData<>();
+    public LiveData<List<Transaction>> transactionList = _transactionList;
+
+    private final MutableLiveData<List<Category>> _categoryList = new MutableLiveData<>();
+    public LiveData<List<Category>> categoryList = _categoryList;
+
+    private final MutableLiveData<List<Icon>> _iconList = new MutableLiveData<>();
+    public LiveData<List<Icon>> iconList = _iconList;
+
+    private final MediatorLiveData<BigDecimal> _totalIncome = new MediatorLiveData<>();
+    public LiveData<BigDecimal> totalIncome = _totalIncome;
+
+    private final MediatorLiveData<BigDecimal> _totalExpenses = new MediatorLiveData<>();
+    public LiveData<BigDecimal> totalExpenses = _totalExpenses;
+
+    private final MediatorLiveData<BigDecimal> _availableBalance = new MediatorLiveData<>();
+    public LiveData<BigDecimal> availableBalance = _availableBalance;
+
+
+    public void getData() {
+        List<Transaction> transactions = MockDataProvider.getMockTransactions();
+        List<Category> categories = MockDataProvider.getMockCategories();
+        List<Icon> icons = MockDataProvider.getMockIcons();
+
+        _transactionList.setValue(transactions);
+        _categoryList.setValue(categories);
+        _iconList.setValue(icons);
+
+        _uiModels.setValue(groupTransactionsByDate());
+        updateTotals();
     }
 
-    private List<TransactionUiModel> groupTransactionsByDate(
-            List<Transaction> transactions,
-            List<Category> categories,
-            List<Icon> icons
-    ) {
+    public WalletViewModel() {
+        _totalIncome.setValue(BigDecimal.ZERO);
+        _totalExpenses.setValue(BigDecimal.ZERO);
+        _availableBalance.setValue(BigDecimal.ZERO);
+
+        _totalIncome.addSource(_transactionList, t -> updateTotals());
+        _totalExpenses.addSource(_transactionList, t -> updateTotals());
+        _availableBalance.addSource(_transactionList, t -> updateTotals());
+    }
+
+
+    public void loadGroupedTransactions() {
+        _uiModels.setValue(groupTransactionsByDate());
+    }
+
+    private List<TransactionUiModel> groupTransactionsByDate() {
         List<TransactionUiModel> uiModels = new ArrayList<>();
+
+        List<Transaction> transactions = _transactionList.getValue();
+        List<Category> categories = _categoryList.getValue();
+        List<Icon> icons = _iconList.getValue();
 
         Map<String, List<Transaction>> groupedMap = new TreeMap<>(Collections.reverseOrder());
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", Locale.US);
@@ -72,4 +117,31 @@ public class WalletViewModel extends ViewModel {
         }
         return null;
     }
+
+    private void updateTotals() {
+        List<Transaction> transactions = _transactionList.getValue();
+        if (transactions == null) {
+            _totalIncome.setValue(BigDecimal.ZERO);
+            _totalExpenses.setValue(BigDecimal.ZERO);
+            _availableBalance.setValue(BigDecimal.ZERO);
+            return;
+        }
+
+        BigDecimal income = BigDecimal.ZERO;
+        BigDecimal expenses = BigDecimal.ZERO;
+
+        for (Transaction item : transactions) {
+            if (item.getAmount().compareTo(BigDecimal.ZERO) > 0) {
+                income = income.add(item.getAmount());
+            } else if (item.getAmount().compareTo(BigDecimal.ZERO) < 0) {
+                expenses = expenses.add(item.getAmount());
+            }
+        }
+
+        _totalIncome.setValue(income);
+        _totalExpenses.setValue(expenses);
+        _availableBalance.setValue(income.add(expenses));
+    }
+
+
 }
