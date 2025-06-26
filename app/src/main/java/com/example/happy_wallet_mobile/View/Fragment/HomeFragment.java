@@ -17,10 +17,12 @@ import android.widget.TextView;
 import com.example.happy_wallet_mobile.Data.MockDataProvider;
 import com.example.happy_wallet_mobile.R;
 import com.example.happy_wallet_mobile.View.Adapter.SavingGoalRecyclerViewAdapter;
+import com.example.happy_wallet_mobile.View.Utilities.CurrencyUtility;
 import com.example.happy_wallet_mobile.ViewModel.HomeViewModel;
 import com.example.happy_wallet_mobile.ViewModel.MainViewModel;
 import com.example.happy_wallet_mobile.ViewModel.SavingStatusViewModel;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 public class HomeFragment extends Fragment {
@@ -53,6 +55,22 @@ public class HomeFragment extends Fragment {
 
         tvDay.setBackground(ContextCompat.getDrawable(requireContext(), R.drawable.bg_rounded_20_paolo_veronese_green));
 
+        homeViewModel.setData();
+
+        // set data for account balance
+        homeViewModel.TotalBalance.observe(getViewLifecycleOwner(), totalBalance -> {
+            if (totalBalance != null) {
+                tvAccountBalance.setText(CurrencyUtility.format(totalBalance));
+                if (totalBalance.compareTo(BigDecimal.ZERO) < 0) {
+                    tvAccountBalance.setTextColor(ContextCompat.getColor(requireContext(), R.color.Radishical));
+                } else {
+                    tvAccountBalance.setTextColor(ContextCompat.getColor(requireContext(), R.color.Paolo_Veronese_Green));
+                }
+            } else {
+                tvAccountBalance.setText("0");
+            }
+
+        });
 
 
         // set data for rcvSavingGoal
