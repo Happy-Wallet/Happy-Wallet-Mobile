@@ -21,21 +21,21 @@ import java.util.List;
 public class ColorRecyclerViewAdapter extends RecyclerView.Adapter<ColorRecyclerViewAdapter.ColorViewHolder> {
 
     private Context context;
-    private List<String> colorList; // Mã màu hex, ví dụ: "#FF5733"
+    private List<Integer> colorResList;
     private OnColorClickListener onColorClickListener;
     private int selectedPosition = -1;
 
     public interface OnColorClickListener {
-        void onColorClick(String colorCode);
+        void onColorClick(int colorResId);
     }
 
     public void setOnColorClickListener(OnColorClickListener listener) {
         this.onColorClickListener = listener;
     }
 
-    public ColorRecyclerViewAdapter(Context context, List<String> colorList) {
+    public ColorRecyclerViewAdapter(Context context, List<Integer> colorResList) {
         this.context = context;
-        this.colorList = colorList;
+        this.colorResList = colorResList;
     }
 
     @NonNull
@@ -47,17 +47,10 @@ public class ColorRecyclerViewAdapter extends RecyclerView.Adapter<ColorRecycler
 
     @Override
     public void onBindViewHolder(@NonNull ColorViewHolder holder, int position) {
-        String colorCode = colorList.get(position);
+        int colorResId = colorResList.get(position);
+        int color = ContextCompat.getColor(context, colorResId);
 
-        try {
-            holder.ivIcon.setBackgroundTintList(
-                    ColorStateList.valueOf(Color.parseColor(colorCode))
-            );
-        } catch (IllegalArgumentException e) {
-            holder.ivIcon.setBackgroundTintList(
-                    ColorStateList.valueOf(Color.GRAY)
-            );
-        }
+        holder.ivIcon.setBackgroundTintList(ColorStateList.valueOf(color));
 
         // Hiển thị viền nếu được chọn
         holder.clItemContainer.setBackgroundTintList(
@@ -78,14 +71,14 @@ public class ColorRecyclerViewAdapter extends RecyclerView.Adapter<ColorRecycler
             notifyItemChanged(adapterPosition);
 
             if (onColorClickListener != null) {
-                onColorClickListener.onColorClick(colorList.get(adapterPosition));
+                onColorClickListener.onColorClick(colorResList.get(adapterPosition));
             }
         });
     }
 
     @Override
     public int getItemCount() {
-        return colorList.size();
+        return colorResList.size();
     }
 
     static class ColorViewHolder extends RecyclerView.ViewHolder {
