@@ -191,5 +191,61 @@ public class MockDataProvider {
         return colors;
     }
 
+    public static List<GroupMember> getMockGroupMembers() {
+        List<GroupMember> members = new ArrayList<>();
+        int[] groupIds = {1, 2, 3, 4, 5};
+        int[] userIds = {1, 2, 3, 4, 5};
+        String[] roles = {"Admin", "Thành viên", "Kế toán", "Quản lý", "Thành viên"};
+
+        for (int i = 0; i < 10; i++) {
+            int groupId = groupIds[i % groupIds.length];
+            int userId = userIds[random.nextInt(userIds.length)];
+            String role = roles[random.nextInt(roles.length)];
+
+            members.add(new GroupMember(
+                    groupId,
+                    userId,
+                    role,
+                    new Date(),
+                    new Date(),
+                    null
+            ));
+        }
+        return members;
+    }
+
+    public static List<GroupTransaction> getMockGroupTransactions() {
+        List<GroupTransaction> transactions = new ArrayList<>();
+        String[] titles = {"Mua đồ nhóm", "Chi ăn uống", "Thu phí thành viên", "Mua vật dụng", "Khác"};
+        String[] descriptions = {"Mua chung", "Tiệc nhóm", "Đóng phí", "Mua dụng cụ", "Chi phí phát sinh"};
+
+        for (int i = 1; i <= 15; i++) {
+            int groupId = (i % 5) + 1;
+            int userId = (i % 5) + 1;
+            int categoryId = (i % 10) + 1;
+
+            BigDecimal amount = BigDecimal.valueOf((random.nextInt(30) + 1) * 10000);
+            if (random.nextBoolean()) amount = amount.negate(); // Âm nếu là chi tiêu
+
+            // Random ngày trong vòng 5 ngày gần đây
+            Calendar calendar = Calendar.getInstance();
+            calendar.add(Calendar.DAY_OF_MONTH, -random.nextInt(5));
+            Date date = calendar.getTime();
+
+            transactions.add(new GroupTransaction(
+                    groupId,
+                    i, // transactionId
+                    userId,
+                    categoryId,
+                    amount,
+                    titles[i % titles.length],
+                    descriptions[i % descriptions.length],
+                    date,
+                    date,
+                    null
+            ));
+        }
+        return transactions;
+    }
 
 }
