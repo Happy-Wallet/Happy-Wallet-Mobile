@@ -4,10 +4,10 @@ import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.POST;
 
-import com.example.happy_wallet_mobile.Data.Remote.Request.LoginRequest;
-import com.example.happy_wallet_mobile.Data.Remote.Request.RegisterRequest;
-import com.example.happy_wallet_mobile.Data.Remote.Response.LoginResponse;
-import com.example.happy_wallet_mobile.Data.Remote.Response.RegisterResponse;
+import com.example.happy_wallet_mobile.Data.Remote.Request.Auth.LoginRequest;
+import com.example.happy_wallet_mobile.Data.Remote.Request.Auth.RegisterRequest;
+import com.example.happy_wallet_mobile.Data.Remote.Response.Auth.LoginResponse;
+import com.example.happy_wallet_mobile.Data.Remote.Response.Auth.RegisterResponse;
 
 public interface AuthService {
     @POST("auth/login")

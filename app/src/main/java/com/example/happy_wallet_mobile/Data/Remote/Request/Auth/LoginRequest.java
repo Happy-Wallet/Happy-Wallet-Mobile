@@ -1,4 +1,4 @@
-package com.example.happy_wallet_mobile.Data.Remote.Request;
+package com.example.happy_wallet_mobile.Data.Remote.Request.Auth;
 
 public class LoginRequest {
     private String UserName;
