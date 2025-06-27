@@ -17,9 +17,11 @@ import androidx.core.content.ContextCompat;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.happy_wallet_mobile.R;
+import com.example.happy_wallet_mobile.View.Fragment.Authentication.ForgotPasswordFragment;
 import com.example.happy_wallet_mobile.View.Fragment.Authentication.SignUpFragment;
 import com.example.happy_wallet_mobile.ViewModel.Authentication.SignInViewModel;
 
@@ -32,6 +34,7 @@ public class SignInActivity extends AppCompatActivity {
     EditText edPassword;
     TextView tvSignIn;
     TextView tvSignUp;
+    TextView tvForgotPassword;
     LinearLayout lnlSignInWithGoogle;
     FrameLayout flFragmentContainer;
 
@@ -54,6 +57,7 @@ public class SignInActivity extends AppCompatActivity {
         edPassword = findViewById(R.id.etPassword);
         tvSignIn = findViewById(R.id.tvSignIn);
         tvSignUp = findViewById(R.id.tvSignUp);
+        tvForgotPassword = findViewById(R.id.tvForgotPassword);
         lnlSignInWithGoogle = findViewById(R.id.lnlSignInWithGoogle);
         flFragmentContainer = findViewById(R.id.flFragmentContainer);
 
@@ -100,9 +104,22 @@ public class SignInActivity extends AppCompatActivity {
             signInViewModel.attemptSignIn();
         });
 
+        // forgot password clicl
+        tvForgotPassword.setOnClickListener(v -> {
+            getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.flFragmentContainer, new ForgotPasswordFragment())
+                    .addToBackStack("auth")
+                    .commit();
+        });
+
         // sign up click
         tvSignUp.setOnClickListener(v -> {
-
+            getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.flFragmentContainer, new SignUpFragment())
+                    .addToBackStack("auth")
+                    .commit();
         });
     }
 }

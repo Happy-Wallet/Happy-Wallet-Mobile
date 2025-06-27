@@ -27,6 +27,11 @@ public class ForgotPasswordFragment extends Fragment {
         tvCancel = view.findViewById(R.id.tvCancel);
         tvReceivePassword = view.findViewById(R.id.tvReceivePassword);
 
+        //cancel
+        tvCancel.setOnClickListener(v -> {
+            requireActivity().getSupportFragmentManager().popBackStack();
+        });
+
         return view;
     }
 }

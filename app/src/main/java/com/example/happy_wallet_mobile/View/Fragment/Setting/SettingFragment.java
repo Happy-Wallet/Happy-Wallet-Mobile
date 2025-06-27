@@ -35,11 +35,15 @@ public class SettingFragment extends Fragment {
         flAboutUs = view.findViewById(R.id.flAboutUs);
         flLogOut = view.findViewById(R.id.flLogOut);
 
-
+        // edit profile
         flEditProfile.setOnClickListener(v -> {
             mainViewModel.navigateSubAbove(new EditProfileFragment());
         });
 
+        // change password
+        flChangePassword.setOnClickListener( v -> {
+            mainViewModel.navigateSubAbove(new ChangePasswordFragment());
+        });
 
         return view;
     }
