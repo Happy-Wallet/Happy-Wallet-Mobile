@@ -1,6 +1,5 @@
-package com.example.happy_wallet_mobile.View.Fragment;
+package com.example.happy_wallet_mobile.View.Fragment.Authentication;
 
-import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -13,9 +12,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.happy_wallet_mobile.R;
-import com.example.happy_wallet_mobile.View.Activity.MainActivity;
-import com.example.happy_wallet_mobile.View.Activity.SignInActivity;
-import com.example.happy_wallet_mobile.ViewModel.SignUpViewModel;
+import com.example.happy_wallet_mobile.ViewModel.Authentication.SignUpViewModel;
 
 
 public class SignUpFragment extends Fragment {

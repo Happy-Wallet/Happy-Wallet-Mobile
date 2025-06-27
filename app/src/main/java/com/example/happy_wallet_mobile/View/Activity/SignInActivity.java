@@ -1,7 +1,6 @@
 package com.example.happy_wallet_mobile.View.Activity;
 
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.text.Spannable;
 import android.text.SpannableString;
@@ -18,13 +17,11 @@ import androidx.core.content.ContextCompat;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
-import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.happy_wallet_mobile.R;
-import com.example.happy_wallet_mobile.View.Fragment.NotificationFragment;
-import com.example.happy_wallet_mobile.View.Fragment.SignUpFragment;
-import com.example.happy_wallet_mobile.ViewModel.SignInViewModel;
+import com.example.happy_wallet_mobile.View.Fragment.Authentication.SignUpFragment;
+import com.example.happy_wallet_mobile.ViewModel.Authentication.SignInViewModel;
 
 public class SignInActivity extends AppCompatActivity {
 
@@ -105,11 +102,7 @@ public class SignInActivity extends AppCompatActivity {
 
         // sign up click
         tvSignUp.setOnClickListener(v -> {
-            SignUpFragment signUpFragment = new SignUpFragment();
-            getSupportFragmentManager().beginTransaction()
-                    .add(R.id.flFragmentContainer, signUpFragment)
-                    .addToBackStack(null)
-                    .commit();
+
         });
     }
 }
