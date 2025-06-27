@@ -1,8 +1,8 @@
-package com.example.happy_wallet_mobile.Data.Remote.Response;
+package com.example.happy_wallet_mobile.Data.Remote.Response.Auth;
 
 import com.example.happy_wallet_mobile.Model.User;
 
-public class LoginResponse {
+public class RegisterResponse {
     private String token;
     private User user;
     private String message;
