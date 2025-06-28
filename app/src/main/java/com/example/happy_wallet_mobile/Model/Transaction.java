@@ -2,7 +2,6 @@ package com.example.happy_wallet_mobile.Model;
 
 import java.math.BigDecimal;
 import java.util.Date;
-import java.util.concurrent.TimeoutException;
 
 public class Transaction {
     private int TransactionId;
@@ -14,6 +13,7 @@ public class Transaction {
     private String Description;
     private Date Date;
     private Date DeletedDate;
+    private String Type;
 
     // Constructors
     public Transaction() {
@@ -28,7 +28,8 @@ public class Transaction {
             BigDecimal amount,
             String description,
             Date date,
-            Date deletedDate) {
+            Date deletedDate,
+            String type) {
         TransactionId = transactionId;
         UserId = userId;
         CategoryId = categoryId;
@@ -38,6 +39,7 @@ public class Transaction {
         Description = description;
         Date = date;
         DeletedDate = deletedDate;
+        Type = type;
     }
 
     public Transaction(
@@ -48,7 +50,8 @@ public class Transaction {
             BigDecimal amount,
             String description,
             Date date,
-            Date deletedDate) {
+            Date deletedDate,
+            String type) {
         UserId = userId;
         CategoryId = categoryId;
         IconId = iconId;
@@ -131,5 +134,12 @@ public class Transaction {
 
     public void setDeletedDate(Date deletedDate) {
         DeletedDate = deletedDate;
+    }
+
+    public String getType() {
+        return Type;
+    }
+    public void setType(String type) {
+        Type = type;
     }
 }

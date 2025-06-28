@@ -87,35 +87,52 @@
             app:layout_constraintBottom_toTopOf="@+id/flMonthIAEBG"
             app:layout_constraintStart_toStartOf="parent" />
 
-        <!-- background month income ... -->
         <FrameLayout
             android:id="@+id/flMonthIAEBG"
             android:layout_width="match_parent"
             android:layout_height="130dp"
             android:layout_marginStart="18dp"
             android:layout_marginTop="47dp"
-
             android:layout_marginEnd="18dp"
-
             android:background="@drawable/bg_rounded_20_white"
             android:backgroundTint="#FFFFFF"
-
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="20dp"
+                android:background="#DDDDFF" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="55dp"
+                android:background="#DDDDFF" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="90dp"
+                android:background="#DDDDFF" />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_gravity="bottom"
+                android:layout_marginBottom="25dp"
+                android:background="#2A344B" />
+
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rcvMonthIAE"
                 android:layout_width="match_parent"
-                android:layout_height="130dp"
-                android:importantForAccessibility="no"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-
-                app:layout_constraintTop_toTopOf="parent" />
+                android:layout_height="match_parent"
+                android:padding="4dp" />
 
         </FrameLayout>
+
+
 
         <!-- recycalerview Month IAE -->
 

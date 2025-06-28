@@ -11,7 +11,9 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -76,32 +78,73 @@ public class MockDataProvider {
         for (int i = 1; i <= 15; i++) {
             int catId = (i % 5) + 1;
 
-            // Random ngày trong 0 đến 4 ngày trước
             Calendar calendar = Calendar.getInstance();
             int dayOffset = random.nextInt(5); // 0 - 4
             calendar.add(Calendar.DAY_OF_MONTH, -dayOffset);
             Date transactionDate = calendar.getTime();
 
-            // Random số tiền: dương hoặc âm
             int amountValue = (random.nextInt(50) + 1) * 1000;
             BigDecimal amount = BigDecimal.valueOf(amountValue);
             if (random.nextBoolean()) {
-                amount = amount.negate(); // chi tiêu
+                amount = amount.negate();
             }
+            String type = amount.signum() < 0 ? "expense" : "income";
 
             transactions.add(new Transaction(
                     i,
-                    1, // userId
+                    1,
                     catId,
-                    catId, // iconId
+                    catId,
                     titles[i % titles.length],
                     amount,
                     descriptions[i % descriptions.length],
                     transactionDate,
-                    null
+                    null,
+                    type
             ));
         }
         return transactions;
+    }
+    public static <Context> List<IncomeExpenseMonth> getMonthlyIncomeExpense(Context context) {
+        List<GroupTransaction> groupTransactions = getMockGroupTransactions();
+        return generateMonthlyStatsFromGroupTransactions(groupTransactions);
+    }
+    public static List<IncomeExpenseMonth> generateMonthlyStatsFromGroupTransactions(List<GroupTransaction> transactions) {
+        Map<String, BigDecimal> incomeMap = new HashMap<>();
+        Map<String, BigDecimal> expenseMap = new HashMap<>();
+        Map<String, Date> monthToDateMap = new HashMap<>();
+        SimpleDateFormat sdf = new SimpleDateFormat("M/yyyy", Locale.getDefault());
+
+        for (GroupTransaction t : transactions) {
+            String key = sdf.format(t.getCreatedDate());
+            monthToDateMap.putIfAbsent(key, t.getCreatedDate());
+
+            BigDecimal amount = t.getAmount();
+            if (amount.signum() >= 0) {
+                incomeMap.put(key, incomeMap.getOrDefault(key, BigDecimal.ZERO).add(amount));
+            } else {
+                expenseMap.put(key, expenseMap.getOrDefault(key, BigDecimal.ZERO).add(amount.abs()));
+            }
+        }
+
+        Calendar cal = Calendar.getInstance();
+        cal.set(2025, Calendar.JANUARY, 1);
+
+        List<IncomeExpenseMonth> result = new ArrayList<>();
+        for (int i = 0; i < 6; i++) {
+            Date monthDate = cal.getTime();
+            String key = sdf.format(monthDate);
+
+            result.add(new IncomeExpenseMonth(
+                    monthDate,
+                    incomeMap.getOrDefault(key, BigDecimal.ZERO),
+                    expenseMap.getOrDefault(key, BigDecimal.ZERO)
+            ));
+
+            cal.add(Calendar.MONTH, 1);
+        }
+
+        return result;
     }
 
     public static List<SavingGoal> getMockSavingGoals() {
@@ -182,33 +225,34 @@ public class MockDataProvider {
         String[] titles = {"Mua đồ nhóm", "Chi ăn uống", "Thu phí thành viên", "Mua vật dụng", "Khác"};
         String[] descriptions = {"Mua chung", "Tiệc nhóm", "Đóng phí", "Mua dụng cụ", "Chi phí phát sinh"};
 
-        for (int i = 1; i <= 15; i++) {
-            int groupId = (i % 5) + 1;
-            int userId = (i % 5) + 1;
-            int categoryId = (i % 10) + 1;
+        Random random = new Random();
+        int id = 1;
 
-            BigDecimal amount = BigDecimal.valueOf((random.nextInt(30) + 1) * 10000);
-            if (random.nextBoolean()) amount = amount.negate(); // Âm nếu là chi tiêu
+        for (int month = Calendar.JANUARY; month <= Calendar.JUNE; month++) {
+            for (int i = 0; i < 3; i++) {
+                Calendar cal = Calendar.getInstance();
+                cal.set(2025, month, random.nextInt(28) + 1); 
 
-            // Random ngày trong vòng 5 ngày gần đây
-            Calendar calendar = Calendar.getInstance();
-            calendar.add(Calendar.DAY_OF_MONTH, -random.nextInt(5));
-            Date date = calendar.getTime();
+                BigDecimal amount = BigDecimal.valueOf((random.nextInt(50) + 1) * 10000);
+                if (random.nextBoolean()) amount = amount.negate();
 
-            transactions.add(new GroupTransaction(
-                    groupId,
-                    i, // transactionId
-                    userId,
-                    categoryId,
-                    amount,
-                    titles[i % titles.length],
-                    descriptions[i % descriptions.length],
-                    date,
-                    date,
-                    null
-            ));
+                transactions.add(new GroupTransaction(
+                        (i % 3) + 1,             // groupId
+                        id++,                    // transactionId
+                        (i % 5) + 1,             // userId
+                        (i % 10) + 1,            // categoryId
+                        amount,
+                        titles[i % titles.length],
+                        descriptions[i % descriptions.length],
+                        cal.getTime(),
+                        cal.getTime(),
+                        null
+                ));
+            }
         }
+
         return transactions;
     }
+
 
 }

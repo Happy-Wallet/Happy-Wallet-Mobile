@@ -1,5 +1,7 @@
 package com.example.happy_wallet_mobile.View.Fragment.Home;
 
+import static com.example.happy_wallet_mobile.Data.MockDataProvider.getMonthlyIncomeExpense;
+
 import android.os.Bundle;
 
 import androidx.core.content.ContextCompat;
@@ -14,7 +16,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.example.happy_wallet_mobile.Model.IncomeExpenseMonth;
 import com.example.happy_wallet_mobile.R;
+import com.example.happy_wallet_mobile.View.Adapter.MonthIAEAdapter;
 import com.example.happy_wallet_mobile.View.Adapter.SavingGoalRecyclerViewAdapter;
 import com.example.happy_wallet_mobile.View.Utilities.CurrencyUtility;
 import com.example.happy_wallet_mobile.ViewModel.Home.HomeViewModel;
@@ -55,6 +59,7 @@ public class HomeFragment extends Fragment {
         tvDay.setBackground(ContextCompat.getDrawable(requireContext(), R.drawable.bg_rounded_20_paolo_veronese_green));
 
         homeViewModel.setData();
+
 
         // set data for account balance
         homeViewModel.TotalBalance.observe(getViewLifecycleOwner(), totalBalance -> {
@@ -130,6 +135,11 @@ public class HomeFragment extends Fragment {
             tvYear.setBackground(ContextCompat.getDrawable(requireContext(), R.drawable.bg_rounded_20_paolo_veronese_green));
         });
 
+        RecyclerView rcvMonthIAE = view.findViewById(R.id.rcvMonthIAE);
+        rcvMonthIAE.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
+        List<IncomeExpenseMonth> list = getMonthlyIncomeExpense(getContext());
+        MonthIAEAdapter adapter = new MonthIAEAdapter(list);
+        rcvMonthIAE.setAdapter(adapter);
 
 
         return view;
