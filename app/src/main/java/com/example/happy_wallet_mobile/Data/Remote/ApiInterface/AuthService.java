@@ -10,9 +10,15 @@ import com.example.happy_wallet_mobile.Data.Remote.Response.Auth.LoginResponse;
 import com.example.happy_wallet_mobile.Data.Remote.Response.Auth.RegisterResponse;
 
 public interface AuthService {
-    @POST("auth/login")
-    Call<LoginResponse> login(@Body LoginRequest request);
+    @POST("/auth/register")
+    Call<RegisterResponse> register(@Body RegisterRequest req);
 
-    @POST("auth/register")
-    Call<RegisterResponse> register(@Body RegisterRequest request);
+    @POST("/auth/login")
+    Call<LoginResponse> login(@Body LoginRequest req);
+
+    @POST("/auth/forgot-password")
+    Call<ForgotPasswordResponse> forgotPassword(@Body ForgotPasswordRequest req);
+
+    @POST("/auth/reset-password")
+    Call<ResetPasswordResponse> resetPassword(@Body ResetPasswordRequest req);
 }
