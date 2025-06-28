@@ -1,4 +1,4 @@
-package com.example.happy_wallet_mobile.ViewModel.Setting;
+package com.example.happy_wallet_mobile.ViewModel.Wallet;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MediatorLiveData;

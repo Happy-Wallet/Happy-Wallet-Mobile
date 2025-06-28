@@ -20,7 +20,7 @@ import com.example.happy_wallet_mobile.View.Adapter.DailyTransactionsRecyclerVie
 import com.example.happy_wallet_mobile.View.Fragment.SelectDateRangeFragment;
 import com.example.happy_wallet_mobile.View.Utilities.CurrencyUtility;
 import com.example.happy_wallet_mobile.ViewModel.MainViewModel;
-import com.example.happy_wallet_mobile.ViewModel.Setting.WalletViewModel;
+import com.example.happy_wallet_mobile.ViewModel.Wallet.WalletViewModel;
 
 import java.math.BigDecimal;
 
@@ -71,6 +71,7 @@ public class WalletFragment extends Fragment {
             rvTransactions.setAdapter(adapter);
         });
         walletViewModel.loadGroupedTransactions();
+
 
         // set tvDate
         tvDate.setOnClickListener(v -> {
