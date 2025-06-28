@@ -7,7 +7,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class APIClient {
     private static Retrofit retrofit;
-    private static final String BASE_URL = "https://HappyWallet-api.com/api/";
+    private static final String BASE_URL = Config.BASE_URL; // sửa trong file config
     public static Retrofit getRetrofit(){
         if (retrofit == null) {
             HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
