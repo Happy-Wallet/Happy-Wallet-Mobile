@@ -25,12 +25,22 @@ public class GroupRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.
     private static final int TYPE_ADD = 1;
 
     private final Context context;
-    private List<Group> GroupList;
+    private List<Group> groupList;
     private List<Category> categoryList;
+
+    public void updateCategoryList(List<Category> list) {
+        this.categoryList = list;
+        notifyDataSetChanged();
+    }
+
+    public void updateGroupList(List<Group> list) {
+        this.groupList = list;
+        notifyDataSetChanged();
+    }
 
     public GroupRecyclerViewAdapter(Context context, List<Group> groupList, List<Category> categoryList) {
         this.context = context;
-        this.GroupList = groupList;
+        this.groupList = groupList;
         this.categoryList = categoryList;
     }
 
@@ -57,7 +67,7 @@ public class GroupRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.
 
     @Override
     public int getItemViewType(int position) {
-        return (position == GroupList.size()) ? TYPE_ADD : TYPE_ITEM;
+        return (position == groupList.size()) ? TYPE_ADD : TYPE_ITEM;
     }
 
     @NonNull
@@ -84,7 +94,7 @@ public class GroupRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.
         }
 
         ViewHolder itemHolder = (ViewHolder) holder;
-        Group item = GroupList.get(position);
+        Group item = groupList.get(position);
         itemHolder.tvTitle.setText(item.getName());
 
         // Tìm Category tương ứng
@@ -109,7 +119,7 @@ public class GroupRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.
 
     @Override
     public int getItemCount() {
-        return GroupList.size() + 1;
+        return groupList.size() + 1;
     }
 
     // Listeners
