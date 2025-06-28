@@ -3,6 +3,7 @@ package com.example.happy_wallet_mobile.View.Fragment.Authentication;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,7 +19,7 @@ import com.example.happy_wallet_mobile.ViewModel.Authentication.SignUpViewModel;
 public class SignUpFragment extends Fragment {
 
     SignUpViewModel signUpViewModel;
-    EditText etName, etUserName, etMail, etDateOfBirth, etPassword;
+    EditText etUserName, etMail, etPassword;
     TextView tvSignUp, tvCancel;
 
     @Override
@@ -26,12 +27,10 @@ public class SignUpFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_sign_up, container, false);
 
-        signUpViewModel = new SignUpViewModel();
+        signUpViewModel = new ViewModelProvider(this).get(SignUpViewModel.class);
 
-        etName = view.findViewById(R.id.etName);
         etUserName = view.findViewById(R.id.etUserName);
         etMail = view.findViewById(R.id.etMail);
-        etDateOfBirth = view.findViewById(R.id.etDateOfBirth);
         etPassword = view.findViewById(R.id.etPassword);
         tvSignUp = view.findViewById(R.id.tvSignUp);
         tvCancel = view.findViewById(R.id.tvCancel);
@@ -43,22 +42,27 @@ public class SignUpFragment extends Fragment {
 
         // sign up btn click
         tvSignUp.setOnClickListener(v -> {
-            signUpViewModel.setName(etName.getText().toString());
-            signUpViewModel.setUserName(etUserName.getText().toString());
-            signUpViewModel.setMail(etMail.getText().toString());
-            signUpViewModel.setDateOfBirth(etDateOfBirth.getText().toString());
-            signUpViewModel.setPassword(etPassword.getText().toString());
+            tvSignUp.setEnabled(false);
 
-            signUpViewModel.attempSignUp();
+            String userName = etUserName.getText().toString().trim();
+            String password = etPassword.getText().toString().trim();
+            String mail = etMail.getText().toString().trim();
+            if (userName.isEmpty() || password.isEmpty() || mail.isEmpty()){
+                Toast.makeText(requireContext(), "Chưa nhập đủ thông tin", Toast.LENGTH_SHORT).show();
+            } else {
+                signUpViewModel.register(mail, userName, password);
+            }
         });
 
         // get sign up result from viewmodel
-        signUpViewModel.getSignUpResult().observe(getViewLifecycleOwner(), success -> {
-            if (success) {
+        signUpViewModel.getRegisterResponse().observe(getViewLifecycleOwner(), response -> {
+            tvSignUp.setEnabled(true);
+
+            if (response != null) {
                 Toast.makeText(requireContext(), "Đăng ký thành công!", Toast.LENGTH_SHORT).show();
                 requireActivity().getSupportFragmentManager().popBackStack();
             } else {
-                Toast.makeText(requireContext(), "chưa hỗ trợ", Toast.LENGTH_SHORT).show();
+                Toast.makeText(requireContext(), "Đăng ký không thành công", Toast.LENGTH_SHORT).show();
             }
         });
 
