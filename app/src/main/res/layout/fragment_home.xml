@@ -122,7 +122,7 @@
                 android:layout_height="1dp"
                 android:layout_gravity="bottom"
                 android:layout_marginBottom="25dp"
-                android:background="#2A344B" />
+                android:background="#30437A" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rcvMonthIAE"

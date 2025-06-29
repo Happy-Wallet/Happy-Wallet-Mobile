@@ -13,7 +13,7 @@ public class MockDataProvider {
 
     public static List<User> getMockUsers() {
         List<User> users = new ArrayList<>();
-        for (int i = 1; i <= 5; i++) {
+        for (int i = 1; i <= 12; i++) {
             users.add(new User(
                     i,
                     "user" + i + "@example.com",
@@ -89,7 +89,63 @@ public class MockDataProvider {
         }
         return transactions;
     }
+    public static List<Transaction> getTransactions() {
+        List<Transaction> list = new ArrayList<>();
 
+        list.add(new Transaction(
+                1, 1, 0, "Ăn sáng", new BigDecimal("150000"), "Ăn sáng tại quán", new Date(), null, "expense"));
+
+        list.add(new Transaction(
+                1, 2, 0, "Tiền nhà", new BigDecimal("2500000"), "Thanh toán tiền thuê", new Date(), null, "expense"));
+
+        list.add(new Transaction(
+                1, 3, 0, "Điện nước", new BigDecimal("500000"), "Trả tiền điện, nước", new Date(), null, "expense"));
+
+        list.add(new Transaction(
+                1, 4, 0, "Mua áo", new BigDecimal("200000"), "Mua áo phông", new Date(), null, "expense"));
+
+        return list;
+    }
+
+
+    public static <Context> List<IncomeExpenseMonth> getMonthlyIncomeExpense(Context context) {
+        List<GroupTransaction> groupTransactions = getMockGroupTransactions();
+        return generateMonthlyStatsFromGroupTransactions(groupTransactions);
+    }
+    public static List<IncomeExpenseMonth> generateMonthlyStatsFromGroupTransactions(List<GroupTransaction> transactions) {
+        Map<String, BigDecimal> incomeMap = new HashMap<>();
+        Map<String, BigDecimal> expenseMap = new HashMap<>();
+        Map<String, Date> monthToDateMap = new HashMap<>();
+        SimpleDateFormat sdf = new SimpleDateFormat("M/yyyy", Locale.getDefault());
+
+        for (GroupTransaction t : transactions) {
+            String key = sdf.format(t.getCreatedDate());
+            monthToDateMap.putIfAbsent(key, t.getCreatedDate());
+
+            BigDecimal amount = t.getAmount();
+            if (amount.signum() >= 0) {
+                incomeMap.put(key, incomeMap.getOrDefault(key, BigDecimal.ZERO).add(amount));
+            } else {
+                expenseMap.put(key, expenseMap.getOrDefault(key, BigDecimal.ZERO).add(amount.abs()));
+            }
+        }
+
+        Calendar cal = Calendar.getInstance();
+        cal.set(2025, Calendar.JANUARY, 1);
+
+        List<IncomeExpenseMonth> result = new ArrayList<>();
+        for (int i = 0; i < 6; i++) {
+            Date monthDate = cal.getTime();
+            String key = sdf.format(monthDate);
+
+            result.add(new IncomeExpenseMonth(
+                    monthDate,
+                    incomeMap.getOrDefault(key, BigDecimal.ZERO),
+                    expenseMap.getOrDefault(key, BigDecimal.ZERO)
+            ));
+
+            cal.add(Calendar.MONTH, 1);
+        }
 
     public static List<SavingGoal> getMockSavingGoals() {
         List<SavingGoal> goals = new ArrayList<>();
