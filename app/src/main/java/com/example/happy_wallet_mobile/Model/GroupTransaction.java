@@ -9,7 +9,6 @@ public class GroupTransaction {
     private int UserId;
     private int CategoryId;
     private BigDecimal Amount;
-    private String Title;
     private String Description;
     private Date CreatedDate;
     private Date UpdatedDate;
@@ -18,44 +17,21 @@ public class GroupTransaction {
     // constructor
     public GroupTransaction(){}
     public GroupTransaction(
+            int transactionId,
             int groupId,
-            int transactionId,
             int userId,
             int categoryId,
             BigDecimal amount,
-            String title,
             String description,
             Date createdDate,
             Date updatedDate,
             Date deletedDate
     ){
+        TransactionId = transactionId;
         GroupId = groupId;
-        TransactionId = transactionId;
         UserId = userId;
         CategoryId = categoryId;
         Amount = amount;
-        Title = title;
-        Description= description;
-        CreatedDate = createdDate;
-        UpdatedDate = updatedDate;
-        DeletedDate = deletedDate;
-    }
-    public GroupTransaction(
-            int transactionId,
-            int userId,
-            int categoryId,
-            BigDecimal amount,
-            String title,
-            String description,
-            Date createdDate,
-            Date updatedDate,
-            Date deletedDate
-    ){
-        TransactionId = transactionId;
-        UserId = userId;
-        CategoryId = categoryId;
-        Amount = amount;
-        Title = title;
         Description= description;
         CreatedDate = createdDate;
         UpdatedDate = updatedDate;
@@ -81,10 +57,6 @@ public class GroupTransaction {
 
     public BigDecimal getAmount() {
         return Amount;
-    }
-
-    public String getTitle() {
-        return Title;
     }
 
     public String getDescription() {
@@ -122,10 +94,6 @@ public class GroupTransaction {
 
     public void setAmount(BigDecimal amount) {
         Amount = amount;
-    }
-
-    public void setTitle(String title) {
-        Title = title;
     }
 
     public void setDescription(String description) {

@@ -18,31 +18,43 @@ import java.util.*;
 import com.example.happy_wallet_mobile.Data.MockDataProvider;
 import com.example.happy_wallet_mobile.Model.IncomeExpenseMonth;
 import com.example.happy_wallet_mobile.Model.Transaction;
+import com.example.happy_wallet_mobile.Model.eType;
+
 import java.math.BigDecimal;
 import java.util.List;
 
 public class HomeViewModel extends ViewModel {
-    private final MutableLiveData<List<Category>> _categoryList = new MutableLiveData<>();
-    private final MutableLiveData<List<SavingGoal>> _savingGoalList = new MutableLiveData<>();
-    private final MutableLiveData<List<Transaction>> _transactionList = new MutableLiveData<>();
-    private final MutableLiveData<BigDecimal> _totalBaclance = new MutableLiveData<>();
+    private final MutableLiveData<List<Category>> categoryList = new MutableLiveData<>();
+    private final MutableLiveData<List<SavingGoal>> savingGoalList = new MutableLiveData<>();
+    private final MutableLiveData<List<Transaction>> transactionList = new MutableLiveData<>();
+    private final MutableLiveData<BigDecimal> totalBalance = new MutableLiveData<>();
 
-    public LiveData<List<Category>> categoryList = _categoryList;
-    public LiveData<List<SavingGoal>> savingGoalList = _savingGoalList;
-    public LiveData<List<Transaction>> TransactionList = _transactionList;
-    public LiveData<BigDecimal> TotalBalance = _totalBaclance;
+    public LiveData<List<Category>> getCategoryList() {
+        return categoryList;
+    }
+    public LiveData<List<SavingGoal>> getSavingGoalList(){
+        return savingGoalList;
+    }
+    public LiveData<List<Transaction>> getTransactionList(){
+        return transactionList;
+    }
+    public LiveData<BigDecimal> getTotalBalance(){
+        return totalBalance;
+    }
 
     public void setData() {
-        _categoryList.setValue(MockDataProvider.getMockCategories());
-        _savingGoalList.setValue(MockDataProvider.getMockSavingGoals());
-        _transactionList.setValue(MockDataProvider.getMockTransactions());
+        categoryList.setValue(MockDataProvider.getMockCategories());
+        savingGoalList.setValue(MockDataProvider.getMockSavingGoals());
+        transactionList.setValue(MockDataProvider.getMockTransactions());
 
         List<Transaction> transactions = MockDataProvider.getMockTransactions();
         BigDecimal total = BigDecimal.ZERO;
         for (Transaction item : transactions) {
             total = total.add(item.getAmount());
         }
-        _totalBaclance.setValue(total);
+        totalBalance.setValue(total);
+
+        loadMonthlyData(transactionList.getValue());
     }
 
     private final MutableLiveData<List<IncomeExpenseMonth>> monthlyData = new MutableLiveData<>();
@@ -51,12 +63,11 @@ public class HomeViewModel extends ViewModel {
         return monthlyData;
     }
 
-    public void loadMonthlyData(Context context) {
-        monthlyData.setValue(getMonthlyIncomeExpense(context));
+    public void loadMonthlyData(List<Transaction> transactions) {
+        monthlyData.setValue(getMonthlyIncomeExpense(transactions));
     }
 
-    private List<IncomeExpenseMonth> getMonthlyIncomeExpense(Context context) {
-        List<Transaction> transactions = MockDataProvider.getMockTransactions();
+    private List<IncomeExpenseMonth> getMonthlyIncomeExpense(List<Transaction> transactions) {
         Map<String, BigDecimal> incomeMap = new HashMap<>();
         Map<String, BigDecimal> expenseMap = new HashMap<>();
 
@@ -64,10 +75,10 @@ public class HomeViewModel extends ViewModel {
             String monthYear = extractMonthYear(t.getDate());
             BigDecimal amount = t.getAmount().abs();
 
-            if (t.getType().equalsIgnoreCase("income")) {
+            if (t.getType() == eType.INCOME) {
                 incomeMap.put(monthYear,
                         incomeMap.getOrDefault(monthYear, BigDecimal.ZERO).add(amount));
-            } else if (t.getType().equalsIgnoreCase("expense")) {
+            } else if (t.getType() == eType.EXPENSE) {
                 expenseMap.put(monthYear,
                         expenseMap.getOrDefault(monthYear, BigDecimal.ZERO).add(amount));
             }
@@ -93,6 +104,8 @@ public class HomeViewModel extends ViewModel {
                 e.printStackTrace();
             }
         }
+        // Sort theo ngày tăng dần
+        result.sort(Comparator.comparing(IncomeExpenseMonth::getDate));
         return result;
     }
 

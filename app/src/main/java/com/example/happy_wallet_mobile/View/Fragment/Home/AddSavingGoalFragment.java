@@ -19,7 +19,10 @@ import com.example.happy_wallet_mobile.R;
 import com.example.happy_wallet_mobile.View.Adapter.CategoryRecyclerViewAdapter;
 import com.example.happy_wallet_mobile.View.Fragment.CategoryListFragment;
 import com.example.happy_wallet_mobile.View.Utilities.CurrencyTextWatcher;
+import com.example.happy_wallet_mobile.ViewModel.Home.AddSavingGoalViewModel;
 import com.example.happy_wallet_mobile.ViewModel.MainViewModel;
+
+import java.util.List;
 
 
 public class AddSavingGoalFragment extends Fragment {
@@ -28,6 +31,7 @@ public class AddSavingGoalFragment extends Fragment {
     EditText etTitle, etDescription, etTarget;
     RecyclerView rcvCategories;
     MainViewModel mainViewModel;
+    AddSavingGoalViewModel addSavingGoalViewModel;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -35,7 +39,9 @@ public class AddSavingGoalFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_add_saving_goal, container, false);
 
         mainViewModel = new ViewModelProvider(requireActivity()).get(MainViewModel.class);
+        addSavingGoalViewModel = new ViewModelProvider(requireActivity()).get(AddSavingGoalViewModel.class);
 
+        addSavingGoalViewModel.loadMockData();
 
         tvCancel = view.findViewById(R.id.tvCancel);
         tvDate = view.findViewById(R.id.tvDate);
@@ -49,7 +55,7 @@ public class AddSavingGoalFragment extends Fragment {
         rcvCategories.setLayoutManager(layoutManager);
         CategoryRecyclerViewAdapter categoryRecyclerViewAdapter = new CategoryRecyclerViewAdapter(
                 requireContext(),
-                MockDataProvider.getMockCategories(),
+                List.of(),
                 category -> {
                     Toast.makeText(getContext(), "Bạn chọn: " + category.getName(), Toast.LENGTH_SHORT).show();
                 });
@@ -59,6 +65,11 @@ public class AddSavingGoalFragment extends Fragment {
 
         });
         rcvCategories.setAdapter(categoryRecyclerViewAdapter);
+
+        // observe data
+        addSavingGoalViewModel.categoryList.observe(getViewLifecycleOwner(), categories -> {
+            categoryRecyclerViewAdapter.updateCategories(categories);
+        });
 
         //cancel
         tvCancel.setOnClickListener(v->{

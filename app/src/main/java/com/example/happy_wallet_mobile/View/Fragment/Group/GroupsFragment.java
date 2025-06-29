@@ -16,12 +16,16 @@ import android.widget.ImageView;
 import com.example.happy_wallet_mobile.Data.MockDataProvider;
 import com.example.happy_wallet_mobile.R;
 import com.example.happy_wallet_mobile.View.Adapter.GroupRecyclerViewAdapter;
+import com.example.happy_wallet_mobile.ViewModel.Group.GroupsViewModel;
 import com.example.happy_wallet_mobile.ViewModel.MainViewModel;
+
+import java.util.List;
 
 
 public class GroupsFragment extends Fragment {
 
     MainViewModel mainViewModel;
+    GroupsViewModel groupsViewModel;
     RecyclerView rcvGroup;
     ImageView ivEditGroup;
 
@@ -33,6 +37,9 @@ public class GroupsFragment extends Fragment {
         Log.d("GroupsFragment", "GroupsFragment on create view");
 
         mainViewModel = new ViewModelProvider(requireActivity()).get(MainViewModel.class);
+        groupsViewModel = new ViewModelProvider(requireActivity()).get(GroupsViewModel.class);
+
+        groupsViewModel.loadMockData();
 
         rcvGroup = view.findViewById(R.id.rvGroups);
         ivEditGroup = view.findViewById(R.id.ivEditGroup);
@@ -42,9 +49,19 @@ public class GroupsFragment extends Fragment {
         rcvGroup.setLayoutManager(layoutManager);
         GroupRecyclerViewAdapter groupRecyclerViewAdapter = new GroupRecyclerViewAdapter(
                 requireContext(),
-                MockDataProvider.getMockGroups(),
-                MockDataProvider.getMockCategories());
+                List.of(),
+                List.of());
         rcvGroup.setAdapter(groupRecyclerViewAdapter);
+
+        // observe data from viewmodel
+        groupsViewModel.categoryList.observe(getViewLifecycleOwner(), categories -> {
+            groupRecyclerViewAdapter.updateCategoryList(categories);
+        });
+
+        groupsViewModel.groupList.observe(getViewLifecycleOwner(), groups -> {
+            groupRecyclerViewAdapter.updateGroupList(groups);
+        });
+
 
         // rcvGroups item click
         groupRecyclerViewAdapter.setOnItemClickListener(group -> {
