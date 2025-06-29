@@ -4,121 +4,71 @@ import java.math.BigDecimal;
 import java.util.Date;
 
 public class Transaction {
-    private int TransactionId;
-    private int UserId;
-    private eType Type;
-    private int CategoryId;
-    private BigDecimal Amount;
-    private String Description;
-    private Date Date;
-    private Date DeletedDate;
+    private int transactionId;
+    private int userId;
+    private int categoryId;
+    private BigDecimal amount;
+    private String description;
+    private Date date;
+    private eType type;
+    private Date deletedDate;
 
     // Constructors
-    public Transaction() {
-    }
+    public Transaction() {}
 
     public Transaction(
             int transactionId,
             int userId,
-            eType type,
             int categoryId,
             BigDecimal amount,
             String description,
             Date date,
+            eType type,
             Date deletedDate) {
-        TransactionId = transactionId;
-        UserId = userId;
-        Type = type;
-        CategoryId = categoryId;
-        Amount = amount;
-        Description = description;
-        Date = date;
-        DeletedDate = deletedDate;
+        this.transactionId = transactionId;
+        this.userId = userId;
+        this.categoryId = categoryId;
+        this.amount = amount;
+        this.description = description;
+        this.date = date;
+        this.type = type;
+        this.deletedDate = deletedDate;
     }
 
     public Transaction(
             int userId,
-            eType type,
             int categoryId,
             BigDecimal amount,
             String description,
             Date date,
+            eType type,
             Date deletedDate) {
-        UserId = userId;
-        Type = type;
-        CategoryId = categoryId;
-        Amount = amount;
-        Description = description;
-        Date = date;
-        DeletedDate = deletedDate;
+        this.userId = userId;
+        this.categoryId = categoryId;
+        this.amount = amount;
+        this.description = description;
+        this.date = date;
+        this.type = type;
+        this.deletedDate = deletedDate;
     }
-
 
     // Getters
-    public int getTransactionId() {
-        return TransactionId;
-    }
-
-    public int getUserId() {
-        return UserId;
-    }
-
-    public eType getType() {
-        return Type;
-    }
-
-    public int getCategoryId() {
-        return CategoryId;
-    }
-
-
-    public BigDecimal getAmount() {
-        return Amount;
-    }
-
-    public String getDescription() {
-        return Description;
-    }
-
-    public Date getDate() {
-        return Date;
-    }
-
-    public Date getDeletedDate() {
-        return DeletedDate;
-    }
+    public int getTransactionId() { return transactionId; }
+    public int getUserId() { return userId; }
+    public int getCategoryId() { return categoryId; }
+    public BigDecimal getAmount() { return amount; }
+    public String getDescription() { return description; }
+    public Date getDate() { return date; }
+    public eType getType() { return type; }
+    public Date getDeletedDate() { return deletedDate; }
 
     // Setters
-    public void setTransactionId(int transactionId) {
-        TransactionId = transactionId;
-    }
-
-    public void setUserId(int userId) {
-        UserId = userId;
-    }
-
-    public void setType(eType type) {
-        Type = type;
-    }
-
-    public void setCategoryId(int categoryId) {
-        CategoryId = categoryId;
-    }
-
-
-    public void setAmount(BigDecimal amount) {
-        Amount = amount;
-    }
-
-    public void setDescription(String description) {
-        Description = description;
-    }
-
-    public void setDate(Date date) {
-        Date = date;
-    }
-
-    public void setDeletedDate(Date deletedDate) {
-        DeletedDate = deletedDate;
-    }
+    public void setTransactionId(int transactionId) { this.transactionId = transactionId; }
+    public void setUserId(int userId) { this.userId = userId; }
+    public void setCategoryId(int categoryId) { this.categoryId = categoryId; }
+    public void setAmount(BigDecimal amount) { this.amount = amount; }
+    public void setDescription(String description) { this.description = description; }
+    public void setDate(Date date) { this.date = date; }
+    public void setType(eType type) { this.type = type; }
+    public void setDeletedDate(Date deletedDate) { this.deletedDate = deletedDate; }
 }

@@ -5,21 +5,20 @@ import java.math.BigDecimal;
 import java.util.Date;
 
 public class SavingGoal implements Serializable {
-    private int GoalId; 
-    private int UserId; 
-    private int CategoryId;
-    private String Name;
-    private String Description;
-    private BigDecimal CurrentAmount; 
-    private BigDecimal TargetAmount;
-    private Date TargetDate;
+    private int goalId;
+    private int userId;
+    private int categoryId;
+    private String name;
+    private String description;
+    private BigDecimal currentAmount;
+    private BigDecimal targetAmount;
+    private Date targetDate;
 
     // Constructors
-    public SavingGoal() {
-    }
+    public SavingGoal() {}
 
     public SavingGoal(
-            int goalId, 
+            int goalId,
             int userId,
             int categoryId,
             String name,
@@ -27,96 +26,50 @@ public class SavingGoal implements Serializable {
             BigDecimal currentAmount,
             BigDecimal targetAmount,
             Date targetDate) {
-        GoalId = goalId;
-        UserId = userId;
-        CategoryId = categoryId;
-        Name = name;
-        Description = description;
-        CurrentAmount = currentAmount;
-        TargetAmount = targetAmount;
-        TargetDate = targetDate;
+        this.goalId = goalId;
+        this.userId = userId;
+        this.categoryId = categoryId;
+        this.name = name;
+        this.description = description;
+        this.currentAmount = currentAmount;
+        this.targetAmount = targetAmount;
+        this.targetDate = targetDate;
     }
 
     public SavingGoal(
-            int userId, 
+            int userId,
             int categoryId,
             String name,
             String description,
             BigDecimal currentAmount,
             BigDecimal targetAmount,
             Date targetDate) {
-        UserId = userId;
-        CategoryId = categoryId;
-        Name = name;
-        Description = description;
-        CurrentAmount = currentAmount;
-        TargetAmount = targetAmount;
-        TargetDate = targetDate;
+        this.userId = userId;
+        this.categoryId = categoryId;
+        this.name = name;
+        this.description = description;
+        this.currentAmount = currentAmount;
+        this.targetAmount = targetAmount;
+        this.targetDate = targetDate;
     }
 
     // Getters
-    public int getGoalId() {
-        return GoalId;
-    }
-
-    public int getUserId() {
-        return UserId;
-    }
-
-    public int getCategoryId() {
-        return CategoryId;
-    }
-
-    public String getName() {
-        return Name;
-    }
-
-    public String getDescription() {
-        return Description;
-    }
-
-    public BigDecimal getCurrentAmount() {
-        return CurrentAmount;
-    }
-
-    public BigDecimal getTargetAmount() {
-        return TargetAmount;
-    }
-
-    public Date getTargetDate() {
-        return TargetDate;
-    }
+    public int getGoalId() { return goalId; }
+    public int getUserId() { return userId; }
+    public int getCategoryId() { return categoryId; }
+    public String getName() { return name; }
+    public String getDescription() { return description; }
+    public BigDecimal getCurrentAmount() { return currentAmount; }
+    public BigDecimal getTargetAmount() { return targetAmount; }
+    public Date getTargetDate() { return targetDate; }
 
     // Setters
-    public void setGoalId(int goalId) {
-        GoalId = goalId;
-    }
-
-    public void setUserId(int userId) {
-        UserId = userId;
-    }
-
-    public void setCategoryId(int categoryId) {
-        CategoryId = categoryId;
-    }
-
-    public void setName(String name) {
-        Name = name;
-    }
-
-    public void setDescription(String description) {
-        Description = description;
-    }
-
-    public void setCurrentAmount(BigDecimal currentAmount) {
-        CurrentAmount = currentAmount;
-    }
-
-    public void setTargetAmount(BigDecimal targetAmount) {
-        TargetAmount = targetAmount;
-    }
-
-    public void setTargetDate(Date targetDate) {
-        TargetDate = targetDate;
-    }
+    public void setGoalId(int goalId) { this.goalId = goalId; }
+    public void setUserId(int userId) { this.userId = userId; }
+    public void setCategoryId(int categoryId) { this.categoryId = categoryId; }
+    public void setName(String name) { this.name = name; }
+    public void setDescription(String description) { this.description = description; }
+    public void setCurrentAmount(BigDecimal currentAmount) { this.currentAmount = currentAmount; }
+    public void setTargetAmount(BigDecimal targetAmount) { this.targetAmount = targetAmount; }
+    public void setTargetDate(Date targetDate) { this.targetDate = targetDate; }
 }

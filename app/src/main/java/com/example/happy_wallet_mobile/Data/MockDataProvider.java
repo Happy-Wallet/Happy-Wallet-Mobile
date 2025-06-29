@@ -19,8 +19,8 @@ public class MockDataProvider {
                     "user" + i + "@example.com",
                     "user" + i,
                     "hashed_pw",
-                    new Date(),
                     "user",
+                    new Date(),
                     new Date(),
                     new Date(),
                     null
@@ -43,8 +43,8 @@ public class MockDataProvider {
             categories.add(new Category(
                     i + 1,
                     1,
-                    colorList.get(i % colorList.size()),
                     iconList.get(i % iconList.size()),
+                    colorList.get(i % colorList.size()),
                     type,
                     names[i],
                     i % 2 == 0,
@@ -62,10 +62,8 @@ public class MockDataProvider {
 
         for (int i = 1; i <= 100; i++) {
             int catId = (i % 10) + 1;
-
-            // Random tháng từ 0 đến 5 (JANUARY -> JUNE)
             int month = random.nextInt(12);
-            int day = random.nextInt(28) + 1; // để tránh out of range
+            int day = random.nextInt(28) + 1;
             Calendar calendar = Calendar.getInstance();
             calendar.set(2025, month, day);
             Date transactionDate = calendar.getTime();
@@ -77,19 +75,18 @@ public class MockDataProvider {
             eType type = isExpense ? eType.EXPENSE : eType.INCOME;
 
             transactions.add(new Transaction(
-                    i,
-                    1,
-                    type,
-                    catId,
-                    amount,
-                    descriptions[i % descriptions.length],
-                    transactionDate,
-                    null
+                    i,                  // transactionId
+                    1,                  // userId
+                    catId,              // categoryId
+                    amount,             // amount
+                    descriptions[i % descriptions.length], // description
+                    transactionDate,    // date
+                    type,               // type
+                    null                // deletedDate
             ));
         }
         return transactions;
     }
-
 
     public static List<SavingGoal> getMockSavingGoals() {
         List<SavingGoal> goals = new ArrayList<>();
@@ -108,8 +105,8 @@ public class MockDataProvider {
 
             goals.add(new SavingGoal(
                     i,
-                    1, // userId
-                    i, // categoryId
+                    1,
+                    i,
                     names[i - 1],
                     descriptions[i - 1],
                     BigDecimal.valueOf(currentValue),
@@ -119,7 +116,6 @@ public class MockDataProvider {
         }
         return goals;
     }
-
 
     public static List<Group> getMockGroups() {
         List<Group> groups = new ArrayList<>();
@@ -133,9 +129,9 @@ public class MockDataProvider {
                     i,
                     i,
                     names[i - 1],
-                    200_000 + random.nextInt(2_000_000),
+                    BigDecimal.valueOf(200_000 + random.nextInt(2_000_000)),
                     hasTarget,
-                    targetAmount,
+                    BigDecimal.valueOf(targetAmount),
                     "Nhóm " + names[i - 1],
                     new Date(),
                     new Date(),
@@ -182,7 +178,7 @@ public class MockDataProvider {
                         (i % 10) + 1,
                         amount,
                         descriptions[i % descriptions.length],
-                        new Date(),
+                        cal.getTime(),
                         new Date(),
                         null
                 ));
@@ -197,7 +193,7 @@ public class MockDataProvider {
         SimpleDateFormat sdf = new SimpleDateFormat("M/yyyy", Locale.getDefault());
 
         for (GroupTransaction t : transactions) {
-            String key = sdf.format(t.getCreatedDate());
+            String key = sdf.format(t.getCreatedAt());
             BigDecimal amount = t.getAmount();
             if (amount.signum() >= 0) {
                 incomeMap.put(key, incomeMap.getOrDefault(key, BigDecimal.ZERO).add(amount));

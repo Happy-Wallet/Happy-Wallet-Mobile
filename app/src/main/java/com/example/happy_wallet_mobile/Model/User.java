@@ -3,130 +3,78 @@ package com.example.happy_wallet_mobile.Model;
 import java.util.Date;
 
 public class User {
-    private int Id;
-    private String Email;
-    private String UserName;
-    private String HashedPassword;
-    private Date DateOfBirth;
-    private String Role;
-    private Date CreatedDate;
-    private Date UpdatedDate;
-    private Date DeletedDate;
+    private int userId;
+    private String email;
+    private String userName;
+    private String hashedPassword;
+    private String role;
+    private Date dateOfBirth;
+    private Date createdAt;
+    private Date updatedAt;
+    private Date deletedAt;
 
+    // Constructors
+    public User() {}
 
-    // constructor\
-    public User(){}
     public User(
-            int id,
+            int userId,
             String email,
             String userName,
             String hashedPassword,
-            Date dateOfBirth,
             String role,
-            Date createdDate,
-            Date updatedDate,
-            Date deletedDate){
-        Id = id;
-        Email = email;
-        UserName = userName;
-        HashedPassword = hashedPassword;
-        DateOfBirth = dateOfBirth;
-        Role = role;
-        CreatedDate = createdDate;
-        UpdatedDate = updatedDate;
-        DeletedDate = deletedDate;
+            Date dateOfBirth,
+            Date createdAt,
+            Date updatedAt,
+            Date deletedAt) {
+        this.userId = userId;
+        this.email = email;
+        this.userName = userName;
+        this.hashedPassword = hashedPassword;
+        this.role = role;
+        this.dateOfBirth = dateOfBirth;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
+        this.deletedAt = deletedAt;
     }
+
     public User(
             String email,
             String userName,
             String hashedPassword,
-            Date dateOfBirth,
             String role,
-            Date createdDate,
-            Date updatedDate,
-            Date deletedDate){
-        Email = email;
-        UserName = userName;
-        HashedPassword = hashedPassword;
-        DateOfBirth = dateOfBirth;
-        Role = role;
-        CreatedDate = createdDate;
-        UpdatedDate = updatedDate;
-        DeletedDate = deletedDate;
+            Date dateOfBirth,
+            Date createdAt,
+            Date updatedAt,
+            Date deletedAt) {
+        this.email = email;
+        this.userName = userName;
+        this.hashedPassword = hashedPassword;
+        this.role = role;
+        this.dateOfBirth = dateOfBirth;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
+        this.deletedAt = deletedAt;
     }
 
+    // Getters
+    public int getUserId() { return userId; }
+    public String getEmail() { return email; }
+    public String getUserName() { return userName; }
+    public String getHashedPassword() { return hashedPassword; }
+    public String getRole() { return role; }
+    public Date getDateOfBirth() { return dateOfBirth; }
+    public Date getCreatedAt() { return createdAt; }
+    public Date getUpdatedAt() { return updatedAt; }
+    public Date getDeletedAt() { return deletedAt; }
 
-    // getters
-    public int getId() {
-        return Id;
-    }
-
-    public String getUserName() {
-        return UserName;
-    }
-
-    public String getHashedPassword() {
-        return HashedPassword;
-    }
-
-    public String getEmail() {
-        return Email;
-    }
-
-    public Date getDateOfBirth() {
-        return DateOfBirth;
-    }
-
-    public String getRole() {
-        return Role;
-    }
-
-    public Date getCreatedDate() {
-        return CreatedDate;
-    }
-
-    public Date getDeletedDate() {
-        return DeletedDate;
-    }
-
-    public Date getUpdatedDate() {
-        return UpdatedDate;
-    }
-
-    // setters
-    public void setId(int id) {
-        Id = id;
-    }
-
-    public void setUserName(String userName) {
-        UserName = userName;
-    }
-
-    public void setHashedPassword(String hashedPassword) {
-        HashedPassword = hashedPassword;
-    }
-
-    public void setEmail(String email) {
-        Email = email;
-    }
-
-    public void setDateOfBirth(Date dateOfBirth) {
-        DateOfBirth = dateOfBirth;
-    }
-
-    public void setRole(String role) {
-        Role = role;
-    }
-
-    public void setCreatedDate(Date createdDate) {
-        CreatedDate = createdDate;
-    }
-
-    public void setUpdatedDate(Date updatedDate) {
-        UpdatedDate = updatedDate;
-    }
-
-    public void setDeletedDate(Date deletedDate) {
-        DeletedDate = deletedDate;
-    }
+    // Setters
+    public void setUserId(int id) { this.userId = id; }
+    public void setEmail(String email) { this.email = email; }
+    public void setUserName(String userName) { this.userName = userName; }
+    public void setHashedPassword(String hashedPassword) { this.hashedPassword = hashedPassword; }
+    public void setRole(String role) { this.role = role; }
+    public void setDateOfBirth(Date dateOfBirth) { this.dateOfBirth = dateOfBirth; }
+    public void setCreatedAt(Date createdAt) { this.createdAt = createdAt; }
+    public void setUpdatedAt(Date updatedAt) { this.updatedAt = updatedAt; }
+    public void setDeletedAt(Date deletedAt) { this.deletedAt = deletedAt; }
 }

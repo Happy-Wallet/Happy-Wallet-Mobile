@@ -1,146 +1,89 @@
 package com.example.happy_wallet_mobile.Model;
 
+import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Date;
 
-public class Group {
-    private int Id;
-    private int CategoryId;
-    private String Name;
-    private double CurrentAmount;
-    private boolean HasTarget;
-    private double TargetAmount;
-    private String Description;
-    private Date CreatedAt;
-    private Date UpdatedAt;
-    private Date DeletedAt;
+public class Group implements Serializable {
+    private int groupId;
+    private int categoryId;
+    private String name;
+    private BigDecimal currentAmount;
+    private boolean hasTarget;
+    private BigDecimal targetAmount;
+    private String description;
+    private Date createdAt;
+    private Date updatedAt;
+    private Date deletedAt;
 
     // Constructors
-    public Group() {
-    }
+    public Group() {}
 
     public Group(
-            int id,
+            int groupId,
             int categoryId,
             String name,
-            double currentAmount,
+            BigDecimal currentAmount,
             boolean hasTarget,
-            double targetAmount,
+            BigDecimal targetAmount,
             String description,
             Date createdAt,
             Date updatedAt,
             Date deletedAt) {
-        Id = id;
-        CategoryId = categoryId;
-        Name = name;
-        CurrentAmount = currentAmount;
-        HasTarget = hasTarget;
-        TargetAmount = targetAmount;
-        Description = description;
-        CreatedAt = createdAt;
-        UpdatedAt = updatedAt;
-        DeletedAt = deletedAt;
+        this.groupId = groupId;
+        this.categoryId = categoryId;
+        this.name = name;
+        this.currentAmount = currentAmount;
+        this.hasTarget = hasTarget;
+        this.targetAmount = targetAmount;
+        this.description = description;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
+        this.deletedAt = deletedAt;
     }
 
     public Group(
             int categoryId,
             String name,
-            double currentAmount,
+            BigDecimal currentAmount,
             boolean hasTarget,
-            double targetAmount,
+            BigDecimal targetAmount,
             String description,
             Date createdAt,
             Date updatedAt,
             Date deletedAt) {
-        CategoryId = categoryId;
-        Name = name;
-        CurrentAmount = currentAmount;
-        HasTarget = hasTarget;
-        TargetAmount = targetAmount;
-        Description = description;
-        CreatedAt = createdAt;
-        UpdatedAt = updatedAt;
-        DeletedAt = deletedAt;
+        this.categoryId = categoryId;
+        this.name = name;
+        this.currentAmount = currentAmount;
+        this.hasTarget = hasTarget;
+        this.targetAmount = targetAmount;
+        this.description = description;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
+        this.deletedAt = deletedAt;
     }
 
     // Getters
-    public int getId() {
-        return Id;
-    }
-
-    public int getCategoryId() {
-        return CategoryId;
-    }
-
-    public String getName() {
-        return Name;
-    }
-
-    public double getCurrentAmount() {
-        return CurrentAmount;
-    }
-
-    public boolean isHasTarget() {
-        return HasTarget;
-    }
-
-    public double getTargetAmount() {
-        return TargetAmount;
-    }
-
-    public String getDescription() {
-        return Description;
-    }
-
-    public Date getCreatedAt() {
-        return CreatedAt;
-    }
-
-    public Date getUpdatedAt() {
-        return UpdatedAt;
-    }
-
-    public Date getDeletedAt() {
-        return DeletedAt;
-    }
+    public int getGroupId() { return groupId; }
+    public int getCategoryId() { return categoryId; }
+    public String getName() { return name; }
+    public BigDecimal getCurrentAmount() { return currentAmount; }
+    public boolean isHasTarget() { return hasTarget; }
+    public BigDecimal getTargetAmount() { return targetAmount; }
+    public String getDescription() { return description; }
+    public Date getCreatedAt() { return createdAt; }
+    public Date getUpdatedAt() { return updatedAt; }
+    public Date getDeletedAt() { return deletedAt; }
 
     // Setters
-    public void setId(int Id) {
-        Id = Id;
-    }
-
-    public void setCategoryId(int categoryId) {
-        CategoryId = categoryId;
-    }
-
-    public void setName(String name) {
-        Name = name;
-    }
-
-    public void setCurrentAmount(double currentAmount) {
-        CurrentAmount = currentAmount;
-    }
-
-    public void setHasTarget(boolean hasTarget) {
-        HasTarget = hasTarget;
-    }
-
-    public void setTargetAmount(double targetAmount) {
-        TargetAmount = targetAmount;
-    }
-
-    public void setDescription(String description) {
-        Description = description;
-    }
-
-    public void setCreatedAt(Date createdAt) {
-        CreatedAt = createdAt;
-    }
-
-    public void setUpdatedAt(Date updatedAt) {
-        UpdatedAt = updatedAt;
-    }
-
-    public void setDeletedAt(Date deletedAt) {
-        DeletedAt = deletedAt;
-    }
+    public void setGroupId(int groupId) { this.groupId = groupId; }
+    public void setCategoryId(int categoryId) { this.categoryId = categoryId; }
+    public void setName(String name) { this.name = name; }
+    public void setCurrentAmount(BigDecimal currentAmount) { this.currentAmount = currentAmount; }
+    public void setHasTarget(boolean hasTarget) { this.hasTarget = hasTarget; }
+    public void setTargetAmount(BigDecimal targetAmount) { this.targetAmount = targetAmount; }
+    public void setDescription(String description) { this.description = description; }
+    public void setCreatedAt(Date createdAt) { this.createdAt = createdAt; }
+    public void setUpdatedAt(Date updatedAt) { this.updatedAt = updatedAt; }
+    public void setDeletedAt(Date deletedAt) { this.deletedAt = deletedAt; }
 }

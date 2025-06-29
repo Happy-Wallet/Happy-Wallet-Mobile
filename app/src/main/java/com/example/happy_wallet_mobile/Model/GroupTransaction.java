@@ -4,18 +4,19 @@ import java.math.BigDecimal;
 import java.util.Date;
 
 public class GroupTransaction {
-    private int GroupId;
-    private int TransactionId;
-    private int UserId;
-    private int CategoryId;
-    private BigDecimal Amount;
-    private String Description;
-    private Date CreatedDate;
-    private Date UpdatedDate;
-    private Date DeletedDate;
+    private int transactionId;
+    private int groupId;
+    private int userId;
+    private int categoryId;
+    private BigDecimal amount;
+    private String description;
+    private Date createdAt;
+    private Date updatedAt;
+    private Date deletedAt;
 
-    // constructor
-    public GroupTransaction(){}
+    // Constructors
+    public GroupTransaction() {}
+
     public GroupTransaction(
             int transactionId,
             int groupId,
@@ -23,92 +24,39 @@ public class GroupTransaction {
             int categoryId,
             BigDecimal amount,
             String description,
-            Date createdDate,
-            Date updatedDate,
-            Date deletedDate
-    ){
-        TransactionId = transactionId;
-        GroupId = groupId;
-        UserId = userId;
-        CategoryId = categoryId;
-        Amount = amount;
-        Description= description;
-        CreatedDate = createdDate;
-        UpdatedDate = updatedDate;
-        DeletedDate = deletedDate;
+            Date createdAt,
+            Date updatedAt,
+            Date deletedAt) {
+        this.transactionId = transactionId;
+        this.groupId = groupId;
+        this.userId = userId;
+        this.categoryId = categoryId;
+        this.amount = amount;
+        this.description = description;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
+        this.deletedAt = deletedAt;
     }
 
-    // getters
-    public int getGroupId() {
-        return GroupId;
-    }
+    // Getters
+    public int getTransactionId() { return transactionId; }
+    public int getGroupId() { return groupId; }
+    public int getUserId() { return userId; }
+    public int getCategoryId() { return categoryId; }
+    public BigDecimal getAmount() { return amount; }
+    public String getDescription() { return description; }
+    public Date getCreatedAt() { return createdAt; }
+    public Date getUpdatedAt() { return updatedAt; }
+    public Date getDeletedAt() { return deletedAt; }
 
-    public int getUserId() {
-        return UserId;
-    }
-
-    public int getTransactionId() {
-        return TransactionId;
-    }
-
-    public int getCategoryId() {
-        return CategoryId;
-    }
-
-    public BigDecimal getAmount() {
-        return Amount;
-    }
-
-    public String getDescription() {
-        return Description;
-    }
-
-    public Date getCreatedDate() {
-        return CreatedDate;
-    }
-
-    public Date getUpdatedDate() {
-        return UpdatedDate;
-    }
-
-    public Date getDeletedDate() {
-        return DeletedDate;
-    }
-
-    // setters
-    public void setUserId(int userId) {
-        UserId = userId;
-    }
-
-    public void setGroupId(int groupId) {
-        GroupId = groupId;
-    }
-
-    public void setCategoryId(int categoryId) {
-        CategoryId = categoryId;
-    }
-
-    public void setTransactionId(int transactionId) {
-        TransactionId = transactionId;
-    }
-
-    public void setAmount(BigDecimal amount) {
-        Amount = amount;
-    }
-
-    public void setDescription(String description) {
-        Description = description;
-    }
-
-    public void setCreatedDate(Date createdDate) {
-        CreatedDate = createdDate;
-    }
-
-    public void setUpdatedDate(Date updatedDate) {
-        UpdatedDate = updatedDate;
-    }
-
-    public void setDeletedDate(Date deletedDate) {
-        DeletedDate = deletedDate;
-    }
+    // Setters
+    public void setTransactionId(int transactionId) { this.transactionId = transactionId; }
+    public void setGroupId(int groupId) { this.groupId = groupId; }
+    public void setUserId(int userId) { this.userId = userId; }
+    public void setCategoryId(int categoryId) { this.categoryId = categoryId; }
+    public void setAmount(BigDecimal amount) { this.amount = amount; }
+    public void setDescription(String description) { this.description = description; }
+    public void setCreatedAt(Date createdAt) { this.createdAt = createdAt; }
+    public void setUpdatedAt(Date updatedAt) { this.updatedAt = updatedAt; }
+    public void setDeletedAt(Date deletedAt) { this.deletedAt = deletedAt; }
 }

@@ -4,145 +4,85 @@ import java.io.Serializable;
 import java.util.Date;
 
 public class Category implements Serializable {
-    private int CategoryId;
-    private int UserId;
-    private int ColorRes;
-    private int IconRes;
-    private eType Type;
-    private String Name;
-    private boolean IsDefault;
-    private Date CreatedAt;
-    private Date UpdatedAt;
-    private Date DeletedAt;
+    private int categoryId;
+    private Integer userId;
+    private int iconRes;
+    private int colorRes;
+    private eType type;
+    private String name;
+    private boolean isDefault;
+    private Date createdAt;
+    private Date updatedAt;
+    private Date deletedAt;
 
     // Constructors
-    public Category() {
-    }
+    public Category() {}
 
     public Category(
             int categoryId,
             Integer userId,
-            int colorRes,
             int iconRes,
+            int colorRes,
             eType type,
             String name,
             boolean isDefault,
             Date createdAt,
             Date updatedAt,
             Date deletedAt) {
-        CategoryId = categoryId;
-        UserId = userId;
-        ColorRes = colorRes;
-        IconRes = iconRes;
-        Type = type;
-        Name = name;
-        IsDefault = isDefault;
-        CreatedAt = createdAt;
-        UpdatedAt = updatedAt;
-        DeletedAt = deletedAt;
+        this.categoryId = categoryId;
+        this.userId = userId;
+        this.iconRes = iconRes;
+        this.colorRes = colorRes;
+        this.type = type;
+        this.name = name;
+        this.isDefault = isDefault;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
+        this.deletedAt = deletedAt;
     }
 
     public Category(
             Integer userId,
-            int colorRes,
             int iconRes,
+            int colorRes,
             eType type,
             String name,
             boolean isDefault,
             Date createdAt,
             Date updatedAt,
             Date deletedAt) {
-        UserId = userId;
-        ColorRes = colorRes;
-        IconRes = iconRes;
-        Type = type;
-        Name = name;
-        IsDefault = isDefault;
-        CreatedAt = createdAt;
-        UpdatedAt = updatedAt;
-        DeletedAt = deletedAt;
+        this.userId = userId;
+        this.iconRes = iconRes;
+        this.colorRes = colorRes;
+        this.type = type;
+        this.name = name;
+        this.isDefault = isDefault;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
+        this.deletedAt = deletedAt;
     }
-
 
     // Getters
-    public int getCategoryId() {
-        return CategoryId;
-    }
-
-    public Integer getUserId() {
-        return UserId;
-    }
-
-    public int getColorRes() {
-        return ColorRes;
-    }
-
-    public int getIconRes() {
-        return IconRes;
-    }
-
-    public eType getType() {
-        return Type;
-    }
-
-    public String getName() {
-        return Name;
-    }
-
-    public boolean isDefault() {
-        return IsDefault;
-    }
-
-    public Date getCreatedAt() {
-        return CreatedAt;
-    }
-
-    public Date getUpdatedAt() {
-        return UpdatedAt;
-    }
-
-    public Date getDeletedAt() {
-        return DeletedAt;
-    }
+    public int getCategoryId() { return categoryId; }
+    public Integer getUserId() { return userId; }
+    public int getIconRes() { return iconRes; }
+    public int getColorRes() { return colorRes; }
+    public eType getType() { return type; }
+    public String getName() { return name; }
+    public boolean isDefault() { return isDefault; }
+    public Date getCreatedAt() { return createdAt; }
+    public Date getUpdatedAt() { return updatedAt; }
+    public Date getDeletedAt() { return deletedAt; }
 
     // Setters
-    public void setCategoryId(int categoryId) {
-        CategoryId = categoryId;
-    }
-
-    public void setUserId(int userId) {
-        UserId = userId;
-    }
-
-    public void setColorRes(int colorRes) {
-        ColorRes = colorRes;
-    }
-
-    public void setIconRes(int iconRes) {
-        IconRes = iconRes;
-    }
-
-    public void setType(eType type) {
-        Type = type;
-    }
-
-    public void setName(String name) {
-        Name = name;
-    }
-
-    public void setDefault(boolean aDefault) {
-        IsDefault = aDefault;
-    }
-
-    public void setCreatedAt(Date createdAt) {
-        CreatedAt = createdAt;
-    }
-
-    public void setUpdatedAt(Date updatedAt) {
-        UpdatedAt = updatedAt;
-    }
-
-    public void setDeletedAt(Date deletedAt) {
-        DeletedAt = deletedAt;
-    }
+    public void setCategoryId(int categoryId) { this.categoryId = categoryId; }
+    public void setUserId(Integer userId) { this.userId = userId; }
+    public void setIconRes(int iconRes) { this.iconRes = iconRes; }
+    public void setColorRes(int colorRes) { this.colorRes = colorRes; }
+    public void setType(eType type) { this.type = type; }
+    public void setName(String name) { this.name = name; }
+    public void setDefault(boolean isDefault) { this.isDefault = isDefault; }
+    public void setCreatedAt(Date createdAt) { this.createdAt = createdAt; }
+    public void setUpdatedAt(Date updatedAt) { this.updatedAt = updatedAt; }
+    public void setDeletedAt(Date deletedAt) { this.deletedAt = deletedAt; }
 }
