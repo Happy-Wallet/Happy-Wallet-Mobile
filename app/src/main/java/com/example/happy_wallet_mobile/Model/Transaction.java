@@ -6,14 +6,12 @@ import java.util.Date;
 public class Transaction {
     private int TransactionId;
     private int UserId;
+    private eType Type;
     private int CategoryId;
-    private int IconId;
-    private String Title;
     private BigDecimal Amount;
     private String Description;
     private Date Date;
     private Date DeletedDate;
-    private String Type;
 
     // Constructors
     public Transaction() {
@@ -22,45 +20,39 @@ public class Transaction {
     public Transaction(
             int transactionId,
             int userId,
+            eType type,
             int categoryId,
-            int iconId,
-            String title,
             BigDecimal amount,
             String description,
             Date date,
-            Date deletedDate,
-            String type) {
+            Date deletedDate) {
         TransactionId = transactionId;
         UserId = userId;
+        Type = type;
         CategoryId = categoryId;
-        IconId = iconId;
-        Title = title;
         Amount = amount;
         Description = description;
         Date = date;
         DeletedDate = deletedDate;
-        Type = type;
     }
 
     public Transaction(
             int userId,
+            eType type,
             int categoryId,
-            int iconId,
-            String title,
             BigDecimal amount,
             String description,
             Date date,
-            Date deletedDate,
-            String type) {
+            Date deletedDate) {
         UserId = userId;
+        Type = type;
         CategoryId = categoryId;
-        IconId = iconId;
-        Title = title;
         Amount = amount;
         Description = description;
         Date = date;
         DeletedDate = deletedDate;
     }
+
 
     // Getters
     public int getTransactionId() {
@@ -71,17 +63,14 @@ public class Transaction {
         return UserId;
     }
 
+    public eType getType() {
+        return Type;
+    }
+
     public int getCategoryId() {
         return CategoryId;
     }
 
-    public int getIconId() {
-        return IconId;
-    }
-
-    public String getTitle() {
-        return Title;
-    }
 
     public BigDecimal getAmount() {
         return Amount;
@@ -108,17 +97,14 @@ public class Transaction {
         UserId = userId;
     }
 
+    public void setType(eType type) {
+        Type = type;
+    }
+
     public void setCategoryId(int categoryId) {
         CategoryId = categoryId;
     }
 
-    public void setIconId(int iconId) {
-        IconId = iconId;
-    }
-
-    public void setTitle(String title) {
-        Title = title;
-    }
 
     public void setAmount(BigDecimal amount) {
         Amount = amount;
@@ -134,12 +120,5 @@ public class Transaction {
 
     public void setDeletedDate(Date deletedDate) {
         DeletedDate = deletedDate;
-    }
-
-    public String getType() {
-        return Type;
-    }
-    public void setType(String type) {
-        Type = type;
     }
 }
