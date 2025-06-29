@@ -7,7 +7,8 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class APIClient {
     private static Retrofit retrofit;
-    private static final String BASE_URL = Config.BASE_URL; // sửa trong file config
+    private static APIClient Config;
+    private static final String BASE_URL = "http://mock.com/"; // ✅ an toàn để test mock
     public static Retrofit getRetrofit(){
         if (retrofit == null) {
             HttpLoggingInterceptor logging = new HttpLoggingInterceptor();

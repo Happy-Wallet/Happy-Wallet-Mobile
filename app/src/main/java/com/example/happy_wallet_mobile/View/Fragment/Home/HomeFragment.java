@@ -19,8 +19,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.example.happy_wallet_mobile.Model.Category;
 import com.example.happy_wallet_mobile.Model.IncomeExpenseMonth;
 import com.example.happy_wallet_mobile.Model.Transaction;
+import com.example.happy_wallet_mobile.Model.eType;
 import com.example.happy_wallet_mobile.R;
 import com.example.happy_wallet_mobile.View.Adapter.MonthIAEAdapter;
 import com.example.happy_wallet_mobile.View.Adapter.SavingGoalRecyclerViewAdapter;
@@ -207,10 +209,13 @@ public class HomeFragment extends Fragment {
         Map<String, Float> spendingByCategory = new HashMap<>();
 
         for (Transaction t : allTransactions) {
-            if (t.getType().equalsIgnoreCase("expense") && matchesFilter(t.getDate(), timeFilter)) {
-                String categoryName = t.getTitle();
+            if (t.getType() == eType.EXPENSE && matchesFilter(t.getDate(), timeFilter)) {
+                Category category = findCategoryById(t.getCategoryId());
+                if (category == null) continue;
+
+                String categoryName = category.getName();
                 float current = spendingByCategory.getOrDefault(categoryName, 0f);
-                spendingByCategory.put(categoryName, current + t.getAmount().floatValue());
+                spendingByCategory.put(categoryName, current + t.getAmount().abs().floatValue());
             }
         }
 
@@ -221,6 +226,13 @@ public class HomeFragment extends Fragment {
 
         return entries;
     }
+    private Category findCategoryById(int categoryId) {
+        for (Category c : MockDataProvider.getMockCategories()) {
+            if (c.getCategoryId() == categoryId) return c;
+        }
+        return null;
+    }
+
     private boolean matchesFilter(Date date, String filter) {
         Calendar now = Calendar.getInstance();
         Calendar transactionDate = Calendar.getInstance();
