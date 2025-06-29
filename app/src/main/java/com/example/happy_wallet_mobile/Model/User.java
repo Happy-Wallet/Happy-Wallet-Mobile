@@ -4,8 +4,10 @@ import java.util.Date;
 
 public class User {
     private int Id;
-    private String UserName;
     private String Email;
+    private String UserName;
+    private String HashedPassword;
+    private Date DateOfBirth;
     private String Role;
     private Date CreatedDate;
     private Date UpdatedDate;
@@ -16,29 +18,37 @@ public class User {
     public User(){}
     public User(
             int id,
-            String userName,
             String email,
+            String userName,
+            String hashedPassword,
+            Date dateOfBirth,
             String role,
             Date createdDate,
             Date updatedDate,
             Date deletedDate){
         Id = id;
-        UserName = userName;
         Email = email;
+        UserName = userName;
+        HashedPassword = hashedPassword;
+        DateOfBirth = dateOfBirth;
         Role = role;
         CreatedDate = createdDate;
         UpdatedDate = updatedDate;
         DeletedDate = deletedDate;
     }
     public User(
-            String userName,
             String email,
+            String userName,
+            String hashedPassword,
+            Date dateOfBirth,
             String role,
             Date createdDate,
             Date updatedDate,
             Date deletedDate){
-        UserName = userName;
         Email = email;
+        UserName = userName;
+        HashedPassword = hashedPassword;
+        DateOfBirth = dateOfBirth;
         Role = role;
         CreatedDate = createdDate;
         UpdatedDate = updatedDate;
@@ -55,8 +65,16 @@ public class User {
         return UserName;
     }
 
+    public String getHashedPassword() {
+        return HashedPassword;
+    }
+
     public String getEmail() {
         return Email;
+    }
+
+    public Date getDateOfBirth() {
+        return DateOfBirth;
     }
 
     public String getRole() {
@@ -84,10 +102,17 @@ public class User {
         UserName = userName;
     }
 
+    public void setHashedPassword(String hashedPassword) {
+        HashedPassword = hashedPassword;
+    }
+
     public void setEmail(String email) {
         Email = email;
     }
 
+    public void setDateOfBirth(Date dateOfBirth) {
+        DateOfBirth = dateOfBirth;
+    }
 
     public void setRole(String role) {
         Role = role;

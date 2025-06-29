@@ -8,6 +8,7 @@ public class Category implements Serializable {
     private int UserId;
     private int ColorRes;
     private int IconRes;
+    private eType Type;
     private String Name;
     private boolean IsDefault;
     private Date CreatedAt;
@@ -23,6 +24,7 @@ public class Category implements Serializable {
             Integer userId,
             int colorRes,
             int iconRes,
+            eType type,
             String name,
             boolean isDefault,
             Date createdAt,
@@ -32,6 +34,7 @@ public class Category implements Serializable {
         UserId = userId;
         ColorRes = colorRes;
         IconRes = iconRes;
+        Type = type;
         Name = name;
         IsDefault = isDefault;
         CreatedAt = createdAt;
@@ -43,6 +46,7 @@ public class Category implements Serializable {
             Integer userId,
             int colorRes,
             int iconRes,
+            eType type,
             String name,
             boolean isDefault,
             Date createdAt,
@@ -51,6 +55,7 @@ public class Category implements Serializable {
         UserId = userId;
         ColorRes = colorRes;
         IconRes = iconRes;
+        Type = type;
         Name = name;
         IsDefault = isDefault;
         CreatedAt = createdAt;
@@ -74,6 +79,10 @@ public class Category implements Serializable {
 
     public int getIconRes() {
         return IconRes;
+    }
+
+    public eType getType() {
+        return Type;
     }
 
     public String getName() {
@@ -111,6 +120,10 @@ public class Category implements Serializable {
 
     public void setIconRes(int iconRes) {
         IconRes = iconRes;
+    }
+
+    public void setType(eType type) {
+        Type = type;
     }
 
     public void setName(String name) {

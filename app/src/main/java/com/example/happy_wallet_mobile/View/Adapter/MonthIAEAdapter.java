@@ -23,6 +23,11 @@ public class MonthIAEAdapter extends RecyclerView.Adapter<MonthIAEAdapter.ViewHo
         this.data = data;
     }
 
+    public void update(List<IncomeExpenseMonth> newData) {
+        this.data = newData;
+        notifyDataSetChanged();
+    }
+
     public static class ViewHolder extends RecyclerView.ViewHolder {
         View viewIncome, viewExpense;
         TextView tvMonth;

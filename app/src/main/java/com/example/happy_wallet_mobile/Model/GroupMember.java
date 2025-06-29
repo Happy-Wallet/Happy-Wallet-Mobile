@@ -27,18 +27,6 @@ public class GroupMember implements Serializable {
         UpdatedDate = updatedDate;
         DeletedDate = deletedDate;
     }
-    public GroupMember(
-            int userId,
-            String role,
-            Date createdDate,
-            Date updatedDate,
-            Date deletedDate){
-        UserId = userId;
-        Role = role;
-        CreatedDate = createdDate;
-        UpdatedDate = updatedDate;
-        DeletedDate = deletedDate;
-    }
 
     // getters
     public int getGroupId() {
