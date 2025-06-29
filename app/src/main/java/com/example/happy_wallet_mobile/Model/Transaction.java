@@ -60,6 +60,7 @@ public class Transaction {
         Description = description;
         Date = date;
         DeletedDate = deletedDate;
+        Type = type;
     }
 
     // Getters

@@ -26,7 +26,7 @@ public class MockDataProvider {
 
     public static List<User> getMockUsers() {
         List<User> users = new ArrayList<>();
-        for (int i = 1; i <= 5; i++) {
+        for (int i = 1; i <= 12; i++) {
             users.add(new User(
                     i,
                     "user" + i,
@@ -105,6 +105,25 @@ public class MockDataProvider {
         }
         return transactions;
     }
+    public static List<Transaction> getTransactions() {
+        List<Transaction> list = new ArrayList<>();
+
+        list.add(new Transaction(
+                1, 1, 0, "Ăn sáng", new BigDecimal("150000"), "Ăn sáng tại quán", new Date(), null, "expense"));
+
+        list.add(new Transaction(
+                1, 2, 0, "Tiền nhà", new BigDecimal("2500000"), "Thanh toán tiền thuê", new Date(), null, "expense"));
+
+        list.add(new Transaction(
+                1, 3, 0, "Điện nước", new BigDecimal("500000"), "Trả tiền điện, nước", new Date(), null, "expense"));
+
+        list.add(new Transaction(
+                1, 4, 0, "Mua áo", new BigDecimal("200000"), "Mua áo phông", new Date(), null, "expense"));
+
+        return list;
+    }
+
+
     public static <Context> List<IncomeExpenseMonth> getMonthlyIncomeExpense(Context context) {
         List<GroupTransaction> groupTransactions = getMockGroupTransactions();
         return generateMonthlyStatsFromGroupTransactions(groupTransactions);
@@ -231,7 +250,7 @@ public class MockDataProvider {
         for (int month = Calendar.JANUARY; month <= Calendar.JUNE; month++) {
             for (int i = 0; i < 3; i++) {
                 Calendar cal = Calendar.getInstance();
-                cal.set(2025, month, random.nextInt(28) + 1); 
+                cal.set(2025, month, random.nextInt(28) + 1);
 
                 BigDecimal amount = BigDecimal.valueOf((random.nextInt(50) + 1) * 10000);
                 if (random.nextBoolean()) amount = amount.negate();
