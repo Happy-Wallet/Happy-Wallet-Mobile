@@ -1,35 +1,40 @@
 package com.example.happy_wallet_mobile.ViewModel.Authentication;
 
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MediatorLiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import com.example.happy_wallet_mobile.Data.Remote.Request.Auth.LoginRequest;
+import com.example.happy_wallet_mobile.Data.Remote.Request.Auth.RegisterRequest;
+import com.example.happy_wallet_mobile.Data.Remote.Response.Auth.LoginResponse;
+import com.example.happy_wallet_mobile.Data.Remote.Response.Auth.RegisterResponse;
+import com.example.happy_wallet_mobile.Data.Repository.AuthRepository;
+
 public class SignInViewModel extends ViewModel {
+    private final AuthRepository authRepository = new AuthRepository();
 
-    private final MutableLiveData<String> userName = new MutableLiveData<>();
-    private final MutableLiveData<String> password = new MutableLiveData<>();
-    private final MutableLiveData<Boolean> signInSuccess = new MutableLiveData<>();
+    private final MediatorLiveData<LoginResponse> _loginResponse = new MediatorLiveData<>();
 
-    public void setUserName(String name) {
-        userName.setValue(name);
+    public LiveData<LoginResponse> getLoginResponse() {
+        return _loginResponse;
     }
 
-    public void setPassword(String pwd) {
-        password.setValue(pwd);
+    public boolean loginMock(String userName, String password) {
+        return "".equals(userName) && "".equals(password);
     }
 
-    public LiveData<Boolean> getSignInResult() {
-        return signInSuccess;
-    }
+    public void login(String userName, String password) {
 
-    public void attemptSignIn() {
-        String u = userName.getValue();
-        String p = password.getValue();
-
-        if ("".equals(u) && "".equals(p)) {
-            signInSuccess.setValue(true);
-        } else {
-            signInSuccess.setValue(false);
+        if (userName == null || password == null || userName.isEmpty() || password.isEmpty()) {
+            _loginResponse.setValue(null);
+            return;
         }
+
+        LiveData<LoginResponse> source = authRepository.login(new LoginRequest(userName, password));
+        _loginResponse.addSource(source, response -> {
+            _loginResponse.setValue(response);
+            _loginResponse.removeSource(source);
+        });
     }
 }

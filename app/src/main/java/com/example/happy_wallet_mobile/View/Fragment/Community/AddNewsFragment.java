@@ -5,6 +5,7 @@ import android.os.Bundle;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.constraintlayout.widget.ConstraintSet;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,6 +16,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.happy_wallet_mobile.R;
+import com.example.happy_wallet_mobile.ViewModel.Community.AddNewsViewModel;
+import com.example.happy_wallet_mobile.ViewModel.Community.CommunityViewModel;
 
 public class AddNewsFragment extends Fragment {
 
@@ -24,11 +27,15 @@ public class AddNewsFragment extends Fragment {
     ImageView ivImage, ivChooseImage, ivAddActivity;
     EditText etDescription;
 
+    AddNewsViewModel addNewsViewModel;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_add_news, container, false);
+
+        addNewsViewModel = new ViewModelProvider(requireActivity()).get(AddNewsViewModel.class);
 
         clContentLayout = view.findViewById(R.id.clContentLayout);
         flButtonLayout = view.findViewById(R.id.flButtonLayout);

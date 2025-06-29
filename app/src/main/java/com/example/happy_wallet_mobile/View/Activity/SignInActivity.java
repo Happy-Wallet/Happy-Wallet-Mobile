@@ -82,26 +82,33 @@ public class SignInActivity extends AppCompatActivity {
         tvProjectName.setText(spannableProjectName);
 
         // get sign in result from viewmodel
-        signInViewModel.getSignInResult().observe(this, success -> {
-            if (success) {
+        signInViewModel.getLoginResponse().observe(this, response -> {
+            if (response != null) {
                 Toast.makeText(this, "Đăng nhập thành công!", Toast.LENGTH_SHORT).show();
-
                 startActivity(new Intent(SignInActivity.this, MainActivity.class));
                 finish();
-
             } else {
                 Toast.makeText(this, "Sai tài khoản hoặc mật khẩu", Toast.LENGTH_SHORT).show();
+                tvSignIn.setEnabled(true);
             }
         });
 
         // sign in click
         tvSignIn.setOnClickListener(v -> {
+            tvSignIn.setEnabled(false);
             String username = etUserName.getText().toString().trim();
             String password = edPassword.getText().toString().trim();
 
-            signInViewModel.setUserName(username);
-            signInViewModel.setPassword(password);
-            signInViewModel.attemptSignIn();
+            if (signInViewModel.loginMock(username, password)) {
+                Toast.makeText(this, "Đăng nhập thành công!", Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(SignInActivity.this, MainActivity.class));
+                finish();
+            } else {
+                Toast.makeText(this, "Sai tài khoản hoặc mật khẩu", Toast.LENGTH_SHORT).show();
+                tvSignIn.setEnabled(true);
+            }
+
+//            signInViewModel.login(username, password);
         });
 
         // forgot password clicl
