@@ -62,7 +62,7 @@ public class HomeFragment extends Fragment {
 
 
         // set data for account balance
-        homeViewModel.TotalBalance.observe(getViewLifecycleOwner(), totalBalance -> {
+        homeViewModel.getTotalBalance().observe(getViewLifecycleOwner(), totalBalance -> {
             if (totalBalance != null) {
                 tvAccountBalance.setText(CurrencyUtility.format(totalBalance));
                 if (totalBalance.compareTo(BigDecimal.ZERO) < 0) {
@@ -87,10 +87,10 @@ public class HomeFragment extends Fragment {
 
         rcvSavingGoals.setAdapter(savingGoalRecyclerViewAdapter);
         // Observe dữ liệu từ ViewModel
-        homeViewModel.savingGoalList.observe(getViewLifecycleOwner(), savingGoals -> {
+        homeViewModel.getSavingGoalList().observe(getViewLifecycleOwner(), savingGoals -> {
             savingGoalRecyclerViewAdapter.updateSavingGoals(savingGoals);
         });
-        homeViewModel.categoryList.observe(getViewLifecycleOwner(), categories -> {
+        homeViewModel.getCategoryList().observe(getViewLifecycleOwner(), categories -> {
             savingGoalRecyclerViewAdapter.updateCategories(categories);
         });
 
@@ -135,12 +135,14 @@ public class HomeFragment extends Fragment {
             tvYear.setBackground(ContextCompat.getDrawable(requireContext(), R.drawable.bg_rounded_20_paolo_veronese_green));
         });
 
-        RecyclerView rcvMonthIAE = view.findViewById(R.id.rcvMonthIAE);
+        // set data cho biểu đồ IAE (income and expense) từng tháng
         rcvMonthIAE.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
-        List<IncomeExpenseMonth> list = getMonthlyIncomeExpense(getContext());
-        MonthIAEAdapter adapter = new MonthIAEAdapter(list);
-        rcvMonthIAE.setAdapter(adapter);
-
+        MonthIAEAdapter monthIAEAdapter = new MonthIAEAdapter(List.of());
+        rcvMonthIAE.setAdapter(monthIAEAdapter);
+        // observe data từ viewmodel
+        homeViewModel.getMonthlyData().observe(getViewLifecycleOwner(), monthlyData -> {
+            monthIAEAdapter.update(monthlyData);
+        });
 
         return view;
     }
