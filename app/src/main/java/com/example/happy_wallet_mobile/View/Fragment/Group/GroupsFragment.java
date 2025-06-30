@@ -18,6 +18,7 @@ import android.widget.TextView;
 import com.example.happy_wallet_mobile.Data.MockDataProvider;
 import com.example.happy_wallet_mobile.Model.Group;
 import com.example.happy_wallet_mobile.R;
+import com.example.happy_wallet_mobile.View.Adapter.GroupMembersRecyclerViewAdapter;
 import com.example.happy_wallet_mobile.View.Adapter.GroupRecyclerViewAdapter;
 import com.example.happy_wallet_mobile.View.Adapter.MembersActivitiesRecyclerViewAdapter;
 import com.example.happy_wallet_mobile.View.Utilities.CurrencyUtility;
@@ -109,6 +110,18 @@ public class GroupsFragment extends Fragment {
             membersActivitiesRecyclerViewAdapter.updateCategories(categories);
             membersActivitiesRecyclerViewAdapter.refresh();
         });
+
+        //set data for rcvMembers
+        rcvMembers.setLayoutManager(new LinearLayoutManager(requireContext()));
+        GroupMembersRecyclerViewAdapter groupMembersRecyclerViewAdapter = new GroupMembersRecyclerViewAdapter(
+                List.of()
+        );
+        rcvMembers.setAdapter(groupMembersRecyclerViewAdapter);
+        //observe data from vm
+        groupsViewModel.getGroupMemberContributionList().observe(getViewLifecycleOwner(), list -> {
+            groupMembersRecyclerViewAdapter.updateMemberContributionList(list);
+        });
+
 
 
 
