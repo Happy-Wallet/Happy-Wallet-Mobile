@@ -25,21 +25,31 @@ public class GroupsViewModel extends ViewModel {
         return categoryList;
     }
 
+    //user groups
     private final MutableLiveData<List<Group>> groupList = new MutableLiveData<>();
     public LiveData<List<Group>> getGroupList(){
         return groupList;
     }
 
-    private final MutableLiveData<List<User>> groupMemberList = new MutableLiveData<>();
-    public LiveData<List<User>> getGroupMemberList(){
-        return groupMemberList;
+    // user in group
+    private final MutableLiveData<List<User>> groupMemberUserList = new MutableLiveData<>();
+    public LiveData<List<User>> getGroupMemberUserList(){
+        return groupMemberUserList;
     }
 
+    // transactions in group
     private final MutableLiveData<List<GroupTransaction>> groupTransactionList = new MutableLiveData<>();
     public LiveData<List<GroupTransaction>> getGroupTransactionList(){
         return groupTransactionList;
     }
 
+    // member in group
+    private final MutableLiveData<List<GroupMember>> groupMemberList = new MutableLiveData<>();
+    public LiveData<List<GroupMember>> getGroupMemberList(){
+        return groupMemberList;
+    }
+
+    // members contribution
     private final MutableLiveData<List<GroupMemberContribution>> groupMemberContributionList = new MutableLiveData<>();
     public LiveData<List<GroupMemberContribution>> getGroupMemberContributionList() {
         return groupMemberContributionList;
@@ -60,6 +70,8 @@ public class GroupsViewModel extends ViewModel {
                 .filter(m -> m.getGroupId() == group.getId())
                 .collect(Collectors.toList());
 
+        groupMemberList.setValue(membersInGroup);
+
         // Lấy userId của members
         Set<Integer> memberUserIds = membersInGroup.stream()
                 .map(GroupMember::getUserId)
@@ -70,19 +82,19 @@ public class GroupsViewModel extends ViewModel {
                 .filter(u -> memberUserIds.contains(u.getId()))
                 .collect(Collectors.toList());
 
+        groupMemberUserList.setValue(usersInGroup);
+
         // Lọc transactions của group
         List<GroupTransaction> transactionsInGroup = allTransactions.stream()
                 .filter(t -> t.getGroupId() == group.getId())
                 .collect(Collectors.toList());
 
-        // Set LiveData cho fragment
-        groupMemberList.setValue(usersInGroup);
         groupTransactionList.setValue(transactionsInGroup);
 
-        // Build danh sách contributions
+        // Build danh sách contributions dựa trên chỉ các member trong group
         List<GroupMemberContribution> contributions = new ArrayList<>();
         for (GroupMember member : membersInGroup) {
-            User user = allUsers.stream()
+            User user = usersInGroup.stream()
                     .filter(u -> u.getId() == member.getUserId())
                     .findFirst()
                     .orElse(null);

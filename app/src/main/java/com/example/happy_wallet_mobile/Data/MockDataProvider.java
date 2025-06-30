@@ -173,34 +173,45 @@ public class MockDataProvider {
         List<GroupTransaction> transactions = new ArrayList<>();
         String[] descriptions = {"Mua chung", "Tiệc nhóm", "Đóng phí", "Mua dụng cụ", "Chi phí khác"};
         List<GroupMember> members = getMockGroupMembers();
+        Random random = new Random();
 
         int id = 1;
-        for (int month = Calendar.JANUARY; month <= Calendar.JUNE; month++) {
-            for (GroupMember member : members) {
-                Calendar cal = Calendar.getInstance();
-                cal.set(2025, month, random.nextInt(28) + 1);
+        for (int month = Calendar.JANUARY; month <= Calendar.DECEMBER; month++) {
+            // Mỗi tháng chọn từ 5 - 10 ngày ngẫu nhiên
+            Set<Integer> daysInMonth = new HashSet<>();
+            int numberOfDays = 5 + random.nextInt(6); // 5 -> 10 ngày
+            while (daysInMonth.size() < numberOfDays) {
+                daysInMonth.add(1 + random.nextInt(28));
+            }
 
-                BigDecimal amount = BigDecimal.valueOf((random.nextInt(50) + 1) * 10_000);
-                eType type = random.nextBoolean() ? eType.EXPENSE : eType.INCOME;
-                BigDecimal signedAmount = type == eType.EXPENSE ? amount.negate() : amount;
+            for (int day : daysInMonth) {
+                for (GroupMember member : members) {
+                    Calendar cal = Calendar.getInstance();
+                    cal.set(2025, month, day);
 
-                groupAmountMap.put(member.getGroupId(),
-                        groupAmountMap.get(member.getGroupId()).add(signedAmount));
+                    BigDecimal amount = BigDecimal.valueOf((random.nextInt(50) + 1) * 10_000);
+                    eType type = random.nextBoolean() ? eType.EXPENSE : eType.INCOME;
+                    BigDecimal signedAmount = type == eType.EXPENSE ? amount.negate() : amount;
 
-                transactions.add(new GroupTransaction(
-                        id++, member.getGroupId(), member.getUserId(),
-                        random.nextInt(10) + 1,
-                        amount,
-                        descriptions[random.nextInt(descriptions.length)],
-                        new Date(),
-                        new Date(),
-                        null,
-                        type
-                ));
+                    groupAmountMap.put(member.getGroupId(),
+                            groupAmountMap.get(member.getGroupId()).add(signedAmount));
+
+                    transactions.add(new GroupTransaction(
+                            id++, member.getGroupId(), member.getUserId(),
+                            random.nextInt(10) + 1,
+                            amount,
+                            descriptions[random.nextInt(descriptions.length)],
+                            cal.getTime(),
+                            new Date(),
+                            null,
+                            type
+                    ));
+                }
             }
         }
         return transactions;
     }
+
 
     public static List<GroupTransaction> getMockGroupTransactions() {
         if (cachedGroupTransactions == null) {
