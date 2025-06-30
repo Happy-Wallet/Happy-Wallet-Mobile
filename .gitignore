@@ -29,3 +29,6 @@ local.properties
 
 # Screenshots
 captures/
+
+# Local config file containing IP server
+app/src/main/java/com/example/happy_wallet_mobile/Data/Remote/Config.java

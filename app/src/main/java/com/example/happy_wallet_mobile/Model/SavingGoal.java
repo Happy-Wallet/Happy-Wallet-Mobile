@@ -8,13 +8,11 @@ public class SavingGoal implements Serializable {
     private int GoalId; 
     private int UserId; 
     private int CategoryId;
-    private String Name; 
+    private String Name;
+    private String Description;
     private BigDecimal CurrentAmount; 
-    private BigDecimal TargetAmount; 
-    private String Description; 
-    private Date CreatedDate; 
-    private Date UpdatedDate; 
-    private Date DeletedDate; 
+    private BigDecimal TargetAmount;
+    private Date TargetDate;
 
     // Constructors
     public SavingGoal() {
@@ -22,46 +20,38 @@ public class SavingGoal implements Serializable {
 
     public SavingGoal(
             int goalId, 
-                    int userId, 
-                    int categoryId,
-                    String name, 
-                    BigDecimal currentAmount, 
-                    BigDecimal targetAmount, 
-                    String description, 
-                    Date createdDate,
-                    Date updatedDate,
-                    Date deletedDate) {
+            int userId,
+            int categoryId,
+            String name,
+            String description,
+            BigDecimal currentAmount,
+            BigDecimal targetAmount,
+            Date targetDate) {
         GoalId = goalId;
         UserId = userId;
         CategoryId = categoryId;
         Name = name;
+        Description = description;
         CurrentAmount = currentAmount;
         TargetAmount = targetAmount;
-        Description = description;
-        CreatedDate = createdDate;
-        UpdatedDate = updatedDate;
-        DeletedDate = deletedDate;
+        TargetDate = targetDate;
     }
 
     public SavingGoal(
             int userId, 
-                    int categoryId,
-                    String name, 
-                    BigDecimal currentAmount, 
-                    BigDecimal targetAmount, 
-                    String description, 
-                    Date createdDate,
-                    Date updatedDate,
-                    Date deletedDate) {
+            int categoryId,
+            String name,
+            String description,
+            BigDecimal currentAmount,
+            BigDecimal targetAmount,
+            Date targetDate) {
         UserId = userId;
         CategoryId = categoryId;
         Name = name;
+        Description = description;
         CurrentAmount = currentAmount;
         TargetAmount = targetAmount;
-        Description = description;
-        CreatedDate = createdDate;
-        UpdatedDate = updatedDate;
-        DeletedDate = deletedDate;
+        TargetDate = targetDate;
     }
 
     // Getters
@@ -81,6 +71,10 @@ public class SavingGoal implements Serializable {
         return Name;
     }
 
+    public String getDescription() {
+        return Description;
+    }
+
     public BigDecimal getCurrentAmount() {
         return CurrentAmount;
     }
@@ -89,20 +83,8 @@ public class SavingGoal implements Serializable {
         return TargetAmount;
     }
 
-    public String getDescription() {
-        return Description;
-    }
-
-    public Date getCreatedDate() {
-        return CreatedDate;
-    }
-
-    public Date getUpdatedDate() {
-        return UpdatedDate;
-    }
-
-    public Date getDeletedDate() {
-        return DeletedDate;
+    public Date getTargetDate() {
+        return TargetDate;
     }
 
     // Setters
@@ -122,6 +104,10 @@ public class SavingGoal implements Serializable {
         Name = name;
     }
 
+    public void setDescription(String description) {
+        Description = description;
+    }
+
     public void setCurrentAmount(BigDecimal currentAmount) {
         CurrentAmount = currentAmount;
     }
@@ -130,19 +116,7 @@ public class SavingGoal implements Serializable {
         TargetAmount = targetAmount;
     }
 
-    public void setDescription(String description) {
-        Description = description;
-    }
-
-    public void setCreatedDate(Date createdDate) {
-        CreatedDate = createdDate;
-    }
-
-    public void setUpdatedDate(Date updatedDate) {
-        UpdatedDate = updatedDate;
-    }
-
-    public void setDeletedDate(Date deletedDate) {
-        DeletedDate = deletedDate;
+    public void setTargetDate(Date targetDate) {
+        TargetDate = targetDate;
     }
 }

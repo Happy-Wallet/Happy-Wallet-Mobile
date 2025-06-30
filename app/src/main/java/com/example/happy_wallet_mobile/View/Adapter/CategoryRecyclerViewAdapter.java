@@ -3,7 +3,6 @@ package com.example.happy_wallet_mobile.View.Adapter;
 import android.content.Context;
 import android.content.res.ColorStateList;
 import android.content.res.Resources;
-import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,7 +17,6 @@ import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.happy_wallet_mobile.Model.Category;
-import com.example.happy_wallet_mobile.Model.Icon;
 import com.example.happy_wallet_mobile.R;
 
 import java.util.List;
@@ -30,7 +28,6 @@ public class CategoryRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVi
 
     private final Context context;
     private List<Category> categories;
-    private List<Icon> icons;
     private final OnItemClickListener listener;
     private OnAddClickListener onAddClickListener;
     private int selectedPosition = -1;
@@ -40,12 +37,6 @@ public class CategoryRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVi
         notifyDataSetChanged();
     }
 
-    public void updateIcons(List<Icon> list) {
-        this.icons = list;
-        notifyDataSetChanged();
-    }
-
-
     public interface OnItemClickListener {
         void onItemClick(Category category);
     }
@@ -54,10 +45,9 @@ public class CategoryRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVi
         void onAddClick();
     }
 
-    public CategoryRecyclerViewAdapter(Context context, List<Category> categories, List<Icon> icons, OnItemClickListener listener) {
+    public CategoryRecyclerViewAdapter(Context context, List<Category> categories, OnItemClickListener listener) {
         this.context = context;
         this.categories = categories;
-        this.icons = icons;
         this.listener = listener;
     }
 
@@ -79,21 +69,18 @@ public class CategoryRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVi
             lnlItemContainer = itemView.findViewById(R.id.lnlItemContainer);
         }
 
-        public void bind(Category category, Icon icon, OnItemClickListener listener, Context context, int position, CategoryRecyclerViewAdapter adapter) {
+        public void bind(Category category, OnItemClickListener listener, Context context, int position, CategoryRecyclerViewAdapter adapter) {
             tvName.setText(category.getName());
 
-            int iconResId = context.getResources().getIdentifier(icon.getIconPath(), "drawable", context.getPackageName());
-            if (iconResId != 0) {
-                ivIcon.setImageResource(iconResId);
-            }
+            // Gán icon từ res
+            ivIcon.setImageResource(category.getIconRes());
 
-            try {
-                GradientDrawable bg = (GradientDrawable) flIconBackground.getBackground();
-                bg.setColor(Color.parseColor(category.getColorCode()));
-            } catch (Exception ignored) {}
+            // Gán màu từ res
+            GradientDrawable bg = (GradientDrawable) flIconBackground.getBackground();
+            bg.setColor(ContextCompat.getColor(context, category.getColorRes()));
 
             itemView.setOnClickListener(v -> {
-                adapter.setSelectedPosition(position); // Cập nhật selected position
+                adapter.setSelectedPosition(position);
                 listener.onItemClick(category);
             });
         }
@@ -124,27 +111,21 @@ public class CategoryRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVi
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
-
         if (getItemViewType(position) == TYPE_CATEGORY) {
             Category category = categories.get(position);
-            Icon icon = getIconById(category.getIconId());
             CategoryViewHolder categoryHolder = (CategoryViewHolder) holder;
-            if (icon != null) {
-                categoryHolder.bind(category, icon, listener, context, position, this);
+            categoryHolder.bind(category, listener, context, position, this);
 
-            }
-
-            // Đặt màu nền khi được chọn
+            // Viền khi được chọn
             categoryHolder.lnlItemContainer.setBackgroundTintList(
                     ColorStateList.valueOf(
                             ContextCompat.getColor(context,
                                     selectedPosition == position
-                                            ? R.color.Silver_Phoenix   // Màu khi chọn
-                                            : R.color.white            // Màu mặc định
+                                            ? R.color.Silver_Phoenix
+                                            : R.color.white
                             )
                     )
             );
-
         } else {
             holder.itemView.setOnClickListener(v -> {
                 if (onAddClickListener != null) {
@@ -153,6 +134,7 @@ public class CategoryRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVi
             });
         }
 
+        // Chia 3 cột ngang bằng nhau
         int screenWidth = Resources.getSystem().getDisplayMetrics().widthPixels;
         int columnCount = 3;
         ViewGroup.LayoutParams layoutParams = holder.itemView.getLayoutParams();
@@ -165,20 +147,10 @@ public class CategoryRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVi
         return categories.size() + 1;
     }
 
-    private Icon getIconById(int iconId) {
-        for (Icon icon : icons) {
-            if (icon.getIconId() == iconId) {
-                return icon;
-            }
-        }
-        return null;
-    }
-
     public void setSelectedPosition(int position) {
         int oldPosition = selectedPosition;
         selectedPosition = position;
         notifyItemChanged(oldPosition);
         notifyItemChanged(position);
     }
-
 }

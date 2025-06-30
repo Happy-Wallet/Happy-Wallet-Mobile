@@ -6,8 +6,9 @@ import java.util.Date;
 public class Category implements Serializable {
     private int CategoryId;
     private int UserId;
-    private int IconId;
-    private String ColorCode;
+    private int ColorRes;
+    private int IconRes;
+    private eType Type;
     private String Name;
     private boolean IsDefault;
     private Date CreatedAt;
@@ -21,8 +22,9 @@ public class Category implements Serializable {
     public Category(
             int categoryId,
             Integer userId,
-            int iconId,
-            String colorCode,
+            int colorRes,
+            int iconRes,
+            eType type,
             String name,
             boolean isDefault,
             Date createdAt,
@@ -30,8 +32,9 @@ public class Category implements Serializable {
             Date deletedAt) {
         CategoryId = categoryId;
         UserId = userId;
-        IconId = iconId;
-        ColorCode = colorCode;
+        ColorRes = colorRes;
+        IconRes = iconRes;
+        Type = type;
         Name = name;
         IsDefault = isDefault;
         CreatedAt = createdAt;
@@ -41,22 +44,25 @@ public class Category implements Serializable {
 
     public Category(
             Integer userId,
-            int iconId,
-            String colorCode,
+            int colorRes,
+            int iconRes,
+            eType type,
             String name,
             boolean isDefault,
             Date createdAt,
             Date updatedAt,
             Date deletedAt) {
         UserId = userId;
-        IconId = iconId;
-        ColorCode = colorCode;
+        ColorRes = colorRes;
+        IconRes = iconRes;
+        Type = type;
         Name = name;
         IsDefault = isDefault;
         CreatedAt = createdAt;
         UpdatedAt = updatedAt;
         DeletedAt = deletedAt;
     }
+
 
     // Getters
     public int getCategoryId() {
@@ -67,12 +73,16 @@ public class Category implements Serializable {
         return UserId;
     }
 
-    public int getIconId() {
-        return IconId;
+    public int getColorRes() {
+        return ColorRes;
     }
 
-    public String getColorCode() {
-        return ColorCode;
+    public int getIconRes() {
+        return IconRes;
+    }
+
+    public eType getType() {
+        return Type;
     }
 
     public String getName() {
@@ -100,16 +110,20 @@ public class Category implements Serializable {
         CategoryId = categoryId;
     }
 
-    public void setUserId(Integer userId) {
+    public void setUserId(int userId) {
         UserId = userId;
     }
 
-    public void setIconId(int iconId) {
-        IconId = iconId;
+    public void setColorRes(int colorRes) {
+        ColorRes = colorRes;
     }
 
-    public void setColorCode(String colorCode) {
-        ColorCode = colorCode;
+    public void setIconRes(int iconRes) {
+        IconRes = iconRes;
+    }
+
+    public void setType(eType type) {
+        Type = type;
     }
 
     public void setName(String name) {

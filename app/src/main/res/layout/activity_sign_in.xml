@@ -116,7 +116,10 @@
             app:layout_constraintEnd_toEndOf="parent"
             android:layout_marginTop="493dp"
             android:orientation="horizontal"
+            android:elevation="4dp"
+
             android:id="@+id/lnlSignInWithGoogle"
+
             android:background="@drawable/bg_rounded_50_white"
             android:backgroundTint="#5F88FF"
             android:padding="10dp"
@@ -145,17 +148,36 @@
 
         </LinearLayout>
 
+        <!-- forgot password -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/lnlSignInWithGoogle"
+            android:layout_marginTop="20dp"
+
+            android:id="@+id/tvForgotPassword"
+
+            android:text="forgot password"
+            android:fontFamily="@font/poppins_medium_500"
+            android:textSize="16sp"
+            android:textColor="@color/Nautical"
+            />
+
         <!-- or Sign up to get started -->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/tvSignUp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginBottom="10dp"
+
             android:text="or Sign up to get started"
             android:fontFamily="@font/poppins_regular_400"
-            android:textSize="12sp"
-            android:textColor="@color/black"
+            android:textSize="16sp"
+            android:textColor="@color/Nautical"
             android:layout_marginTop="595dp"
             />
 
@@ -167,7 +189,9 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginTop="626dp"
+            android:layout_marginTop="700dp"
+            android:elevation="4dp"
+
             android:id="@+id/tvSignUp"
 
             android:text="Sign Up"

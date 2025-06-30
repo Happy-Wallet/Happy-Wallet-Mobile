@@ -2,14 +2,12 @@ package com.example.happy_wallet_mobile.Model;
 
 import java.math.BigDecimal;
 import java.util.Date;
-import java.util.concurrent.TimeoutException;
 
 public class Transaction {
     private int TransactionId;
     private int UserId;
+    private eType Type;
     private int CategoryId;
-    private int IconId;
-    private String Title;
     private BigDecimal Amount;
     private String Description;
     private Date Date;
@@ -22,18 +20,16 @@ public class Transaction {
     public Transaction(
             int transactionId,
             int userId,
+            eType type,
             int categoryId,
-            int iconId,
-            String title,
             BigDecimal amount,
             String description,
             Date date,
             Date deletedDate) {
         TransactionId = transactionId;
         UserId = userId;
+        Type = type;
         CategoryId = categoryId;
-        IconId = iconId;
-        Title = title;
         Amount = amount;
         Description = description;
         Date = date;
@@ -42,22 +38,22 @@ public class Transaction {
 
     public Transaction(
             int userId,
+            eType type,
             int categoryId,
-            int iconId,
-            String title,
             BigDecimal amount,
             String description,
             Date date,
             Date deletedDate) {
         UserId = userId;
+        Type = type;
         CategoryId = categoryId;
-        IconId = iconId;
-        Title = title;
         Amount = amount;
         Description = description;
         Date = date;
         DeletedDate = deletedDate;
+        Type = type;
     }
+
 
     // Getters
     public int getTransactionId() {
@@ -68,17 +64,14 @@ public class Transaction {
         return UserId;
     }
 
+    public eType getType() {
+        return Type;
+    }
+
     public int getCategoryId() {
         return CategoryId;
     }
 
-    public int getIconId() {
-        return IconId;
-    }
-
-    public String getTitle() {
-        return Title;
-    }
 
     public BigDecimal getAmount() {
         return Amount;
@@ -105,17 +98,14 @@ public class Transaction {
         UserId = userId;
     }
 
+    public void setType(eType type) {
+        Type = type;
+    }
+
     public void setCategoryId(int categoryId) {
         CategoryId = categoryId;
     }
 
-    public void setIconId(int iconId) {
-        IconId = iconId;
-    }
-
-    public void setTitle(String title) {
-        Title = title;
-    }
 
     public void setAmount(BigDecimal amount) {
         Amount = amount;

@@ -1,6 +1,7 @@
 package com.example.happy_wallet_mobile.View.Activity;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 
@@ -9,12 +10,16 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.example.happy_wallet_mobile.R;
-import com.example.happy_wallet_mobile.View.Fragment.AddNewsFragment;
+import com.example.happy_wallet_mobile.View.Fragment.Community.AddNewsFragment;
+import com.example.happy_wallet_mobile.ViewModel.Community.CommunityViewModel;
+import com.example.happy_wallet_mobile.ViewModel.MainViewModel;
 
 public class CommunityActivity extends AppCompatActivity {
 
+    CommunityViewModel communityViewModel;
     ImageView ivBack;
     FrameLayout flContentContainer;
 
@@ -29,11 +34,14 @@ public class CommunityActivity extends AppCompatActivity {
             return insets;
         });
 
+        communityViewModel = new ViewModelProvider(this).get(CommunityViewModel.class);
+
         ivBack = findViewById(R.id.ivBack);
         flContentContainer = findViewById(R.id.flContentContainer);
 
         // back
         ivBack.setOnClickListener(v -> {
+            Log.d("CommunityActivity", "ivBack clicked");
             finish();
         });
 

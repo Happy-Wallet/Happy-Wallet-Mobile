@@ -1,7 +1,6 @@
 package com.example.happy_wallet_mobile.View.Activity;
 
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.text.Spannable;
 import android.text.SpannableString;
@@ -22,9 +21,9 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.happy_wallet_mobile.R;
-import com.example.happy_wallet_mobile.View.Fragment.NotificationFragment;
-import com.example.happy_wallet_mobile.View.Fragment.SignUpFragment;
-import com.example.happy_wallet_mobile.ViewModel.SignInViewModel;
+import com.example.happy_wallet_mobile.View.Fragment.Authentication.ForgotPasswordFragment;
+import com.example.happy_wallet_mobile.View.Fragment.Authentication.SignUpFragment;
+import com.example.happy_wallet_mobile.ViewModel.Authentication.SignInViewModel;
 
 public class SignInActivity extends AppCompatActivity {
 
@@ -35,6 +34,7 @@ public class SignInActivity extends AppCompatActivity {
     EditText edPassword;
     TextView tvSignIn;
     TextView tvSignUp;
+    TextView tvForgotPassword;
     LinearLayout lnlSignInWithGoogle;
     FrameLayout flFragmentContainer;
 
@@ -57,6 +57,7 @@ public class SignInActivity extends AppCompatActivity {
         edPassword = findViewById(R.id.etPassword);
         tvSignIn = findViewById(R.id.tvSignIn);
         tvSignUp = findViewById(R.id.tvSignUp);
+        tvForgotPassword = findViewById(R.id.tvForgotPassword);
         lnlSignInWithGoogle = findViewById(R.id.lnlSignInWithGoogle);
         flFragmentContainer = findViewById(R.id.flFragmentContainer);
 
@@ -81,34 +82,50 @@ public class SignInActivity extends AppCompatActivity {
         tvProjectName.setText(spannableProjectName);
 
         // get sign in result from viewmodel
-        signInViewModel.getSignInResult().observe(this, success -> {
-            if (success) {
+        signInViewModel.getLoginResponse().observe(this, response -> {
+            if (response != null) {
                 Toast.makeText(this, "Đăng nhập thành công!", Toast.LENGTH_SHORT).show();
-
                 startActivity(new Intent(SignInActivity.this, MainActivity.class));
                 finish();
-
             } else {
                 Toast.makeText(this, "Sai tài khoản hoặc mật khẩu", Toast.LENGTH_SHORT).show();
+                tvSignIn.setEnabled(true);
             }
         });
 
         // sign in click
         tvSignIn.setOnClickListener(v -> {
+            tvSignIn.setEnabled(false);
             String username = etUserName.getText().toString().trim();
             String password = edPassword.getText().toString().trim();
 
-            signInViewModel.setUserName(username);
-            signInViewModel.setPassword(password);
-            signInViewModel.attemptSignIn();
+            /*if (signInViewModel.loginMock(username, password)) {
+                Toast.makeText(this, "Đăng nhập thành công!", Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(SignInActivity.this, MainActivity.class));
+                finish();
+            } else {
+                Toast.makeText(this, "Sai tài khoản hoặc mật khẩu", Toast.LENGTH_SHORT).show();
+                tvSignIn.setEnabled(true);
+            }*/
+
+            signInViewModel.login(username, password);
+        });
+
+        // forgot password click
+        tvForgotPassword.setOnClickListener(v -> {
+            getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.flFragmentContainer, new ForgotPasswordFragment())
+                    .addToBackStack("auth")
+                    .commit();
         });
 
         // sign up click
         tvSignUp.setOnClickListener(v -> {
-            SignUpFragment signUpFragment = new SignUpFragment();
-            getSupportFragmentManager().beginTransaction()
-                    .add(R.id.flFragmentContainer, signUpFragment)
-                    .addToBackStack(null)
+            getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.flFragmentContainer, new SignUpFragment())
+                    .addToBackStack("auth")
                     .commit();
         });
     }

@@ -14,6 +14,13 @@ public class CurrencyUtility {
         return format.format(amount);
     }
 
+    public static String format1(BigDecimal amount) {
+        NumberFormat format = NumberFormat.getNumberInstance(VIETNAMESE);
+        format.setMinimumFractionDigits(0);
+        format.setMaximumFractionDigits(2);
+        return format.format(amount);
+    }
+
     // covert currency format to bigDecimal
     public static BigDecimal parse(String currencyText) {
         try {

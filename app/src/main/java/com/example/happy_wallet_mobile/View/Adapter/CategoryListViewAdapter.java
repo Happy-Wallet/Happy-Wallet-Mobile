@@ -9,9 +9,9 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.core.content.ContextCompat;
+
 import com.example.happy_wallet_mobile.Model.Category;
-import com.example.happy_wallet_mobile.Model.Icon;
-import com.example.happy_wallet_mobile.Model.Notification;
 import com.example.happy_wallet_mobile.R;
 
 import java.util.List;
@@ -20,13 +20,11 @@ public class CategoryListViewAdapter extends BaseAdapter {
 
     private Context context;
     private List<Category> CategoryList;
-    private List<Icon> IconList;
     private LayoutInflater inflater;
 
-    public CategoryListViewAdapter(Context _context, List<Category> categoryList, List<Icon> iconList) {
+    public CategoryListViewAdapter(Context _context, List<Category> categoryList) {
         this.context = _context;
         this.CategoryList = categoryList;
-        this.IconList = iconList;
         this.inflater = LayoutInflater.from(_context);
     }
 
@@ -61,7 +59,6 @@ public class CategoryListViewAdapter extends BaseAdapter {
         this.onCategoryClickListener = listener;
     }
 
-
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         ViewHolder holder;
@@ -80,26 +77,15 @@ public class CategoryListViewAdapter extends BaseAdapter {
         }
 
         Category category = CategoryList.get(position);
-        Icon icon = getIconById(category.getIconId());
-
         holder.tvTitle.setText(category.getName());
 
-        // Gán icon
-        if (icon != null) {
-            int resId = context.getResources().getIdentifier(icon.getIconPath(), "drawable", context.getPackageName());
-            if (resId != 0) {
-                holder.ivIcon.setImageResource(resId);
-            } else {
-                holder.ivIcon.setImageResource(R.drawable.ic_house); // fallback nếu icon không tồn tại
-            }
-        }
+        // Gán icon trực tiếp từ iconRes
+        holder.ivIcon.setImageResource(category.getIconRes());
 
-        // Set background color theo category
-        try {
-            holder.flIconBackground.getBackground().setTint(android.graphics.Color.parseColor(category.getColorCode()));
-        } catch (Exception e) {
-            e.printStackTrace(); // fallback nếu color code sai
-        }
+        // Gán màu nền từ colorRes
+        holder.flIconBackground.getBackground().setTint(
+                ContextCompat.getColor(context, category.getColorRes())
+        );
 
         convertView.setOnClickListener(v -> {
             if (onCategoryClickListener != null) {
@@ -109,15 +95,4 @@ public class CategoryListViewAdapter extends BaseAdapter {
 
         return convertView;
     }
-
-    private Icon getIconById(int iconId) {
-        for (Icon icon : IconList) {
-            if (icon.getIconId() == iconId) {
-                return icon;
-            }
-        }
-        return null;
-    }
-
-
 }

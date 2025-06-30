@@ -101,26 +101,42 @@ public class DailyTransactionsRecyclerViewAdapter extends RecyclerView.Adapter<R
             TransactionItem item = (TransactionItem) data.get(position);
             ItemViewHolder i = (ItemViewHolder) holder;
 
+            if (getItemViewType(position) == TYPE_ITEM) {
+                boolean isLastInGroup = (position + 1 == data.size()) ||
+                        getItemViewType(position + 1) == TYPE_HEADER;
+
+                if (isLastInGroup){
+                    int bgRes = R.drawable.bg_bottom_rounded_20_white;
+                    holder.itemView.setBackground(ContextCompat.getDrawable(context, bgRes));
+                }
+
+            }
+
+
             // Set title & description
             i.tvTitle.setText(item.getCategory().getName());
             i.tvDetail.setText(item.getTransaction().getDescription());
 
             // Set icon
-            int iconResId = context.getResources().getIdentifier(
-                    item.getIcon().getIconPath(), "drawable", context.getPackageName());
+            int iconResId = item.getCategory().getIconRes();
             if (iconResId != 0) {
                 i.ivIcon.setImageResource(iconResId);
                 i.ivIcon.setColorFilter(ContextCompat.getColor(context, R.color.white), PorterDuff.Mode.SRC_IN);
             }
 
+
             // Set amount
             BigDecimal amount = item.getTransaction().getAmount();
             i.tvAmount.setText(formatAmount(amount));
+
+            // set text color
             i.tvAmount.setTextColor(ContextCompat.getColor(context,
                     amount.signum() >= 0 ? R.color.Paolo_Veronese_Green : R.color.Radishical));
 
             try {
-                int color = Color.parseColor(item.getCategory().getColorCode());
+                int color = ContextCompat.getColor(context, item.getCategory().getColorRes());
+                i.tvTitle.setTextColor(color);
+                i.tvDetail.setTextColor(color);
                 i.flIconBackground.getBackground().setColorFilter(color, PorterDuff.Mode.SRC_IN);
             } catch (Exception ignored) {}
         }

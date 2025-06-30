@@ -13,6 +13,7 @@ import android.widget.FrameLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.happy_wallet_mobile.Data.Local.StaticDataProvider;
 import com.example.happy_wallet_mobile.Data.MockDataProvider;
 import com.example.happy_wallet_mobile.R;
 import com.example.happy_wallet_mobile.View.Adapter.ColorRecyclerViewAdapter;
@@ -35,15 +36,21 @@ public class AddCategoryFragment extends Fragment {
 
         // rcvIcons data setter
         rcvIcons.setLayoutManager(new GridLayoutManager(requireContext(), 5));
-        IconRecyclerViewAdapter iconAdapter = new IconRecyclerViewAdapter(requireContext(), MockDataProvider.getMockIcons());
-        iconAdapter.setOnIconClickListener(icon -> {
-            Toast.makeText(requireContext(), "Chọn icon: " + icon.getIconPath(), Toast.LENGTH_SHORT).show();
+        IconRecyclerViewAdapter iconAdapter = new IconRecyclerViewAdapter(
+                requireContext(),
+                StaticDataProvider.getIconList());
+
+        iconAdapter.setOnIconClickListener(iconResId -> {
+            Toast.makeText(requireContext(), "Chọn icon: " + iconResId, Toast.LENGTH_SHORT).show();
         });
         rcvIcons.setAdapter(iconAdapter);
 
         // rcvColors data setter
         rcvColors.setLayoutManager(new GridLayoutManager(requireContext(), 5));
-        ColorRecyclerViewAdapter colorAdapter = new ColorRecyclerViewAdapter(requireContext(), MockDataProvider.getMockColors());
+        ColorRecyclerViewAdapter colorAdapter = new ColorRecyclerViewAdapter(
+                requireContext(),
+                StaticDataProvider.getColorList());
+
         colorAdapter.setOnColorClickListener(color -> {
             Toast.makeText(requireContext(), "Chọn color: " + color, Toast.LENGTH_SHORT).show();
         });

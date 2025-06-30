@@ -9,4 +9,26 @@
     <color name="Silver_Phoenix">#ECEEF6</color>
     <color name="Argent">#8A8A8A</color>
     <color name="Canadian_Tuxedo">#5196D2</color>
+
+    <color name="color_1">#FFDA1F</color>
+    <color name="color_2">#FBAC23</color>
+    <color name="color_3">#F68128</color>
+    <color name="color_4">#F25A2C</color>
+    <color name="color_5">#ED3731</color>
+    <color name="color_6">#1FFF69</color>
+    <color name="color_7">#23FB40</color>
+    <color name="color_8">#35F628</color>
+    <color name="color_9">#61F22C</color>
+    <color name="color_10">#89ED31</color>
+    <color name="color_11">#1F44FF</color>
+    <color name="color_12">#2372FB</color>
+    <color name="color_13">#289DF6</color>
+    <color name="color_14">#2CC3F2</color>
+    <color name="color_15">#31E7ED</color>
+    <color name="color_16">#FF1FB4</color>
+    <color name="color_17">#FB23DE</color>
+    <color name="color_18">#E828F6</color>
+    <color name="color_19">#BD2CF2</color>
+    <color name="color_20">#9531ED</color>
+
 </resources>

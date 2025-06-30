@@ -2,13 +2,11 @@ package com.example.happy_wallet_mobile.View.Adapter;
 
 import android.content.Context;
 import android.graphics.PorterDuff;
-import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -17,29 +15,34 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.happy_wallet_mobile.Model.Category;
 import com.example.happy_wallet_mobile.Model.Group;
-import com.example.happy_wallet_mobile.Model.Icon;
-import com.example.happy_wallet_mobile.Model.SavingGoal;
 import com.example.happy_wallet_mobile.R;
 
 import java.util.List;
 
 public class GroupRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
-
     private static final int TYPE_ITEM = 0;
     private static final int TYPE_ADD = 1;
-    private Context context;
-    private List<Group> GroupList;
-    private List<Category> categoryList;
-    private List<Icon> iconList;
 
-    public GroupRecyclerViewAdapter(Context context, List<Group> groupList, List<Category> categoryList, List<Icon> iconList) {
-        this.context = context;
-        this.GroupList = groupList;
-        this.categoryList = categoryList;
-        this.iconList = iconList;
+    private final Context context;
+    private List<Group> groupList;
+    private List<Category> categoryList;
+
+    public void updateCategoryList(List<Category> list) {
+        this.categoryList = list;
+        notifyDataSetChanged();
     }
 
+    public void updateGroupList(List<Group> list) {
+        this.groupList = list;
+        notifyDataSetChanged();
+    }
+
+    public GroupRecyclerViewAdapter(Context context, List<Group> groupList, List<Category> categoryList) {
+        this.context = context;
+        this.groupList = groupList;
+        this.categoryList = categoryList;
+    }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         FrameLayout flIconBackground;
@@ -62,14 +65,9 @@ public class GroupRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.
         }
     }
 
-
     @Override
     public int getItemViewType(int position) {
-        if (position == GroupList.size()) {
-            return TYPE_ADD;
-        } else {
-            return TYPE_ITEM;
-        }
+        return (position == groupList.size()) ? TYPE_ADD : TYPE_ITEM;
     }
 
     @NonNull
@@ -77,10 +75,10 @@ public class GroupRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         if (viewType == TYPE_ADD) {
             View view = LayoutInflater.from(context).inflate(R.layout.item_add_more, parent, false);
-            return new GroupRecyclerViewAdapter.AddViewHolder(view);
+            return new AddViewHolder(view);
         } else {
             View view = LayoutInflater.from(context).inflate(R.layout.item_saving_goal, parent, false);
-            return new GroupRecyclerViewAdapter.ViewHolder(view);
+            return new ViewHolder(view);
         }
     }
 
@@ -96,29 +94,20 @@ public class GroupRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.
         }
 
         ViewHolder itemHolder = (ViewHolder) holder;
-        Group item = GroupList.get(position);
+        Group item = groupList.get(position);
         itemHolder.tvTitle.setText(item.getName());
 
-        // Lấy category
+        // Tìm Category tương ứng
         Category category = getCategoryById(item.getCategoryId());
         if (category != null) {
             // Gán màu nền
-            try {
-                int color = android.graphics.Color.parseColor(category.getColorCode());
-                itemHolder.flIconBackground.getBackground().setColorFilter(color, PorterDuff.Mode.SRC_IN);
-            } catch (IllegalArgumentException e) {
-                e.printStackTrace(); // Nếu colorCode không hợp lệ
-            }
+            int colorRes = category.getColorRes();
+            itemHolder.flIconBackground.getBackground()
+                    .setColorFilter(ContextCompat.getColor(context, colorRes), PorterDuff.Mode.SRC_IN);
 
-            // Lấy và gán icon
-            Icon icon = getIconById(category.getIconId());
-            if (icon != null) {
-                int iconResId = context.getResources().getIdentifier(icon.getIconPath(), "drawable", context.getPackageName());
-                if (iconResId != 0) {
-                    itemHolder.ivIcon.setImageResource(iconResId);
-                    itemHolder.ivIcon.setColorFilter(ContextCompat.getColor(context, R.color.white), PorterDuff.Mode.SRC_IN);
-                }
-            }
+            // Gán icon
+            itemHolder.ivIcon.setImageResource(category.getIconRes());
+            itemHolder.ivIcon.setColorFilter(ContextCompat.getColor(context, R.color.white), PorterDuff.Mode.SRC_IN);
         }
 
         itemHolder.itemView.setOnClickListener(v -> {
@@ -126,21 +115,19 @@ public class GroupRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.
                 onItemClickListener.onItemClick(item);
             }
         });
-
     }
-
-
 
     @Override
     public int getItemCount() {
-        return GroupList.size() + 1;
+        return groupList.size() + 1;
     }
 
+    // Listeners
     public interface OnAddClickListener {
         void onAddClick();
     }
-    private GroupRecyclerViewAdapter.OnAddClickListener onAddClickListener;
-    public void setOnAddClickListener(GroupRecyclerViewAdapter.OnAddClickListener listener) {
+    private OnAddClickListener onAddClickListener;
+    public void setOnAddClickListener(OnAddClickListener listener) {
         this.onAddClickListener = listener;
     }
 
@@ -152,19 +139,11 @@ public class GroupRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.
         this.onItemClickListener = listener;
     }
 
-
+    // Helper
     private Category getCategoryById(int categoryId) {
         for (Category category : categoryList) {
             if (category.getCategoryId() == categoryId) return category;
         }
         return null;
     }
-
-    private Icon getIconById(int iconId) {
-        for (Icon icon : iconList) {
-            if (icon.getIconId() == iconId) return icon;
-        }
-        return null;
-    }
-
 }

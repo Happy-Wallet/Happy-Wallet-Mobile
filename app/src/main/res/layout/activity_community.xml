@@ -8,9 +8,19 @@
     tools:context=".View.Activity.CommunityActivity"
     android:backgroundTint="@color/white">
 
+    <!-- content container -->
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+
+        android:id="@+id/flContentContainer"
+        />
+
+    <!-- back -->
     <ImageView
-        android:layout_width="50dp"
-        android:layout_height="50dp"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
         android:layout_gravity="top|start"
         android:layout_marginStart="20dp"
         android:layout_marginTop="20dp"
@@ -19,14 +29,6 @@
 
         android:src="@drawable/ic_arrow_left_bold"
         android:background="@color/transparent"
-        />
-
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_gravity="center"
-
-        android:id="@+id/flContentContainer"
         />
 
 </FrameLayout>
