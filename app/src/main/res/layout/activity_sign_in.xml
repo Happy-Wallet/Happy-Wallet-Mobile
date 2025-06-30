@@ -54,7 +54,7 @@
             android:layout_marginTop="259dp"
             android:id="@+id/etUserName"
 
-            android:hint="User Name"
+            android:hint="Email"
             android:paddingStart="30dp"
             android:textColor="@color/Argent"
             android:fontFamily="@font/poppins_regular_400"
