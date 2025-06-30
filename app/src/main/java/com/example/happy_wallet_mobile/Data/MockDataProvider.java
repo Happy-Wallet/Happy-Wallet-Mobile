@@ -11,7 +11,7 @@ public class MockDataProvider {
 
     private static final Random random = new Random();
 
-/*    public static List<User> getMockUsers() {
+    public static List<User> getMockUsers() {
         List<User> users = new ArrayList<>();
         for (int i = 1; i <= 12; i++) {
             users.add(new User(
@@ -27,7 +27,7 @@ public class MockDataProvider {
             ));
         }
         return users;
-    }*/
+    }
 
     public static List<Category> getMockCategories() {
         List<Category> categories = new ArrayList<>();

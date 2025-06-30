@@ -1,19 +1,13 @@
 package com.example.happy_wallet_mobile.Data.Remote.Request.Auth;
 
-import com.google.gson.annotations.SerializedName;
-
 public class LoginRequest {
-    @SerializedName("username")
-    private String username;
+    private String UserName;
+    private String Password;
 
-    @SerializedName("password")
-    private String password;
-
-    public LoginRequest(String username, String password) {
-        this.username = username;
-        this.password = password;
+    public LoginRequest(
+            String userName,
+            String password) {
+        UserName = userName;
+        Password = password;
     }
-
-    public String getUsername() { return username; }
-    public String getPassword() { return password; }
 }
