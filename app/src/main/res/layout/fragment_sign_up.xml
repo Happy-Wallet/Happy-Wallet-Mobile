@@ -42,41 +42,6 @@
         >
 
         <!-- etName -->
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintStart_toStartOf="@+id/etName"
-            app:layout_constraintBottom_toTopOf="@+id/etName"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="10dp"
-
-            android:labelFor="@id/etName"
-
-            android:text="Name"
-            android:fontFamily="@font/poppins_bold_700"
-            android:textSize="15sp"
-            android:textColor="@color/Nautical"
-            />
-
-        <EditText
-            android:id="@+id/etName"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_marginBottom="40dp"
-            android:background="@drawable/bg_rounded_50_white"
-            android:elevation="4dp"
-
-            android:fontFamily="@font/poppins_regular_400"
-
-            android:hint="name"
-            android:paddingStart="20sp"
-            android:textColor="@color/Nautical"
-            android:textSize="12dp"
-
-            app:layout_constraintBottom_toTopOf="@id/etUserName"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            tools:ignore="TextSizeCheck" />
 
         <!-- etUserName -->
         <TextView

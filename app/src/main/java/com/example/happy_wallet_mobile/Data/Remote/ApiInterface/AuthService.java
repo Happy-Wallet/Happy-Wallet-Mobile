@@ -15,7 +15,7 @@ import com.example.happy_wallet_mobile.Data.Remote.Response.Auth.ResetPasswordRe
 
 public interface AuthService {
     @POST("/auth/register")
-    Call<RegisterResponse> register(@Body RegisterRequest req);
+    Call<RegisterResponse> register(@Body RegisterRequest request);
 
     @POST("/auth/login")
     Call<LoginResponse> login(@Body LoginRequest req);
