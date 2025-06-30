@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -9,10 +9,6 @@
     android:background="@color/white"
     android:clickable="true"
     android:focusable="true">
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
 
         <androidx.recyclerview.widget.RecyclerView
             android:layout_width="match_parent"
@@ -24,13 +20,13 @@
             android:layout_marginStart="20dp"
             android:layout_marginEnd="20dp"
 
-            android:id="@+id/rvGroups"
+            android:id="@+id/rcvGroups"
             />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            app:layout_constraintTop_toBottomOf="@+id/rvGroups"
+            app:layout_constraintTop_toBottomOf="@+id/rcvGroups"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -68,7 +64,7 @@
 
                 android:id="@+id/tvAvailableBalance"
 
-                android:text="2.500.000"
+                android:text="0"
                 android:fontFamily="@font/poppins_semibold_600"
                 android:textSize="24sp"
                 android:textColor="@color/Paolo_Veronese_Green"
@@ -246,7 +242,7 @@
             </FrameLayout>
 
             <!-- activity layout -->
-            <View
+            <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="150dp"
                 app:layout_constraintTop_toBottomOf="@id/vServiceLayout"
@@ -260,7 +256,17 @@
 
                 android:background="@drawable/bg_rounded_20_white"
                 android:backgroundTint="@color/white"
-                />
+                >
+
+                <!-- rvMemberActivity -->
+                <androidx.recyclerview.widget.RecyclerView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+
+                    android:id="@+id/rcvMembersActivities"
+                    />
+
+            </FrameLayout>
 
             <!-- "activit" -->
             <TextView
@@ -284,7 +290,7 @@
                 app:layout_constraintBottom_toTopOf="@id/vActivityLayout"
                 android:layout_marginEnd="20dp"
 
-
+                android:id="@+id/tvSeeMoreActivities"
 
                 android:text="see more"
                 android:fontFamily="@font/poppins_medium_500"
@@ -292,22 +298,12 @@
                 android:textColor="@color/Nautical"
                 />
 
-            <!-- rvMemberActivity -->
-            <androidx.recyclerview.widget.RecyclerView
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                app:layout_constraintStart_toStartOf="@id/vActivityLayout"
-                app:layout_constraintEnd_toEndOf="@id/vActivityLayout"
-                app:layout_constraintTop_toTopOf="@id/vActivityLayout"
-                app:layout_constraintBottom_toBottomOf="@id/vActivityLayout"
 
-                android:id="@+id/rvMemberActivity"
-                />
 
             <!-- member layout -->
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="190dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/vActivityLayout"
@@ -327,7 +323,7 @@
                     android:layout_height="28dp"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toStartOf="@id/tvManage"
+                    app:layout_constraintEnd_toStartOf="@id/tvManageMember"
                     android:layout_marginTop="20dp"
                     android:layout_marginStart="20dp"
                     android:layout_marginEnd="10dp"
@@ -344,7 +340,7 @@
                     android:backgroundTint="@color/Silver_Phoenix"
                     />
 
-                <!-- Invite Member -->
+                <!-- manage Member -->
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="28dp"
@@ -355,7 +351,7 @@
                     android:layout_marginEnd="20dp"
                     android:layout_marginStart="10dp"
 
-                    android:id="@+id/tvManage"
+                    android:id="@+id/tvManageMember"
 
                     android:gravity="center"
                     android:text="Manage"
@@ -368,15 +364,17 @@
                     />
 
                 <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rcvMembers"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    app:layout_constraintStart_toStartOf="parent"
+                    android:layout_height="0dp"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginEnd="20dp"
+                    android:layout_marginTop="10dp"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/tvInviteMember"
-                    android:layout_marginTop="20dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
 
-                    android:id="@+id/rvMember"
-                    />
+                    app:layout_constraintTop_toBottomOf="@id/tvInviteMember" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -395,6 +393,5 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
 
-</ScrollView>
+</androidx.constraintlayout.widget.ConstraintLayout>

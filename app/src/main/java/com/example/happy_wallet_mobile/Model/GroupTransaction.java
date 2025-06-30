@@ -13,6 +13,7 @@ public class GroupTransaction {
     private Date CreatedDate;
     private Date UpdatedDate;
     private Date DeletedDate;
+    private eType Type;
 
     // constructor
     public GroupTransaction(){}
@@ -25,7 +26,9 @@ public class GroupTransaction {
             String description,
             Date createdDate,
             Date updatedDate,
-            Date deletedDate
+            Date deletedDate,
+            eType type
+
     ){
         TransactionId = transactionId;
         GroupId = groupId;
@@ -36,6 +39,7 @@ public class GroupTransaction {
         CreatedDate = createdDate;
         UpdatedDate = updatedDate;
         DeletedDate = deletedDate;
+        Type = type;
     }
 
     // getters
@@ -75,6 +79,10 @@ public class GroupTransaction {
         return DeletedDate;
     }
 
+    public eType getType() {
+        return Type;
+    }
+
     // setters
     public void setUserId(int userId) {
         UserId = userId;
@@ -110,5 +118,9 @@ public class GroupTransaction {
 
     public void setDeletedDate(Date deletedDate) {
         DeletedDate = deletedDate;
+    }
+
+    public void setType(eType type) {
+        Type = type;
     }
 }

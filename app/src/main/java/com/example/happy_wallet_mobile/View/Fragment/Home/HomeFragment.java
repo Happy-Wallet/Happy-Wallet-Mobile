@@ -205,7 +205,7 @@ public class HomeFragment extends Fragment {
         setupTimeFilter(view, pieChart);
     }
     private List<PieEntry> getSpendingPieEntries(String timeFilter) {
-        List<Transaction> allTransactions = MockDataProvider.getTransactions();
+        List<Transaction> allTransactions = MockDataProvider.getMockTransactions();
         Map<String, Float> spendingByCategory = new HashMap<>();
 
         for (Transaction t : allTransactions) {
