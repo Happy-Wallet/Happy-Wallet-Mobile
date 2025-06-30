@@ -10,8 +10,12 @@ import java.util.*;
 public class MockDataProvider {
 
     private static final Random random = new Random();
+    private static List<User> cachedUsers = null;
+    private static List<GroupTransaction> cachedGroupTransactions;
 
+    // ---------- USERS ----------
     public static List<User> getMockUsers() {
+        if (cachedUsers != null) return cachedUsers;
         List<User> users = new ArrayList<>();
         for (int i = 1; i <= 12; i++) {
             users.add(new User(
@@ -26,9 +30,11 @@ public class MockDataProvider {
                     null
             ));
         }
+        cachedUsers = users;
         return users;
     }
 
+    // ---------- CATEGORIES ----------
     public static List<Category> getMockCategories() {
         List<Category> categories = new ArrayList<>();
         String[] names = {
@@ -56,25 +62,21 @@ public class MockDataProvider {
         return categories;
     }
 
+    // ---------- TRANSACTIONS ----------
     public static List<Transaction> getMockTransactions() {
         List<Transaction> transactions = new ArrayList<>();
         String[] descriptions = {"Cơm trưa", "Đi làm", "Kháng sinh", "Áo quần", "Học phí"};
 
         for (int i = 1; i <= 100; i++) {
             int catId = (i % 10) + 1;
-
-            // Random tháng từ 0 đến 5 (JANUARY -> JUNE)
             int month = random.nextInt(12);
-            int day = random.nextInt(28) + 1; // để tránh out of range
+            int day = random.nextInt(28) + 1;
             Calendar calendar = Calendar.getInstance();
             calendar.set(2025, month, day);
             Date transactionDate = calendar.getTime();
 
             BigDecimal amount = BigDecimal.valueOf((random.nextInt(50) + 1) * 1000);
-            boolean isExpense = random.nextBoolean();
-            if (isExpense) amount = amount.negate();
-
-            eType type = isExpense ? eType.EXPENSE : eType.INCOME;
+            eType type = random.nextBoolean() ? eType.EXPENSE : eType.INCOME;
 
             transactions.add(new Transaction(
                     i,
@@ -89,31 +91,8 @@ public class MockDataProvider {
         }
         return transactions;
     }
-    public static List<Transaction> getTransactions() {
-        List<Transaction> list = new ArrayList<>();
 
-        list.add(new Transaction(
-                1, 1, eType.EXPENSE, 4, new BigDecimal("150000"), "Ăn sáng tại quán", new Date(), null));
-
-        list.add(new Transaction(
-                2, 1, eType.EXPENSE, 2, new BigDecimal("2500000"), "Thanh toán tiền thuê", new Date(), null));
-
-        list.add(new Transaction(
-                3, 1, eType.EXPENSE, 3, new BigDecimal("500000"), "Trả tiền điện, nước", new Date(), null));
-
-        list.add(new Transaction(
-                4, 1, eType.EXPENSE, 4, new BigDecimal("200000"), "Mua áo phông", new Date(), null));
-
-        return list;
-    }
-
-
-    public static <Context> List<IncomeExpenseMonth> getMonthlyIncomeExpense(Context context) {
-        List<GroupTransaction> groupTransactions = getMockGroupTransactions();
-        return generateMonthlyStatsFromGroupTransactions(groupTransactions);
-    }
-
-
+    // ---------- SAVING GOALS ----------
     public static List<SavingGoal> getMockSavingGoals() {
         List<SavingGoal> goals = new ArrayList<>();
         String[] names = {"MacBook", "Xe máy", "Chuyến đi Hà Giang", "Tiền cưới", "Quỹ học cao học"};
@@ -128,13 +107,9 @@ public class MockDataProvider {
         for (int i = 1; i <= names.length; i++) {
             int targetValue = 5_000_000 + random.nextInt(45_000_000);
             int currentValue = random.nextInt((int) (targetValue * 0.8));
-
             goals.add(new SavingGoal(
-                    i,
-                    1, // userId
-                    i, // categoryId
-                    names[i - 1],
-                    descriptions[i - 1],
+                    i, 1, i,
+                    names[i - 1], descriptions[i - 1],
                     BigDecimal.valueOf(currentValue),
                     BigDecimal.valueOf(targetValue),
                     new Date()
@@ -143,77 +118,98 @@ public class MockDataProvider {
         return goals;
     }
 
-
+    // ---------- GROUPS ----------
     public static List<Group> getMockGroups() {
         List<Group> groups = new ArrayList<>();
         String[] names = {"Nhóm bạn bè", "Gia đình", "Công ty", "CLB thiện nguyện", "Đội học tập"};
 
+        Map<Integer, BigDecimal> groupAmountMap = new HashMap<>();
         for (int i = 1; i <= names.length; i++) {
-            boolean hasTarget = i % 2 == 0;
-            double targetAmount = hasTarget ? 1_000_000 + random.nextInt(4_000_000) : 0;
-
             groups.add(new Group(
                     i,
                     i,
                     names[i - 1],
-                    200_000 + random.nextInt(2_000_000),
-                    hasTarget,
-                    targetAmount,
+                    BigDecimal.ZERO, // sẽ set sau
+                    i % 2 == 0,
+                    i % 2 == 0 ? BigDecimal.valueOf(1_000_000 + random.nextInt(4_000_000)) : BigDecimal.ZERO,
                     "Nhóm " + names[i - 1],
                     new Date(),
                     new Date(),
                     null
             ));
+            groupAmountMap.put(i, BigDecimal.ZERO);
         }
+
+        List<GroupTransaction> transactions = getMockGroupTransactions(groupAmountMap);
+
+        for (Group g : groups) {
+            g.setCurrentAmount(groupAmountMap.getOrDefault(g.getId(), BigDecimal.ZERO));
+        }
+
+        cachedGroupTransactions = transactions;
         return groups;
     }
 
     public static List<GroupMember> getMockGroupMembers() {
         List<GroupMember> members = new ArrayList<>();
         String[] roles = {"Admin", "Thành viên", "Kế toán", "Quản lý"};
-
-        for (int i = 0; i < 10; i++) {
-            members.add(new GroupMember(
-                    (i % 5) + 1,
-                    (i % 5) + 1,
-                    roles[random.nextInt(roles.length)],
-                    new Date(),
-                    new Date(),
-                    null
-            ));
-        }
-        return members;
-    }
-
-    public static List<GroupTransaction> getMockGroupTransactions() {
-        List<GroupTransaction> transactions = new ArrayList<>();
-        String[] descriptions = {"Mua chung", "Tiệc nhóm", "Đóng phí", "Mua dụng cụ", "Chi phí khác"};
-
-        int id = 1;
-        for (int month = Calendar.JANUARY; month <= Calendar.JUNE; month++) {
-            for (int i = 0; i < 3; i++) {
-                Calendar cal = Calendar.getInstance();
-                cal.set(2025, month, random.nextInt(28) + 1);
-
-                BigDecimal amount = BigDecimal.valueOf((random.nextInt(50) + 1) * 10_000);
-                if (random.nextBoolean()) amount = amount.negate();
-
-                transactions.add(new GroupTransaction(
-                        id++,
-                        (i % 5) + 1,
-                        (i % 5) + 1,
-                        (i % 10) + 1,
-                        amount,
-                        descriptions[i % descriptions.length],
+        for (int groupId = 1; groupId <= 5; groupId++) {
+            for (int i = 0; i < 4; i++) {
+                int userId = ((groupId - 1) * 4 + i) % 12 + 1;
+                members.add(new GroupMember(
+                        groupId,
+                        userId,
+                        roles[random.nextInt(roles.length)],
                         new Date(),
                         new Date(),
                         null
                 ));
             }
         }
+        return members;
+    }
+
+    public static List<GroupTransaction> getMockGroupTransactions(Map<Integer, BigDecimal> groupAmountMap) {
+        List<GroupTransaction> transactions = new ArrayList<>();
+        String[] descriptions = {"Mua chung", "Tiệc nhóm", "Đóng phí", "Mua dụng cụ", "Chi phí khác"};
+        List<GroupMember> members = getMockGroupMembers();
+
+        int id = 1;
+        for (int month = Calendar.JANUARY; month <= Calendar.JUNE; month++) {
+            for (GroupMember member : members) {
+                Calendar cal = Calendar.getInstance();
+                cal.set(2025, month, random.nextInt(28) + 1);
+
+                BigDecimal amount = BigDecimal.valueOf((random.nextInt(50) + 1) * 10_000);
+                eType type = random.nextBoolean() ? eType.EXPENSE : eType.INCOME;
+                BigDecimal signedAmount = type == eType.EXPENSE ? amount.negate() : amount;
+
+                groupAmountMap.put(member.getGroupId(),
+                        groupAmountMap.get(member.getGroupId()).add(signedAmount));
+
+                transactions.add(new GroupTransaction(
+                        id++, member.getGroupId(), member.getUserId(),
+                        random.nextInt(10) + 1,
+                        amount,
+                        descriptions[random.nextInt(descriptions.length)],
+                        new Date(),
+                        new Date(),
+                        null,
+                        type
+                ));
+            }
+        }
         return transactions;
     }
 
+    public static List<GroupTransaction> getMockGroupTransactions() {
+        if (cachedGroupTransactions == null) {
+            getMockGroups(); // tự tạo transactions
+        }
+        return cachedGroupTransactions;
+    }
+
+    // ---------- MONTHLY INCOME / EXPENSE ----------
     public static List<IncomeExpenseMonth> generateMonthlyStatsFromGroupTransactions(List<GroupTransaction> transactions) {
         Map<String, BigDecimal> incomeMap = new HashMap<>();
         Map<String, BigDecimal> expenseMap = new HashMap<>();

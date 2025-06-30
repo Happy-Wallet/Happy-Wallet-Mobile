@@ -1,14 +1,15 @@
 package com.example.happy_wallet_mobile.Model;
 
+import java.math.BigDecimal;
 import java.util.Date;
 
 public class Group {
     private int Id;
     private int CategoryId;
     private String Name;
-    private double CurrentAmount;
+    private BigDecimal CurrentAmount;
     private boolean HasTarget;
-    private double TargetAmount;
+    private BigDecimal TargetAmount;
     private String Description;
     private Date CreatedAt;
     private Date UpdatedAt;
@@ -22,9 +23,9 @@ public class Group {
             int id,
             int categoryId,
             String name,
-            double currentAmount,
+            BigDecimal currentAmount,
             boolean hasTarget,
-            double targetAmount,
+            BigDecimal targetAmount,
             String description,
             Date createdAt,
             Date updatedAt,
@@ -44,9 +45,9 @@ public class Group {
     public Group(
             int categoryId,
             String name,
-            double currentAmount,
+            BigDecimal currentAmount,
             boolean hasTarget,
-            double targetAmount,
+            BigDecimal targetAmount,
             String description,
             Date createdAt,
             Date updatedAt,
@@ -75,7 +76,7 @@ public class Group {
         return Name;
     }
 
-    public double getCurrentAmount() {
+    public BigDecimal getCurrentAmount() {
         return CurrentAmount;
     }
 
@@ -83,7 +84,7 @@ public class Group {
         return HasTarget;
     }
 
-    public double getTargetAmount() {
+    public BigDecimal getTargetAmount() {
         return TargetAmount;
     }
 
@@ -116,7 +117,7 @@ public class Group {
         Name = name;
     }
 
-    public void setCurrentAmount(double currentAmount) {
+    public void setCurrentAmount(BigDecimal currentAmount) {
         CurrentAmount = currentAmount;
     }
 
@@ -124,7 +125,7 @@ public class Group {
         HasTarget = hasTarget;
     }
 
-    public void setTargetAmount(double targetAmount) {
+    public void setTargetAmount(BigDecimal targetAmount) {
         TargetAmount = targetAmount;
     }
 

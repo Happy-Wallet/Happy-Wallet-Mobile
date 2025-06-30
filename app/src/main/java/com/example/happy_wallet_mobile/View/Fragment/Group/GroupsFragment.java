@@ -2,6 +2,7 @@ package com.example.happy_wallet_mobile.View.Fragment.Group;
 
 import android.os.Bundle;
 
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -12,13 +13,18 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.example.happy_wallet_mobile.Data.MockDataProvider;
+import com.example.happy_wallet_mobile.Model.Group;
 import com.example.happy_wallet_mobile.R;
 import com.example.happy_wallet_mobile.View.Adapter.GroupRecyclerViewAdapter;
+import com.example.happy_wallet_mobile.View.Adapter.MembersActivitiesRecyclerViewAdapter;
+import com.example.happy_wallet_mobile.View.Utilities.CurrencyUtility;
 import com.example.happy_wallet_mobile.ViewModel.Group.GroupsViewModel;
 import com.example.happy_wallet_mobile.ViewModel.MainViewModel;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 
@@ -26,8 +32,9 @@ public class GroupsFragment extends Fragment {
 
     MainViewModel mainViewModel;
     GroupsViewModel groupsViewModel;
-    RecyclerView rcvGroup;
+    RecyclerView rcvGroups, rcvMembers, rcvMembersActivities;
     ImageView ivEditGroup;
+    TextView tvGroupName, tvAvailableBalance;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -41,31 +48,83 @@ public class GroupsFragment extends Fragment {
 
         groupsViewModel.loadMockData();
 
-        rcvGroup = view.findViewById(R.id.rvGroups);
+        rcvGroups = view.findViewById(R.id.rcvGroups);
+        rcvMembers = view.findViewById(R.id.rcvMembers);
+        rcvMembersActivities = view.findViewById(R.id.rcvMembersActivities);
         ivEditGroup = view.findViewById(R.id.ivEditGroup);
+        tvGroupName = view.findViewById(R.id.tvGroupName);
+        tvAvailableBalance = view.findViewById(R.id.tvAvailableBalance);
 
         // set data for rcvGroup
         LinearLayoutManager layoutManager = new LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false);
-        rcvGroup.setLayoutManager(layoutManager);
+        rcvGroups.setLayoutManager(layoutManager);
         GroupRecyclerViewAdapter groupRecyclerViewAdapter = new GroupRecyclerViewAdapter(
                 requireContext(),
                 List.of(),
                 List.of());
-        rcvGroup.setAdapter(groupRecyclerViewAdapter);
-
+        rcvGroups.setAdapter(groupRecyclerViewAdapter);
         // observe data from viewmodel
-        groupsViewModel.categoryList.observe(getViewLifecycleOwner(), categories -> {
+        groupsViewModel.getCategoryList().observe(getViewLifecycleOwner(), categories -> {
             groupRecyclerViewAdapter.updateCategoryList(categories);
         });
-
-        groupsViewModel.groupList.observe(getViewLifecycleOwner(), groups -> {
+        groupsViewModel.getGroupList().observe(getViewLifecycleOwner(), groups -> {
             groupRecyclerViewAdapter.updateGroupList(groups);
+
+            // tự động chọn group đầu tiên khi mở fragment
+            if (!groups.isEmpty()) {
+                Group firstGroup = groups.get(0);
+                groupsViewModel.LoadGroupDetail(firstGroup);
+
+                tvGroupName.setText(firstGroup.getName());
+                tvAvailableBalance.setText(CurrencyUtility.format(firstGroup.getCurrentAmount()));
+                if (firstGroup.getCurrentAmount().compareTo(BigDecimal.ZERO) < 0) {
+                    tvAvailableBalance.setTextColor(ContextCompat.getColor(requireContext(), R.color.Radishical));
+                } else {
+                    tvAvailableBalance.setTextColor(ContextCompat.getColor(requireContext(), R.color.Paolo_Veronese_Green));
+                }
+
+                rcvGroups.scrollToPosition(0);
+            }
         });
+
+        //set data for rcvMembersActivities
+        rcvMembersActivities.setLayoutManager(new LinearLayoutManager(requireContext()));
+        MembersActivitiesRecyclerViewAdapter membersActivitiesRecyclerViewAdapter = new MembersActivitiesRecyclerViewAdapter(
+                List.of(),
+                List.of(),
+                List.of()
+        );
+        rcvMembersActivities.setAdapter(membersActivitiesRecyclerViewAdapter);
+        // observe data from vm
+        groupsViewModel.getGroupTransactionList().observe(getViewLifecycleOwner(), transactions -> {
+            membersActivitiesRecyclerViewAdapter.updateActivities(transactions);
+            membersActivitiesRecyclerViewAdapter.refresh();
+        });
+        groupsViewModel.getGroupMemberList().observe(getViewLifecycleOwner(), members -> {
+            membersActivitiesRecyclerViewAdapter.updateGroupMembers(members);
+            membersActivitiesRecyclerViewAdapter.refresh();
+        });
+
+        groupsViewModel.getCategoryList().observe(getViewLifecycleOwner(), categories -> {
+            membersActivitiesRecyclerViewAdapter.updateCategories(categories);
+            membersActivitiesRecyclerViewAdapter.refresh();
+        });
+
 
 
         // rcvGroups item click
         groupRecyclerViewAdapter.setOnItemClickListener(group -> {
-            Log.d("GroupFragment", "rcvGroups item clicked");
+            Log.d("GroupFragment", group.getName() + " clicked");
+            groupsViewModel.LoadGroupDetail(group);
+
+            tvGroupName.setText(group.getName());
+
+            tvAvailableBalance.setText(CurrencyUtility.format(group.getCurrentAmount()));
+            if (group.getCurrentAmount().compareTo(BigDecimal.ZERO) < 0) {
+                tvAvailableBalance.setTextColor(ContextCompat.getColor(requireContext(), R.color.Radishical));
+            } else {
+                tvAvailableBalance.setTextColor(ContextCompat.getColor(requireContext(), R.color.Paolo_Veronese_Green));
+            }
         });
 
         // rcvGroups add more click
