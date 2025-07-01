@@ -55,6 +55,15 @@ public class GroupsViewModel extends ViewModel {
         return groupMemberContributionList;
     }
 
+    // current group
+    private final MutableLiveData<Group> currenGroup = new MutableLiveData<>();
+    public LiveData<Group> getCurrentGroup() {
+        return currenGroup;
+    }
+    public void setCurrenGroup(Group group){
+        currenGroup.setValue(group);
+    }
+
     public void loadMockData(){
         categoryList.setValue(MockDataProvider.getMockCategories());
         groupList.setValue(MockDataProvider.getMockGroups());

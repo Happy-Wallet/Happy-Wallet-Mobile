@@ -15,7 +15,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.example.happy_wallet_mobile.Data.MockDataProvider;
 import com.example.happy_wallet_mobile.Model.Group;
 import com.example.happy_wallet_mobile.R;
 import com.example.happy_wallet_mobile.View.Adapter.GroupMembersRecyclerViewAdapter;
@@ -37,7 +36,7 @@ public class GroupsFragment extends Fragment {
     GroupActivitiesViewModel groupActivitiesViewModel;
     RecyclerView rcvGroups, rcvMembers, rcvMembersActivities;
     ImageView ivEditGroup;
-    TextView tvGroupName, tvAvailableBalance, tvSeeMoreActivities;
+    TextView tvGroupName, tvAvailableBalance, tvSeeMoreActivities, tvInviteMember;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -59,6 +58,7 @@ public class GroupsFragment extends Fragment {
         tvGroupName = view.findViewById(R.id.tvGroupName);
         tvAvailableBalance = view.findViewById(R.id.tvAvailableBalance);
         tvSeeMoreActivities = view.findViewById(R.id.tvSeeMoreActivities);
+        tvInviteMember = view.findViewById(R.id.tvInviteMember);
 
         // set data for rcvGroup
         LinearLayoutManager layoutManager = new LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false);
@@ -78,6 +78,7 @@ public class GroupsFragment extends Fragment {
             // tự động chọn group đầu tiên khi mở fragment
             if (!groups.isEmpty()) {
                 Group firstGroup = groups.get(0);
+                groupsViewModel.setCurrenGroup(firstGroup);
                 groupsViewModel.LoadGroupDetail(firstGroup);
 
                 tvGroupName.setText(firstGroup.getName());
@@ -109,7 +110,6 @@ public class GroupsFragment extends Fragment {
             membersActivitiesRecyclerViewAdapter.updateGroupMembers(memberUser);
             membersActivitiesRecyclerViewAdapter.refresh();
         });
-
         groupsViewModel.getCategoryList().observe(getViewLifecycleOwner(), categories -> {
             membersActivitiesRecyclerViewAdapter.updateCategories(categories);
             membersActivitiesRecyclerViewAdapter.refresh();
@@ -130,6 +130,7 @@ public class GroupsFragment extends Fragment {
         // rcvGroups item click
         groupRecyclerViewAdapter.setOnItemClickListener(group -> {
             Log.d("GroupFragment", group.getName() + " clicked");
+            groupsViewModel.setCurrenGroup(group);
             groupsViewModel.LoadGroupDetail(group);
 
             tvGroupName.setText(group.getName());
@@ -165,6 +166,12 @@ public class GroupsFragment extends Fragment {
             );
             groupActivitiesViewModel.loadMonthlyData(groupsViewModel.getGroupTransactionList().getValue());
             mainViewModel.navigateSubBelow(new GroupActivitiesFragment());
+        });
+
+        // tvInviteMember clicked
+        tvInviteMember.setOnClickListener(v -> {
+            Log.d("GroupsFragment", "tvInviteMember clicked");
+            mainViewModel.navigateSubBelow(new InviteMemberFragment());
         });
 
 
