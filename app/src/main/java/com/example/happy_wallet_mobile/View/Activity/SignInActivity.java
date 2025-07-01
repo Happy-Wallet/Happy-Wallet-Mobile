@@ -31,7 +31,7 @@ public class SignInActivity extends AppCompatActivity {
 
     TextView tvProjectName;
     EditText etUserName;
-    EditText edPassword; // Khai báo biến
+    EditText edPassword;
     TextView tvSignIn;
     TextView tvSignUp;
     TextView tvForgotPassword;
@@ -54,24 +54,25 @@ public class SignInActivity extends AppCompatActivity {
 
         tvProjectName = findViewById(R.id.tvProjectName);
         etUserName = findViewById(R.id.etUserName);
-        edPassword = findViewById(R.id.etPassword); // Đã sửa từ R.id.edPassword thành R.id.etPassword
+        edPassword = findViewById(R.id.etPassword);
         tvSignIn = findViewById(R.id.tvSignIn);
         tvSignUp = findViewById(R.id.tvSignUp);
         tvForgotPassword = findViewById(R.id.tvForgotPassword);
         lnlSignInWithGoogle = findViewById(R.id.lnlSignInWithGoogle);
+        flFragmentContainer = findViewById(R.id.flFragmentContainer);
 
 
         // Set color for app name
         String ProjectName = "Happy Wallet";
         SpannableString spannableProjectName = new SpannableString(ProjectName);
-        // Change color for "Happy" (from index 0 to 5)
+        // Đổi màu cho "Happy" (từ index 0 đến 5)
         spannableProjectName.setSpan(
                 new ForegroundColorSpan(ContextCompat.getColor(this, R.color.Paolo_Veronese_Green)),
                 0,
                 5,
                 Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
         );
-        // Change color for "Wallet" (from index 6 to end)
+        // Đổi màu cho "Wallet" (từ index 6 đến hết)
         spannableProjectName.setSpan(
                 new ForegroundColorSpan(ContextCompat.getColor(this, R.color.Nautical)),
                 6,
@@ -80,30 +81,37 @@ public class SignInActivity extends AppCompatActivity {
         );
         tvProjectName.setText(spannableProjectName);
 
-        // Get sign in result from viewmodel
+        // get sign in result from viewmodel
         signInViewModel.getLoginResponse().observe(this, response -> {
             if (response != null) {
                 Toast.makeText(this, "Đăng nhập thành công!", Toast.LENGTH_SHORT).show();
-                // Start MainActivity after successful login
                 startActivity(new Intent(SignInActivity.this, MainActivity.class));
-                finish(); // Finish SignInActivity so user cannot go back to it
+                finish();
             } else {
                 Toast.makeText(this, "Sai tài khoản hoặc mật khẩu", Toast.LENGTH_SHORT).show();
-                tvSignIn.setEnabled(true); // Re-enable sign in button
+                tvSignIn.setEnabled(true);
             }
         });
 
-        // Sign in click listener
+        // sign in click
         tvSignIn.setOnClickListener(v -> {
-            tvSignIn.setEnabled(false); // Disable button to prevent multiple clicks
+            tvSignIn.setEnabled(false);
             String username = etUserName.getText().toString().trim();
             String password = edPassword.getText().toString().trim();
 
-            // Call login method in ViewModel, passing the Activity's context
-            signInViewModel.login(username, password, this);
+            if (signInViewModel.loginMock(username, password)) {
+                Toast.makeText(this, "Đăng nhập thành công!", Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(SignInActivity.this, MainActivity.class));
+                finish();
+            } else {
+                Toast.makeText(this, "Sai tài khoản hoặc mật khẩu", Toast.LENGTH_SHORT).show();
+                tvSignIn.setEnabled(true);
+            }
+
+//            signInViewModel.login(username, password);
         });
 
-        // Forgot password click listener
+        // forgot password clicl
         tvForgotPassword.setOnClickListener(v -> {
             getSupportFragmentManager()
                     .beginTransaction()
@@ -112,7 +120,7 @@ public class SignInActivity extends AppCompatActivity {
                     .commit();
         });
 
-        // Sign up click listener
+        // sign up click
         tvSignUp.setOnClickListener(v -> {
             getSupportFragmentManager()
                     .beginTransaction()

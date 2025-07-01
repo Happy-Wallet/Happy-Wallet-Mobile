@@ -1,13 +1,11 @@
 package com.example.happy_wallet_mobile.Data.Remote.Request.Auth;
 
 public class ResetPasswordRequest {
-    private String email;
-    private String otp;
+    private String token;
     private String newPassword;
 
-    public ResetPasswordRequest(String email, String otp, String newPassword) {
-        this.email = email;
-        this.otp = otp;
+    public ResetPasswordRequest(String token, String newPassword) {
+        this.token = token;
         this.newPassword = newPassword;
     }
 }

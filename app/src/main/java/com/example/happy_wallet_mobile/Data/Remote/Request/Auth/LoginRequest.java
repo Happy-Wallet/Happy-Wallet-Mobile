@@ -1,12 +1,13 @@
 package com.example.happy_wallet_mobile.Data.Remote.Request.Auth;
 
 public class LoginRequest {
-    private String email;
-    private String password;
+    private String UserName;
+    private String Password;
 
-    public LoginRequest(String email, String password) {
-        this.email = email;
-        this.password = password;
+    public LoginRequest(
+            String userName,
+            String password) {
+        UserName = userName;
+        Password = password;
     }
-
 }

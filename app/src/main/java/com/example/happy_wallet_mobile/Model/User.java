@@ -8,7 +8,7 @@ public class User {
     private String UserName;
     private String HashedPassword;
     private Date DateOfBirth;
-    private String AvatarUrl;
+    private String Role;
     private Date CreatedDate;
     private Date UpdatedDate;
     private Date DeletedDate;
@@ -22,7 +22,7 @@ public class User {
             String userName,
             String hashedPassword,
             Date dateOfBirth,
-            String avatarUrl,
+            String role,
             Date createdDate,
             Date updatedDate,
             Date deletedDate){
@@ -31,7 +31,7 @@ public class User {
         UserName = userName;
         HashedPassword = hashedPassword;
         DateOfBirth = dateOfBirth;
-        AvatarUrl = avatarUrl;
+        Role = role;
         CreatedDate = createdDate;
         UpdatedDate = updatedDate;
         DeletedDate = deletedDate;
@@ -41,7 +41,7 @@ public class User {
             String userName,
             String hashedPassword,
             Date dateOfBirth,
-            String avatarUrl,
+            String role,
             Date createdDate,
             Date updatedDate,
             Date deletedDate){
@@ -49,7 +49,7 @@ public class User {
         UserName = userName;
         HashedPassword = hashedPassword;
         DateOfBirth = dateOfBirth;
-        AvatarUrl = avatarUrl;
+        Role = role;
         CreatedDate = createdDate;
         UpdatedDate = updatedDate;
         DeletedDate = deletedDate;
@@ -77,7 +77,10 @@ public class User {
         return DateOfBirth;
     }
 
-    public String getAvatarUrl(){ return AvatarUrl; }
+    public String getRole() {
+        return Role;
+    }
+
     public Date getCreatedDate() {
         return CreatedDate;
     }
@@ -111,9 +114,10 @@ public class User {
         DateOfBirth = dateOfBirth;
     }
 
-    public void setAvatarUrl(String avatarUrl) {
-        AvatarUrl = avatarUrl;
+    public void setRole(String role) {
+        Role = role;
     }
+
     public void setCreatedDate(Date createdDate) {
         CreatedDate = createdDate;
     }

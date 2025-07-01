@@ -14,10 +14,6 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.happy_wallet_mobile.Data.Local.StaticDataProvider;
-import com.example.happy_wallet_mobile.Data.Remote.Response.Category.CategoryResponse;
-import com.example.happy_wallet_mobile.Model.Category;
-import com.example.happy_wallet_mobile.Model.eType;
 import com.example.happy_wallet_mobile.R;
 import com.example.happy_wallet_mobile.View.Adapter.CategoryRecyclerViewAdapter;
 import com.example.happy_wallet_mobile.View.Fragment.CategoryListFragment;
@@ -25,7 +21,6 @@ import com.example.happy_wallet_mobile.View.Utilities.CurrencyTextWatcher;
 import com.example.happy_wallet_mobile.ViewModel.Wallet.AddIncomeViewModel;
 import com.example.happy_wallet_mobile.ViewModel.MainViewModel;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class AddIncomeFragment extends Fragment {
@@ -51,7 +46,7 @@ public class AddIncomeFragment extends Fragment {
         rcvCategories = view.findViewById(R.id.rcvCategories);
         tvCancel = view.findViewById(R.id.tvCancel);
 
-        addIncomeViewModel.loadDataFromServer();
+        addIncomeViewModel.setData();
 
         GridLayoutManager layoutManager = new GridLayoutManager(requireContext(), 3);
         rcvCategories.setLayoutManager(layoutManager);
@@ -68,16 +63,9 @@ public class AddIncomeFragment extends Fragment {
         });
         rcvCategories.setAdapter(categoryRecyclerViewAdapter);
         // Observe LiveData để cập nhật adapter
-        addIncomeViewModel.CategoryList.observe(getViewLifecycleOwner(), categoryResponses -> {
-            if (categoryResponses != null) {
-                List<Category> categories = new ArrayList<>();
-                for (CategoryResponse response : categoryResponses) {
-                    categories.add(mapToCategory(response));
-                }
-                categoryRecyclerViewAdapter.updateCategories(categories);
-            }
+        addIncomeViewModel.CategoryList.observe(getViewLifecycleOwner(), categories -> {
+            categoryRecyclerViewAdapter.updateCategories(categories);
         });
-
 
 
         //cancel
@@ -89,24 +77,5 @@ public class AddIncomeFragment extends Fragment {
         etMoney.addTextChangedListener(new CurrencyTextWatcher(etMoney));
 
         return view;
-    }
-
-    private Category mapToCategory(CategoryResponse response) {
-        // Lấy icon và màu mặc định từ StaticDataProvider (tránh lỗi không tồn tại resource)
-        int defaultIconRes = StaticDataProvider.getIconList().get(0);
-        int defaultColorRes = StaticDataProvider.getColorList().get(0);
-
-        return new Category(
-                response.getId(),
-                response.getUser_id(),
-                defaultColorRes,
-                defaultIconRes,
-                eType.EXPENSE, // Bạn có thể ánh xạ đúng nếu response có trường `type`
-                response.getName(),
-                response.isIs_default(),
-                null, // createdAt (nếu cần, có thể convert từ response.getCreated_at())
-                null, // updatedAt
-                null  // deletedAt
-        );
     }
 }

@@ -40,11 +40,8 @@ public class ForgotPasswordFragment extends Fragment {
         // observe forgot password response
         forgotPasswordViewModel.getForgotPasswordResponse().observe(getViewLifecycleOwner(), response->{
             if (response != null) {
-                Toast.makeText(getContext(), "Đã gửi mã OTP về email", Toast.LENGTH_SHORT).show();
-                getParentFragmentManager().beginTransaction()
-                        .replace(R.id.flFragmentContainer, new ResetPasswordFragment(etEmail.getText().toString()))
-                        .addToBackStack(null)
-                        .commit();
+                Toast.makeText(requireContext(), "Password đã gửi về Email", Toast.LENGTH_SHORT).show();
+
             } else {
                 Toast.makeText(requireContext(), "Email chưa dùng để đăng ký", Toast.LENGTH_SHORT).show();
             }
