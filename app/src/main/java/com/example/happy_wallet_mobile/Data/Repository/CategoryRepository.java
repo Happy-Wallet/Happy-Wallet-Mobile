@@ -6,6 +6,7 @@ import androidx.lifecycle.MutableLiveData;
 import com.example.happy_wallet_mobile.Data.Remote.APIClient;
 import com.example.happy_wallet_mobile.Data.Remote.ApiInterface.CategoryService;
 import com.example.happy_wallet_mobile.Data.Remote.Request.Category.CreateCategoryRequest;
+import com.example.happy_wallet_mobile.Data.Remote.Request.Category.UpdateCategoryRequest;
 import com.example.happy_wallet_mobile.Data.Remote.Response.Category.CategoryResponse;
 import com.example.happy_wallet_mobile.Data.Remote.Response.Category.CreateCategoryResponse;
 
@@ -62,5 +63,37 @@ public class CategoryRepository {
             }
         });
         return data;
+    }
+
+    public LiveData<CategoryResponse> updateCategory(int id, UpdateCategoryRequest request) {
+        MutableLiveData<CategoryResponse> data = new MutableLiveData<>();
+        categoryService.updateCategory(id, request).enqueue(new Callback<CategoryResponse>() {
+            @Override
+            public void onResponse(Call<CategoryResponse> call, Response<CategoryResponse> response) {
+                data.setValue(response.body());
+            }
+
+            @Override
+            public void onFailure(Call<CategoryResponse> call, Throwable t) {
+                data.setValue(null);
+            }
+        });
+        return data;
+    }
+
+    public LiveData<Boolean> deleteCategory(int id) {
+        MutableLiveData<Boolean> result = new MutableLiveData<>();
+        categoryService.deleteCategory(id).enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+                result.setValue(response.isSuccessful());
+            }
+
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+                result.setValue(false);
+            }
+        });
+        return result;
     }
 }

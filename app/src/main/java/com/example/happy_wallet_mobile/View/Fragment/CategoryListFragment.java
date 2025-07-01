@@ -14,9 +14,15 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.happy_wallet_mobile.Data.MockDataProvider;
+import com.example.happy_wallet_mobile.Data.Remote.Response.Category.CategoryResponse;
+import com.example.happy_wallet_mobile.Data.Repository.CategoryRepository;
+import com.example.happy_wallet_mobile.Model.Category;
 import com.example.happy_wallet_mobile.R;
 import com.example.happy_wallet_mobile.View.Adapter.CategoryListViewAdapter;
 import com.example.happy_wallet_mobile.ViewModel.MainViewModel;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class CategoryListFragment extends Fragment {
@@ -24,6 +30,8 @@ public class CategoryListFragment extends Fragment {
     FrameLayout flAddCategory;
     ListView lvCategoryList;
     CategoryListViewAdapter categoryListViewAdapter;
+    CategoryRepository categoryRepository;
+
 
     TextView tvCancel;
 
@@ -44,21 +52,30 @@ public class CategoryListFragment extends Fragment {
             mainViewModel.navigateSubBelow(new AddCategoryFragment());
         });
 
-        categoryListViewAdapter = new CategoryListViewAdapter(
-                requireContext(),
-                MockDataProvider.getMockCategories()
-        );
-        categoryListViewAdapter.setOnCategoryClickListener(category -> {
-            Toast.makeText(getContext(), "Bạn đã chọn: " + category.getName(), Toast.LENGTH_SHORT).show();
-            // xử lý thêm tại đây (mở Fragment khác, truyền data,...)
-        });
-        lvCategoryList.setAdapter(categoryListViewAdapter);
+        // Khởi tạo repository và load danh sách từ server
+        CategoryRepository categoryRepository = new CategoryRepository();
+        categoryRepository.getAllCategories().observe(getViewLifecycleOwner(), responses -> {
+            if (responses != null) {
+                List<Category> categoryList = new ArrayList<>();
 
-        //cancel
-        tvCancel.setOnClickListener(v->{
+                categoryListViewAdapter = new CategoryListViewAdapter(requireContext(), categoryList);
+                categoryListViewAdapter.setOnCategoryClickListener(category -> {
+                    Toast.makeText(getContext(), "Bạn đã chọn: " + category.getName(), Toast.LENGTH_SHORT).show();
+                    // xử lý thêm tại đây (mở Fragment khác, truyền data,...)
+                });
+
+                lvCategoryList.setAdapter(categoryListViewAdapter);
+            } else {
+                Toast.makeText(requireContext(), "Lỗi tải danh mục từ server", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        // cancel
+        tvCancel.setOnClickListener(v -> {
             requireActivity().getSupportFragmentManager().popBackStack();
         });
 
         return view;
     }
+
 }

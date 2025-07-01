@@ -4,7 +4,8 @@ public class UserResponse {
     private int id;
     private String email;
     private String username;
-    private String role;
+    private String avatar_url;
+    private String date_of_birth;
     private String created_at;
     private String updated_at;
 
@@ -12,7 +13,8 @@ public class UserResponse {
     public int getId() { return id; }
     public String getEmail() { return email; }
     public String getUsername() { return username; }
-    public String getRole() { return role; }
+    public String getAvatarUrl() { return avatar_url; }
+    public String getDateOfBirth() { return date_of_birth; }
     public String getCreatedAt() { return created_at; }
     public String getUpdatedAt() { return updated_at; }
 }

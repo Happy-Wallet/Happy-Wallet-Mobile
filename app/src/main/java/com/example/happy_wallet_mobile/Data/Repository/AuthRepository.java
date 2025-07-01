@@ -1,5 +1,7 @@
 package com.example.happy_wallet_mobile.Data.Repository;
 
+import android.content.Context; // Import Context
+import android.content.SharedPreferences; // Import SharedPreferences
 import android.util.Log;
 
 import androidx.lifecycle.LiveData;
@@ -28,16 +30,25 @@ public class AuthRepository {
     }
 
     // login
-    public LiveData<LoginResponse> login(LoginRequest request) {
+    public LiveData<LoginResponse> login(LoginRequest request, Context context) {
         MutableLiveData<LoginResponse> result = new MutableLiveData<>();
         authService.login(request).enqueue(new Callback<>() {
             @Override
             public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
                 if (response.isSuccessful()) {
-                    result.setValue(response.body());
+                    LoginResponse loginResponse = response.body();
+                    if (loginResponse != null && loginResponse.getToken() != null) { // Giả định LoginResponse có phương thức getToken()
+                        // Lưu token vào SharedPreferences
+                        SharedPreferences sharedPreferences = context.getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
+                        SharedPreferences.Editor editor = sharedPreferences.edit();
+                        editor.putString("token", loginResponse.getToken());
+                        editor.apply();
+                        Log.d("AuthRepository", "Token saved: " + loginResponse.getToken());
+                    }
+                    result.setValue(loginResponse);
                 } else {
                     Log.e("AuthRepository", "Login failed: " + response.message());
-                    result.setValue(null);  // Hoặc tạo một error state
+                    result.setValue(null);
                 }
             }
 
@@ -57,6 +68,7 @@ public class AuthRepository {
             @Override
             public void onResponse(Call<RegisterResponse> call, Response<RegisterResponse> response) {
                 if (response.isSuccessful()) {
+                    // Bạn cũng có thể muốn lưu token đăng ký ở đây nếu API đăng ký trả về token
                     result.setValue(response.body());
                 } else {
                     Log.e("AuthRepository", "Register failed: " + response.message());
