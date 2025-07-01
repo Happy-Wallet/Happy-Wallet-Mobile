@@ -9,10 +9,12 @@ import java.util.List;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
+import retrofit2.http.Header;
 import retrofit2.http.POST;
 
 public interface UserService {
-    // GET /users
+    @GET("/settings/profile")
+    Call<UserResponse> getProfile(@Header("Authorization") String bearerToken);
     @GET("users")
     Call<List<UserResponse>> getAllUsers();
 

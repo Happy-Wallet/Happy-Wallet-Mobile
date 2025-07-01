@@ -31,7 +31,7 @@ public class SignInActivity extends AppCompatActivity {
 
     TextView tvProjectName;
     EditText etUserName;
-    EditText edPassword;
+    EditText edPassword; // Khai báo biến
     TextView tvSignIn;
     TextView tvSignUp;
     TextView tvForgotPassword;
@@ -54,7 +54,7 @@ public class SignInActivity extends AppCompatActivity {
 
         tvProjectName = findViewById(R.id.tvProjectName);
         etUserName = findViewById(R.id.etUserName);
-        edPassword = findViewById(R.id.etPassword);
+        edPassword = findViewById(R.id.etPassword); // Đã sửa từ R.id.edPassword thành R.id.etPassword
         tvSignIn = findViewById(R.id.tvSignIn);
         tvSignUp = findViewById(R.id.tvSignUp);
         tvForgotPassword = findViewById(R.id.tvForgotPassword);
@@ -64,14 +64,14 @@ public class SignInActivity extends AppCompatActivity {
         // Set color for app name
         String ProjectName = "Happy Wallet";
         SpannableString spannableProjectName = new SpannableString(ProjectName);
-        // Đổi màu cho "Happy" (từ index 0 đến 5)
+        // Change color for "Happy" (from index 0 to 5)
         spannableProjectName.setSpan(
                 new ForegroundColorSpan(ContextCompat.getColor(this, R.color.Paolo_Veronese_Green)),
                 0,
                 5,
                 Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
         );
-        // Đổi màu cho "Wallet" (từ index 6 đến hết)
+        // Change color for "Wallet" (from index 6 to end)
         spannableProjectName.setSpan(
                 new ForegroundColorSpan(ContextCompat.getColor(this, R.color.Nautical)),
                 6,
@@ -80,28 +80,30 @@ public class SignInActivity extends AppCompatActivity {
         );
         tvProjectName.setText(spannableProjectName);
 
-        // get sign in result from viewmodel
+        // Get sign in result from viewmodel
         signInViewModel.getLoginResponse().observe(this, response -> {
             if (response != null) {
                 Toast.makeText(this, "Đăng nhập thành công!", Toast.LENGTH_SHORT).show();
+                // Start MainActivity after successful login
                 startActivity(new Intent(SignInActivity.this, MainActivity.class));
-                finish();
+                finish(); // Finish SignInActivity so user cannot go back to it
             } else {
                 Toast.makeText(this, "Sai tài khoản hoặc mật khẩu", Toast.LENGTH_SHORT).show();
-                tvSignIn.setEnabled(true);
+                tvSignIn.setEnabled(true); // Re-enable sign in button
             }
         });
 
-        // sign in click
+        // Sign in click listener
         tvSignIn.setOnClickListener(v -> {
-            tvSignIn.setEnabled(false);
+            tvSignIn.setEnabled(false); // Disable button to prevent multiple clicks
             String username = etUserName.getText().toString().trim();
             String password = edPassword.getText().toString().trim();
 
-            signInViewModel.login(username, password);
+            // Call login method in ViewModel, passing the Activity's context
+            signInViewModel.login(username, password, this);
         });
 
-        // forgot password clicl
+        // Forgot password click listener
         tvForgotPassword.setOnClickListener(v -> {
             getSupportFragmentManager()
                     .beginTransaction()
@@ -110,7 +112,7 @@ public class SignInActivity extends AppCompatActivity {
                     .commit();
         });
 
-        // sign up click
+        // Sign up click listener
         tvSignUp.setOnClickListener(v -> {
             getSupportFragmentManager()
                     .beginTransaction()
