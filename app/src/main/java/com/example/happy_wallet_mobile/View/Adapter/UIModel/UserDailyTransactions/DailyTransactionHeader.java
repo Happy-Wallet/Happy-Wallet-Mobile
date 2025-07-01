@@ -1,4 +1,4 @@
-package com.example.happy_wallet_mobile.View.Adapter.UIModel;
+package com.example.happy_wallet_mobile.View.Adapter.UIModel.UserDailyTransactions;
 
 import java.math.BigDecimal;
 
