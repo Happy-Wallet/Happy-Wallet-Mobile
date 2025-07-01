@@ -160,6 +160,7 @@ public class SignInActivity extends AppCompatActivity {
                     user.setEmail(userResponse.getEmail());
                     user.setUserName(userResponse.getUsername());
                     user.setAvatarUrl(userResponse.getAvatarUrl());
+                    user.setDateOfBirth(userResponse.getDateOfBirth());
 
                     // Convert date string sang Date nếu muốn
 

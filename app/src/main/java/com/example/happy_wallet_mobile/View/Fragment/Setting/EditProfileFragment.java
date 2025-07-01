@@ -7,6 +7,7 @@ import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,6 +22,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.bumptech.glide.Glide;
+import com.example.happy_wallet_mobile.Data.Local.UserPreferences;
 import com.example.happy_wallet_mobile.Data.Remote.Response.User.UserResponse;
 import com.example.happy_wallet_mobile.R;
 import com.example.happy_wallet_mobile.Data.Remote.APIClient;
@@ -93,6 +95,18 @@ public class EditProfileFragment extends Fragment {
         progressBar = view.findViewById(R.id.progressBar);
 
 
+        Log.d("EditProfie", UserPreferences.getUser().getUserName() + " : " + UserPreferences.getUser().getDateOfBirth());
+// Set name
+        etUserName.setText(UserPreferences.getUser().getUserName());
+// Set date of birth formatted
+        Date dob = UserPreferences.getUser().getDateOfBirth();
+        if (dob != null) {
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
+            etDateOfBirth.setText(sdf.format(dob));
+        }
+
+
+
         // Set OnClickListener for ImageView to pick avatar image
         ivProfileImage.setOnClickListener(v -> {
             Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
@@ -105,7 +119,7 @@ public class EditProfileFragment extends Fragment {
         // Set OnClickListener for Save button
         tvSave.setOnClickListener(v -> {
             String username = etUserName.getText().toString().trim();
-            String dob = etDateOfBirth.getText().toString().trim();
+            String dobStr  = etDateOfBirth.getText().toString().trim();
 
             byte[] imageBytes = null;
             if (selectedImageUri != null) {
@@ -118,7 +132,7 @@ public class EditProfileFragment extends Fragment {
                 }
             }
 
-            viewModel.updateProfile(username, dob, imageBytes);
+            viewModel.updateProfile(username, dobStr , imageBytes);
         });
 
         // Set OnClickListener for Cancel button to go back to previous screen
@@ -139,11 +153,9 @@ public class EditProfileFragment extends Fragment {
         datePicker.addOnPositiveButtonClickListener(selection -> {
             Calendar calendar = Calendar.getInstance();
             calendar.setTimeInMillis(selection);
-            Date selectedDate = calendar.getTime();
 
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
-            String formattedDate = sdf.format(selectedDate);
-            etDateOfBirth.setText(formattedDate);
+            etDateOfBirth.setText(sdf.format(calendar.getTime()));
         });
     }
 
