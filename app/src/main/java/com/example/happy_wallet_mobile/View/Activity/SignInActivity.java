@@ -1,10 +1,17 @@
 package com.example.happy_wallet_mobile.View.Activity;
 
+import static androidx.core.content.ContentProviderCompat.requireContext;
+
+import static java.security.AccessController.getContext;
+
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.style.ForegroundColorSpan;
+import android.view.View;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
@@ -20,10 +27,23 @@ import androidx.core.view.WindowInsetsCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.bumptech.glide.Glide;
+import com.example.happy_wallet_mobile.Data.Local.UserPreferences;
+import com.example.happy_wallet_mobile.Data.Remote.APIClient;
+import com.example.happy_wallet_mobile.Data.Remote.ApiInterface.UserService;
+import com.example.happy_wallet_mobile.Data.Remote.Response.User.UserResponse;
+import com.example.happy_wallet_mobile.Model.User;
 import com.example.happy_wallet_mobile.R;
 import com.example.happy_wallet_mobile.View.Fragment.Authentication.ForgotPasswordFragment;
 import com.example.happy_wallet_mobile.View.Fragment.Authentication.SignUpFragment;
 import com.example.happy_wallet_mobile.ViewModel.Authentication.SignInViewModel;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+
+import retrofit2.Call;
 
 public class SignInActivity extends AppCompatActivity {
 
@@ -84,9 +104,10 @@ public class SignInActivity extends AppCompatActivity {
         signInViewModel.getLoginResponse().observe(this, response -> {
             if (response != null) {
                 Toast.makeText(this, "Đăng nhập thành công!", Toast.LENGTH_SHORT).show();
-                // Start MainActivity after successful login
-                startActivity(new Intent(SignInActivity.this, MainActivity.class));
-                finish(); // Finish SignInActivity so user cannot go back to it
+
+                // change userPreference to current user
+                // Gọi API lấy thông tin user và chuyển sang MainActivity nếu thành công
+                fetchUserProfileAndSave(response.getToken());
             } else {
                 Toast.makeText(this, "Sai tài khoản hoặc mật khẩu", Toast.LENGTH_SHORT).show();
                 tvSignIn.setEnabled(true); // Re-enable sign in button
@@ -121,4 +142,45 @@ public class SignInActivity extends AppCompatActivity {
                     .commit();
         });
     }
+
+    // Method to fetch user profile information from API
+    private void fetchUserProfileAndSave(String token) {
+        UserService api = APIClient.getRetrofit().create(UserService.class);
+
+        Call<UserResponse> call = api.getProfile("Bearer " + token);
+        call.enqueue(new retrofit2.Callback<UserResponse>() {
+            @Override
+            public void onResponse(Call<UserResponse> call, retrofit2.Response<UserResponse> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    UserResponse userResponse = response.body();
+
+                    // Convert từ UserResponse -> User
+                    User user = new User();
+                    user.setId(userResponse.getId());
+                    user.setEmail(userResponse.getEmail());
+                    user.setUserName(userResponse.getUsername());
+                    user.setAvatarUrl(userResponse.getAvatarUrl());
+
+                    // Convert date string sang Date nếu muốn
+
+                    // Lưu vào UserPreferences static
+                    UserPreferences.saveUser(user, token);
+
+                    // Chuyển sang MainActivity
+                    Intent intent = new Intent(SignInActivity.this, MainActivity.class);
+                    startActivity(intent);
+                    finish();
+                } else {
+                    Toast.makeText(SignInActivity.this, "Lỗi khi lấy profile: " + response.message(), Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<UserResponse> call, Throwable t) {
+                Toast.makeText(SignInActivity.this, "Lỗi mạng: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                t.printStackTrace();
+            }
+        });
+    }
+
 }
