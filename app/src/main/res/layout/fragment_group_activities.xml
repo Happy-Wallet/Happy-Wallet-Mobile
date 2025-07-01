@@ -65,16 +65,43 @@
         android:background="@color/Silver_Phoenix"
         >
 
-        <!-- monthly graphs -->
-        <androidx.recyclerview.widget.RecyclerView
+        <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="150dp"
+            android:background="@drawable/bg_rounded_20_white">
 
-            android:id="@+id/rcvMonthlyGraphs"
 
-            android:padding="20dp"
-            android:background="@drawable/bg_rounded_20_white"
-            />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:layout_gravity="bottom"
+                android:layout_marginBottom="80dp"
+                android:background="@color/Paolo_Veronese_Green" />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:layout_gravity="bottom"
+                android:layout_marginBottom="130dp"
+                android:background="@color/Paolo_Veronese_Green" />
+
+            <!-- monthly graphs -->
+            <androidx.recyclerview.widget.RecyclerView
+                android:layout_width="match_parent"
+                android:layout_height="130dp"
+                android:layout_gravity="center"
+                android:id="@+id/rcvMonthlyGraphs"
+                />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:layout_gravity="bottom"
+                android:layout_marginBottom="30dp"
+                android:background="@color/Paolo_Veronese_Green" />
+
+        </FrameLayout>
+
+
 
         <!-- rcvDailyActivities -->
         <androidx.recyclerview.widget.RecyclerView

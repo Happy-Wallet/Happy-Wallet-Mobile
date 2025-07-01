@@ -163,6 +163,7 @@ public class GroupsFragment extends Fragment {
                     groupsViewModel.getGroupMemberUserList().getValue(),
                     groupsViewModel.getCategoryList().getValue()
             );
+            groupActivitiesViewModel.loadMonthlyData(groupsViewModel.getGroupTransactionList().getValue());
             mainViewModel.navigateSubBelow(new GroupActivitiesFragment());
         });
 
