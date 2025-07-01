@@ -1,5 +1,7 @@
 package com.example.happy_wallet_mobile.ViewModel.Authentication;
 
+import android.content.Context;
+
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MediatorLiveData;
 import androidx.lifecycle.MutableLiveData;
@@ -24,14 +26,13 @@ public class SignInViewModel extends ViewModel {
         return "".equals(userName) && "".equals(password);
     }
 
-    public void login(String userName, String password) {
-
+    public void login(String userName, String password, Context context) { // Thêm context
         if (userName == null || password == null || userName.isEmpty() || password.isEmpty()) {
             _loginResponse.setValue(null);
             return;
         }
 
-        LiveData<LoginResponse> source = authRepository.login(new LoginRequest(userName, password));
+        LiveData<LoginResponse> source = authRepository.login(new LoginRequest(userName, password), context);
         _loginResponse.addSource(source, response -> {
             _loginResponse.setValue(response);
             _loginResponse.removeSource(source);
