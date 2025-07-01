@@ -14,8 +14,11 @@ import android.widget.TextView;
 
 import com.example.happy_wallet_mobile.R;
 import com.example.happy_wallet_mobile.View.Adapter.GroupTransactionsRecyclerViewAdapter;
+import com.example.happy_wallet_mobile.View.Adapter.MonthIAEAdapter;
 import com.example.happy_wallet_mobile.ViewModel.Group.GroupActivitiesViewModel;
 import com.example.happy_wallet_mobile.ViewModel.Group.GroupsViewModel;
+
+import java.util.List;
 
 
 public class GroupActivitiesFragment extends Fragment {
@@ -23,7 +26,6 @@ public class GroupActivitiesFragment extends Fragment {
     RecyclerView rcvMonthlyGraphs, rcvGroupDailyTransactions;
     TextView tvCancel;
     private GroupActivitiesViewModel groupActivitiesViewModel;
-    private GroupsViewModel groupsViewModel;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -32,7 +34,6 @@ public class GroupActivitiesFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_group_activities, container, false);
 
         groupActivitiesViewModel = new ViewModelProvider(requireActivity()).get(GroupActivitiesViewModel.class);
-        groupsViewModel  = new ViewModelProvider(requireActivity()).get(GroupsViewModel.class);
 
         rcvMonthlyGraphs = view.findViewById(R.id.rcvMonthlyGraphs);
         rcvGroupDailyTransactions = view.findViewById(R.id.rcvGroupDailyTransactions);
@@ -50,6 +51,14 @@ public class GroupActivitiesFragment extends Fragment {
             rcvGroupDailyTransactions.setAdapter(groupTransactionsRecyclerViewAdapter);
         });
 
+        //set data for rcvMonthlyGraphs
+        rcvMonthlyGraphs.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
+        MonthIAEAdapter monthIAEAdapter = new MonthIAEAdapter(List.of());
+        rcvMonthlyGraphs.setAdapter(monthIAEAdapter);
+        // observe data từ viewmodel
+        groupActivitiesViewModel.getMonthlyData().observe(getViewLifecycleOwner(), monthlyData -> {
+            monthIAEAdapter.update(monthlyData);
+        });
 
         return view;
     }

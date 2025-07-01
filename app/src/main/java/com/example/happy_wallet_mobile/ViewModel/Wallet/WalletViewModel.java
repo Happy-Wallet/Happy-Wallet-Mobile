@@ -8,9 +8,10 @@ import androidx.lifecycle.ViewModel;
 import com.example.happy_wallet_mobile.Data.MockDataProvider;
 import com.example.happy_wallet_mobile.Model.Category;
 import com.example.happy_wallet_mobile.Model.Transaction;
-import com.example.happy_wallet_mobile.View.Adapter.UIModel.DailyTransactionHeader;
-import com.example.happy_wallet_mobile.View.Adapter.UIModel.TransactionItem;
-import com.example.happy_wallet_mobile.View.Adapter.UIModel.TransactionUiModel;
+import com.example.happy_wallet_mobile.Model.eType;
+import com.example.happy_wallet_mobile.View.Adapter.UIModel.UserDailyTransactions.DailyTransactionHeader;
+import com.example.happy_wallet_mobile.View.Adapter.UIModel.UserDailyTransactions.TransactionItem;
+import com.example.happy_wallet_mobile.View.Adapter.UIModel.UserDailyTransactions.TransactionUiModel;
 
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
@@ -83,7 +84,10 @@ public class WalletViewModel extends ViewModel {
 
             BigDecimal total = BigDecimal.ZERO;
             for (Transaction t : dayTransactions) {
-                total = total.add(t.getAmount());
+                if (t.getType() == eType.INCOME)
+                    total = total.add(t.getAmount());
+                else
+                    total = total.subtract(t.getAmount());
             }
 
             uiModels.add(new DailyTransactionHeader(date, total));
@@ -117,16 +121,16 @@ public class WalletViewModel extends ViewModel {
         BigDecimal expenses = BigDecimal.ZERO;
 
         for (Transaction item : transactions) {
-            if (item.getAmount().compareTo(BigDecimal.ZERO) > 0) {
+            if (item.getType() == eType.INCOME) {
                 income = income.add(item.getAmount());
-            } else if (item.getAmount().compareTo(BigDecimal.ZERO) < 0) {
+            } else {
                 expenses = expenses.add(item.getAmount());
             }
         }
 
         _totalIncome.setValue(income);
         _totalExpenses.setValue(expenses);
-        _availableBalance.setValue(income.add(expenses));
+        _availableBalance.setValue(income.subtract(expenses));
     }
 
 

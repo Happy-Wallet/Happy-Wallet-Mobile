@@ -1,7 +1,5 @@
 package com.example.happy_wallet_mobile.View.Fragment.Home;
 
-import static com.example.happy_wallet_mobile.Data.MockDataProvider.getMonthlyIncomeExpense;
-
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -20,7 +18,6 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.happy_wallet_mobile.Model.Category;
-import com.example.happy_wallet_mobile.Model.IncomeExpenseMonth;
 import com.example.happy_wallet_mobile.Model.Transaction;
 import com.example.happy_wallet_mobile.Model.eType;
 import com.example.happy_wallet_mobile.R;
@@ -33,7 +30,6 @@ import com.example.happy_wallet_mobile.ViewModel.Home.SavingStatusViewModel;
 import com.example.happy_wallet_mobile.Data.MockDataProvider;
 
 import com.github.mikephil.charting.charts.PieChart;
-import com.github.mikephil.charting.components.Description;
 import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;

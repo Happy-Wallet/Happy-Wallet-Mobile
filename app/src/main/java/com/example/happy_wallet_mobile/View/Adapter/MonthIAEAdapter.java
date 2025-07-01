@@ -7,7 +7,7 @@ import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.happy_wallet_mobile.Model.IncomeExpenseMonth;
+import com.example.happy_wallet_mobile.View.Adapter.UIModel.IncomeExpenseMonth;
 import com.example.happy_wallet_mobile.R;
 
 import java.math.BigDecimal;

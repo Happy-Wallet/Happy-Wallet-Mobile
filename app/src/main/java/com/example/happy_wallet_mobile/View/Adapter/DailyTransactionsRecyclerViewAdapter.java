@@ -1,7 +1,6 @@
 package com.example.happy_wallet_mobile.View.Adapter;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,10 +13,12 @@ import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.happy_wallet_mobile.Model.eType;
 import com.example.happy_wallet_mobile.R;
-import com.example.happy_wallet_mobile.View.Adapter.UIModel.DailyTransactionHeader;
-import com.example.happy_wallet_mobile.View.Adapter.UIModel.TransactionItem;
-import com.example.happy_wallet_mobile.View.Adapter.UIModel.TransactionUiModel;
+import com.example.happy_wallet_mobile.View.Adapter.UIModel.UserDailyTransactions.DailyTransactionHeader;
+import com.example.happy_wallet_mobile.View.Adapter.UIModel.UserDailyTransactions.TransactionItem;
+import com.example.happy_wallet_mobile.View.Adapter.UIModel.UserDailyTransactions.TransactionUiModel;
+import com.example.happy_wallet_mobile.View.Utilities.CurrencyUtility;
 
 import java.math.BigDecimal;
 import java.util.Locale;
@@ -126,12 +127,11 @@ public class DailyTransactionsRecyclerViewAdapter extends RecyclerView.Adapter<R
 
 
             // Set amount
-            BigDecimal amount = item.getTransaction().getAmount();
-            i.tvAmount.setText(formatAmount(amount));
+            i.tvAmount.setText(CurrencyUtility.format1(item.getTransaction().getAmount()));
 
             // set text color
             i.tvAmount.setTextColor(ContextCompat.getColor(context,
-                    amount.signum() >= 0 ? R.color.Paolo_Veronese_Green : R.color.Radishical));
+                    item.getTransaction().getType() == eType.INCOME ? R.color.Paolo_Veronese_Green : R.color.Radishical));
 
             try {
                 int color = ContextCompat.getColor(context, item.getCategory().getColorRes());

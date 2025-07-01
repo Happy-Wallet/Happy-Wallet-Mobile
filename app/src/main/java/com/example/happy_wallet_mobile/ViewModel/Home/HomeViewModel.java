@@ -1,7 +1,5 @@
 package com.example.happy_wallet_mobile.ViewModel.Home;
 
-import android.content.Context;
-
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
@@ -10,14 +8,11 @@ import com.example.happy_wallet_mobile.Data.MockDataProvider;
 import com.example.happy_wallet_mobile.Model.Category;
 import com.example.happy_wallet_mobile.Model.SavingGoal;
 import com.example.happy_wallet_mobile.Model.Transaction;
-import com.example.happy_wallet_mobile.Model.IncomeExpenseMonth;
+import com.example.happy_wallet_mobile.View.Adapter.UIModel.IncomeExpenseMonth;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
-import com.example.happy_wallet_mobile.Data.MockDataProvider;
-import com.example.happy_wallet_mobile.Model.IncomeExpenseMonth;
-import com.example.happy_wallet_mobile.Model.Transaction;
 import com.example.happy_wallet_mobile.Model.eType;
 
 import java.math.BigDecimal;

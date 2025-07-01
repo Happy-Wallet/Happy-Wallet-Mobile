@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.happy_wallet_mobile.R;
 import com.example.happy_wallet_mobile.View.Adapter.UIModel.GroupMemberContribution;
+import com.example.happy_wallet_mobile.View.Utilities.CurrencyUtility;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -41,7 +42,7 @@ public class GroupMembersRecyclerViewAdapter extends RecyclerView.Adapter<GroupM
 
         holder.tvMemberName.setText(item.getUser().getUserName());
         holder.tvMemberRole.setText(item.getGroupRole());
-        holder.tvTotalContribution.setText(item.getTotalIncomeContribution().toPlainString());
+        holder.tvTotalContribution.setText(CurrencyUtility.format(item.getTotalIncomeContribution()));
     }
 
     @Override
