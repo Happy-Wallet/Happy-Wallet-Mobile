@@ -17,7 +17,7 @@ import android.widget.TextView;
 
 import com.example.happy_wallet_mobile.Model.Group;
 import com.example.happy_wallet_mobile.R;
-import com.example.happy_wallet_mobile.View.Adapter.GroupMembersRecyclerViewAdapter;
+import com.example.happy_wallet_mobile.View.Adapter.GroupMembersContributionRecyclerViewAdapter;
 import com.example.happy_wallet_mobile.View.Adapter.GroupRecyclerViewAdapter;
 import com.example.happy_wallet_mobile.View.Adapter.MembersActivitiesRecyclerViewAdapter;
 import com.example.happy_wallet_mobile.View.Utilities.CurrencyUtility;
@@ -36,7 +36,7 @@ public class GroupsFragment extends Fragment {
     GroupActivitiesViewModel groupActivitiesViewModel;
     RecyclerView rcvGroups, rcvMembers, rcvMembersActivities;
     ImageView ivEditGroup;
-    TextView tvGroupName, tvAvailableBalance, tvSeeMoreActivities, tvInviteMember;
+    TextView tvGroupName, tvAvailableBalance, tvSeeMoreActivities, tvInviteMember, tvManageMember;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -59,6 +59,7 @@ public class GroupsFragment extends Fragment {
         tvAvailableBalance = view.findViewById(R.id.tvAvailableBalance);
         tvSeeMoreActivities = view.findViewById(R.id.tvSeeMoreActivities);
         tvInviteMember = view.findViewById(R.id.tvInviteMember);
+        tvManageMember = view.findViewById(R.id.tvManageMember);
 
         // set data for rcvGroup
         LinearLayoutManager layoutManager = new LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false);
@@ -117,7 +118,7 @@ public class GroupsFragment extends Fragment {
 
         //set data for rcvMembers
         rcvMembers.setLayoutManager(new LinearLayoutManager(requireContext()));
-        GroupMembersRecyclerViewAdapter groupMembersRecyclerViewAdapter = new GroupMembersRecyclerViewAdapter(
+        GroupMembersContributionRecyclerViewAdapter groupMembersRecyclerViewAdapter = new GroupMembersContributionRecyclerViewAdapter(
                 List.of()
         );
         rcvMembers.setAdapter(groupMembersRecyclerViewAdapter);
@@ -172,6 +173,12 @@ public class GroupsFragment extends Fragment {
         tvInviteMember.setOnClickListener(v -> {
             Log.d("GroupsFragment", "tvInviteMember clicked");
             mainViewModel.navigateSubBelow(new InviteMemberFragment());
+        });
+
+        // tvManageMember clicked
+        tvManageMember.setOnClickListener(v -> {
+            Log.d("GroupsFragment", "tvManageMember clicked");
+            mainViewModel.navigateSubBelow(new ManageMembersFragment());
         });
 
 

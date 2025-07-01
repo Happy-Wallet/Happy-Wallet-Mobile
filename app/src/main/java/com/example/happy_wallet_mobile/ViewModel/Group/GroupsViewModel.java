@@ -25,7 +25,7 @@ public class GroupsViewModel extends ViewModel {
         return categoryList;
     }
 
-    //user groups
+    //groups
     private final MutableLiveData<List<Group>> groupList = new MutableLiveData<>();
     public LiveData<List<Group>> getGroupList(){
         return groupList;

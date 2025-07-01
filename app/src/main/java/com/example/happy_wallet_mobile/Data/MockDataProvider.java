@@ -153,14 +153,14 @@ public class MockDataProvider {
 
     public static List<GroupMember> getMockGroupMembers() {
         List<GroupMember> members = new ArrayList<>();
-        String[] roles = {"Admin", "Thành viên", "Kế toán", "Quản lý"};
         for (int groupId = 1; groupId <= 5; groupId++) {
             for (int i = 0; i < 4; i++) {
+                String role = (i==1 ? eRole.ADMIN : eRole.MEMBER).toString();
                 int userId = ((groupId - 1) * 4 + i) % 12 + 1;
                 members.add(new GroupMember(
                         groupId,
                         userId,
-                        roles[random.nextInt(roles.length)],
+                        role,
                         new Date(),
                         new Date(),
                         null
