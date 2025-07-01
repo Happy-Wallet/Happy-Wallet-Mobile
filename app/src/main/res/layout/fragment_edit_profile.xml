@@ -11,24 +11,19 @@
 
     <!-- image profile -->
     <FrameLayout
-        android:layout_width="71dp"
-        android:layout_height="71dp"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginTop="72sp"
-
         android:id="@+id/flProfileImageFrame"
-
-        android:background="@drawable/bg_rounded_50_nautical"
-        >
+        android:background="@drawable/bg_rounded_50_nautical">
 
         <ImageView
-            android:layout_width="68dp"
-            android:layout_height="68dp"
-
+            android:layout_width="97dp"
+            android:layout_height="97dp"
             android:id="@+id/ivProfileImage"
-
             android:layout_gravity="center"
             android:background="@drawable/bg_rounded_50_white"
             />
@@ -37,198 +32,78 @@
 
     <!-- info input layout -->
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintStart_toEndOf="parent"
+        android:id="@+id/clInfoInputLayout"
+        android:layout_width="409dp"
+        android:layout_height="226dp"
+        android:background="@color/white"
+        android:paddingStart="30dp"
+        android:paddingTop="30dp"
+        android:paddingEnd="30dp"
+        android:paddingBottom="10dp"
+        app:layout_constraintBottom_toTopOf="@+id/clButtonLayout"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/flProfileImageFrame"
-        app:layout_constraintBottom_toTopOf="@+id/clButtonLayout"
-
-        android:id="@+id/clInfoInputLayout"
-
-        android:padding="30dp"
-        android:background="@color/white"
-        >
-
-        <!-- etName -->
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintStart_toStartOf="@+id/etName"
-            app:layout_constraintBottom_toTopOf="@+id/etName"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="10dp"
-
-            android:labelFor="@id/etName"
-
-            android:text="Name"
-            android:fontFamily="@font/poppins_bold_700"
-            android:textSize="15sp"
-            android:textColor="@color/Nautical"
-            />
-
-        <EditText
-            android:id="@+id/etName"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_marginBottom="40dp"
-            android:background="@drawable/bg_rounded_50_white"
-            android:elevation="4dp"
-
-            android:fontFamily="@font/poppins_regular_400"
-
-            android:hint="name"
-            android:paddingStart="20sp"
-            android:textColor="@color/Nautical"
-            android:textSize="12dp"
-
-            app:layout_constraintBottom_toTopOf="@id/etUserName"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            tools:ignore="TextSizeCheck" />
+        app:layout_constraintVertical_bias="0.2">
 
         <!-- etUserName -->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintStart_toStartOf="@id/etUserName"
-            app:layout_constraintBottom_toTopOf="@id/etUserName"
             android:layout_marginStart="20dp"
-
-            android:labelFor="@id/etUserName"
-
-            android:text="UserName"
             android:fontFamily="@font/poppins_bold_700"
-            android:textSize="15sp"
+            android:labelFor="@id/etUserName"
+            android:text="UserName"
             android:textColor="@color/Nautical"
-            />
+            android:textSize="15sp"
+            app:layout_constraintBottom_toTopOf="@id/etUserName"
+            app:layout_constraintStart_toStartOf="@id/etUserName" />
 
         <EditText
             android:id="@+id/etUserName"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_marginBottom="40dp"
+            android:layout_width="337dp"
+            android:layout_height="48dp"
+            android:layout_marginTop="20dp"
             android:background="@drawable/bg_rounded_50_white"
             android:elevation="4dp"
-
             android:fontFamily="@font/poppins_regular_400"
-
             android:hint="username"
             android:paddingStart="20sp"
             android:textColor="@color/Nautical"
             android:textSize="12dp"
-
-            app:layout_constraintBottom_toTopOf="@id/etMail"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            tools:ignore="TextSizeCheck" />
-
-        <!-- etMail -->
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintStart_toStartOf="@id/etMail"
-            app:layout_constraintBottom_toTopOf="@id/etMail"
-            android:layout_marginStart="20dp"
-
-            android:labelFor="@id/etMail"
-
-            android:text="Mail"
-            android:fontFamily="@font/poppins_bold_700"
-            android:textSize="15sp"
-            android:textColor="@color/Nautical"
-            />
-
-        <EditText
-            android:id="@+id/etMail"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_marginBottom="40dp"
-            android:background="@drawable/bg_rounded_50_white"
-            android:elevation="4dp"
-
-            android:fontFamily="@font/poppins_regular_400"
-
-            android:hint="mail"
-            android:paddingStart="20sp"
-            android:textColor="@color/Nautical"
-            android:textSize="12dp"
-
-            app:layout_constraintBottom_toTopOf="@id/etDateOfBirth"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
             tools:ignore="TextSizeCheck" />
 
         <!-- etDateOfBirth -->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintStart_toStartOf="@id/etDateOfBirth"
-            app:layout_constraintBottom_toTopOf="@id/etDateOfBirth"
             android:layout_marginStart="20dp"
-
-            android:labelFor="@id/etDateOfBirth"
-
-            android:text="Date of Birth"
             android:fontFamily="@font/poppins_bold_700"
-            android:textSize="15sp"
+            android:labelFor="@id/etDateOfBirth"
+            android:text="Date of Birth"
             android:textColor="@color/Nautical"
-            />
+            android:textSize="15sp"
+            app:layout_constraintBottom_toTopOf="@id/etDateOfBirth"
+            app:layout_constraintStart_toStartOf="@id/etDateOfBirth" />
 
         <EditText
             android:id="@+id/etDateOfBirth"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_marginBottom="40dp"
+            android:layout_width="337dp"
+            android:layout_height="48dp"
+            android:layout_marginTop="50dp"
             android:background="@drawable/bg_rounded_50_white"
             android:elevation="4dp"
-
             android:fontFamily="@font/poppins_regular_400"
-
             android:hint="date of birth"
             android:paddingStart="20sp"
             android:textColor="@color/Nautical"
             android:textSize="12dp"
-
-            app:layout_constraintBottom_toTopOf="@id/etPassword"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            tools:ignore="TextSizeCheck" />
-
-        <!-- etPassword -->
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintStart_toStartOf="@id/etPassword"
-            app:layout_constraintBottom_toTopOf="@id/etPassword"
-            android:layout_marginStart="20dp"
-
-            android:labelFor="@id/etPassword"
-
-            android:text="Password"
-            android:fontFamily="@font/poppins_bold_700"
-            android:textSize="15sp"
-            android:textColor="@color/Nautical"
-            />
-
-        <EditText
-            android:id="@+id/etPassword"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_marginBottom="10dp"
-            android:background="@drawable/bg_rounded_50_white"
-            android:elevation="4dp"
-
-            android:fontFamily="@font/poppins_regular_400"
-
-            android:hint="password"
-            android:paddingStart="20sp"
-            android:textColor="@color/Nautical"
-            android:textSize="12dp"
-
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/etUserName"
             tools:ignore="TextSizeCheck" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
@@ -242,11 +117,8 @@
         app:layout_constraintTop_toBottomOf="@id/clInfoInputLayout"
         app:layout_constraintBottom_toBottomOf="parent"
         android:layout_marginBottom="50dp"
-
         android:id="@+id/clButtonLayout"
-
-        android:background="@color/white"
-        >
+        android:background="@color/white">
 
         <!-- btnSave -->
         <TextView
@@ -257,14 +129,11 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             android:layout_marginBottom="20dp"
-
             android:id="@+id/tvSave"
-
             android:text="Save"
-            android:fontFamily=""
+            android:fontFamily="@font/poppins_bold_700"
             android:textSize="22sp"
             android:textColor="#FFFFFF"
-
             android:gravity="center"
             android:background="@drawable/bg_rounded_50_paolo_veronese_green"
             android:backgroundTint="@color/Paolo_Veronese_Green"
@@ -280,19 +149,26 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             android:layout_marginBottom="10dp"
-
             android:id="@+id/tvCancel"
-
             android:text="Cancel"
             android:textFontWeight="400"
             android:textSize="22sp"
             android:textColor="@color/Nautical"
-
             android:gravity="center"
             android:background="@drawable/bg_rounded_50_white"
             android:elevation="4dp"
             />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:visibility="gone" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
