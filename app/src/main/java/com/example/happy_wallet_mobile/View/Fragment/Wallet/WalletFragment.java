@@ -21,6 +21,7 @@ import com.example.happy_wallet_mobile.View.Fragment.SelectDateRangeFragment;
 import com.example.happy_wallet_mobile.View.Utilities.CurrencyUtility;
 import com.example.happy_wallet_mobile.ViewModel.MainViewModel;
 import com.example.happy_wallet_mobile.ViewModel.Wallet.AddExpenditureViewModel;
+import com.example.happy_wallet_mobile.ViewModel.Wallet.AddIncomeViewModel;
 import com.example.happy_wallet_mobile.ViewModel.Wallet.WalletViewModel;
 
 import java.math.BigDecimal;
@@ -31,6 +32,7 @@ public class WalletFragment extends Fragment {
 
     MainViewModel mainViewModel;
     AddExpenditureViewModel addExpenditureViewModel;
+    AddIncomeViewModel addIncomeViewModel;
     WalletViewModel walletViewModel;
     FrameLayout flAddIncome, flAddExpenditure;
     RecyclerView rvTransactions;
@@ -45,6 +47,8 @@ public class WalletFragment extends Fragment {
         walletViewModel = new ViewModelProvider(this).get(WalletViewModel.class);
         mainViewModel = new ViewModelProvider(requireActivity()).get(MainViewModel.class);
         addExpenditureViewModel = new ViewModelProvider(requireActivity()).get(AddExpenditureViewModel.class);
+        addIncomeViewModel = new ViewModelProvider(requireActivity()).get(AddIncomeViewModel.class);
+
 
         rvTransactions = view.findViewById(R.id.rvTransactions);
         flAddIncome = view.findViewById(R.id.flAddIncome);
@@ -115,6 +119,11 @@ public class WalletFragment extends Fragment {
         });
 
         addExpenditureViewModel.getCreateTransactionResponse().observe(getViewLifecycleOwner(), response ->{
+            if (response != null){
+                walletViewModel.fetchTransactions();
+            }
+        });
+        addIncomeViewModel.getCreateTransactionResponse().observe(getViewLifecycleOwner(), response ->{
             if (response != null){
                 walletViewModel.fetchTransactions();
             }
