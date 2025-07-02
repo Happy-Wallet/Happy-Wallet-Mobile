@@ -1,80 +1,31 @@
 package com.example.happy_wallet_mobile.Model;
 
-import java.io.Serializable;
-import java.util.Date;
+public class GroupMember {
+    private int userId;
+    private String role;
+    private String status;
+    private String email;
+    private String username;
 
-public class GroupMember implements Serializable {
-    private int GroupId;
-    private int UserId;
-    private String Role;
-    private Date CreatedDate;
-    private Date UpdatedDate;
-    private Date DeletedDate;
-
-    // constructor
-    public GroupMember(){}
-    public GroupMember(
-            int groupId,
-            int userId,
-            String role,
-            Date createdDate,
-            Date updatedDate,
-            Date deletedDate){
-        GroupId = groupId;
-        UserId = userId;
-        Role = role;
-        CreatedDate = createdDate;
-        UpdatedDate = updatedDate;
-        DeletedDate = deletedDate;
+    public GroupMember(int userId, String role, String status, String email, String username) {
+        this.userId = userId;
+        this.role = role;
+        this.status = status;
+        this.email = email;
+        this.username = username;
     }
 
-    // getters
-    public int getGroupId() {
-        return GroupId;
-    }
+    // Getters
+    public int getUserId() { return userId; }
+    public String getRole() { return role; }
+    public String getStatus() { return status; }
+    public String getEmail() { return email; }
+    public String getUsername() { return username; }
 
-    public int getUserId() {
-        return UserId;
-    }
-
-    public String getRole() {
-        return Role;
-    }
-
-    public Date getCreatedDate() {
-        return CreatedDate;
-    }
-
-    public Date getUpdatedDate() {
-        return UpdatedDate;
-    }
-
-    public Date getDeletedDate() {
-        return DeletedDate;
-    }
-
-    // setters
-    public void setGroupId(int groupId) {
-        GroupId = groupId;
-    }
-
-    public void setUserId(int userId) {
-        UserId = userId;
-    }
-
-    public void setRole(String role) {
-        Role = role;
-    }
-
-    public void setCreatedDate(Date createdDate) {
-        CreatedDate = createdDate;
-    }
-
-    public void setUpdatedDate(Date updatedDate) {
-        UpdatedDate = updatedDate;
-    }
-
-    public void setDeletedDate(Date deletedDate) {
-        DeletedDate = deletedDate;
-    }
+    // Setters (optional, add if needed)
+    public void setUserId(int userId) { this.userId = userId; }
+    public void setRole(String role) { this.role = role; }
+    public void setStatus(String status) { this.status = status; }
+    public void setEmail(String email) { this.email = email; }
+    public void setUsername(String username) { this.username = username; }
 }
