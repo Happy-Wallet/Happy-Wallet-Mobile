@@ -38,11 +38,6 @@ public class HomeViewModel extends ViewModel {
     public LiveData<BigDecimal> getTotalBalance() { return totalBalance; }
     public LiveData<List<IncomeExpenseMonth>> getMonthlyData() { return monthlyData; }
 
-    // --- Data loading ---
-    public void setData(Context context) {
-        fetchTransactions();
-    }
-
     public void fetchTransactions() {
         String token = UserPreferences.getToken();
         if (token == null) return;
@@ -66,6 +61,8 @@ public class HomeViewModel extends ViewModel {
                 // Tính monthly
                 loadMonthlyData(transactions);
             }
+            else
+                totalBalance.setValue(BigDecimal.ZERO);
         });
     }
 
