@@ -18,21 +18,23 @@ import retrofit2.Response;
 
 public class CategoryRepository {
     private final CategoryService categoryService;
+    private final String token;
 
-    public CategoryRepository() {
+    public CategoryRepository(String token) {
         categoryService = APIClient.getRetrofit().create(CategoryService.class);
+        this.token = "Bearer " + token;
     }
 
-    // get all categories
-    public LiveData<List<CategoryResponse>> getAllCategories() {
+    public LiveData<List<CategoryResponse>> getCategories(String type) {
         MutableLiveData<List<CategoryResponse>> data = new MutableLiveData<>();
-        categoryService.getAllCategories().enqueue(new Callback<List<CategoryResponse>>() {
+
+        categoryService.getCategories(token, type).enqueue(new Callback<List<CategoryResponse>>() {
             @Override
             public void onResponse(Call<List<CategoryResponse>> call, Response<List<CategoryResponse>> response) {
                 if (response.isSuccessful()) {
                     data.setValue(response.body());
                 } else {
-                    data.setValue(null); // hoặc có thể đẩy lên emptyList()
+                    data.setValue(null);
                 }
             }
 
@@ -41,13 +43,14 @@ public class CategoryRepository {
                 data.setValue(null);
             }
         });
+
         return data;
     }
 
-    // create categories
-    public LiveData<CreateCategoryResponse> createCategory(CreateCategoryRequest request) {
+    public LiveData<CreateCategoryResponse> createCategory(String type, CreateCategoryRequest request) {
         MutableLiveData<CreateCategoryResponse> data = new MutableLiveData<>();
-        categoryService.createCategory(request).enqueue(new Callback<CreateCategoryResponse>() {
+
+        categoryService.createCategory(token, type, request).enqueue(new Callback<CreateCategoryResponse>() {
             @Override
             public void onResponse(Call<CreateCategoryResponse> call, Response<CreateCategoryResponse> response) {
                 if (response.isSuccessful()) {
@@ -62,15 +65,21 @@ public class CategoryRepository {
                 data.setValue(null);
             }
         });
+
         return data;
     }
 
-    public LiveData<CategoryResponse> updateCategory(int id, UpdateCategoryRequest request) {
+    public LiveData<CategoryResponse> updateCategory(int categoryId, UpdateCategoryRequest request) {
         MutableLiveData<CategoryResponse> data = new MutableLiveData<>();
-        categoryService.updateCategory(id, request).enqueue(new Callback<CategoryResponse>() {
+
+        categoryService.updateCategory(token, categoryId, request).enqueue(new Callback<CategoryResponse>() {
             @Override
             public void onResponse(Call<CategoryResponse> call, Response<CategoryResponse> response) {
-                data.setValue(response.body());
+                if (response.isSuccessful()) {
+                    data.setValue(response.body());
+                } else {
+                    data.setValue(null);
+                }
             }
 
             @Override
@@ -78,22 +87,25 @@ public class CategoryRepository {
                 data.setValue(null);
             }
         });
+
         return data;
     }
 
-    public LiveData<Boolean> deleteCategory(int id) {
-        MutableLiveData<Boolean> result = new MutableLiveData<>();
-        categoryService.deleteCategory(id).enqueue(new Callback<Void>() {
+    public LiveData<Boolean> deleteCategory(int categoryId) {
+        MutableLiveData<Boolean> data = new MutableLiveData<>();
+
+        categoryService.deleteCategory(token, categoryId).enqueue(new Callback<Void>() {
             @Override
             public void onResponse(Call<Void> call, Response<Void> response) {
-                result.setValue(response.isSuccessful());
+                data.setValue(response.isSuccessful());
             }
 
             @Override
             public void onFailure(Call<Void> call, Throwable t) {
-                result.setValue(false);
+                data.setValue(false);
             }
         });
-        return result;
+
+        return data;
     }
 }

@@ -24,6 +24,7 @@ import com.example.happy_wallet_mobile.R;
 import com.example.happy_wallet_mobile.View.Adapter.MonthIAEAdapter;
 import com.example.happy_wallet_mobile.View.Adapter.SavingGoalRecyclerViewAdapter;
 import com.example.happy_wallet_mobile.View.Utilities.CurrencyUtility;
+import com.example.happy_wallet_mobile.ViewModel.CategoryListViewModel;
 import com.example.happy_wallet_mobile.ViewModel.Home.HomeViewModel;
 import com.example.happy_wallet_mobile.ViewModel.MainViewModel;
 import com.example.happy_wallet_mobile.ViewModel.Home.SavingStatusViewModel;
@@ -43,6 +44,8 @@ public class HomeFragment extends Fragment {
     private MainViewModel mainViewModel;
     private SavingStatusViewModel savingStatusViewModel;
     private HomeViewModel homeViewModel;
+    private CategoryListViewModel categoryListViewModel;
+
     private PieChart pieChart;
 
     private TextView tvDay, tvMonth, tvYear;
@@ -54,8 +57,11 @@ public class HomeFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
 
         mainViewModel = new ViewModelProvider(requireActivity()).get(MainViewModel.class);
-        homeViewModel = new ViewModelProvider(this).get(HomeViewModel.class);
+        homeViewModel = new ViewModelProvider(requireActivity()).get(HomeViewModel.class);
         savingStatusViewModel = new ViewModelProvider(requireActivity()).get(SavingStatusViewModel.class);
+        categoryListViewModel = new ViewModelProvider(requireActivity()).get(CategoryListViewModel.class);
+
+        categoryListViewModel.fetchCategories(requireContext());
 
         setupAccountBalance(view);
         setupSavingGoals(view);
@@ -63,7 +69,7 @@ public class HomeFragment extends Fragment {
         setupPieChart(view);
         setupTimeFilter(view);
 
-        homeViewModel.setData(); // load dữ liệu
+        homeViewModel.setData(requireContext()); // load dữ liệu
 
         return view;
     }
@@ -89,7 +95,7 @@ public class HomeFragment extends Fragment {
         rcvSavingGoals.setAdapter(adapter);
 
         homeViewModel.getSavingGoalList().observe(getViewLifecycleOwner(), adapter::updateSavingGoals);
-        homeViewModel.getCategoryList().observe(getViewLifecycleOwner(), adapter::updateCategories);
+        categoryListViewModel.getCategoryList().observe(getViewLifecycleOwner(), adapter::updateCategories);
 
         adapter.setOnItemClickListener((savingGoal, category) -> {
             savingStatusViewModel.setSavingGoal(savingGoal);
@@ -176,7 +182,7 @@ public class HomeFragment extends Fragment {
 //        List<Transaction> transactions = MockDataProvider.getMockTransactions();
 //        List<Category> categories = MockDataProvider.getMockCategories();
         List<Transaction> transactions = homeViewModel.getTransactionList().getValue();
-        List<Category> categories = homeViewModel.getCategoryList().getValue();
+        List<Category> categories = categoryListViewModel.getCategoryList().getValue();
         if (transactions == null || categories == null) return;
 
         Map<String, Float> spendingByCategory = new LinkedHashMap<>();

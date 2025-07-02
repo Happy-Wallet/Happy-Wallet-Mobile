@@ -20,6 +20,7 @@ import com.example.happy_wallet_mobile.R;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.util.ArrayList;
 import java.util.List;
 
 public class SavingGoalRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
@@ -27,8 +28,9 @@ public class SavingGoalRecyclerViewAdapter extends RecyclerView.Adapter<Recycler
     private static final int TYPE_ITEM = 0;
     private static final int TYPE_ADD = 1;
     private final Context context;
-    private List<SavingGoal> savingGoalList;
-    private List<Category> categoryList;
+    private List<Category> categoryList = new ArrayList<>();
+    private List<SavingGoal> savingGoalList = new ArrayList<>();
+
 
     public SavingGoalRecyclerViewAdapter(Context context, List<SavingGoal> savingGoalList, List<Category> categoryList) {
         this.context = context;
@@ -37,12 +39,12 @@ public class SavingGoalRecyclerViewAdapter extends RecyclerView.Adapter<Recycler
     }
 
     public void updateSavingGoals(List<SavingGoal> list) {
-        this.savingGoalList = list;
+        this.savingGoalList = (list != null) ? list : new ArrayList<>();
         notifyDataSetChanged();
     }
 
     public void updateCategories(List<Category> list) {
-        this.categoryList = list;
+        this.categoryList = list != null ? list : new ArrayList<>();
         notifyDataSetChanged();
     }
 
@@ -159,6 +161,7 @@ public class SavingGoalRecyclerViewAdapter extends RecyclerView.Adapter<Recycler
     }
 
     private Category getCategoryById(int categoryId) {
+        if (categoryList == null) return null;
         for (Category category : categoryList) {
             if (category.getCategoryId() == categoryId) {
                 return category;
@@ -166,4 +169,5 @@ public class SavingGoalRecyclerViewAdapter extends RecyclerView.Adapter<Recycler
         }
         return null;
     }
+
 }

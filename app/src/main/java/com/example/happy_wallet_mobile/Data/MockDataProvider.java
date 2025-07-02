@@ -54,10 +54,7 @@ public class MockDataProvider {
                     iconList.get(i % iconList.size()),
                     type,
                     names[i],
-                    i % 2 == 0,
-                    new Date(),
-                    new Date(),
-                    null
+                    i % 2 == 0
             ));
         }
         return categories;

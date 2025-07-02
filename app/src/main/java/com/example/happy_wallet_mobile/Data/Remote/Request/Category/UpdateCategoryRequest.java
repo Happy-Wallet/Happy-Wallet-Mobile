@@ -1,33 +1,38 @@
 package com.example.happy_wallet_mobile.Data.Remote.Request.Category;
 
 public class UpdateCategoryRequest {
-    private int icon_res;
-    private int color_res;
+    private String icon_res;
+    private String color_res;
     private String name;
-    private String type;
-    private boolean is_default;
 
-    public UpdateCategoryRequest(int icon_res, int color_res, String name, String type, boolean is_default) {
+    public UpdateCategoryRequest(String icon_res, String color_res, String name) {
         this.icon_res = icon_res;
         this.color_res = color_res;
         this.name = name;
-        this.type = type;
-        this.is_default = is_default;
     }
 
-    public int getIcon_res() {
+    // Getters & Setters
+    public String getIcon_res() {
         return icon_res;
     }
 
-    public int getColor_res() {
+    public void setIcon_res(String icon_res) {
+        this.icon_res = icon_res;
+    }
+
+    public String getColor_res() {
         return color_res;
+    }
+
+    public void setColor_res(String color_res) {
+        this.color_res = color_res;
     }
 
     public String getName() {
         return name;
     }
 
-    public String getType() {
-        return type;
+    public void setName(String name) {
+        this.name = name;
     }
 }
