@@ -70,9 +70,13 @@ public class SavingStatusFragment extends Fragment {
 
                 BigDecimal current = goal.getCurrentAmount();
                 BigDecimal target = goal.getTargetAmount();
-                int progress = current.multiply(BigDecimal.valueOf(100))
-                        .divide(target, RoundingMode.HALF_UP)
-                        .intValue();
+                int progress = 0;
+
+                if (target != null && target.compareTo(BigDecimal.ZERO) > 0) {
+                    progress = current.multiply(BigDecimal.valueOf(100))
+                            .divide(target, RoundingMode.HALF_UP)
+                            .intValue();
+                }
                 pbProgress.setProgress(progress);
             }
         });

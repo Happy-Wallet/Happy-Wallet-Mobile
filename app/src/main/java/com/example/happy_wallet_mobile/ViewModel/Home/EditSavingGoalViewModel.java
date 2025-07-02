@@ -4,9 +4,10 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-import com.example.happy_wallet_mobile.Data.Local.UserPreferences;
+import com.example.happy_wallet_mobile.Data.Remote.Request.SavingGoal.CreateSavingGoalRequest;
 import com.example.happy_wallet_mobile.Data.Repository.CategoryRepository;
 import com.example.happy_wallet_mobile.Data.Remote.Response.Category.CategoryResponse;
+import com.example.happy_wallet_mobile.Data.Repository.SavingGoalRepository;
 import com.example.happy_wallet_mobile.Model.Category;
 import com.example.happy_wallet_mobile.Model.SavingGoal;
 
@@ -22,7 +23,13 @@ public class EditSavingGoalViewModel extends ViewModel {
     public LiveData<Category> category = _category;
     public LiveData<List<Category>> categoryList = _categoryList;
 
-    private final CategoryRepository categoryRepository = new CategoryRepository(UserPreferences.getToken());
+    private final CategoryRepository categoryRepository = new CategoryRepository();
+    private final SavingGoalRepository savingGoalRepository = new SavingGoalRepository(); // ✅ Thêm repository
+
+    private final MutableLiveData<Boolean> _updateResult = new MutableLiveData<>();
+    private final MutableLiveData<Boolean> _deleteResult = new MutableLiveData<>();
+    public LiveData<Boolean> updateResult = _updateResult;
+    public LiveData<Boolean> deleteResult = _deleteResult;
 
     // Setters
     public void setCategory(Category category) {
@@ -31,5 +38,32 @@ public class EditSavingGoalViewModel extends ViewModel {
 
     public void setSavingGoal(SavingGoal savingGoal) {
         _savingGoal.setValue(savingGoal);
+    }
+
+    public void loadDataFromServer() {
+        categoryRepository.getAllCategories().observeForever(responseList -> {
+            if (responseList != null) {
+                List<Category> categories = new ArrayList<>();
+                _categoryList.setValue(categories);
+            } else {
+                _categoryList.setValue(new ArrayList<>());
+            }
+        });
+    }
+
+    public void updateSavingGoal(String token, int goalId, CreateSavingGoalRequest request) {
+        savingGoalRepository.updateSavingGoal(token, goalId, request).observeForever(response -> {
+            _updateResult.setValue(response != null);
+        });
+    }
+
+    public void deleteSavingGoal(String token, int goalId) {
+        savingGoalRepository.deleteSavingGoal(token, goalId).observeForever(success -> {
+            _deleteResult.setValue(success);
+        });
+    }
+
+    public EditSavingGoalViewModel() {
+        loadDataFromServer();
     }
 }

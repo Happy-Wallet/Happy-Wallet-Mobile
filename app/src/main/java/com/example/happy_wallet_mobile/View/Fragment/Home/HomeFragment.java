@@ -1,6 +1,7 @@
 package com.example.happy_wallet_mobile.View.Fragment.Home;
 
 import android.os.Bundle;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -16,18 +17,21 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.example.happy_wallet_mobile.Data.MockDataProvider;
+import com.example.happy_wallet_mobile.Data.Local.UserPreferences;
+import com.example.happy_wallet_mobile.Data.Remote.Response.SavingGoal.SavingGoalResponse;
 import com.example.happy_wallet_mobile.Model.Category;
+import com.example.happy_wallet_mobile.Model.SavingGoal;
 import com.example.happy_wallet_mobile.Model.Transaction;
 import com.example.happy_wallet_mobile.Model.eType;
 import com.example.happy_wallet_mobile.R;
 import com.example.happy_wallet_mobile.View.Adapter.MonthIAEAdapter;
 import com.example.happy_wallet_mobile.View.Adapter.SavingGoalRecyclerViewAdapter;
 import com.example.happy_wallet_mobile.View.Utilities.CurrencyUtility;
-import com.example.happy_wallet_mobile.ViewModel.CategoryListViewModel;
 import com.example.happy_wallet_mobile.ViewModel.Home.HomeViewModel;
+import com.example.happy_wallet_mobile.ViewModel.Home.SavingGoalListViewModel;
 import com.example.happy_wallet_mobile.ViewModel.MainViewModel;
 import com.example.happy_wallet_mobile.ViewModel.Home.SavingStatusViewModel;
+import com.example.happy_wallet_mobile.Data.MockDataProvider;
 
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.components.Legend;
@@ -37,98 +41,179 @@ import com.github.mikephil.charting.data.PieEntry;
 import com.github.mikephil.charting.utils.ColorTemplate;
 
 import java.math.BigDecimal;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class HomeFragment extends Fragment {
 
-    private MainViewModel mainViewModel;
-    private SavingStatusViewModel savingStatusViewModel;
-    private HomeViewModel homeViewModel;
-    private CategoryListViewModel categoryListViewModel;
+    MainViewModel mainViewModel;
+    SavingStatusViewModel savingStatusViewModel;
+    HomeViewModel homeViewModel;
+    TextView tvAccountBalance;
+    RecyclerView rcvMonthIAE, rcvSavingGoals;
+    TextView tvDay, tvMonth, tvYear;
+    private SavingGoalRecyclerViewAdapter savingGoalRecyclerViewAdapter;
 
-    private PieChart pieChart;
-
-    private TextView tvDay, tvMonth, tvYear;
-    private String currentFilter = "month";
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
 
+        SavingGoalListViewModel savingGoalListViewModel = new ViewModelProvider(this).get(SavingGoalListViewModel.class);
+        String token = UserPreferences.getToken();
+        savingGoalListViewModel.loadSavingGoals(token);
+
+
         mainViewModel = new ViewModelProvider(requireActivity()).get(MainViewModel.class);
-        homeViewModel = new ViewModelProvider(requireActivity()).get(HomeViewModel.class);
+        homeViewModel = new ViewModelProvider(this).get(HomeViewModel.class);
         savingStatusViewModel = new ViewModelProvider(requireActivity()).get(SavingStatusViewModel.class);
-        categoryListViewModel = new ViewModelProvider(requireActivity()).get(CategoryListViewModel.class);
 
-        categoryListViewModel.fetchCategories(requireContext());
+        tvAccountBalance = view.findViewById(R.id.tvAccountBalance);
+        rcvMonthIAE = view.findViewById(R.id.rcvMonthIAE);
+        rcvSavingGoals = view.findViewById(R.id.rcvSavingGoals);
+        tvDay = view.findViewById(R.id.tvDay);
+        tvMonth = view.findViewById(R.id.tvMonth);
+        tvYear = view.findViewById(R.id.tvYear);
 
-        setupAccountBalance(view);
-        setupSavingGoals(view);
-        setupMonthIAE(view);
-        setupPieChart(view);
-        setupTimeFilter(view);
+        rcvMonthIAE.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false));
+        rcvSavingGoals.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false));
 
-        homeViewModel.setData(requireContext()); // load dữ liệu
 
-        return view;
-    }
+        tvDay.setBackground(ContextCompat.getDrawable(requireContext(), R.drawable.bg_rounded_20_paolo_veronese_green));
 
-    private void setupAccountBalance(View view) {
-        TextView tvAccountBalance = view.findViewById(R.id.tvAccountBalance);
+
+
+
+
+        // set data for account balance
         homeViewModel.getTotalBalance().observe(getViewLifecycleOwner(), totalBalance -> {
             if (totalBalance != null) {
                 tvAccountBalance.setText(CurrencyUtility.format(totalBalance));
-                tvAccountBalance.setTextColor(ContextCompat.getColor(requireContext(),
-                        totalBalance.compareTo(BigDecimal.ZERO) < 0 ?
-                                R.color.Radishical : R.color.Paolo_Veronese_Green));
+                if (totalBalance.compareTo(BigDecimal.ZERO) < 0) {
+                    tvAccountBalance.setTextColor(ContextCompat.getColor(requireContext(), R.color.Radishical));
+                } else {
+                    tvAccountBalance.setTextColor(ContextCompat.getColor(requireContext(), R.color.Paolo_Veronese_Green));
+                }
             } else {
                 tvAccountBalance.setText("0");
             }
+
         });
-    }
 
-    private void setupSavingGoals(View view) {
-        RecyclerView rcvSavingGoals = view.findViewById(R.id.rcvSavingGoals);
-        rcvSavingGoals.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false));
-        SavingGoalRecyclerViewAdapter adapter = new SavingGoalRecyclerViewAdapter(requireContext(), List.of(), List.of());
-        rcvSavingGoals.setAdapter(adapter);
 
-        homeViewModel.getSavingGoalList().observe(getViewLifecycleOwner(), adapter::updateSavingGoals);
-        categoryListViewModel.getCategoryList().observe(getViewLifecycleOwner(), adapter::updateCategories);
+        // set data for rcvSavingGoal
+        LinearLayoutManager layoutManager = new LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false);
+        rcvSavingGoals.setLayoutManager(layoutManager);
+        SavingGoalRecyclerViewAdapter savingGoalRecyclerViewAdapter = new SavingGoalRecyclerViewAdapter(
+                requireContext(),
+                List.of(),
+                List.of());
 
-        adapter.setOnItemClickListener((savingGoal, category) -> {
+        rcvSavingGoals.setAdapter(savingGoalRecyclerViewAdapter);
+
+        savingGoalListViewModel.savingGoals.observe(getViewLifecycleOwner(), savingGoalResponses -> {
+            if (savingGoalResponses != null) {
+                List<SavingGoal> savingGoals = new ArrayList<>();
+                for (SavingGoalResponse res : savingGoalResponses) {
+                    SavingGoal goal = new SavingGoal();
+                    goal.setSavingGoalId(res.getId());
+                    goal.setUserId(res.getUser_id());
+                    goal.setTitle(res.getName());
+                    goal.setDescription(res.getDescription());
+                    goal.setCurrentAmount(BigDecimal.valueOf(res.getAmount()));
+                    goal.setTargetAmount(BigDecimal.valueOf(res.getTarget()));
+                    goal.setStartDate(res.getStart_date());
+                    goal.setEndDate(res.getEnd_date());
+                    savingGoals.add(goal);
+                }
+                savingGoalRecyclerViewAdapter.updateSavingGoals(savingGoals);
+            }
+        });
+
+
+        // Observe dữ liệu từ ViewModel
+        homeViewModel.getSavingGoalList().observe(getViewLifecycleOwner(), savingGoals -> {
+            savingGoalRecyclerViewAdapter.updateSavingGoals(savingGoals);
+        });
+        homeViewModel.getCategoryList().observe(getViewLifecycleOwner(), categories -> {
+            savingGoalRecyclerViewAdapter.updateCategories(categories);
+        });
+
+
+        //Item saving goal click
+        savingGoalRecyclerViewAdapter.setOnItemClickListener((savingGoal, category) -> {
+            Log.d("HomeFragment", "rcvSavingGoals item click");
+
             savingStatusViewModel.setSavingGoal(savingGoal);
             savingStatusViewModel.setCategory(category);
             mainViewModel.navigateSubBelow(new SavingStatusFragment());
         });
 
-        adapter.setOnAddClickListener(() -> mainViewModel.navigateSubBelow(new AddSavingGoalFragment()));
+
+        //AddSavingGoal click
+        savingGoalRecyclerViewAdapter.setOnAddClickListener(() -> {
+            Log.d("HomeFragment", "rcvSavingGoals add new saving goal click");
+            mainViewModel.navigateSubBelow(new AddSavingGoalFragment());
+        });
+
+        //tvDay click
+        tvDay.setOnClickListener(v ->  {
+            Log.d("HomeFragment", "tvDay click");
+            tvDay.setBackground(ContextCompat.getDrawable(requireContext(), R.drawable.bg_rounded_20_paolo_veronese_green));
+            tvMonth.setBackground(ContextCompat.getDrawable(requireContext(), R.drawable.bg_rounded_20_white));
+            tvYear.setBackground(ContextCompat.getDrawable(requireContext(), R.drawable.bg_rounded_20_white));
+        });
+
+        //tvMonth click
+        tvMonth.setOnClickListener(v ->  {
+            Log.d("HomeFragment", "tvMonth click");
+            tvDay.setBackground(ContextCompat.getDrawable(requireContext(), R.drawable.bg_rounded_20_white));
+            tvMonth.setBackground(ContextCompat.getDrawable(requireContext(), R.drawable.bg_rounded_20_paolo_veronese_green));
+            tvYear.setBackground(ContextCompat.getDrawable(requireContext(), R.drawable.bg_rounded_20_white));
+        });
+
+        //tvYear click
+        tvYear.setOnClickListener(v ->  {
+            Log.d("HomeFragment", "tvYear click");
+            tvDay.setBackground(ContextCompat.getDrawable(requireContext(), R.drawable.bg_rounded_20_white));
+            tvMonth.setBackground(ContextCompat.getDrawable(requireContext(), R.drawable.bg_rounded_20_white));
+            tvYear.setBackground(ContextCompat.getDrawable(requireContext(), R.drawable.bg_rounded_20_paolo_veronese_green));
+        });
+
+        // set data cho biểu đồ IAE (income and expense) từng tháng
+        rcvMonthIAE.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
+        MonthIAEAdapter monthIAEAdapter = new MonthIAEAdapter(List.of());
+        rcvMonthIAE.setAdapter(monthIAEAdapter);
+        // observe data từ viewmodel
+        homeViewModel.getMonthlyData().observe(getViewLifecycleOwner(), monthlyData -> {
+            monthIAEAdapter.update(monthlyData);
+        });
+
+        return view;
     }
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
 
-    private void setupMonthIAE(View view) {
-        RecyclerView rcvMonthIAE = view.findViewById(R.id.rcvMonthIAE);
-        rcvMonthIAE.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false));
-        MonthIAEAdapter adapter = new MonthIAEAdapter(List.of());
-        rcvMonthIAE.setAdapter(adapter);
-
-        homeViewModel.getMonthlyData().observe(getViewLifecycleOwner(), adapter::update);
-    }
-
-    private void setupPieChart(View view) {
         ConstraintLayout spendingLayout = view.findViewById(R.id.clSpendingAnalisisBG);
-        View chartView = LayoutInflater.from(requireContext()).inflate(R.layout.item_pie_chart, spendingLayout, false);
-        pieChart = chartView.findViewById(R.id.pieChart);
+        LayoutInflater inflater = LayoutInflater.from(requireContext());
+        View chartView = inflater.inflate(R.layout.item_pie_chart, spendingLayout, false);
+        PieChart pieChart = chartView.findViewById(R.id.pieChart);
         spendingLayout.addView(chartView);
 
-        configurePieChart();
+        List<PieEntry> entries = getSpendingPieEntries("month");
+        PieDataSet dataSet = new PieDataSet(entries, "");
+        dataSet.setColors(ColorTemplate.MATERIAL_COLORS);
+        dataSet.setValueTextSize(14f);
+        PieData pieData = new PieData(dataSet);
 
-        homeViewModel.getTransactionList().observe(getViewLifecycleOwner(), transactions -> {
-            updatePieChart(currentFilter);
-        });
-    }
+        pieChart.setData(pieData);
 
-    private void configurePieChart() {
         pieChart.setUsePercentValues(true);
         pieChart.setDrawHoleEnabled(true);
         pieChart.setDrawEntryLabels(false);
@@ -142,109 +227,98 @@ public class HomeFragment extends Fragment {
         legend.setDrawInside(false);
         legend.setWordWrapEnabled(true);
         legend.setTextSize(12f);
+
+        pieChart.invalidate(); // cập nhật lại biểu đồ
+
+
+
+        setupTimeFilter(view, pieChart);
     }
+    private List<PieEntry> getSpendingPieEntries(String timeFilter) {
+        List<Transaction> allTransactions = MockDataProvider.getMockTransactions();
+        Map<String, Float> spendingByCategory = new HashMap<>();
 
-    private void setupTimeFilter(View view) {
-        tvDay = view.findViewById(R.id.tvDay);
-        tvMonth = view.findViewById(R.id.tvMonth);
-        tvYear = view.findViewById(R.id.tvYear);
-
-        View.OnClickListener filterClick = v -> {
-            if (v.getId() == R.id.tvDay) {
-                currentFilter = "day";
-                highlightFilter(tvDay, tvMonth, tvYear);
-            } else if (v.getId() == R.id.tvMonth) {
-                currentFilter = "month";
-                highlightFilter(tvMonth, tvDay, tvYear);
-            } else if (v.getId() == R.id.tvYear) {
-                currentFilter = "year";
-                highlightFilter(tvYear, tvDay, tvMonth);
-            }
-            updatePieChart(currentFilter);
-        };
-
-        tvDay.setOnClickListener(filterClick);
-        tvMonth.setOnClickListener(filterClick);
-        tvYear.setOnClickListener(filterClick);
-
-        // default chọn tháng
-        highlightFilter(tvMonth, tvDay, tvYear);
-    }
-
-    private void highlightFilter(TextView active, TextView... others) {
-        active.setBackground(ContextCompat.getDrawable(requireContext(), R.drawable.bg_rounded_20_paolo_veronese_green));
-        for (TextView other : others) {
-            other.setBackground(ContextCompat.getDrawable(requireContext(), R.drawable.bg_rounded_20_white));
-        }
-    }
-
-    private void updatePieChart(String filter) {
-//        List<Transaction> transactions = MockDataProvider.getMockTransactions();
-//        List<Category> categories = MockDataProvider.getMockCategories();
-        List<Transaction> transactions = homeViewModel.getTransactionList().getValue();
-        List<Category> categories = categoryListViewModel.getCategoryList().getValue();
-        if (transactions == null || categories == null) return;
-
-        Map<String, Float> spendingByCategory = new LinkedHashMap<>();
-        Map<String, Integer> categoryColorMap = new HashMap<>(); // map category name -> color
-
-        for (Transaction t : transactions) {
-            if (t.getType() == eType.EXPENSE && matchesFilter(t.getDate(), filter)) {
-                Category category = findCategoryById(categories, t.getCategoryId());
+        for (Transaction t : allTransactions) {
+            if (t.getType() == eType.EXPENSE && matchesFilter(t.getDate(), timeFilter)) {
+                Category category = findCategoryById(t.getCategoryId());
                 if (category == null) continue;
 
                 String categoryName = category.getName();
-                spendingByCategory.merge(categoryName, t.getAmount().abs().floatValue(), Float::sum);
-
-                // chỉ lưu màu 1 lần
-                categoryColorMap.putIfAbsent(categoryName,
-                        ContextCompat.getColor(requireContext(), category.getColorRes()));
+                float current = spendingByCategory.getOrDefault(categoryName, 0f);
+                spendingByCategory.put(categoryName, current + t.getAmount().abs().floatValue());
             }
         }
 
         List<PieEntry> entries = new ArrayList<>();
-        List<Integer> colors = new ArrayList<>();
-
         for (Map.Entry<String, Float> entry : spendingByCategory.entrySet()) {
             entries.add(new PieEntry(entry.getValue(), entry.getKey()));
-            colors.add(categoryColorMap.get(entry.getKey()));
         }
 
-        PieDataSet dataSet = new PieDataSet(entries, "");
-        dataSet.setColors(colors);
-        dataSet.setValueTextSize(14f);
-
-        pieChart.setData(new PieData(dataSet));
-        pieChart.invalidate();
+        return entries;
     }
-
-    private Category findCategoryById(List<Category> categories, int id) {
-        for (Category c : categories) {
-            if (c.getCategoryId() == id) {
-                Log.d("PieChart", "Found category id=" + id + " name=" + c.getName());
-                return c;
-            }
+    private Category findCategoryById(int categoryId) {
+        for (Category c : MockDataProvider.getMockCategories()) {
+            if (c.getCategoryId() == categoryId) return c;
         }
         return null;
     }
 
     private boolean matchesFilter(Date date, String filter) {
         Calendar now = Calendar.getInstance();
-        Calendar trans = Calendar.getInstance();
-        trans.setTime(date);
+        Calendar transactionDate = Calendar.getInstance();
+        transactionDate.setTime(date);
 
-        switch (filter) {
+        switch (filter.toLowerCase()) {
             case "day":
-                return now.get(Calendar.YEAR) == trans.get(Calendar.YEAR)
-                        && now.get(Calendar.DAY_OF_YEAR) == trans.get(Calendar.DAY_OF_YEAR);
+                return now.get(Calendar.YEAR) == transactionDate.get(Calendar.YEAR) &&
+                        now.get(Calendar.DAY_OF_YEAR) == transactionDate.get(Calendar.DAY_OF_YEAR);
             case "month":
-                return now.get(Calendar.YEAR) == trans.get(Calendar.YEAR)
-                        && now.get(Calendar.MONTH) == trans.get(Calendar.MONTH);
+                return now.get(Calendar.YEAR) == transactionDate.get(Calendar.YEAR) &&
+                        now.get(Calendar.MONTH) == transactionDate.get(Calendar.MONTH);
             case "year":
-                return now.get(Calendar.YEAR) == trans.get(Calendar.YEAR);
+                return now.get(Calendar.YEAR) == transactionDate.get(Calendar.YEAR);
             default:
                 return true;
         }
+    }
+    private void setupTimeFilter(View view, PieChart pieChart) {
+        TextView tvDay = view.findViewById(R.id.tvDay);
+        TextView tvMonth = view.findViewById(R.id.tvMonth);
+        TextView tvYear = view.findViewById(R.id.tvYear);
+
+        View.OnClickListener filterClick = v -> {
+            String filter;
+            if (v.getId() == R.id.tvDay) {
+                filter = "day";
+                tvDay.setBackground(ContextCompat.getDrawable(requireContext(), R.drawable.bg_rounded_20_paolo_veronese_green));
+                tvMonth.setBackground(ContextCompat.getDrawable(requireContext(), R.drawable.bg_rounded_20_white));
+                tvYear.setBackground(ContextCompat.getDrawable(requireContext(), R.drawable.bg_rounded_20_white));
+            } else if (v.getId() == R.id.tvMonth) {
+                filter = "month";
+                tvDay.setBackground(ContextCompat.getDrawable(requireContext(), R.drawable.bg_rounded_20_white));
+                tvMonth.setBackground(ContextCompat.getDrawable(requireContext(), R.drawable.bg_rounded_20_paolo_veronese_green));
+                tvYear.setBackground(ContextCompat.getDrawable(requireContext(), R.drawable.bg_rounded_20_white));
+            } else if (v.getId() == R.id.tvYear) {
+                filter = "year";
+                tvDay.setBackground(ContextCompat.getDrawable(requireContext(), R.drawable.bg_rounded_20_white));
+                tvMonth.setBackground(ContextCompat.getDrawable(requireContext(), R.drawable.bg_rounded_20_white));
+                tvYear.setBackground(ContextCompat.getDrawable(requireContext(), R.drawable.bg_rounded_20_paolo_veronese_green));
+            } else return;
+
+            List<PieEntry> entries = getSpendingPieEntries(filter);
+            PieDataSet newDataSet = new PieDataSet(entries, "");
+            newDataSet.setColors(ColorTemplate.MATERIAL_COLORS);
+            newDataSet.setValueTextSize(14f);
+            newDataSet.setDrawValues(true);
+
+            pieChart.setData(new PieData(newDataSet));
+            pieChart.invalidate();
+        };
+
+
+        tvDay.setOnClickListener(filterClick);
+        tvMonth.setOnClickListener(filterClick);
+        tvYear.setOnClickListener(filterClick);
     }
 
 }

@@ -13,6 +13,13 @@ public class MockDataProvider {
     private static final Random random = new Random();
     private static List<User> cachedUsers = null;
     private static List<GroupTransaction> cachedGroupTransactions;
+    private static List<Group> cachedGroups = null; // Cache for groups
+
+    // Helper to format date to YYYY-MM-DD string
+    private static String formatDateToString(Date date) {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
+        return sdf.format(date);
+    }
 
     // ---------- USERS ----------
     public static List<User> getMockUsers() {
@@ -120,94 +127,181 @@ public class MockDataProvider {
         return goals;
     }
 
-    // ---------- GROUPS ----------
+    // ---------- GROUPS (FUNDS) ----------
     public static List<Group> getMockGroups() {
+        if (cachedGroups != null) return cachedGroups;
+
         List<Group> groups = new ArrayList<>();
         String[] names = {"Nhóm bạn bè", "Gia đình", "Công ty", "CLB thiện nguyện", "Đội học tập"};
+        List<Category> categories = getMockCategories(); // Get categories to assign categoryName
 
-        Map<Integer, BigDecimal> groupAmountMap = new HashMap<>();
+        Map<Integer, BigDecimal> groupAmountMap = new HashMap<>(); // To calculate currentAmount
+        Map<Integer, List<GroupMember>> groupMembersMap = new HashMap<>(); // To store members per group
+
         for (int i = 1; i <= names.length; i++) {
+            int fundId = i;
+            String groupName = names[i - 1];
+            String description = "Nhóm " + groupName;
+            boolean hasTarget = random.nextBoolean(); // Randomly assign hasTarget
+            BigDecimal targetAmount = null;
+            String targetEndDate = null;
+            // LOẠI BỎ: Integer categoryId = null;
+            // LOẠI BỎ: String categoryName = null;
+
+            if (hasTarget) {
+                targetAmount = BigDecimal.valueOf(1_000_000 + random.nextInt(4_000_000));
+                Calendar cal = Calendar.getInstance();
+                cal.add(Calendar.MONTH, random.nextInt(6) + 1); // Target date 1-6 months in future
+                targetEndDate = formatDateToString(cal.getTime());
+            }
+
+            // LOẠI BỎ: Logic gán category (vì category_id và categoryName đã bị loại bỏ)
+            /*
+            if (!categories.isEmpty()) {
+                Category randomCategory = categories.get(random.nextInt(categories.size()));
+                categoryId = randomCategory.getCategoryId();
+                categoryName = randomCategory.getName();
+            }
+            */
+
+            // Create mock members for this group (including the creator as Admin)
+            List<GroupMember> members = generateMockGroupMembersForFund(fundId);
+            groupMembersMap.put(fundId, members);
+
+            // Mock creator info (assuming the first member is the creator/admin)
+            String creatorEmail = "creator" + fundId + "@example.com";
+            String creatorUsername = "Creator" + fundId;
+            if (!members.isEmpty()) {
+                // If there's an admin, use their info as creator
+                GroupMember adminMember = members.stream()
+                        .filter(m -> "Admin".equals(m.getRole()))
+                        .findFirst()
+                        .orElse(members.get(0)); // Fallback to first member if no admin
+                creatorEmail = adminMember.getEmail();
+                creatorUsername = adminMember.getUsername();
+            }
+
             groups.add(new Group(
-                    i,
-                    i,
-                    names[i - 1],
-                    BigDecimal.ZERO, // sẽ set sau
-                    i % 2 == 0,
-                    i % 2 == 0 ? BigDecimal.valueOf(1_000_000 + random.nextInt(4_000_000)) : BigDecimal.ZERO,
-                    "Nhóm " + names[i - 1],
-                    new Date(),
-                    new Date(),
-                    null
+                    fundId,
+                    groupName,
+                    BigDecimal.ZERO, // Will be set after transactions
+                    hasTarget,
+                    targetAmount,
+                    description,
+                    new Date(), // createdAt
+                    new Date(), // updatedAt
+                    null,       // deletedAt
+                    targetEndDate,
+                    creatorEmail,
+                    creatorUsername,
+                    // LOẠI BỎ: categoryName,
+                    members // Add the generated members list
             ));
-            groupAmountMap.put(i, BigDecimal.ZERO);
+            groupAmountMap.put(fundId, BigDecimal.ZERO);
         }
 
+        // Generate transactions and calculate currentAmount
         List<GroupTransaction> transactions = getMockGroupTransactions(groupAmountMap);
+        cachedGroupTransactions = transactions; // Cache for other methods
 
         for (Group g : groups) {
             g.setCurrentAmount(groupAmountMap.getOrDefault(g.getId(), BigDecimal.ZERO));
         }
 
-        cachedGroupTransactions = transactions;
+        cachedGroups = groups;
         return groups;
     }
 
-    public static List<GroupMember> getMockGroupMembers() {
+    // New/Updated: Generate mock members for a specific fund
+    public static List<GroupMember> generateMockGroupMembersForFund(int fundId) {
         List<GroupMember> members = new ArrayList<>();
-        for (int groupId = 1; groupId <= 5; groupId++) {
-            for (int i = 0; i < 4; i++) {
-                String role = (i==1 ? eRole.ADMIN : eRole.MEMBER).toString();
-                int userId = ((groupId - 1) * 4 + i) % 12 + 1;
-                members.add(new GroupMember(
-                        groupId,
-                        userId,
-                        role,
-                        new Date(),
-                        new Date(),
-                        null
-                ));
-            }
+        List<User> mockUsers = getMockUsers(); // Get all mock users
+
+        // Ensure at least one admin (the creator)
+        // For simplicity, let's say user 1 is always the creator/admin for fund 1, user 2 for fund 2, etc.
+        int creatorUserId = fundId;
+        User creatorUser = mockUsers.stream()
+                .filter(u -> u.getId() == creatorUserId)
+                .findFirst()
+                .orElse(mockUsers.get(0)); // Fallback if user ID not found
+
+        members.add(new GroupMember(
+                creatorUser.getId(),
+                "Admin",
+                "accepted",
+                creatorUser.getEmail(),
+                creatorUser.getUserName())
+        );
+
+        // Add some random members (not including the creator again)
+        Set<Integer> addedUserIds = new HashSet<>();
+        addedUserIds.add(creatorUser.getId());
+
+        int numAdditionalMembers = random.nextInt(3) + 1; // 1 to 3 additional members
+        for (int i = 0; i < numAdditionalMembers; i++) {
+            User randomUser;
+            do {
+                randomUser = mockUsers.get(random.nextInt(mockUsers.size()));
+            } while (addedUserIds.contains(randomUser.getId())); // Ensure unique members
+
+            members.add(new GroupMember(
+                    randomUser.getId(),
+                    "Member",
+                    "accepted",
+                    randomUser.getEmail(),
+                    randomUser.getUserName()
+            ));
+            addedUserIds.add(randomUser.getId());
         }
         return members;
     }
 
+
     public static List<GroupTransaction> getMockGroupTransactions(Map<Integer, BigDecimal> groupAmountMap) {
         List<GroupTransaction> transactions = new ArrayList<>();
         String[] descriptions = {"Mua chung", "Tiệc nhóm", "Đóng phí", "Mua dụng cụ", "Chi phí khác"};
-        List<GroupMember> members = getMockGroupMembers();
+        List<Group> groups = getMockGroups(); // Get groups to iterate through them
         Random random = new Random();
 
-        int id = 1;
-        for (int month = Calendar.JANUARY; month <= Calendar.DECEMBER; month++) {
-            // Mỗi tháng chọn từ 5 - 10 ngày ngẫu nhiên
-            Set<Integer> daysInMonth = new HashSet<>();
-            int numberOfDays = 5 + random.nextInt(6); // 5 -> 10 ngày
-            while (daysInMonth.size() < numberOfDays) {
-                daysInMonth.add(1 + random.nextInt(28));
-            }
+        int transactionId = 1;
+        for (Group group : groups) {
+            List<GroupMember> members = group.getMembers(); // Use members from the group
+            if (members == null || members.isEmpty()) continue; // Skip if no members
 
-            for (int day : daysInMonth) {
-                for (GroupMember member : members) {
-                    Calendar cal = Calendar.getInstance();
-                    cal.set(2025, month, day);
+            for (int month = Calendar.JANUARY; month <= Calendar.DECEMBER; month++) {
+                Set<Integer> daysInMonth = new HashSet<>();
+                int numberOfDays = 5 + random.nextInt(6); // 5 -> 10 days
+                while (daysInMonth.size() < numberOfDays) {
+                    daysInMonth.add(1 + random.nextInt(28));
+                }
 
-                    BigDecimal amount = BigDecimal.valueOf((random.nextInt(50) + 1) * 10_000);
-                    eType type = random.nextBoolean() ? eType.EXPENSE : eType.INCOME;
-                    BigDecimal signedAmount = type == eType.EXPENSE ? amount.negate() : amount;
+                for (int day : daysInMonth) {
+                    // Each member can make a transaction
+                    for (GroupMember member : members) {
+                        Calendar cal = Calendar.getInstance();
+                        cal.set(2025, month, day);
 
-                    groupAmountMap.put(member.getGroupId(),
-                            groupAmountMap.get(member.getGroupId()).add(signedAmount));
+                        BigDecimal amount = BigDecimal.valueOf((random.nextInt(50) + 1) * 10_000);
+                        eType type = random.nextBoolean() ? eType.EXPENSE : eType.INCOME;
+                        BigDecimal signedAmount = type == eType.EXPENSE ? amount.negate() : amount;
 
-                    transactions.add(new GroupTransaction(
-                            id++, member.getGroupId(), member.getUserId(),
-                            random.nextInt(10) + 1,
-                            amount,
-                            descriptions[random.nextInt(descriptions.length)],
-                            cal.getTime(),
-                            new Date(),
-                            null,
-                            type
-                    ));
+                        // Update group's current amount
+                        groupAmountMap.put(group.getId(),
+                                groupAmountMap.getOrDefault(group.getId(), BigDecimal.ZERO).add(signedAmount));
+
+                        transactions.add(new GroupTransaction(
+                                transactionId++,
+                                group.getId(), // fund_id
+                                member.getUserId(), // user_id of the member making transaction
+                                random.nextInt(10) + 1, // categoryId (mock)
+                                amount,
+                                descriptions[random.nextInt(descriptions.length)],
+                                cal.getTime(), // createdDate
+                                new Date(), // updatedDate
+                                null,       // deletedDate
+                                type
+                        ));
+                    }
                 }
             }
         }
@@ -217,7 +311,7 @@ public class MockDataProvider {
 
     public static List<GroupTransaction> getMockGroupTransactions() {
         if (cachedGroupTransactions == null) {
-            getMockGroups(); // tự tạo transactions
+            getMockGroups(); // This will trigger transaction generation
         }
         return cachedGroupTransactions;
     }

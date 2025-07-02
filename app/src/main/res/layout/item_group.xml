@@ -10,9 +10,10 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        android:background="@drawable/bg_rounded_20_white">
+        android:background="@drawable/bg_rounded_20_white"
+        android:padding="4dp"> <!-- THÊM PADDING NHỎ để vòng trắng rõ hơn -->
 
-        <!-- icon -->
+        <!-- Icon container (background will be random color) -->
         <FrameLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -25,43 +26,42 @@
 
             android:padding="5dp"
             android:background="@drawable/bg_rounded_50_paolo_veronese_green">
-
-            <ImageView
+            <!-- Changed from ImageView to TextView for initials -->
+            <TextView
+                android:id="@+id/tvInitialsIcon"
                 android:layout_width="42dp"
                 android:layout_height="42dp"
                 android:layout_gravity="center"
-
-                android:id="@+id/ivIcon"
-
-                android:src="@drawable/ic_users_three"
-                app:tint="@color/white"
-                android:backgroundTint="@color/transparent"/>
+                android:gravity="center"
+                android:text="NA"
+                android:textColor="@color/white"
+                android:textSize="20sp"
+                android:fontFamily="@font/poppins_semibold_600"
+                android:background="@android:color/transparent" />
 
         </FrameLayout>
 
-        <!-- name -->
+        <!-- Group Name -->
         <TextView
-            android:layout_width="match_parent"
-            android:layout_height="15dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/flIconBackground"
-            android:layout_marginTop="7dp"
-            android:layout_marginStart="7dp"
-            android:layout_marginEnd="7dp"
-
             android:id="@+id/tvName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/flIconBackground"
+        android:layout_marginTop="10dp"
+        android:layout_marginStart="7dp"
+        android:layout_marginEnd="7dp"
 
-            android:gravity="center"
-            android:text="Name"
-            android:fontFamily="@font/poppins_medium_500"
-            android:textSize="12sp"
-            android:maxLines="1"
-            android:ellipsize="end"
-            />
+        android:gravity="center"
+        android:text="Name"
+        android:fontFamily="@font/poppins_medium_500"
+        android:textSize="12sp"
+        android:maxLines="1"
+        android:ellipsize="end"
+        android:textColor="@color/Nautical"
+        />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

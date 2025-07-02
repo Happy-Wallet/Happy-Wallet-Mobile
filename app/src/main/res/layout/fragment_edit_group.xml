@@ -9,7 +9,7 @@
     android:clickable="true"
     android:focusable="true">
 
-    <!-- Edit Group -->
+    <!-- Edit Group Title -->
     <TextView
         android:layout_width="match_parent"
         android:layout_height="100dp"
@@ -31,7 +31,7 @@
         android:backgroundTint="@color/Paolo_Veronese_Green"
         />
 
-    <!-- cancel -->
+    <!-- Cancel Button -->
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -151,6 +151,93 @@
 
         </FrameLayout>
 
+        <!-- New: Has Target Checkbox (DISABLED FOR EDIT - DISPLAY ONLY) -->
+        <CheckBox
+            android:id="@+id/cbHasTarget"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="Has target"
+            android:fontFamily="@font/poppins_semibold_600"
+            android:textSize="20sp"
+            android:textColor="@color/Nautical"
+            android:clickable="false"
+            android:focusable="false"
+            android:enabled="false"
+            />
+
+        <!-- New: Target Amount Layout (Visibility controlled by Java) -->
+        <FrameLayout
+            android:id="@+id/flTargetAmountLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/bg_rounded_20_white"
+            android:visibility="gone"> <!-- Initially hidden -->
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical|start"
+                android:layout_marginStart="26dp"
+                android:text="Amount"
+                android:fontFamily="@font/poppins_semibold_600"
+                android:textSize="20sp"
+                android:textColor="@color/Nautical" />
+
+            <EditText
+                android:id="@+id/etTargetAmount"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:minHeight="50dp"
+                android:layout_marginStart="106dp"
+                android:layout_marginEnd="26dp"
+                android:layout_gravity="center_vertical"
+                android:gravity="center_vertical"
+                android:hint="Enter amount"
+                android:fontFamily="@font/poppins_regular_400"
+                android:textSize="20sp"
+                android:inputType="numberDecimal"
+                android:background="@color/white"
+                />
+        </FrameLayout>
+
+        <!-- New: Target End Date Layout (Visibility controlled by Java) -->
+        <FrameLayout
+            android:id="@+id/flTargetDateLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/bg_rounded_20_white"
+            android:visibility="gone"> <!-- Initially hidden -->
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical|start"
+                android:layout_marginStart="26dp"
+                android:text="Deadline"
+                android:fontFamily="@font/poppins_semibold_600"
+                android:textSize="20sp"
+                android:textColor="@color/Nautical" />
+
+            <EditText
+                android:id="@+id/etTargetEndDate"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:minHeight="50dp"
+                android:layout_marginStart="106dp"
+                android:layout_marginEnd="26dp"
+                android:layout_gravity="center_vertical"
+                android:gravity="center_vertical"
+                android:hint="Enter deadline"
+                android:fontFamily="@font/poppins_regular_400"
+                android:textSize="20sp"
+                android:focusable="false"
+                android:clickable="true"
+                android:background="@color/white" />
+        </FrameLayout>
+
         <FrameLayout
             android:layout_width="330dp"
             android:layout_height="wrap_content"
@@ -191,7 +278,6 @@
                 />
 
         </FrameLayout>
-
 
     </LinearLayout>
 

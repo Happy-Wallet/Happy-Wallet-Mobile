@@ -1,5 +1,7 @@
 package com.example.happy_wallet_mobile.Data.Remote.Response.SavingGoal;
 
+import java.util.Date;
+
 public class SavingGoalResponse {
     private int id;
     private int user_id;

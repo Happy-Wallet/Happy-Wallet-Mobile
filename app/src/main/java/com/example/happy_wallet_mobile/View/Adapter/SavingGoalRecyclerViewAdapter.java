@@ -107,9 +107,13 @@ public class SavingGoalRecyclerViewAdapter extends RecyclerView.Adapter<Recycler
 
         BigDecimal current = item.getCurrentAmount();
         BigDecimal target = item.getTargetAmount();
-        int progress = current.multiply(BigDecimal.valueOf(100))
-                .divide(target, RoundingMode.HALF_UP)
-                .intValue();
+
+        int progress = 0;
+        if (target != null && target.compareTo(BigDecimal.ZERO) > 0) {
+            progress = current.multiply(BigDecimal.valueOf(100))
+                    .divide(target, 2, RoundingMode.HALF_UP)
+                    .intValue();
+        }
         itemHolder.pbProgress.setProgress(progress);
 
         // Lấy category và icon resource ID
@@ -124,7 +128,6 @@ public class SavingGoalRecyclerViewAdapter extends RecyclerView.Adapter<Recycler
             try {
                 int color = ContextCompat.getColor(context, category.getColorRes());
                 itemHolder.flIconBackground.getBackground().setColorFilter(color, PorterDuff.Mode.SRC_IN);
-                itemHolder.flIconBackground.getBackground().setColorFilter(color, PorterDuff.Mode.SRC_IN);
             } catch (IllegalArgumentException e) {
                 e.printStackTrace();
             }
@@ -136,6 +139,7 @@ public class SavingGoalRecyclerViewAdapter extends RecyclerView.Adapter<Recycler
             }
         });
     }
+
 
     @Override
     public int getItemCount() {
