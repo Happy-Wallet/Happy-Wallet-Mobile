@@ -21,6 +21,7 @@ import com.example.happy_wallet_mobile.View.Adapter.UIModel.UserDailyTransaction
 import com.example.happy_wallet_mobile.View.Utilities.CurrencyUtility;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Locale;
 import java.text.NumberFormat;
 import java.util.List;
@@ -31,7 +32,16 @@ public class DailyTransactionsRecyclerViewAdapter extends RecyclerView.Adapter<R
     private static final int TYPE_ITEM = 1;
 
     private final Context context;
-    private final List<TransactionUiModel> data;
+    private List<TransactionUiModel> data = new ArrayList<>();
+
+    public void updateData(List<TransactionUiModel> data){
+        if(data != null)
+            this.data = data;
+        else
+            this.data = new ArrayList<>();
+        notifyDataSetChanged();
+    }
+
 
     public DailyTransactionsRecyclerViewAdapter(Context context, List<TransactionUiModel> data) {
         this.context = context;
