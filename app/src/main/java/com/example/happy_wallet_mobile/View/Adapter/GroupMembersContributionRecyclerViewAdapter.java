@@ -15,11 +15,11 @@ import com.example.happy_wallet_mobile.View.Utilities.CurrencyUtility;
 import java.util.ArrayList;
 import java.util.List;
 
-public class GroupMembersRecyclerViewAdapter extends RecyclerView.Adapter<GroupMembersRecyclerViewAdapter.ViewHolder> {
+public class GroupMembersContributionRecyclerViewAdapter extends RecyclerView.Adapter<GroupMembersContributionRecyclerViewAdapter.ViewHolder> {
 
     private List<GroupMemberContribution> memberContributionList = new ArrayList<>();
 
-    public GroupMembersRecyclerViewAdapter(List<GroupMemberContribution> memberContributionList){
+    public GroupMembersContributionRecyclerViewAdapter(List<GroupMemberContribution> memberContributionList){
         this.memberContributionList = (memberContributionList != null) ? memberContributionList : new ArrayList<>();
     }
 

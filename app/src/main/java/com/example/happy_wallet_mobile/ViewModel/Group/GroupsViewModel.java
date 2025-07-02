@@ -25,7 +25,7 @@ public class GroupsViewModel extends ViewModel {
         return categoryList;
     }
 
-    //user groups
+    //groups
     private final MutableLiveData<List<Group>> groupList = new MutableLiveData<>();
     public LiveData<List<Group>> getGroupList(){
         return groupList;
@@ -53,6 +53,15 @@ public class GroupsViewModel extends ViewModel {
     private final MutableLiveData<List<GroupMemberContribution>> groupMemberContributionList = new MutableLiveData<>();
     public LiveData<List<GroupMemberContribution>> getGroupMemberContributionList() {
         return groupMemberContributionList;
+    }
+
+    // current group
+    private final MutableLiveData<Group> currenGroup = new MutableLiveData<>();
+    public LiveData<Group> getCurrentGroup() {
+        return currenGroup;
+    }
+    public void setCurrenGroup(Group group){
+        currenGroup.setValue(group);
     }
 
     public void loadMockData(){

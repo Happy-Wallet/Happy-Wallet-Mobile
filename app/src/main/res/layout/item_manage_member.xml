@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:minHeight="70dp"
+    android:background="@color/transparent">
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginStart="30dp"
+        android:layout_marginEnd="30dp"
+
+        android:background="@color/Nautical"
+        />
+
+    <!-- avatar -->
+    <FrameLayout
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+
+        android:id="@+id/flAvatarStroke"
+
+        android:background="@drawable/bg_rounded_50_nautical"
+        >
+
+        <ImageView
+            android:layout_width="43dp"
+            android:layout_height="43dp"
+            android:layout_gravity="center"
+
+            android:id="@+id/ivAvatar"
+
+            android:background="@drawable/bg_rounded_50_white"
+            />
+
+    </FrameLayout>
+
+    <!-- name -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toEndOf="@id/flAvatarStroke"
+        app:layout_constraintTop_toTopOf="@id/flAvatarStroke"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="-3dp"
+
+        android:id="@+id/tvMemberName"
+
+        android:text="Member name"
+        android:fontFamily="@font/poppins_semibold_600"
+        android:textSize="16sp"
+        android:textColor="@color/Nautical"
+        android:maxLines="1"
+        android:ellipsize="end"
+        />
+
+    <!-- role -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toEndOf="@id/flAvatarStroke"
+        app:layout_constraintBottom_toBottomOf="@id/flAvatarStroke"
+        android:layout_marginStart="20dp"
+        android:layout_marginBottom="-3dp"
+
+        android:id="@+id/tvMemberRole"
+
+        android:gravity="bottom"
+        android:text="Member role"
+        android:fontFamily="@font/poppins_regular_400"
+        android:textSize="12sp"
+        android:textColor="@color/Argent"
+        android:maxLines="1"
+        android:ellipsize="end"
+        />
+
+    <!-- options -->
+    <TextView
+        android:layout_width="100dp"
+        android:layout_height="50dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginEnd="20dp"
+        android:focusable="true"
+        android:clickable="true"
+
+        android:id="@+id/tvOptions"
+
+        android:gravity="end|center"
+        android:text="⋮"
+        android:fontFamily="@font/poppins_medium_500"
+        android:textSize="30sp"
+        />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
