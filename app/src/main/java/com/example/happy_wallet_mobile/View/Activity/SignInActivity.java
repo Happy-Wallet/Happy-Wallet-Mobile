@@ -104,15 +104,24 @@ public class SignInActivity extends AppCompatActivity {
         signInViewModel.getLoginResponse().observe(this, response -> {
             if (response != null) {
                 Toast.makeText(this, "Đăng nhập thành công!", Toast.LENGTH_SHORT).show();
-
-                // change userPreference to current user
-                // Gọi API lấy thông tin user và chuyển sang MainActivity nếu thành công
-                fetchUserProfileAndSave(response.getToken());
+                signInViewModel.fetchUserProfileAndSave(response.getToken());
             } else {
                 Toast.makeText(this, "Sai tài khoản hoặc mật khẩu", Toast.LENGTH_SHORT).show();
-                tvSignIn.setEnabled(true); // Re-enable sign in button
+                tvSignIn.setEnabled(true);
             }
         });
+
+        signInViewModel.getUserProfile().observe(this, user -> {
+            if (user != null) {
+                Intent intent = new Intent(this, MainActivity.class);
+                startActivity(intent);
+                finish();
+            } else {
+                Toast.makeText(this, "Lỗi khi lấy profile!", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+
 
         // Sign in click listener
         tvSignIn.setOnClickListener(v -> {
@@ -140,45 +149,6 @@ public class SignInActivity extends AppCompatActivity {
                     .replace(R.id.flFragmentContainer, new SignUpFragment())
                     .addToBackStack("auth")
                     .commit();
-        });
-    }
-
-    // Method to fetch user profile information from API
-    private void fetchUserProfileAndSave(String token) {
-        UserService api = APIClient.getRetrofit().create(UserService.class);
-
-        Call<UserResponse> call = api.getProfile("Bearer " + token);
-        call.enqueue(new retrofit2.Callback<UserResponse>() {
-            @Override
-            public void onResponse(Call<UserResponse> call, retrofit2.Response<UserResponse> response) {
-                if (response.isSuccessful() && response.body() != null) {
-                    UserResponse userResponse = response.body();
-
-                    // Convert từ UserResponse -> User
-                    User user = new User();
-                    user.setId(userResponse.getId());
-                    user.setEmail(userResponse.getEmail());
-                    user.setUserName(userResponse.getUsername());
-                    user.setAvatarUrl(userResponse.getAvatarUrl());
-                    user.setDateOfBirth(userResponse.getDateOfBirth());
-
-                    // Lưu vào UserPreferences static
-                    UserPreferences.saveUser(user, token);
-
-                    // Chuyển sang MainActivity
-                    Intent intent = new Intent(SignInActivity.this, MainActivity.class);
-                    startActivity(intent);
-                    finish();
-                } else {
-                    Toast.makeText(SignInActivity.this, "Lỗi khi lấy profile: " + response.message(), Toast.LENGTH_SHORT).show();
-                }
-            }
-
-            @Override
-            public void onFailure(Call<UserResponse> call, Throwable t) {
-                Toast.makeText(SignInActivity.this, "Lỗi mạng: " + t.getMessage(), Toast.LENGTH_SHORT).show();
-                t.printStackTrace();
-            }
         });
     }
 

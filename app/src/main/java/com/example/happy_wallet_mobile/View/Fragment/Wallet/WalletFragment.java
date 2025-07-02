@@ -20,18 +20,22 @@ import com.example.happy_wallet_mobile.View.Adapter.DailyTransactionsRecyclerVie
 import com.example.happy_wallet_mobile.View.Fragment.SelectDateRangeFragment;
 import com.example.happy_wallet_mobile.View.Utilities.CurrencyUtility;
 import com.example.happy_wallet_mobile.ViewModel.MainViewModel;
+import com.example.happy_wallet_mobile.ViewModel.Wallet.AddExpenditureViewModel;
 import com.example.happy_wallet_mobile.ViewModel.Wallet.WalletViewModel;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 
 public class WalletFragment extends Fragment {
 
     MainViewModel mainViewModel;
+    AddExpenditureViewModel addExpenditureViewModel;
     WalletViewModel walletViewModel;
     FrameLayout flAddIncome, flAddExpenditure;
     RecyclerView rvTransactions;
     TextView tvIncome, tvAvailableBalance, tvExpenses, tvDate;
+    DailyTransactionsRecyclerViewAdapter dailyTransactionsRecyclerViewAdapter;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -40,6 +44,7 @@ public class WalletFragment extends Fragment {
 
         walletViewModel = new ViewModelProvider(this).get(WalletViewModel.class);
         mainViewModel = new ViewModelProvider(requireActivity()).get(MainViewModel.class);
+        addExpenditureViewModel = new ViewModelProvider(requireActivity()).get(AddExpenditureViewModel.class);
 
         rvTransactions = view.findViewById(R.id.rvTransactions);
         flAddIncome = view.findViewById(R.id.flAddIncome);
@@ -49,8 +54,10 @@ public class WalletFragment extends Fragment {
         tvExpenses = view.findViewById(R.id.tvExpenses);
         tvDate = view.findViewById(R.id.tvDate);
 
-        // reset viewmodel data
-        walletViewModel.getData();
+        dailyTransactionsRecyclerViewAdapter = new DailyTransactionsRecyclerViewAdapter(getContext(), List.of());
+
+        setupRecyclerView();
+        setupObservers();
 
         // add income
         flAddIncome.setOnClickListener(v -> {
@@ -64,18 +71,25 @@ public class WalletFragment extends Fragment {
             mainViewModel.navigateSubBelow(new AddExpenditureFragment());
         });
 
-        // set daily transaction data
-        walletViewModel.uiModels.observe(getViewLifecycleOwner(), uiModels -> {
-            DailyTransactionsRecyclerViewAdapter adapter = new DailyTransactionsRecyclerViewAdapter(getContext(), uiModels);
-            rvTransactions.setLayoutManager(new LinearLayoutManager(getContext()));
-            rvTransactions.setAdapter(adapter);
-        });
-        walletViewModel.loadGroupedTransactions();
-
-
         // set tvDate
         tvDate.setOnClickListener(v -> {
             mainViewModel.navigateSubBelow(new SelectDateRangeFragment());
+        });
+
+        // fetch từ server
+        walletViewModel.fetchTransactions();
+
+        return view;
+    }
+
+    private void setupRecyclerView() {
+        rvTransactions.setLayoutManager(new LinearLayoutManager(getContext()));
+        rvTransactions.setAdapter(dailyTransactionsRecyclerViewAdapter);
+    }
+
+    private void setupObservers() {
+        walletViewModel.uiModels.observe(getViewLifecycleOwner(), uiModels -> {
+            dailyTransactionsRecyclerViewAdapter.updateData(uiModels); // nếu bạn dùng custom ListAdapter thì đổi thành submitList
         });
 
         // set total income
@@ -83,7 +97,7 @@ public class WalletFragment extends Fragment {
                 tvIncome.setText(CurrencyUtility.format1(income))
         );
 
-        // set total expenses
+        // set total expense
         walletViewModel.totalExpenses.observe(getViewLifecycleOwner(), expenses ->
                 tvExpenses.setText(CurrencyUtility.format1(expenses))
         );
@@ -91,7 +105,6 @@ public class WalletFragment extends Fragment {
         // set available balance
         walletViewModel.availableBalance.observe(getViewLifecycleOwner(), balance -> {
             tvAvailableBalance.setText(CurrencyUtility.format1(balance));
-
             int color = ContextCompat.getColor(
                     requireContext(),
                     balance.compareTo(BigDecimal.ZERO) >= 0
@@ -101,6 +114,11 @@ public class WalletFragment extends Fragment {
             tvAvailableBalance.setTextColor(color);
         });
 
-        return view;
+        addExpenditureViewModel.getCreateTransactionResponse().observe(getViewLifecycleOwner(), response ->{
+            if (response != null){
+                walletViewModel.fetchTransactions();
+            }
+        });
+
     }
 }
