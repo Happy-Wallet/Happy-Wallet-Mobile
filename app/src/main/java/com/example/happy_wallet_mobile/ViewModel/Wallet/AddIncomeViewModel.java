@@ -4,19 +4,57 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import com.example.happy_wallet_mobile.Data.Local.UserPreferences;
+import com.example.happy_wallet_mobile.Data.MockDataProvider;
+import com.example.happy_wallet_mobile.Data.Remote.Request.Transaction.CreateTransactionRequest;
 import com.example.happy_wallet_mobile.Data.Remote.Response.Category.CategoryResponse;
+import com.example.happy_wallet_mobile.Data.Remote.Response.Transaction.CreateTransactionResponse;
 import com.example.happy_wallet_mobile.Data.Repository.CategoryRepository;
+import com.example.happy_wallet_mobile.Data.Repository.TransactionRepository;
+import com.example.happy_wallet_mobile.Model.Category;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 public class AddIncomeViewModel extends ViewModel {
 
-    private final MutableLiveData<List<CategoryResponse>> _categoryList = new MutableLiveData<>();
-    public LiveData<List<CategoryResponse>> CategoryList = _categoryList;
+    private final TransactionRepository transactionRepository = new TransactionRepository();
 
-    private final CategoryRepository categoryRepository = new CategoryRepository();
+    private final MutableLiveData<List<Category>> categoryList = new MutableLiveData<>();
+    public LiveData<List<Category>> getCategoryList(){
+        return categoryList;
+    }
+    private final MutableLiveData<CreateTransactionResponse> createTransactionResponse = new MutableLiveData<>();
+    public LiveData<CreateTransactionResponse> getCreateTransactionResponse() {
+        return createTransactionResponse;
+    }
 
-    public void loadDataFromServer() {
-        categoryRepository.getAllCategories().observeForever(_categoryList::setValue);
+    public void setData(){
+        categoryList.setValue(MockDataProvider.getMockCategories());
+    }
+
+
+    // create Transactions
+    public void createTransaction(int categoryId, BigDecimal amount, String description, String date) {
+        String token = UserPreferences.getToken();
+        if (token == null) return;
+
+        CreateTransactionRequest request = new CreateTransactionRequest(
+                categoryId,
+                amount,
+                description,
+                date
+        );
+
+        LiveData<CreateTransactionResponse> source = transactionRepository.createTransaction(
+                "Bearer " + token,
+                "income",
+                request
+        );
+
+        source.observeForever(response -> {
+            createTransactionResponse.setValue(response);
+            createTransactionResponse.setValue(null);
+        });
     }
 }

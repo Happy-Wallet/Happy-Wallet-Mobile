@@ -22,19 +22,27 @@ import com.example.happy_wallet_mobile.R;
 import com.example.happy_wallet_mobile.View.Adapter.CategoryRecyclerViewAdapter;
 import com.example.happy_wallet_mobile.View.Fragment.CategoryListFragment;
 import com.example.happy_wallet_mobile.View.Utilities.CurrencyTextWatcher;
+import com.example.happy_wallet_mobile.View.Utilities.CurrencyUtility;
+import com.example.happy_wallet_mobile.ViewModel.Wallet.AddExpenditureViewModel;
 import com.example.happy_wallet_mobile.ViewModel.Wallet.AddIncomeViewModel;
 import com.example.happy_wallet_mobile.ViewModel.MainViewModel;
 
+import java.math.BigDecimal;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 public class AddIncomeFragment extends Fragment {
 
     MainViewModel mainViewModel;
     AddIncomeViewModel addIncomeViewModel;
-    EditText etTitle, etDescription, etMoney;
+    EditText etDescription, etMoney;
     RecyclerView rcvCategories;
-    TextView tvCancel;
+    TextView tvCancel, tvSave;
+    private int selectedCategoryId = -1;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -45,13 +53,14 @@ public class AddIncomeFragment extends Fragment {
         mainViewModel = new ViewModelProvider(requireActivity()).get(MainViewModel.class);
         addIncomeViewModel = new ViewModelProvider(requireActivity()).get(AddIncomeViewModel.class);
 
-        etTitle = view.findViewById(R.id.etTitle);
         etDescription = view.findViewById(R.id.etDescription);
         etMoney = view.findViewById(R.id.etMoney);
         rcvCategories = view.findViewById(R.id.rcvCategories);
         tvCancel = view.findViewById(R.id.tvCancel);
+        tvSave = view.findViewById(R.id.tvSave);
 
-        addIncomeViewModel.loadDataFromServer();
+        // Gọi load data
+        addIncomeViewModel.setData();
 
         GridLayoutManager layoutManager = new GridLayoutManager(requireContext(), 3);
         rcvCategories.setLayoutManager(layoutManager);
@@ -59,6 +68,7 @@ public class AddIncomeFragment extends Fragment {
                 requireContext(),
                 List.of(),
                 category -> {
+                    selectedCategoryId = category.getCategoryId();
                     Toast.makeText(getContext(), "Bạn chọn: " + category.getName(), Toast.LENGTH_SHORT).show();
                 });
 
@@ -68,17 +78,9 @@ public class AddIncomeFragment extends Fragment {
         });
         rcvCategories.setAdapter(categoryRecyclerViewAdapter);
         // Observe LiveData để cập nhật adapter
-        addIncomeViewModel.CategoryList.observe(getViewLifecycleOwner(), categoryResponses -> {
-            if (categoryResponses != null) {
-                List<Category> categories = new ArrayList<>();
-                for (CategoryResponse response : categoryResponses) {
-                    categories.add(mapToCategory(response));
-                }
-                categoryRecyclerViewAdapter.updateCategories(categories);
-            }
+        addIncomeViewModel.getCategoryList().observe(getViewLifecycleOwner(), categories -> {
+            categoryRecyclerViewAdapter.updateCategories(categories);
         });
-
-
 
         //cancel
         tvCancel.setOnClickListener(v->{
@@ -88,25 +90,40 @@ public class AddIncomeFragment extends Fragment {
         // set money format
         etMoney.addTextChangedListener(new CurrencyTextWatcher(etMoney));
 
+        // create transaction
+        tvSave.setOnClickListener(v -> {
+            String description = etDescription.getText().toString().trim();
+            String amountStr = etMoney.getText().toString().trim();
+            BigDecimal amount = CurrencyUtility.parse(amountStr);
+
+            if (selectedCategoryId == -1) {
+                Toast.makeText(getContext(), "Vui lòng chọn category", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            Calendar cal = Calendar.getInstance();
+            cal.set(Calendar.HOUR_OF_DAY, 0);
+            cal.set(Calendar.MINUTE, 0);
+            cal.set(Calendar.SECOND, 0);
+            cal.set(Calendar.MILLISECOND, 0);
+            Date date = cal.getTime();
+
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
+            String formattedDate = sdf.format(date);
+
+            addIncomeViewModel.createTransaction(selectedCategoryId, amount, description, formattedDate);
+        });
+
+
+        addIncomeViewModel.getCreateTransactionResponse().observe(getViewLifecycleOwner(), response -> {
+            if (response != null) {
+                Toast.makeText(getContext(), "Tạo giao dịch thành công!", Toast.LENGTH_SHORT).show();
+                requireActivity().getSupportFragmentManager().popBackStack();
+            }
+        });
+
+
+
         return view;
-    }
-
-    private Category mapToCategory(CategoryResponse response) {
-        // Lấy icon và màu mặc định từ StaticDataProvider (tránh lỗi không tồn tại resource)
-        int defaultIconRes = StaticDataProvider.getIconList().get(0);
-        int defaultColorRes = StaticDataProvider.getColorList().get(0);
-
-        return new Category(
-                response.getId(),
-                response.getUser_id(),
-                defaultColorRes,
-                defaultIconRes,
-                eType.EXPENSE, // Bạn có thể ánh xạ đúng nếu response có trường `type`
-                response.getName(),
-                response.isIs_default(),
-                null, // createdAt (nếu cần, có thể convert từ response.getCreated_at())
-                null, // updatedAt
-                null  // deletedAt
-        );
     }
 }
