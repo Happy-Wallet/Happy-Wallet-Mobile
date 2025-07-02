@@ -162,8 +162,6 @@ public class SignInActivity extends AppCompatActivity {
                     user.setAvatarUrl(userResponse.getAvatarUrl());
                     user.setDateOfBirth(userResponse.getDateOfBirth());
 
-                    // Convert date string sang Date nếu muốn
-
                     // Lưu vào UserPreferences static
                     UserPreferences.saveUser(user, token);
 
