@@ -5,7 +5,7 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-import com.example.happy_wallet_mobile.Data.MockDataProvider;
+// import com.example.happy_wallet_mobile.Data.MockDataProvider; // LOẠI BỎ IMPORT NÀY
 import com.example.happy_wallet_mobile.Data.Remote.APIClient;
 import com.example.happy_wallet_mobile.Data.Remote.ApiInterface.GroupService;
 import com.example.happy_wallet_mobile.Data.Remote.Request.Group.CreateGroupRequest;
@@ -20,11 +20,13 @@ import com.example.happy_wallet_mobile.Model.User;
 import com.example.happy_wallet_mobile.Model.eType;
 import com.example.happy_wallet_mobile.View.Adapter.UIModel.GroupMemberContribution;
 
-import java.io.IOException; // Import IOException
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.stream.Collectors;
 
 import retrofit2.Call;
@@ -93,12 +95,12 @@ public class GroupsViewModel extends ViewModel {
         successMessage.postValue(null);
     }
 
-
     private final GroupService groupService;
 
     public GroupsViewModel() {
         groupService = APIClient.getRetrofit().create(GroupService.class);
-        categoryList.setValue(MockDataProvider.getMockCategories());
+
+        categoryList.setValue(new ArrayList<>());
     }
 
     public void loadAllFunds() {
@@ -117,7 +119,7 @@ public class GroupsViewModel extends ViewModel {
                         } catch (NumberFormatException e) {
                             e.printStackTrace();
                         }
-                        boolean hasTarget = gr.getHasTarget() == 1; // Convert int (0/1) to boolean
+                        boolean hasTarget = gr.getHasTarget() == 1;
 
                         Group group = new Group(
                                 gr.getId(),
@@ -172,11 +174,11 @@ public class GroupsViewModel extends ViewModel {
 
                     BigDecimal currentAmount = BigDecimal.ZERO;
                     try {
-                        currentAmount = new BigDecimal(gr.getCurrentAmount()); // Parse String to BigDecimal
+                        currentAmount = new BigDecimal(gr.getCurrentAmount());
                     } catch (NumberFormatException e) {
                         e.printStackTrace();
                     }
-                    boolean hasTarget = gr.getHasTarget() == 1; // Convert int (0/1) to boolean
+                    boolean hasTarget = gr.getHasTarget() == 1;
 
                     Group group = new Group(
                             gr.getId(),
@@ -213,39 +215,10 @@ public class GroupsViewModel extends ViewModel {
                     currentGroup.postValue(group);
                     groupMemberList.postValue(members);
 
-                    // Vẫn giữ lại logic mock cho transactions và users để đơn giản
-                    List<GroupTransaction> allTransactions = MockDataProvider.getMockGroupTransactions();
-                    List<GroupTransaction> transactionsInGroup = allTransactions.stream()
-                            .filter(t -> t.getGroupId() == group.getId())
-                            .collect(Collectors.toList());
-                    groupTransactionList.postValue(transactionsInGroup);
+                    groupTransactionList.postValue(new ArrayList<>());
+                    groupMemberUserList.postValue(new ArrayList<>());
+                    groupMemberContributionList.postValue(new ArrayList<>());
 
-                    List<User> allUsers = MockDataProvider.getMockUsers();
-                    Set<Integer> memberUserIds = members.stream()
-                            .map(GroupMember::getUserId)
-                            .collect(Collectors.toSet());
-                    List<User> usersInGroup = allUsers.stream()
-                            .filter(u -> memberUserIds.contains(u.getId()))
-                            .collect(Collectors.toList());
-                    groupMemberUserList.postValue(usersInGroup);
-
-                    List<GroupMemberContribution> contributions = new ArrayList<>();
-                    for (GroupMember member : members) {
-                        User user = usersInGroup.stream()
-                                .filter(u -> u.getId() == member.getUserId())
-                                .findFirst()
-                                .orElse(null);
-
-                        if (user != null) {
-                            BigDecimal totalIncome = transactionsInGroup.stream()
-                                    .filter(t -> t.getUserId() == user.getId() && t.getType() == eType.INCOME)
-                                    .map(GroupTransaction::getAmount)
-                                    .reduce(BigDecimal.ZERO, BigDecimal::add);
-
-                            contributions.add(new GroupMemberContribution(user, member.getRole(), totalIncome));
-                        }
-                    }
-                    groupMemberContributionList.postValue(contributions);
 
                     successMessage.postValue("Tải chi tiết quỹ thành công!");
 
@@ -313,5 +286,10 @@ public class GroupsViewModel extends ViewModel {
         isLoading.setValue(false);
         successMessage.postValue("Mô phỏng: Xóa quỹ thành công!");
         loadAllFunds();
+    }
+
+    @Override
+    protected void onCleared() {
+        super.onCleared();
     }
 }
