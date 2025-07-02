@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".View.Fragment.Setting.AboutUsFragment"
+    android:background="@color/white"
+    android:clickable="true"
+    android:focusable="true">
+
+    <!-- back -->
+    <ImageView
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_gravity="top|start"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
+
+        android:id="@+id/ivBack"
+
+        android:src="@drawable/ic_arrow_left_bold"
+        android:background="@color/transparent"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top|center"
+        android:layout_marginTop="100dp"
+
+        android:text="Đồ án Nhập môn ứng dụng di động"
+        android:textColor="@color/Nautical"
+        android:textSize="20sp"
+        android:fontFamily="@font/poppins_semibold_600"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top|center"
+        android:layout_marginTop="200dp"
+
+        android:text="Ứng dụng quản lý chi tiêu"
+        android:textColor="@color/Paolo_Veronese_Green"
+        android:textSize="26sp"
+        android:fontFamily="@font/poppins_extrabold_800"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top|center"
+        android:layout_marginTop="300dp"
+
+        android:gravity="center"
+        android:text="23521847	Hoàng Hải Yến\n23520093	Bùi Quốc Bảo\n23521456	Phạm Nguyễn Gia Thiện\n22520331	Nguyễn Lê Bảo Duy"
+        android:textColor="@color/Nautical"
+        android:textSize="18sp"
+        android:fontFamily="@font/poppins_regular_400"
+        />
+
+</FrameLayout>
