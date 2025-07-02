@@ -1,6 +1,7 @@
 package com.example.happy_wallet_mobile.View.Adapter;
 
 import android.content.Context;
+import android.graphics.Color; // Import Color
 import android.graphics.PorterDuff;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,11 +14,12 @@ import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.happy_wallet_mobile.Model.Category;
+import com.example.happy_wallet_mobile.Model.Category; // Vẫn giữ để updateCategoryList
 import com.example.happy_wallet_mobile.Model.Group;
 import com.example.happy_wallet_mobile.R;
 
 import java.util.List;
+import java.util.Random; // Import Random
 
 public class GroupRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
@@ -26,7 +28,10 @@ public class GroupRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.
 
     private final Context context;
     private List<Group> groupList;
-    private List<Category> categoryList;
+    private List<Category> categoryList; // Vẫn giữ để updateCategoryList
+
+    // Random object for generating colors
+    private final Random random = new Random();
 
     public void updateCategoryList(List<Category> list) {
         this.categoryList = list;
@@ -44,19 +49,21 @@ public class GroupRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.
         this.categoryList = categoryList;
     }
 
+    // ViewHolder cho item Group thông thường
     public static class ViewHolder extends RecyclerView.ViewHolder {
         FrameLayout flIconBackground;
-        ImageView ivIcon;
-        TextView tvTitle;
+        TextView tvInitialsIcon; // Changed from ImageView ivIcon to TextView tvInitialsIcon
+        TextView tvName; // Changed from tvTitle to tvName to match item_group.xml
 
         public ViewHolder(View itemView) {
             super(itemView);
             flIconBackground = itemView.findViewById(R.id.flIconBackground);
-            ivIcon = itemView.findViewById(R.id.ivIcon);
-            tvTitle = itemView.findViewById(R.id.tvTitle);
+            tvInitialsIcon = itemView.findViewById(R.id.tvInitialsIcon); // Initialize the new TextView
+            tvName = itemView.findViewById(R.id.tvName); // Initialize tvName
         }
     }
 
+    // ViewHolder cho item "Add More"
     public static class AddViewHolder extends RecyclerView.ViewHolder {
         ImageView ivPlusIcon;
         public AddViewHolder(View itemView) {
@@ -77,7 +84,8 @@ public class GroupRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.
             View view = LayoutInflater.from(context).inflate(R.layout.item_add_more, parent, false);
             return new AddViewHolder(view);
         } else {
-            View view = LayoutInflater.from(context).inflate(R.layout.item_saving_goal, parent, false);
+            // Inflate item_group.xml for group items
+            View view = LayoutInflater.from(context).inflate(R.layout.item_group, parent, false);
             return new ViewHolder(view);
         }
     }
@@ -95,20 +103,25 @@ public class GroupRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.
 
         ViewHolder itemHolder = (ViewHolder) holder;
         Group item = groupList.get(position);
-        itemHolder.tvTitle.setText(item.getName());
+        itemHolder.tvName.setText(item.getName()); // Set group name to tvName
 
-        // Tìm Category tương ứng
-        Category category = getCategoryById(item.getCategoryId());
-        if (category != null) {
-            // Gán màu nền
-            int colorRes = category.getColorRes();
-            itemHolder.flIconBackground.getBackground()
-                    .setColorFilter(ContextCompat.getColor(context, colorRes), PorterDuff.Mode.SRC_IN);
-
-            // Gán icon
-            itemHolder.ivIcon.setImageResource(category.getIconRes());
-            itemHolder.ivIcon.setColorFilter(ContextCompat.getColor(context, R.color.white), PorterDuff.Mode.SRC_IN);
+        // Generate initials from group name
+        String groupName = item.getName();
+        String initials = "";
+        if (groupName != null && !groupName.isEmpty()) {
+            String[] words = groupName.split(" ");
+            if (words.length >= 2) {
+                initials = (words[0].substring(0, 1) + words[1].substring(0, 1)).toUpperCase();
+            } else if (words.length == 1) {
+                initials = groupName.substring(0, Math.min(groupName.length(), 2)).toUpperCase();
+            }
         }
+        itemHolder.tvInitialsIcon.setText(initials);
+
+        // Generate a random background color for the icon FrameLayout
+        int color = Color.argb(255, random.nextInt(256), random.nextInt(256), random.nextInt(256));
+        itemHolder.flIconBackground.getBackground().setColorFilter(color, PorterDuff.Mode.SRC_IN);
+
 
         itemHolder.itemView.setOnClickListener(v -> {
             if (onItemClickListener != null) {
@@ -139,8 +152,9 @@ public class GroupRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.
         this.onItemClickListener = listener;
     }
 
-    // Helper
+    // Helper (no longer needed for icon/color, but kept if categoryList is used elsewhere)
     private Category getCategoryById(int categoryId) {
+        if (categoryList == null) return null; // Add null check
         for (Category category : categoryList) {
             if (category.getCategoryId() == categoryId) return category;
         }

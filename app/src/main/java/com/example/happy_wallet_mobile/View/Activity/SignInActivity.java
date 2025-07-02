@@ -31,8 +31,9 @@ import com.bumptech.glide.Glide;
 import com.example.happy_wallet_mobile.Data.Local.UserPreferences;
 import com.example.happy_wallet_mobile.Data.Remote.APIClient;
 import com.example.happy_wallet_mobile.Data.Remote.ApiInterface.UserService;
+import com.example.happy_wallet_mobile.Data.Remote.Response.Auth.LoginResponse;
 import com.example.happy_wallet_mobile.Data.Remote.Response.User.UserResponse;
-import com.example.happy_wallet_mobile.Model.User;
+import com.example.happy_wallet_mobile.Model.User; // Đảm bảo import đúng User model
 import com.example.happy_wallet_mobile.R;
 import com.example.happy_wallet_mobile.View.Fragment.Authentication.ForgotPasswordFragment;
 import com.example.happy_wallet_mobile.View.Fragment.Authentication.SignUpFragment;
@@ -51,7 +52,7 @@ public class SignInActivity extends AppCompatActivity {
 
     TextView tvProjectName;
     EditText etUserName;
-    EditText edPassword; // Khai báo biến
+    EditText edPassword;
     TextView tvSignIn;
     TextView tvSignUp;
     TextView tvForgotPassword;
@@ -74,7 +75,7 @@ public class SignInActivity extends AppCompatActivity {
 
         tvProjectName = findViewById(R.id.tvProjectName);
         etUserName = findViewById(R.id.etUserName);
-        edPassword = findViewById(R.id.etPassword); // Đã sửa từ R.id.edPassword thành R.id.etPassword
+        edPassword = findViewById(R.id.etPassword);
         tvSignIn = findViewById(R.id.tvSignIn);
         tvSignUp = findViewById(R.id.tvSignUp);
         tvForgotPassword = findViewById(R.id.tvForgotPassword);
@@ -104,33 +105,45 @@ public class SignInActivity extends AppCompatActivity {
         signInViewModel.getLoginResponse().observe(this, response -> {
             if (response != null) {
                 Toast.makeText(this, "Đăng nhập thành công!", Toast.LENGTH_SHORT).show();
-                signInViewModel.fetchUserProfileAndSave(response.getToken());
-            } else {
-                Toast.makeText(this, "Sai tài khoản hoặc mật khẩu", Toast.LENGTH_SHORT).show();
-                tvSignIn.setEnabled(true);
-            }
-        });
 
-        signInViewModel.getUserProfile().observe(this, user -> {
-            if (user != null) {
+                User loggedInUser = new User(
+                        response.getUserId(), // int Id
+                        response.getEmail(),  // String Email
+                        response.getUsername(), // String UserName
+                        null, // String Password (không có trong LoginResponse)
+                        null, // Date DateOfBirth (không có trong LoginResponse)
+                        null, // String Role (không có trong LoginResponse)
+                        null, // Date CreatedAt (không có trong LoginResponse)
+                        null, // Date UpdatedAt (không có trong LoginResponse)
+                        null  // Date DeletedAt (không có trong LoginResponse)
+                );
+
+                // Lưu User object và token vào SharedPreferences thông qua UserPreferences
+                UserPreferences.saveUser(loggedInUser, response.getToken());
+
+                // Cập nhật token cho APIClient ngay lập tức
+                APIClient.setAuthToken(response.getToken());
+
+                // Chuyển hướng đến MainActivity
                 Intent intent = new Intent(this, MainActivity.class);
                 startActivity(intent);
-                finish();
+                finish(); // Đóng SignInActivity
             } else {
-                Toast.makeText(this, "Lỗi khi lấy profile!", Toast.LENGTH_SHORT).show();
+                // Đăng nhập thất bại
+                Toast.makeText(this, "Sai tài khoản hoặc mật khẩu", Toast.LENGTH_SHORT).show();
+                tvSignIn.setEnabled(true); // Kích hoạt lại nút đăng nhập
             }
         });
-
-
 
         // Sign in click listener
         tvSignIn.setOnClickListener(v -> {
             tvSignIn.setEnabled(false); // Disable button to prevent multiple clicks
-            String username = etUserName.getText().toString().trim();
+            String username = etUserName.getText().toString().trim(); // Backend của bạn dùng email, nên đây có thể là email
             String password = edPassword.getText().toString().trim();
 
             // Call login method in ViewModel, passing the Activity's context
-            signInViewModel.login(username, password, this);
+            // ViewModel sẽ gọi API và cập nhật LiveData getLoginResponse
+            signInViewModel.login(username, password, this); // Đảm bảo username ở đây là email
         });
 
         // Forgot password click listener
