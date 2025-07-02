@@ -1,30 +1,39 @@
 package com.example.happy_wallet_mobile.Data.Remote.Response.SavingGoal;
 
-import java.util.Date;
+import com.google.gson.annotations.SerializedName;
 
 public class SavingGoalResponse {
-    private int id;
-    private int user_id;
-    private int category_id;
+    @SerializedName("goal_id")
+    private int goalId;
+
+    @SerializedName("user_id")
+    private int userId;
+
+    @SerializedName("category_id")
+    private int categoryId;
+
+    @SerializedName("name")
     private String name;
-    private double amount;
-    private double target;
+
+    @SerializedName("description")
     private String description;
-    private String start_date;
-    private String end_date;
-    private String created_at;
-    private String updated_at;
+
+    @SerializedName("current_amount")
+    private double currentAmount;
+
+    @SerializedName("target_amount")
+    private double targetAmount;
+
+    @SerializedName("target_date")
+    private String targetDate;
 
     // Getters
-    public int getId() { return id; }
-    public int getUser_id() { return user_id; }
-    public int getCategory_id() { return category_id; }
+    public int getGoalId() { return goalId; }
+    public int getUserId() { return userId; }
+    public int getCategoryId() { return categoryId; }
     public String getName() { return name; }
-    public double getAmount() { return amount; }
-    public double getTarget() { return target; }
     public String getDescription() { return description; }
-    public String getStart_date() { return start_date; }
-    public String getEnd_date() { return end_date; }
-    public String getCreated_at() { return created_at; }
-    public String getUpdated_at() { return updated_at; }
+    public double getCurrentAmount() { return currentAmount; }
+    public double getTargetAmount() { return targetAmount; }
+    public String getTargetDate() { return targetDate; }
 }

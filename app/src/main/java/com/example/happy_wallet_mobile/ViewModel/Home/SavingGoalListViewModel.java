@@ -11,6 +11,7 @@ import com.example.happy_wallet_mobile.Model.SavingGoal;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class SavingGoalListViewModel extends ViewModel {
@@ -26,16 +27,14 @@ public class SavingGoalListViewModel extends ViewModel {
                 List<SavingGoal> list = new ArrayList<>();
                 for (SavingGoalResponse res : response) {
                     SavingGoal goal = new SavingGoal();
-                    goal.setSavingGoalId(res.getId());
-                    goal.setUserId(res.getUser_id());
-                    goal.setTitle(res.getName());
+                    goal.setGoalId(res.getGoalId());
+                    goal.setUserId(res.getUserId());
+                    goal.setCategoryId(res.getCategoryId());
+                    goal.setName(res.getName());
                     goal.setDescription(res.getDescription());
-                    goal.setCurrentAmount(BigDecimal.valueOf(res.getAmount()));
-                    goal.setTargetAmount(BigDecimal.valueOf(res.getTarget()));
-                    goal.setStartDate(res.getStart_date());
-                    goal.setEndDate(res.getEnd_date());
-                    goal.setCategoryId(res.getCategory_id());
-
+                    goal.setCurrentAmount(BigDecimal.valueOf(res.getCurrentAmount()));
+                    goal.setTargetAmount(BigDecimal.valueOf(res.getTargetAmount()));
+                    goal.setTargetDate(SavingGoal.parseIsoDate(res.getTargetDate()));
                     list.add(goal);
                 }
                 _savingGoals.setValue(list);

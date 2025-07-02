@@ -26,8 +26,12 @@ import com.example.happy_wallet_mobile.View.Utilities.CurrencyTextWatcher;
 import com.example.happy_wallet_mobile.ViewModel.CategoryListViewModel;
 import com.example.happy_wallet_mobile.ViewModel.Home.AddSavingGoalViewModel;
 import com.example.happy_wallet_mobile.ViewModel.MainViewModel;
+import com.google.android.material.datepicker.MaterialDatePicker;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.List;
+import java.util.Locale;
 
 
 public class AddSavingGoalFragment extends Fragment {
@@ -89,6 +93,11 @@ public class AddSavingGoalFragment extends Fragment {
         // Format tiền
         etTarget.addTextChangedListener(new CurrencyTextWatcher(etTarget));
 
+        // set target Date
+        tvDate.setOnClickListener(v -> {
+            showDatePicker();
+        });
+
         // Xử lý nút Lưu
         tvSave.setOnClickListener(v -> {
             String token = getToken(); // lấy từ SharedPreferences
@@ -108,14 +117,18 @@ public class AddSavingGoalFragment extends Fragment {
                 return;
             }
 
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
+            String startDate = sdf.format(Calendar.getInstance().getTime());
+            String endDate = tvDate.getText().toString();
+
             CreateSavingGoalRequest request = new CreateSavingGoalRequest(
                     userId,
                     title,
                     0, // current_amount mặc định
                     target,
                     description,
-                    "2025-07-01",
-                    "2025-12-31",
+                    startDate,
+                    endDate,
                     selectedCategory.getCategoryId()
             );
 
@@ -150,5 +163,22 @@ public class AddSavingGoalFragment extends Fragment {
     private int getUserId() {
         User user = UserPreferences.getUser();
         return (user != null) ? user.getId() : -1;
+    }
+
+    private void showDatePicker() {
+        MaterialDatePicker.Builder<Long> builder = MaterialDatePicker.Builder.datePicker();
+        builder.setTitleText("Chọn ngày sinh");
+        builder.setSelection(MaterialDatePicker.todayInUtcMilliseconds());
+
+        final MaterialDatePicker<Long> datePicker = builder.build();
+        datePicker.show(getParentFragmentManager(), "MATERIAL_DATE_PICKER");
+
+        datePicker.addOnPositiveButtonClickListener(selection -> {
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTimeInMillis(selection);
+
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
+            tvDate.setText(sdf.format(calendar.getTime()));
+        });
     }
 }

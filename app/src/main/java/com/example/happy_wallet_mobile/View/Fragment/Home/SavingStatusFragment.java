@@ -3,6 +3,7 @@ package com.example.happy_wallet_mobile.View.Fragment.Home;
 import android.content.res.ColorStateList;
 import android.os.Bundle;
 
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
@@ -58,6 +59,10 @@ public class SavingStatusFragment extends Fragment {
 
 
         savingStatusViewModel.savingGoal.observe(getViewLifecycleOwner(), goal -> {
+            Log.d("SavingGoalStatus", "savingGoal: " + goal.getGoalId()
+                    + " title: " + goal.getName()
+                    + " target: " + goal.getTargetAmount()
+                    + " current: " + goal.getCurrentAmount());
             if (goal != null) {
                 tvTitle.setText(goal.getName());
                 tvDescription.setText(goal.getDescription());
@@ -74,7 +79,7 @@ public class SavingStatusFragment extends Fragment {
 
                 if (target != null && target.compareTo(BigDecimal.ZERO) > 0) {
                     progress = current.multiply(BigDecimal.valueOf(100))
-                            .divide(target, RoundingMode.HALF_UP)
+                            .divide(target, 0, RoundingMode.HALF_UP)
                             .intValue();
                 }
                 pbProgress.setProgress(progress);
@@ -82,13 +87,20 @@ public class SavingStatusFragment extends Fragment {
         });
 
         savingStatusViewModel.category.observe(getViewLifecycleOwner(), category -> {
+            Log.d("SavingGoalStatus", "categoryid: " + category.getCategoryId() +
+                    " category icon: " + category.getIconRes() +
+                    " category color: " + category.getColorRes());
             if (category != null) {
                 try {
-                    ivIcon.setBackgroundTintList(ColorStateList.valueOf(category.getColorRes()));
+                    int colorInt = ContextCompat.getColor(requireContext(), category.getColorRes());
+                    ivIcon.setBackgroundTintList(ColorStateList.valueOf(colorInt));
                     ivIcon.setImageResource(category.getIconRes());
-                } catch (Exception ignored) {}
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
         });
+
 
         // edit saving status
         ivEditSavingGoal.setOnClickListener(v -> {
