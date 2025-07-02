@@ -22,6 +22,27 @@ public class UserRepository {
         userService = APIClient.getRetrofit().create(UserService.class);
     }
 
+    public LiveData<UserResponse> getUserProfile(String bearerToken) {
+        MutableLiveData<UserResponse> data = new MutableLiveData<>();
+        userService.getProfile(bearerToken).enqueue(new Callback<UserResponse>() {
+            @Override
+            public void onResponse(Call<UserResponse> call, Response<UserResponse> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    data.setValue(response.body());
+                } else {
+                    data.setValue(null);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<UserResponse> call, Throwable t) {
+                data.setValue(null);
+            }
+        });
+        return data;
+    }
+
+
     public LiveData<List<UserResponse>> getAllUsers() {
         MutableLiveData<List<UserResponse>> data = new MutableLiveData<>();
         userService.getAllUsers().enqueue(new Callback<List<UserResponse>>() {
