@@ -20,12 +20,15 @@
         android:id="@+id/flProfileImageFrame"
         android:background="@drawable/bg_rounded_50_nautical">
 
-        <ImageView
+        <com.google.android.material.imageview.ShapeableImageView
             android:layout_width="97dp"
             android:layout_height="97dp"
-            android:id="@+id/ivProfileImage"
             android:layout_gravity="center"
-            android:background="@drawable/bg_rounded_50_white"
+
+            android:id="@+id/ivProfileImage"
+
+            android:scaleType="centerCrop"
+            app:shapeAppearanceOverlay="@style/CircleImageView"
             />
 
     </FrameLayout>

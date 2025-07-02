@@ -95,10 +95,22 @@ public class EditProfileFragment extends Fragment {
         progressBar = view.findViewById(R.id.progressBar);
 
 
-        Log.d("EditProfie", UserPreferences.getUser().getUserName() + " : " + UserPreferences.getUser().getDateOfBirth());
-// Set name
+        Log.d("EditProfie",
+                UserPreferences.getUser().getUserName() + " : " +
+                        UserPreferences.getUser().getDateOfBirth() + " : " +
+                        UserPreferences.getUser().getAvatarUrl()
+        ) ;
+        // set avatar
+        Glide.with(this)
+                .load(UserPreferences.getUser().getAvatarUrl())
+                .placeholder(R.drawable.ic_analysis)
+                .error(R.drawable.ic_analysis)
+                .circleCrop()
+                .into(ivProfileImage);
+
+        // Set name
         etUserName.setText(UserPreferences.getUser().getUserName());
-// Set date of birth formatted
+        // Set date of birth formatted
         Date dob = UserPreferences.getUser().getDateOfBirth();
         if (dob != null) {
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
@@ -132,6 +144,8 @@ public class EditProfileFragment extends Fragment {
                 }
             }
 
+            Log.d("Editprofile", "save: " + username + " : " + dobStr + " : " + imageBytes);
+
             viewModel.updateProfile(username, dobStr , imageBytes);
         });
 
@@ -159,5 +173,20 @@ public class EditProfileFragment extends Fragment {
         });
     }
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQUEST_CODE_PICK_IMAGE && resultCode == Activity.RESULT_OK && data != null) {
+            selectedImageUri = data.getData();
+            if (selectedImageUri != null) {
+                Glide.with(this)
+                        .load(selectedImageUri)
+                        .placeholder(R.drawable.ic_analysis)
+                        .error(R.drawable.ic_analysis)
+                        .circleCrop()
+                        .into(ivProfileImage);
+            }
+        }
+    }
 
 }
