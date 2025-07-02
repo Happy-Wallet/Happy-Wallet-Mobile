@@ -33,9 +33,23 @@ public class CurrencyUtility {
         }
     }
 
-
     public static BigDecimal parseFromCleanString(String raw) {
-        return new BigDecimal(raw.replaceAll("[^\\d]", ""));
+        // Giữ lại chỉ số, . và ,
+        String clean = raw.replaceAll("[^\\d,\\.]", "");
+
+        // Nếu kiểu Việt Nam dùng dấu , làm thập phân:
+        // 1.500,75 => 1500.75
+        if (clean.contains(",")) {
+            clean = clean.replace(".", "").replace(",", ".");
+        }
+
+        try {
+            return new BigDecimal(clean);
+        } catch (NumberFormatException e) {
+            e.printStackTrace();
+            return BigDecimal.ZERO;
+        }
     }
+
 }
 

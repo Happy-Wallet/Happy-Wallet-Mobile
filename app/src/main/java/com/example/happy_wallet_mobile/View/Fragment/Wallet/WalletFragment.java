@@ -20,6 +20,7 @@ import com.example.happy_wallet_mobile.View.Adapter.DailyTransactionsRecyclerVie
 import com.example.happy_wallet_mobile.View.Fragment.SelectDateRangeFragment;
 import com.example.happy_wallet_mobile.View.Utilities.CurrencyUtility;
 import com.example.happy_wallet_mobile.ViewModel.MainViewModel;
+import com.example.happy_wallet_mobile.ViewModel.Wallet.AddExpenditureViewModel;
 import com.example.happy_wallet_mobile.ViewModel.Wallet.WalletViewModel;
 
 import java.math.BigDecimal;
@@ -29,6 +30,7 @@ import java.util.List;
 public class WalletFragment extends Fragment {
 
     MainViewModel mainViewModel;
+    AddExpenditureViewModel addExpenditureViewModel;
     WalletViewModel walletViewModel;
     FrameLayout flAddIncome, flAddExpenditure;
     RecyclerView rvTransactions;
@@ -42,6 +44,7 @@ public class WalletFragment extends Fragment {
 
         walletViewModel = new ViewModelProvider(this).get(WalletViewModel.class);
         mainViewModel = new ViewModelProvider(requireActivity()).get(MainViewModel.class);
+        addExpenditureViewModel = new ViewModelProvider(requireActivity()).get(AddExpenditureViewModel.class);
 
         rvTransactions = view.findViewById(R.id.rvTransactions);
         flAddIncome = view.findViewById(R.id.flAddIncome);
@@ -110,5 +113,12 @@ public class WalletFragment extends Fragment {
             );
             tvAvailableBalance.setTextColor(color);
         });
+
+        addExpenditureViewModel.getCreateTransactionResponse().observe(getViewLifecycleOwner(), response ->{
+            if (response != null){
+                walletViewModel.fetchTransactions();
+            }
+        });
+
     }
 }

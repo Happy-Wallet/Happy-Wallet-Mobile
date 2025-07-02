@@ -48,7 +48,7 @@ public class MockDataProvider {
         for (int i = 0; i < names.length; i++) {
             eType type = (i % 3 == 0) ? eType.EXPENSE : (i % 3 == 1) ? eType.INCOME : eType.SAVING_GOAL;
             categories.add(new Category(
-                    i + 1,
+                    i + 29,
                     1,
                     colorList.get(i % colorList.size()),
                     iconList.get(i % iconList.size()),
