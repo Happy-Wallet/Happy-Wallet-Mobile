@@ -9,7 +9,7 @@
     android:clickable="true"
     android:focusable="true">
 
-    <!-- "Saving Goals -->
+    <!-- "Create new group" title -->
     <TextView
         android:layout_width="match_parent"
         android:layout_height="100dp"
@@ -149,6 +149,88 @@
                 android:background="@color/white"
                 />
 
+        </FrameLayout>
+
+        <!-- New: Has Target Checkbox -->
+        <CheckBox
+            android:id="@+id/cbHasTarget"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="Has target?"
+            android:fontFamily="@font/poppins_semibold_600"
+            android:textSize="20sp"
+            android:textColor="@color/Nautical" />
+
+        <!-- New: Target Amount Layout -->
+        <FrameLayout
+            android:id="@+id/flTargetAmountLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/bg_rounded_20_white"
+            android:visibility="gone"> <!-- Initially hidden -->
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical|start"
+                android:layout_marginStart="26dp"
+                android:text="Số tiền mục tiêu"
+                android:fontFamily="@font/poppins_semibold_600"
+                android:textSize="20sp"
+                android:textColor="@color/Nautical" />
+
+            <EditText
+                android:id="@+id/etTargetAmount"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:minHeight="50dp"
+                android:layout_marginStart="106dp"
+                android:layout_marginEnd="26dp"
+                android:layout_gravity="center_vertical"
+                android:gravity="center_vertical"
+                android:hint="Nhập số tiền mục tiêu"
+                android:fontFamily="@font/poppins_regular_400"
+                android:textSize="20sp"
+                android:inputType="numberDecimal"
+                android:background="@color/white" />
+        </FrameLayout>
+
+        <!-- New: Target End Date Layout -->
+        <FrameLayout
+            android:id="@+id/flTargetDateLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/bg_rounded_20_white"
+            android:visibility="gone"> <!-- Initially hidden -->
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical|start"
+                android:layout_marginStart="26dp"
+                android:text="Ngày kết thúc"
+                android:fontFamily="@font/poppins_semibold_600"
+                android:textSize="20sp"
+                android:textColor="@color/Nautical" />
+
+            <EditText
+                android:id="@+id/etTargetEndDate"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:minHeight="50dp"
+                android:layout_marginStart="106dp"
+                android:layout_marginEnd="26dp"
+                android:layout_gravity="center_vertical"
+                android:gravity="center_vertical"
+                android:hint="Chọn ngày kết thúc"
+                android:fontFamily="@font/poppins_regular_400"
+                android:textSize="20sp"
+                android:focusable="false"
+                android:clickable="true"
+                android:background="@color/white" />
         </FrameLayout>
 
         <TextView

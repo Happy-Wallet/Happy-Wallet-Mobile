@@ -10,10 +10,14 @@ import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
+import retrofit2.http.Path; // Thêm import này
 
 public interface GroupService {
     @GET("funds")
     Call<List<GroupResponse>> getAllFunds();
+
+    @GET("funds/{fundId}")
+    Call<GroupResponse> getFundDetails(@Path("fundId") int fundId);
 
     @POST("funds")
     Call<CreateGroupResponse> createFund(@Body CreateGroupRequest request);
