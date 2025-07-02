@@ -1,5 +1,10 @@
 package com.example.happy_wallet_mobile.ViewModel.Wallet;
 
+import android.app.Application;
+import android.content.Context;
+
+import androidx.annotation.NonNull;
+import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MediatorLiveData;
 import androidx.lifecycle.MutableLiveData;
@@ -12,6 +17,7 @@ import com.example.happy_wallet_mobile.Data.Repository.TransactionRepository;
 import com.example.happy_wallet_mobile.Model.Category;
 import com.example.happy_wallet_mobile.Model.Transaction;
 import com.example.happy_wallet_mobile.Model.eType;
+import com.example.happy_wallet_mobile.R;
 import com.example.happy_wallet_mobile.View.Adapter.UIModel.UserDailyTransactions.DailyTransactionHeader;
 import com.example.happy_wallet_mobile.View.Adapter.UIModel.UserDailyTransactions.TransactionItem;
 import com.example.happy_wallet_mobile.View.Adapter.UIModel.UserDailyTransactions.TransactionUiModel;
@@ -20,7 +26,7 @@ import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
-public class WalletViewModel extends ViewModel {
+public class WalletViewModel extends AndroidViewModel {
     private final TransactionRepository transactionRepository = new TransactionRepository();
 
     private final MutableLiveData<List<TransactionUiModel>> _uiModels = new MutableLiveData<>();
@@ -42,7 +48,8 @@ public class WalletViewModel extends ViewModel {
     private final MediatorLiveData<BigDecimal> _availableBalance = new MediatorLiveData<>();
     public LiveData<BigDecimal> availableBalance = _availableBalance;
 
-    public WalletViewModel() {
+    public WalletViewModel(@NonNull Application application) {
+        super(application);
         _totalIncome.setValue(BigDecimal.ZERO);
         _totalExpenses.setValue(BigDecimal.ZERO);
         _availableBalance.setValue(BigDecimal.ZERO);
@@ -54,20 +61,24 @@ public class WalletViewModel extends ViewModel {
 
     public void fetchTransactions() {
         String token = UserPreferences.getToken();
-
         if (token == null) return;
 
         LiveData<List<TransactionResponse>> source = transactionRepository.getTransactions("Bearer " + token, null);
 
         _totalIncome.addSource(source, responses -> {
             if (responses != null) {
-                _uiModels.setValue(groupTransactionsByDate(responses));
                 List<Transaction> transactions = convertResponsesToTransactions(responses);
+                List<Category> categories = convertResponsesToCategories(responses);
+
                 _transactionList.setValue(transactions);
+                _categoryList.setValue(categories);
+
+                _uiModels.setValue(groupTransactionsByDate(transactions, categories));
             }
             _totalIncome.removeSource(source);
         });
     }
+
 
     private Transaction convertToTransaction(TransactionResponse r) {
         return new Transaction(
@@ -82,15 +93,34 @@ public class WalletViewModel extends ViewModel {
         );
     }
 
-    private Category convertToCategory(TransactionResponse.Category c) {
-        Category category = new Category();
-        category.setCategoryId(c.getCategory_id());
-        category.setIconRes(Integer.parseInt(c.getIcon_res()));
-        category.setColorRes(Integer.parseInt(c.getColor_res()));
-        category.setType(eType.fromString(c.getType()));
-        category.setName(c.getName());
-        return category;
+    private List<Category> convertResponsesToCategories(List<TransactionResponse> responses) {
+        List<Category> categories = new ArrayList<>();
+        Set<Integer> seen = new HashSet<>();
+        Context context = getApplication().getApplicationContext();
+
+        for (TransactionResponse r : responses) {
+            TransactionResponse.Category c = r.getCategory();
+            if (!seen.contains(c.getCategory_id())) {
+                seen.add(c.getCategory_id());
+
+                Category category = new Category();
+                category.setCategoryId(c.getCategory_id());
+                int iconResId = context.getResources().getIdentifier(
+                        c.getIcon_res(), "drawable", context.getPackageName());
+                category.setIconRes(iconResId != 0 ? iconResId : R.drawable.ic_bell);
+
+                int colorResId = context.getResources().getIdentifier(
+                        c.getColor_res(), "color", context.getPackageName());
+                category.setColorRes(colorResId != 0 ? colorResId : R.color.black);
+
+                category.setType(eType.fromString(c.getType()));
+                category.setName(c.getName());
+                categories.add(category);
+            }
+        }
+        return categories;
     }
+
 
     private List<Transaction> convertResponsesToTransactions(List<TransactionResponse> responses) {
         List<Transaction> list = new ArrayList<>();
@@ -102,38 +132,51 @@ public class WalletViewModel extends ViewModel {
 
 
     // group transaction
-    private List<TransactionUiModel> groupTransactionsByDate(List<TransactionResponse> responses) {
+    private List<TransactionUiModel> groupTransactionsByDate(
+            List<Transaction> transactions,
+            List<Category> categories) {
+
         List<TransactionUiModel> uiModels = new ArrayList<>();
 
-        Map<String, List<TransactionResponse>> groupedMap = new TreeMap<>(Collections.reverseOrder());
-        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", Locale.US);
-
-        for (TransactionResponse r : responses) {
-            String key = sdf.format(r.getDate());
-            groupedMap.computeIfAbsent(key, k -> new ArrayList<>()).add(r);
+        // Build map categoryId -> Category
+        Map<Integer, Category> categoryMap = new HashMap<>();
+        for (Category c : categories) {
+            categoryMap.put(c.getCategoryId(), c);
         }
 
-        for (Map.Entry<String, List<TransactionResponse>> entry : groupedMap.entrySet()) {
+        // Group transactions by date
+        Map<String, List<Transaction>> groupedMap = new TreeMap<>(Collections.reverseOrder());
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", Locale.US);
+
+        for (Transaction t : transactions) {
+            String key = sdf.format(t.getDate());
+            groupedMap.computeIfAbsent(key, k -> new ArrayList<>()).add(t);
+        }
+
+        // Build UI model
+        for (Map.Entry<String, List<Transaction>> entry : groupedMap.entrySet()) {
             String date = entry.getKey();
-            List<TransactionResponse> dayTransactions = entry.getValue();
+            List<Transaction> dayTransactions = entry.getValue();
 
             BigDecimal total = BigDecimal.ZERO;
-            for (TransactionResponse r : dayTransactions) {
-                if (r.getTypeEnum() == eType.INCOME)
-                    total = total.add(r.getAmount());
+            for (Transaction t : dayTransactions) {
+                if (t.getType() == eType.INCOME)
+                    total = total.add(t.getAmount());
                 else
-                    total = total.subtract(r.getAmount());
+                    total = total.subtract(t.getAmount());
             }
 
             uiModels.add(new DailyTransactionHeader(date, total));
 
-            for (TransactionResponse r : dayTransactions) {
-                uiModels.add(new TransactionItem(convertToTransaction(r), convertToCategory(r.getCategory())));
+            for (Transaction t : dayTransactions) {
+                Category c = categoryMap.get(t.getCategoryId());
+                uiModels.add(new TransactionItem(t, c));
             }
         }
 
         return uiModels;
     }
+
 
     // update total incomde, expense, balance
     private void updateTotals() {
