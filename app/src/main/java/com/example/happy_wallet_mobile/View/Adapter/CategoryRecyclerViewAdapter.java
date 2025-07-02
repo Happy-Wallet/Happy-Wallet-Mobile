@@ -17,8 +17,10 @@ import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.happy_wallet_mobile.Model.Category;
+import com.example.happy_wallet_mobile.Model.eType;
 import com.example.happy_wallet_mobile.R;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class CategoryRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
@@ -27,15 +29,19 @@ public class CategoryRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVi
     private static final int TYPE_ADD_MORE = 1;
 
     private final Context context;
-    private List<Category> categories;
+    private List<Category> allCategories;
+    private eType typeFilter;
+    private List<Category> filteredCategories;
     private final OnItemClickListener listener;
     private OnAddClickListener onAddClickListener;
     private int selectedPosition = -1;
 
     public void updateCategories(List<Category> list) {
-        this.categories = list;
+        this.allCategories = list;
+        filterCategories();
         notifyDataSetChanged();
     }
+
 
     public interface OnItemClickListener {
         void onItemClick(Category category);
@@ -45,10 +51,21 @@ public class CategoryRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVi
         void onAddClick();
     }
 
-    public CategoryRecyclerViewAdapter(Context context, List<Category> categories, OnItemClickListener listener) {
+    public CategoryRecyclerViewAdapter(Context context, List<Category> categories, eType typeFilter, OnItemClickListener listener) {
         this.context = context;
-        this.categories = categories;
+        this.allCategories = categories;
+        this.typeFilter = typeFilter;
         this.listener = listener;
+        filterCategories(); // lọc ngay ban đầu
+    }
+
+    private void filterCategories() {
+        filteredCategories = new ArrayList<>();
+        for (Category c : allCategories) {
+            if (c.getType() == typeFilter) {
+                filteredCategories.add(c);
+            }
+        }
     }
 
     public void setOnAddClickListener(OnAddClickListener listener) {
@@ -94,7 +111,7 @@ public class CategoryRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVi
 
     @Override
     public int getItemViewType(int position) {
-        return (position < categories.size()) ? TYPE_CATEGORY : TYPE_ADD_MORE;
+        return (position < filteredCategories.size()) ? TYPE_CATEGORY : TYPE_ADD_MORE;
     }
 
     @NonNull
@@ -112,7 +129,7 @@ public class CategoryRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVi
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         if (getItemViewType(position) == TYPE_CATEGORY) {
-            Category category = categories.get(position);
+            Category category = filteredCategories.get(position);
             CategoryViewHolder categoryHolder = (CategoryViewHolder) holder;
             categoryHolder.bind(category, listener, context, position, this);
 
@@ -144,7 +161,7 @@ public class CategoryRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVi
 
     @Override
     public int getItemCount() {
-        return categories.size() + 1;
+        return filteredCategories.size() + 1;
     }
 
     public void setSelectedPosition(int position) {
@@ -155,8 +172,8 @@ public class CategoryRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVi
     }
 
     public void setSelectedCategory(int categoryId) {
-        for (int i = 0; i < categories.size(); i++) {
-            if (categories.get(i).getCategoryId() == categoryId) {
+        for (int i = 0; i < filteredCategories.size(); i++) {
+            if (filteredCategories.get(i).getCategoryId() == categoryId) {
                 setSelectedPosition(i);
                 break;
             }

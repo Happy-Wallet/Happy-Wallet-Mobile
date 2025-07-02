@@ -12,6 +12,7 @@ import android.widget.TextView;
 import androidx.core.content.ContextCompat;
 
 import com.example.happy_wallet_mobile.Model.Category;
+import com.example.happy_wallet_mobile.Model.eType;
 import com.example.happy_wallet_mobile.R;
 
 import java.util.List;
@@ -19,23 +20,44 @@ import java.util.List;
 public class CategoryListViewAdapter extends BaseAdapter {
 
     private Context context;
-    private List<Category> CategoryList;
+    private eType typeFilter;
+    private List<Category> allCategories;
+    private List<Category> filteredCategories;
+
     private LayoutInflater inflater;
 
-    public CategoryListViewAdapter(Context _context, List<Category> categoryList) {
-        this.context = _context;
-        this.CategoryList = categoryList;
-        this.inflater = LayoutInflater.from(_context);
+    public CategoryListViewAdapter(Context context, List<Category> categoryList, eType typeFilter) {
+        this.context = context;
+        this.allCategories = categoryList;
+        this.typeFilter = typeFilter;
+        this.inflater = LayoutInflater.from(context);
+        filterCategories();
     }
+
+    private void filterCategories() {
+        filteredCategories = new java.util.ArrayList<>();
+        for (Category c : allCategories) {
+            if (c.getType() == typeFilter) {
+                filteredCategories.add(c);
+            }
+        }
+    }
+
+    public void updateCategories(List<Category> categoryList) {
+        this.allCategories = categoryList;
+        filterCategories();
+        notifyDataSetChanged();
+    }
+
 
     @Override
     public int getCount() {
-        return CategoryList.size();
+        return filteredCategories.size();
     }
 
     @Override
     public Object getItem(int position) {
-        return CategoryList.get(position);
+        return filteredCategories.get(position);
     }
 
     @Override
@@ -76,7 +98,8 @@ public class CategoryListViewAdapter extends BaseAdapter {
             holder = (ViewHolder) convertView.getTag();
         }
 
-        Category category = CategoryList.get(position);
+        Category category = filteredCategories.get(position);
+
         holder.tvTitle.setText(category.getName());
 
         // Gán icon trực tiếp từ iconRes

@@ -1,15 +1,13 @@
 package com.example.happy_wallet_mobile.View.Fragment.Home;
 
 import android.os.Bundle;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
+
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,11 +20,10 @@ import com.example.happy_wallet_mobile.R;
 import com.example.happy_wallet_mobile.View.Adapter.MonthIAEAdapter;
 import com.example.happy_wallet_mobile.View.Adapter.SavingGoalRecyclerViewAdapter;
 import com.example.happy_wallet_mobile.View.Utilities.CurrencyUtility;
-import com.example.happy_wallet_mobile.ViewModel.CategoryListViewModel;
+import com.example.happy_wallet_mobile.ViewModel.Category.CategoryListViewModel;
 import com.example.happy_wallet_mobile.ViewModel.Home.HomeViewModel;
 import com.example.happy_wallet_mobile.ViewModel.Home.SavingGoalListViewModel;
 import com.example.happy_wallet_mobile.ViewModel.MainViewModel;
-import com.example.happy_wallet_mobile.ViewModel.Home.SavingStatusViewModel;
 
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.components.Legend;

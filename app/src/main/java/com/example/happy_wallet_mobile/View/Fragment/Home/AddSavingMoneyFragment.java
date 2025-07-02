@@ -23,6 +23,7 @@ import com.example.happy_wallet_mobile.View.Fragment.Wallet.AddExpenditureFragme
 import com.example.happy_wallet_mobile.View.Utilities.CurrencyTextWatcher;
 import com.example.happy_wallet_mobile.View.Utilities.CurrencyUtility;
 import com.example.happy_wallet_mobile.ViewModel.Home.EditSavingGoalViewModel;
+import com.example.happy_wallet_mobile.ViewModel.Home.HomeViewModel;
 import com.example.happy_wallet_mobile.ViewModel.Home.SavingGoalListViewModel;
 import com.example.happy_wallet_mobile.ViewModel.Wallet.AddExpenditureViewModel;
 
@@ -45,6 +46,7 @@ public class AddSavingMoneyFragment extends Fragment {
     SavingGoalListViewModel savingGoalListViewModel;
     EditSavingGoalViewModel editSavingGoalViewModel;
     AddExpenditureViewModel addExpenditureViewModel;
+    HomeViewModel homeViewModel;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -55,6 +57,7 @@ public class AddSavingMoneyFragment extends Fragment {
         savingGoalListViewModel = new ViewModelProvider(requireActivity()).get(SavingGoalListViewModel.class);
         editSavingGoalViewModel = new ViewModelProvider(requireActivity()).get(EditSavingGoalViewModel.class);
         addExpenditureViewModel = new ViewModelProvider(requireActivity()).get(AddExpenditureViewModel.class);
+        homeViewModel = new ViewModelProvider(requireActivity()).get(HomeViewModel.class);
 
         etAmount = view.findViewById(R.id.etAmount);
         tvAddMoney = view.findViewById(R.id.tvAddMoney);
@@ -122,6 +125,7 @@ public class AddSavingMoneyFragment extends Fragment {
                     "To saving goal: " + goal.getName(),
                     formattedDate
             );
+
         });
 
         editSavingGoalViewModel.updateResult.observe(getViewLifecycleOwner(), success -> {
@@ -129,9 +133,10 @@ public class AddSavingMoneyFragment extends Fragment {
                 if (success) {
                     Toast.makeText(getContext(), "thêm thành công", Toast.LENGTH_SHORT).show();
                     savingGoalListViewModel.fetchSavingGoals();
+                    homeViewModel.fetchTransactions();
                     requireActivity().getSupportFragmentManager().popBackStack();
                 } else {
-                    Toast.makeText(getContext(), "thêm thất bại", Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(getContext(), "thêm thất bại", Toast.LENGTH_SHORT).show();
                 }
                 editSavingGoalViewModel.clearUpdateResult();
             }

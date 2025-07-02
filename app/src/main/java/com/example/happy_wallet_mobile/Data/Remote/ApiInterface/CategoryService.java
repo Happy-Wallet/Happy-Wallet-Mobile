@@ -25,21 +25,21 @@ public interface CategoryService {
             @Query("type") String type
     );
 
-    @POST("/category/{type}")
+    @POST("/categories/{type}")
     Call<CreateCategoryResponse> createCategory(
             @Header("Authorization") String token,
             @Path("type") String type,
             @Body CreateCategoryRequest request
     );
 
-    @PUT("/category/{id}")
+    @PUT("/categories/{id}")
     Call<CategoryResponse> updateCategory(
             @Header("Authorization") String token,
             @Path("id") int categoryId,
             @Body UpdateCategoryRequest request
     );
 
-    @DELETE("/category/{id}")
+    @DELETE("/categories/{id}")
     Call<Void> deleteCategory(
             @Header("Authorization") String token,
             @Path("id") int categoryId
