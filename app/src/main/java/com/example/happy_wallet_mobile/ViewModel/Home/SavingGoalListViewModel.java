@@ -1,5 +1,7 @@
 package com.example.happy_wallet_mobile.ViewModel.Home;
 
+import android.util.Pair;
+
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
@@ -7,6 +9,7 @@ import androidx.lifecycle.ViewModel;
 import com.example.happy_wallet_mobile.Data.Local.UserPreferences;
 import com.example.happy_wallet_mobile.Data.Remote.Response.SavingGoal.SavingGoalResponse;
 import com.example.happy_wallet_mobile.Data.Repository.SavingGoalRepository;
+import com.example.happy_wallet_mobile.Model.Category;
 import com.example.happy_wallet_mobile.Model.SavingGoal;
 
 import java.math.BigDecimal;
@@ -19,6 +22,10 @@ public class SavingGoalListViewModel extends ViewModel {
     private final SavingGoalRepository repository = new SavingGoalRepository();
     private final MutableLiveData<List<SavingGoal>> _savingGoals = new MutableLiveData<>();
     public LiveData<List<SavingGoal>> savingGoals = _savingGoals;
+
+
+    private final MutableLiveData<Pair<SavingGoal, Category>> _selectedSavingGoal = new MutableLiveData<>();
+    public LiveData<Pair<SavingGoal, Category>> selectedSavingGoal = _selectedSavingGoal;
 
     public void fetchSavingGoals() {
         String token = UserPreferences.getToken();
@@ -43,4 +50,13 @@ public class SavingGoalListViewModel extends ViewModel {
             }
         });
     }
+
+    public void selectSavingGoal(SavingGoal savingGoal, Category category) {
+        _selectedSavingGoal.setValue(new Pair<>(savingGoal, category));
+    }
+
+    public void clearSelectedSavingGoal() {
+        _selectedSavingGoal.setValue(null);
+    }
+
 }

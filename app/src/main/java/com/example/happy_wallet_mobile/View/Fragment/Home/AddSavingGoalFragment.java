@@ -23,11 +23,14 @@ import com.example.happy_wallet_mobile.R;
 import com.example.happy_wallet_mobile.View.Adapter.CategoryRecyclerViewAdapter;
 import com.example.happy_wallet_mobile.View.Fragment.CategoryListFragment;
 import com.example.happy_wallet_mobile.View.Utilities.CurrencyTextWatcher;
+import com.example.happy_wallet_mobile.View.Utilities.CurrencyUtility;
 import com.example.happy_wallet_mobile.ViewModel.CategoryListViewModel;
 import com.example.happy_wallet_mobile.ViewModel.Home.AddSavingGoalViewModel;
+import com.example.happy_wallet_mobile.ViewModel.Home.SavingGoalListViewModel;
 import com.example.happy_wallet_mobile.ViewModel.MainViewModel;
 import com.google.android.material.datepicker.MaterialDatePicker;
 
+import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.List;
@@ -42,6 +45,7 @@ public class AddSavingGoalFragment extends Fragment {
     MainViewModel mainViewModel;
     AddSavingGoalViewModel addSavingGoalViewModel;
     CategoryListViewModel categoryListViewModel;
+    SavingGoalListViewModel savingGoalListViewModel;
 
     private Category selectedCategory = null;
 
@@ -53,6 +57,7 @@ public class AddSavingGoalFragment extends Fragment {
         mainViewModel = new ViewModelProvider(requireActivity()).get(MainViewModel.class);
         addSavingGoalViewModel = new ViewModelProvider(requireActivity()).get(AddSavingGoalViewModel.class);
         categoryListViewModel = new ViewModelProvider(requireActivity()).get(CategoryListViewModel.class);
+        savingGoalListViewModel = new ViewModelProvider(requireActivity()).get(SavingGoalListViewModel.class);
 
         categoryListViewModel.fetchCategories(requireContext());
 
@@ -110,9 +115,10 @@ public class AddSavingGoalFragment extends Fragment {
 
             String title = etTitle.getText().toString().trim();
             String description = etDescription.getText().toString().trim();
-            double target = parseMoney(etTarget.getText().toString());
+            BigDecimal target = CurrencyUtility.parse(etTarget.getText().toString());
 
-            if (title.isEmpty() || target <= 0) {
+            if (title.isEmpty() || (target.compareTo(BigDecimal.ZERO) <= 0)
+) {
                 Toast.makeText(getContext(), "Vui lòng nhập đầy đủ thông tin", Toast.LENGTH_SHORT).show();
                 return;
             }
@@ -124,7 +130,7 @@ public class AddSavingGoalFragment extends Fragment {
             CreateSavingGoalRequest request = new CreateSavingGoalRequest(
                     userId,
                     title,
-                    0, // current_amount mặc định
+                    BigDecimal.ZERO, // current_amount mặc định
                     target,
                     description,
                     startDate,
@@ -139,6 +145,7 @@ public class AddSavingGoalFragment extends Fragment {
         addSavingGoalViewModel.createResult.observe(getViewLifecycleOwner(), success -> {
             if (Boolean.TRUE.equals(success)) {
                 Toast.makeText(getContext(), "Tạo mục tiêu thành công!", Toast.LENGTH_SHORT).show();
+                savingGoalListViewModel.fetchSavingGoals();
                 requireActivity().getSupportFragmentManager().popBackStack();
             } else {
                 Toast.makeText(getContext(), "Tạo mục tiêu thất bại!", Toast.LENGTH_SHORT).show();

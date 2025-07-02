@@ -45,7 +45,7 @@ import java.util.Map;
 public class HomeFragment extends Fragment {
 
     private MainViewModel mainViewModel;
-    private SavingStatusViewModel savingStatusViewModel;
+    SavingGoalListViewModel savingGoalListViewModel;
     private HomeViewModel homeViewModel;
     private CategoryListViewModel categoryListViewModel;
     private SavingGoalRecyclerViewAdapter savingGoalRecyclerViewAdapter;
@@ -61,10 +61,9 @@ public class HomeFragment extends Fragment {
 
         // Init ViewModels
         mainViewModel = new ViewModelProvider(requireActivity()).get(MainViewModel.class);
-        savingStatusViewModel = new ViewModelProvider(requireActivity()).get(SavingStatusViewModel.class);
-        homeViewModel = new ViewModelProvider(this).get(HomeViewModel.class);
+        homeViewModel = new ViewModelProvider(requireActivity()).get(HomeViewModel.class);
         categoryListViewModel = new ViewModelProvider(requireActivity()).get(CategoryListViewModel.class);
-        SavingGoalListViewModel savingGoalListViewModel = new ViewModelProvider(this).get(SavingGoalListViewModel.class);
+        savingGoalListViewModel = new ViewModelProvider(requireActivity()).get(SavingGoalListViewModel.class);
 
         // Fetch initial data
         homeViewModel.fetchTransactions();
@@ -119,8 +118,7 @@ public class HomeFragment extends Fragment {
 
     private void setupSavingGoalClick() {
         savingGoalRecyclerViewAdapter.setOnItemClickListener((savingGoal, category) -> {
-            savingStatusViewModel.setSavingGoal(savingGoal);
-            savingStatusViewModel.setCategory(category);
+            savingGoalListViewModel.selectSavingGoal(savingGoal, category);
             mainViewModel.navigateSubBelow(new SavingStatusFragment());
         });
 
@@ -128,6 +126,7 @@ public class HomeFragment extends Fragment {
             mainViewModel.navigateSubBelow(new AddSavingGoalFragment());
         });
     }
+
 
     private void setupPieChart() {
         pieChart.setUsePercentValues(true);
