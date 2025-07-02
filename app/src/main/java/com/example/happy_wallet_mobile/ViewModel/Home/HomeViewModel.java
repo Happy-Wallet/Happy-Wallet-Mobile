@@ -1,13 +1,22 @@
 package com.example.happy_wallet_mobile.ViewModel.Home;
 
+import static androidx.lifecycle.AndroidViewModel_androidKt.getApplication;
+
+import android.content.Context;
+
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MediatorLiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import com.example.happy_wallet_mobile.Data.Local.UserPreferences;
 import com.example.happy_wallet_mobile.Data.MockDataProvider;
+import com.example.happy_wallet_mobile.Data.Remote.Response.Transaction.TransactionResponse;
+import com.example.happy_wallet_mobile.Data.Repository.TransactionRepository;
 import com.example.happy_wallet_mobile.Model.Category;
 import com.example.happy_wallet_mobile.Model.SavingGoal;
 import com.example.happy_wallet_mobile.Model.Transaction;
+import com.example.happy_wallet_mobile.R;
 import com.example.happy_wallet_mobile.View.Adapter.UIModel.IncomeExpenseMonth;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -19,6 +28,7 @@ import java.math.BigDecimal;
 import java.util.List;
 
 public class HomeViewModel extends ViewModel {
+    TransactionRepository transactionRepository = new TransactionRepository();
     private final MutableLiveData<List<Category>> categoryList = new MutableLiveData<>();
     private final MutableLiveData<List<SavingGoal>> savingGoalList = new MutableLiveData<>();
     private final MutableLiveData<List<Transaction>> transactionList = new MutableLiveData<>();
@@ -38,18 +48,10 @@ public class HomeViewModel extends ViewModel {
     }
 
     public void setData() {
+        fetchTransactions();
+
         categoryList.setValue(MockDataProvider.getMockCategories());
         savingGoalList.setValue(MockDataProvider.getMockSavingGoals());
-        transactionList.setValue(MockDataProvider.getMockTransactions());
-
-        List<Transaction> transactions = MockDataProvider.getMockTransactions();
-        BigDecimal total = BigDecimal.ZERO;
-        for (Transaction item : transactions) {
-            total = total.add(item.getAmount());
-        }
-        totalBalance.setValue(total);
-
-        loadMonthlyData(transactionList.getValue());
     }
 
     private final MutableLiveData<List<IncomeExpenseMonth>> monthlyData = new MutableLiveData<>();
@@ -122,5 +124,57 @@ public class HomeViewModel extends ViewModel {
         }
     }
 
+    public void fetchTransactions() {
+        String token = UserPreferences.getToken();
+        if (token == null) return;
 
+        LiveData<List<TransactionResponse>> source = transactionRepository.getTransactions("Bearer " + token, null);
+
+        source.observeForever(transactionResponses -> {
+            if (transactionResponses != null) {
+                List<Transaction> transactions = convertResponsesToTransactions(transactionResponses);
+                transactionList.postValue(transactions);
+
+                // Tính lại total balance
+                if (transactions != null) {
+                    BigDecimal total = BigDecimal.ZERO;
+                    for (Transaction item : transactions) {
+                        if (item.getType() == eType.INCOME)
+                            total = total.add(item.getAmount());
+                        else
+                            total = total.subtract(item.getAmount());
+                    }
+                    totalBalance.setValue(total);
+
+
+                }
+
+
+                // Tính lại monthly data
+                loadMonthlyData(transactions);
+            }
+        });
+
+    }
+
+    private Transaction convertToTransaction(TransactionResponse r) {
+        return new Transaction(
+                r.getTransaction_id(),
+                r.getUser_id(),
+                r.getTypeEnum(),
+                r.getCategory().getCategory_id(),
+                r.getAmount(),
+                r.getDescription(),
+                r.getDate(),
+                null
+        );
+    }
+
+    private List<Transaction> convertResponsesToTransactions(List<TransactionResponse> responses) {
+        List<Transaction> list = new ArrayList<>();
+        for (TransactionResponse r : responses) {
+            list.add(convertToTransaction(r));
+        }
+        return list;
+    }
 }
