@@ -5,6 +5,7 @@ import java.util.Date;
 public class SavingGoalResponse {
     private int id;
     private int user_id;
+    private int category_id;
     private String name;
     private double amount;
     private double target;
@@ -17,6 +18,7 @@ public class SavingGoalResponse {
     // Getters
     public int getId() { return id; }
     public int getUser_id() { return user_id; }
+    public int getCategory_id() { return category_id; }
     public String getName() { return name; }
     public double getAmount() { return amount; }
     public double getTarget() { return target; }

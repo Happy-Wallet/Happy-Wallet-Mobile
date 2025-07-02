@@ -22,9 +22,7 @@ public class EditSavingGoalViewModel extends ViewModel {
     public LiveData<SavingGoal> savingGoal = _savingGoal;
     public LiveData<Category> category = _category;
     public LiveData<List<Category>> categoryList = _categoryList;
-
-    private final CategoryRepository categoryRepository = new CategoryRepository();
-    private final SavingGoalRepository savingGoalRepository = new SavingGoalRepository(); // ✅ Thêm repository
+    private final SavingGoalRepository savingGoalRepository = new SavingGoalRepository(); // Thêm repository
 
     private final MutableLiveData<Boolean> _updateResult = new MutableLiveData<>();
     private final MutableLiveData<Boolean> _deleteResult = new MutableLiveData<>();
@@ -40,17 +38,6 @@ public class EditSavingGoalViewModel extends ViewModel {
         _savingGoal.setValue(savingGoal);
     }
 
-    public void loadDataFromServer() {
-        categoryRepository.getAllCategories().observeForever(responseList -> {
-            if (responseList != null) {
-                List<Category> categories = new ArrayList<>();
-                _categoryList.setValue(categories);
-            } else {
-                _categoryList.setValue(new ArrayList<>());
-            }
-        });
-    }
-
     public void updateSavingGoal(String token, int goalId, CreateSavingGoalRequest request) {
         savingGoalRepository.updateSavingGoal(token, goalId, request).observeForever(response -> {
             _updateResult.setValue(response != null);
@@ -61,9 +48,5 @@ public class EditSavingGoalViewModel extends ViewModel {
         savingGoalRepository.deleteSavingGoal(token, goalId).observeForever(success -> {
             _deleteResult.setValue(success);
         });
-    }
-
-    public EditSavingGoalViewModel() {
-        loadDataFromServer();
     }
 }

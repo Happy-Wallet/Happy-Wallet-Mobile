@@ -1,7 +1,9 @@
 package com.example.happy_wallet_mobile.View.Adapter;
 
 import android.content.Context;
+import android.content.res.ColorStateList;
 import android.graphics.PorterDuff;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +14,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
+import androidx.core.view.ViewCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.happy_wallet_mobile.Model.Category;
@@ -39,11 +42,13 @@ public class SavingGoalRecyclerViewAdapter extends RecyclerView.Adapter<Recycler
     }
 
     public void updateSavingGoals(List<SavingGoal> list) {
+        Log.d("SavingGoalRecyclerViewAdapter", "savingGoals: " + list);
         this.savingGoalList = (list != null) ? list : new ArrayList<>();
         notifyDataSetChanged();
     }
 
     public void updateCategories(List<Category> list) {
+        Log.d("SavingGoalRecyclerViewAdapter", "categories: " + list);
         this.categoryList = list != null ? list : new ArrayList<>();
         notifyDataSetChanged();
     }
@@ -118,6 +123,7 @@ public class SavingGoalRecyclerViewAdapter extends RecyclerView.Adapter<Recycler
 
         // Lấy category và icon resource ID
         Category category = getCategoryById(item.getCategoryId());
+        Log.d("SavingGoalRecyclerViewAdapter", "category: " + item.getCategoryId() + " : " +category);
         if (category != null) {
             int iconResId = category.getIconRes();
             if (iconResId != 0) {
@@ -127,7 +133,8 @@ public class SavingGoalRecyclerViewAdapter extends RecyclerView.Adapter<Recycler
 
             try {
                 int color = ContextCompat.getColor(context, category.getColorRes());
-                itemHolder.flIconBackground.getBackground().setColorFilter(color, PorterDuff.Mode.SRC_IN);
+                ViewCompat.setBackgroundTintList(itemHolder.flIconBackground, ColorStateList.valueOf(color));
+
             } catch (IllegalArgumentException e) {
                 e.printStackTrace();
             }

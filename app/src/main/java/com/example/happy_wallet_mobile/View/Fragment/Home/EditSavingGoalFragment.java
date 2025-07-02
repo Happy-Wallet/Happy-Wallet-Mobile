@@ -20,6 +20,7 @@ import com.example.happy_wallet_mobile.R;
 import com.example.happy_wallet_mobile.View.Adapter.CategoryRecyclerViewAdapter;
 import com.example.happy_wallet_mobile.View.Fragment.CategoryListFragment;
 import com.example.happy_wallet_mobile.View.Utilities.CurrencyTextWatcher;
+import com.example.happy_wallet_mobile.ViewModel.CategoryListViewModel;
 import com.example.happy_wallet_mobile.ViewModel.Home.EditSavingGoalViewModel;
 import com.example.happy_wallet_mobile.ViewModel.MainViewModel;
 
@@ -32,6 +33,7 @@ public class EditSavingGoalFragment extends Fragment {
 
     MainViewModel mainViewModel;
     EditSavingGoalViewModel editSavingGoalViewModel;
+    CategoryListViewModel categoryListViewModel;
 
     private SavingGoal savingGoal;
     private Category category;
@@ -48,6 +50,7 @@ public class EditSavingGoalFragment extends Fragment {
 
         mainViewModel = new ViewModelProvider(requireActivity()).get(MainViewModel.class);
         editSavingGoalViewModel = new ViewModelProvider(requireActivity()).get(EditSavingGoalViewModel.class);
+        categoryListViewModel = new ViewModelProvider(requireActivity()).get(CategoryListViewModel.class);
 
         tvCancel = view.findViewById(R.id.tvCancel);
         tvSave = view.findViewById(R.id.tvSave);
@@ -89,7 +92,7 @@ public class EditSavingGoalFragment extends Fragment {
         });
         rcvCategories.setAdapter(categoryRecyclerViewAdapter);
         // Observe dữ liệu từ ViewModel
-        editSavingGoalViewModel.categoryList.observe(getViewLifecycleOwner(), categories -> {
+        categoryListViewModel.getCategoryList().observe(getViewLifecycleOwner(), categories -> {
             categoryRecyclerViewAdapter.updateCategories(categories);
         });
 

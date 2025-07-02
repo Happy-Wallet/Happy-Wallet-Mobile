@@ -27,6 +27,7 @@ import com.example.happy_wallet_mobile.R;
 import com.example.happy_wallet_mobile.View.Adapter.MonthIAEAdapter;
 import com.example.happy_wallet_mobile.View.Adapter.SavingGoalRecyclerViewAdapter;
 import com.example.happy_wallet_mobile.View.Utilities.CurrencyUtility;
+import com.example.happy_wallet_mobile.ViewModel.CategoryListViewModel;
 import com.example.happy_wallet_mobile.ViewModel.Home.HomeViewModel;
 import com.example.happy_wallet_mobile.ViewModel.Home.SavingGoalListViewModel;
 import com.example.happy_wallet_mobile.ViewModel.MainViewModel;
@@ -53,6 +54,7 @@ public class HomeFragment extends Fragment {
     MainViewModel mainViewModel;
     SavingStatusViewModel savingStatusViewModel;
     HomeViewModel homeViewModel;
+    CategoryListViewModel categoryListViewModel;
     TextView tvAccountBalance;
     RecyclerView rcvMonthIAE, rcvSavingGoals;
     TextView tvDay, tvMonth, tvYear;
@@ -64,14 +66,14 @@ public class HomeFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
 
-        SavingGoalListViewModel savingGoalListViewModel = new ViewModelProvider(this).get(SavingGoalListViewModel.class);
-        String token = UserPreferences.getToken();
-        savingGoalListViewModel.loadSavingGoals(token);
-
-
         mainViewModel = new ViewModelProvider(requireActivity()).get(MainViewModel.class);
         homeViewModel = new ViewModelProvider(this).get(HomeViewModel.class);
         savingStatusViewModel = new ViewModelProvider(requireActivity()).get(SavingStatusViewModel.class);
+        categoryListViewModel = new ViewModelProvider(requireActivity()).get(CategoryListViewModel.class);
+        SavingGoalListViewModel savingGoalListViewModel = new ViewModelProvider(this).get(SavingGoalListViewModel.class);
+
+        categoryListViewModel.fetchCategories(requireContext());
+        savingGoalListViewModel.fetchSavingGoals();
 
         tvAccountBalance = view.findViewById(R.id.tvAccountBalance);
         rcvMonthIAE = view.findViewById(R.id.rcvMonthIAE);
@@ -116,31 +118,16 @@ public class HomeFragment extends Fragment {
 
         rcvSavingGoals.setAdapter(savingGoalRecyclerViewAdapter);
 
-        savingGoalListViewModel.savingGoals.observe(getViewLifecycleOwner(), savingGoalResponses -> {
-            if (savingGoalResponses != null) {
-                List<SavingGoal> savingGoals = new ArrayList<>();
-                for (SavingGoalResponse res : savingGoalResponses) {
-                    SavingGoal goal = new SavingGoal();
-                    goal.setSavingGoalId(res.getId());
-                    goal.setUserId(res.getUser_id());
-                    goal.setTitle(res.getName());
-                    goal.setDescription(res.getDescription());
-                    goal.setCurrentAmount(BigDecimal.valueOf(res.getAmount()));
-                    goal.setTargetAmount(BigDecimal.valueOf(res.getTarget()));
-                    goal.setStartDate(res.getStart_date());
-                    goal.setEndDate(res.getEnd_date());
-                    savingGoals.add(goal);
-                }
-                savingGoalRecyclerViewAdapter.updateSavingGoals(savingGoals);
-            }
-        });
+
 
 
         // Observe dữ liệu từ ViewModel
-        homeViewModel.getSavingGoalList().observe(getViewLifecycleOwner(), savingGoals -> {
+        savingGoalListViewModel.savingGoals.observe(getViewLifecycleOwner(), savingGoals -> {
+            Log.d("HomeFragment", "savingGoals: " + savingGoals);
             savingGoalRecyclerViewAdapter.updateSavingGoals(savingGoals);
         });
-        homeViewModel.getCategoryList().observe(getViewLifecycleOwner(), categories -> {
+        categoryListViewModel.getCategoryList().observe(getViewLifecycleOwner(), categories -> {
+            Log.d("HomeFragment", "categories: " + categories);
             savingGoalRecyclerViewAdapter.updateCategories(categories);
         });
 

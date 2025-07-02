@@ -29,15 +29,11 @@ import java.util.*;
 public class HomeViewModel extends ViewModel {
 
     private final TransactionRepository transactionRepository = new TransactionRepository();
-    private final CategoryRepository categoryRepository = new CategoryRepository(UserPreferences.getToken());
-
-    private final MutableLiveData<List<SavingGoal>> savingGoalList = new MutableLiveData<>();
     private final MutableLiveData<List<Transaction>> transactionList = new MutableLiveData<>();
     private final MutableLiveData<BigDecimal> totalBalance = new MutableLiveData<>();
     private final MutableLiveData<List<IncomeExpenseMonth>> monthlyData = new MutableLiveData<>();
 
     // --- Public getters ---
-    public LiveData<List<SavingGoal>> getSavingGoalList() { return savingGoalList; }
     public LiveData<List<Transaction>> getTransactionList() { return transactionList; }
     public LiveData<BigDecimal> getTotalBalance() { return totalBalance; }
     public LiveData<List<IncomeExpenseMonth>> getMonthlyData() { return monthlyData; }
@@ -45,7 +41,6 @@ public class HomeViewModel extends ViewModel {
     // --- Data loading ---
     public void setData(Context context) {
         fetchTransactions();
-        savingGoalList.setValue(MockDataProvider.getMockSavingGoals());
     }
 
     public void fetchTransactions() {

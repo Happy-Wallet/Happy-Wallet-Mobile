@@ -21,18 +21,18 @@ public class AddSavingGoalViewModel extends ViewModel {
     public LiveData<Boolean> createResult = _createResult;
 
     private final SavingGoalRepository savingGoalRepository = new SavingGoalRepository();
-    private final CategoryRepository categoryRepository = new CategoryRepository();
 
-    // ✅ Dùng khi muốn test offline
+    // Dùng khi muốn test offline
     public void loadMockData() {
         _categoryList.setValue(MockDataProvider.getMockCategories());
     }
 
 
-    // ✅ Gọi API tạo mới saving goal
+    // Gọi API tạo mới saving goal
     public void createSavingGoal(String token, CreateSavingGoalRequest request) {
         savingGoalRepository.createSavingGoal(token, request).observeForever(response -> {
             _createResult.setValue(response != null);
+            _createResult.setValue(null);
         });
     }
 }

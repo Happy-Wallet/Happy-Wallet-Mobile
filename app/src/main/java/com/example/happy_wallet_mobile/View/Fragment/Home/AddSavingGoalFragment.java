@@ -23,6 +23,7 @@ import com.example.happy_wallet_mobile.R;
 import com.example.happy_wallet_mobile.View.Adapter.CategoryRecyclerViewAdapter;
 import com.example.happy_wallet_mobile.View.Fragment.CategoryListFragment;
 import com.example.happy_wallet_mobile.View.Utilities.CurrencyTextWatcher;
+import com.example.happy_wallet_mobile.ViewModel.CategoryListViewModel;
 import com.example.happy_wallet_mobile.ViewModel.Home.AddSavingGoalViewModel;
 import com.example.happy_wallet_mobile.ViewModel.MainViewModel;
 
@@ -36,6 +37,7 @@ public class AddSavingGoalFragment extends Fragment {
     RecyclerView rcvCategories;
     MainViewModel mainViewModel;
     AddSavingGoalViewModel addSavingGoalViewModel;
+    CategoryListViewModel categoryListViewModel;
 
     private Category selectedCategory = null;
 
@@ -46,13 +48,14 @@ public class AddSavingGoalFragment extends Fragment {
 
         mainViewModel = new ViewModelProvider(requireActivity()).get(MainViewModel.class);
         addSavingGoalViewModel = new ViewModelProvider(requireActivity()).get(AddSavingGoalViewModel.class);
+        categoryListViewModel = new ViewModelProvider(requireActivity()).get(CategoryListViewModel.class);
 
-        addSavingGoalViewModel.loadMockData(); // mock category
+        categoryListViewModel.fetchCategories(requireContext());
 
         // Bind UI
         tvCancel = view.findViewById(R.id.tvCancel);
         tvDate = view.findViewById(R.id.tvDate);
-        tvSave = view.findViewById(R.id.tvSave); // ✅ thêm nút lưu
+        tvSave = view.findViewById(R.id.tvSave); // thêm nút lưu
         etTitle = view.findViewById(R.id.etTitle);
         etDescription = view.findViewById(R.id.etDescription);
         etTarget = view.findViewById(R.id.etTarget);
@@ -78,7 +81,7 @@ public class AddSavingGoalFragment extends Fragment {
         rcvCategories.setAdapter(categoryRecyclerViewAdapter);
 
         // Quan sát danh sách category
-        addSavingGoalViewModel.categoryList.observe(getViewLifecycleOwner(), categoryRecyclerViewAdapter::updateCategories);
+        categoryListViewModel.getCategoryList().observe(getViewLifecycleOwner(), categoryRecyclerViewAdapter::updateCategories);
 
         // Huỷ bỏ
         tvCancel.setOnClickListener(v -> requireActivity().getSupportFragmentManager().popBackStack());
@@ -86,7 +89,7 @@ public class AddSavingGoalFragment extends Fragment {
         // Format tiền
         etTarget.addTextChangedListener(new CurrencyTextWatcher(etTarget));
 
-        // ✅ Xử lý nút Lưu
+        // Xử lý nút Lưu
         tvSave.setOnClickListener(v -> {
             String token = getToken(); // lấy từ SharedPreferences
             int userId = getUserId(); // hoặc hardcode nếu test
@@ -119,7 +122,7 @@ public class AddSavingGoalFragment extends Fragment {
             addSavingGoalViewModel.createSavingGoal(token, request);
         });
 
-        // ✅ Quan sát kết quả tạo
+        // Quan sát kết quả tạo
         addSavingGoalViewModel.createResult.observe(getViewLifecycleOwner(), success -> {
             if (Boolean.TRUE.equals(success)) {
                 Toast.makeText(getContext(), "Tạo mục tiêu thành công!", Toast.LENGTH_SHORT).show();
