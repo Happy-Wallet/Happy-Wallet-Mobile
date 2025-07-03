@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingBottom="15dp"
+    android:background="@drawable/bg_rounded_20_white"
+    android:backgroundTint="@color/Silver_Phoenix"
+    android:layout_marginStart="18dp"
+    android:layout_marginEnd="18dp"
+    android:layout_marginTop="10dp"
+    android:layout_marginBottom="10dp">
+
+    <TextView
+        android:id="@+id/tvInvitationTitle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="24dp"
+        android:fontFamily="@font/poppins_bold_700"
+        android:lineHeight="20sp"
+        android:text="[Tên người mời] đã mời bạn vào quỹ [Tên quỹ]"
+        android:textColor="@color/Nautical"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tvInvitationDescription"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="24dp"
+        android:fontFamily="@font/poppins_regular_400"
+        android:lineHeight="18sp"
+        android:text="Mục tiêu: [Số tiền mục tiêu] USD, Hạn cuối: [Ngày kết thúc]"
+        android:textColor="@color/Nautical"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvInvitationTitle" />
+
+    <Button
+        android:id="@+id/btnAcceptInvitation"
+        android:layout_width="0dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="8dp"
+        android:backgroundTint="#00D09E"
+        android:fontFamily="@font/poppins_semibold_600"
+        android:text="Chấp nhận"
+        android:textColor="@android:color/white"
+        android:textSize="14sp"
+        app:cornerRadius="10dp"
+        app:layout_constraintEnd_toStartOf="@+id/btnRejectInvitation"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvInvitationDescription" />
+
+    <Button
+        android:id="@+id/btnRejectInvitation"
+        android:layout_width="0dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="24dp"
+        android:backgroundTint="@color/Nautical"
+        android:fontFamily="@font/poppins_semibold_600"
+        android:text="Từ chối"
+        android:textColor="@android:color/white"
+        android:textSize="14sp"
+        app:cornerRadius="10dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/btnAcceptInvitation"
+        app:layout_constraintTop_toBottomOf="@id/tvInvitationDescription" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

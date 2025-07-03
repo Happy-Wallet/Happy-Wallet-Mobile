@@ -30,5 +30,7 @@
     <color name="color_18">#E828F6</color>
     <color name="color_19">#BD2CF2</color>
     <color name="color_20">#9531ED</color>
+    <color name="gray_text_color">#949494</color>
+    <color name="red_color_for_invitation">#F44336</color>
 
 </resources>
