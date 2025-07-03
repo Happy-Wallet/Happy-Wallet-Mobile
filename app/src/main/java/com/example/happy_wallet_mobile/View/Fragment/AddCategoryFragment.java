@@ -23,6 +23,7 @@ public class AddCategoryFragment extends Fragment {
     RecyclerView rcvIcons, rcvColors;
     TextView tvCancel;
 
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
