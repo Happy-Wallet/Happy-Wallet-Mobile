@@ -9,13 +9,13 @@ public class GroupResponse {
     private String name;
     private String description;
     @SerializedName("current_amount")
-    private String currentAmount; // CHANGED: From double to String
+    private String currentAmount;
     @SerializedName("has_target")
-    private int hasTarget; // CHANGED: From boolean to int
+    private boolean hasTarget; // THAY ĐỔI TỪ int SANG boolean
     @SerializedName("target_amount")
-    private Double targetAmount; // Nullable
+    private Double targetAmount;
     @SerializedName("target_end_date")
-    private String targetEndDate; // String for date
+    private String targetEndDate;
     @SerializedName("category_name")
     private String categoryName;
     @SerializedName("creator_email")
@@ -29,7 +29,7 @@ public class GroupResponse {
     public String getName() { return name; }
     public String getDescription() { return description; }
     public String getCurrentAmount() { return currentAmount; }
-    public int getHasTarget() { return hasTarget; }
+    public boolean getHasTarget() { return hasTarget; }
     public Double getTargetAmount() { return targetAmount; }
     public String getTargetEndDate() { return targetEndDate; }
     public String getCategoryName() { return categoryName; }

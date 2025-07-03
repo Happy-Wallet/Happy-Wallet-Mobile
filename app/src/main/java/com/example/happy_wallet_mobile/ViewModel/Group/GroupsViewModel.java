@@ -120,8 +120,7 @@ public class GroupsViewModel extends ViewModel {
                         } catch (NumberFormatException e) {
                             e.printStackTrace();
                         }
-                        boolean hasTarget = gr.getHasTarget() == 1;
-
+                        boolean hasTarget = gr.getHasTarget();
                         Group group = new Group(
                                 gr.getId(),
                                 gr.getName(),
@@ -186,7 +185,7 @@ public class GroupsViewModel extends ViewModel {
                     } catch (NumberFormatException e) {
                         e.printStackTrace();
                     }
-                    boolean hasTarget = gr.getHasTarget() == 1;
+                    boolean hasTarget = gr.getHasTarget();
 
                     Group group = new Group(
                             gr.getId(),
