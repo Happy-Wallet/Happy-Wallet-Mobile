@@ -19,6 +19,7 @@ public class Group {
     private String targetEndDate;
     private String creatorEmail;
     private String creatorUsername;
+    private String creatorAvatarUrl; // THÊM TRƯỜNG NÀY
 
     private List<GroupMember> members;
 
@@ -31,7 +32,7 @@ public class Group {
     // Constructor đầy đủ
     public Group(int id, String name, BigDecimal currentAmount, boolean hasTarget,
                  BigDecimal targetAmount, String description, Date createdAt, Date updatedAt, Date deletedAt,
-                 String targetEndDate, String creatorEmail, String creatorUsername,
+                 String targetEndDate, String creatorEmail, String creatorUsername, String creatorAvatarUrl, // THÊM creatorAvatarUrl VÀO CONSTRUCTOR
                  List<GroupMember> members) {
         this.id = id;
         this.name = name;
@@ -45,6 +46,7 @@ public class Group {
         this.targetEndDate = targetEndDate;
         this.creatorEmail = creatorEmail;
         this.creatorUsername = creatorUsername;
+        this.creatorAvatarUrl = creatorAvatarUrl; // GÁN GIÁ TRỊ TỪ THAM SỐ
         this.members = members;
         this.iconColor = 0; // Khởi tạo màu mặc định là 0 (hoặc một giá trị không hợp lệ)
     }
@@ -85,6 +87,14 @@ public class Group {
 
     public String getCreatorUsername() { return creatorUsername; }
     public void setCreatorUsername(String creatorUsername) { this.creatorUsername = creatorUsername; }
+
+    // THÊM GETTER VÀ SETTER CHO creatorAvatarUrl
+    public String getCreatorAvatarUrl() {
+        return creatorAvatarUrl;
+    }
+    public void setCreatorAvatarUrl(String creatorAvatarUrl) {
+        this.creatorAvatarUrl = creatorAvatarUrl;
+    }
 
     public List<GroupMember> getMembers() { return members; }
     public void setMembers(List<GroupMember> members) { this.members = members; }

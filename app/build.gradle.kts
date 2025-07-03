@@ -26,9 +26,13 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
+        sourceCompatibility = JavaVersion.VERSION_1_8 // Đã sửa thành Java 8
+        targetCompatibility = JavaVersion.VERSION_1_8 // Đã sửa thành Java 8
     }
+    // Nếu bạn đang dùng Kotlin, thêm phần này
+    // kotlinOptions {
+    //     jvmTarget = '1.8'
+    // }
 }
 
 dependencies {
@@ -48,8 +52,13 @@ dependencies {
     androidTestImplementation(libs.espresso.core)
     implementation("com.github.PhilJay:MPAndroidChart:v3.1.0")
     implementation ("commons-io:commons-io:2.11.0")
+
+    // Chỉ giữ một phiên bản Glide
     implementation ("com.github.bumptech.glide:glide:4.15.1")
     annotationProcessor ("com.github.bumptech.glide:compiler:4.15.1")
-    implementation ("com.github.bumptech.glide:glide:4.12.0")
-    annotationProcessor ("com.github.bumptech.glide:compiler:4.12.0")
+
+    implementation ("androidx.lifecycle:lifecycle-viewmodel:2.6.2")
+    implementation ("androidx.lifecycle:lifecycle-livedata:2.6.2")
+    implementation ("androidx.lifecycle:lifecycle-common-java8:2.6.2" )
+
 }

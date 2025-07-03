@@ -49,7 +49,6 @@ public class MainActivity extends AppCompatActivity {
         flNotification = findViewById(R.id.flNotification);
 
         // set default
-        // set default image views color
         setTexiviewColor(ivHome, true);
         setTexiviewColor(ivWallet, false);
         setTexiviewColor(ivGroups, false);
@@ -137,6 +136,14 @@ public class MainActivity extends AppCompatActivity {
                         .add(R.id.fragment_container_above, fragment)
                         .addToBackStack("above")
                         .commit();
+            }
+        });
+
+        // Observe navigateBackEvent from MainViewModel
+        mainViewModel.getNavigateBackEvent().observe(this, event -> {
+            Boolean shouldNavigate = event.getContentIfNotHandled(); // Lấy nội dung nếu chưa được xử lý
+            if (shouldNavigate != null && shouldNavigate) { // Kiểm tra null và giá trị true
+                getSupportFragmentManager().popBackStack(); // Quay lại Fragment trước đó
             }
         });
     }
