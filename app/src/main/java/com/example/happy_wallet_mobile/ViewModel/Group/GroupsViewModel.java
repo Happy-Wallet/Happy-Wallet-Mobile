@@ -5,7 +5,6 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-// import com.example.happy_wallet_mobile.Data.MockDataProvider; // LOẠI BỎ IMPORT NÀY
 import com.example.happy_wallet_mobile.Data.Remote.APIClient;
 import com.example.happy_wallet_mobile.Data.Remote.ApiInterface.GroupService;
 import com.example.happy_wallet_mobile.Data.Remote.Request.Group.CreateGroupRequest;
@@ -23,10 +22,11 @@ import com.example.happy_wallet_mobile.View.Adapter.UIModel.GroupMemberContribut
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.HashMap; // Import HashMap
 import java.util.List;
+import java.util.Map; // Import Map
+import java.util.Random; // Import Random
 import java.util.Set;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 import java.util.stream.Collectors;
 
 import retrofit2.Call;
@@ -96,10 +96,11 @@ public class GroupsViewModel extends ViewModel {
     }
 
     private final GroupService groupService;
+    private final Map<Integer, Integer> groupIconColorMap = new HashMap<>(); // MAP MỚI để lưu trữ màu icon theo fundId
+    private final Random random = new Random(); // Random instance cho màu
 
     public GroupsViewModel() {
         groupService = APIClient.getRetrofit().create(GroupService.class);
-
         categoryList.setValue(new ArrayList<>());
     }
 
@@ -123,21 +124,28 @@ public class GroupsViewModel extends ViewModel {
 
                         Group group = new Group(
                                 gr.getId(),
-                                gr.getCategoryId(),
                                 gr.getName(),
                                 currentAmount,
                                 hasTarget,
                                 gr.getTargetAmount() != null ? BigDecimal.valueOf(gr.getTargetAmount()) : null,
                                 gr.getDescription(),
-                                null,
-                                null,
-                                null,
+                                null, // createdAt
+                                null, // updatedAt
+                                null, // deletedAt
                                 gr.getTargetEndDate(),
                                 gr.getCreatorEmail(),
                                 gr.getCreatorUsername(),
-                                gr.getCategoryName(),
                                 new ArrayList<>()
                         );
+
+                        // LOGIC MỚI: Gán màu icon từ map hoặc tạo mới
+                        if (!groupIconColorMap.containsKey(group.getId())) {
+                            // Nếu chưa có màu cho quỹ này, tạo màu mới và lưu vào map
+                            int newColor = android.graphics.Color.argb(255, random.nextInt(256), random.nextInt(256), random.nextInt(256));
+                            groupIconColorMap.put(group.getId(), newColor);
+                        }
+                        group.setIconColor(groupIconColorMap.get(group.getId())); // Gán màu đã lưu/tạo
+
                         funds.add(group);
                     }
                     groupList.setValue(funds);
@@ -182,7 +190,6 @@ public class GroupsViewModel extends ViewModel {
 
                     Group group = new Group(
                             gr.getId(),
-                            gr.getCategoryId(),
                             gr.getName(),
                             currentAmount,
                             hasTarget,
@@ -194,9 +201,16 @@ public class GroupsViewModel extends ViewModel {
                             gr.getTargetEndDate(),
                             gr.getCreatorEmail(),
                             gr.getCreatorUsername(),
-                            gr.getCategoryName(),
                             new ArrayList<>()
                     );
+
+                    // LOGIC MỚI: Gán màu icon từ map hoặc tạo mới
+                    if (!groupIconColorMap.containsKey(group.getId())) {
+                        int newColor = android.graphics.Color.argb(255, random.nextInt(256), random.nextInt(256), random.nextInt(256));
+                        groupIconColorMap.put(group.getId(), newColor);
+                    }
+                    group.setIconColor(groupIconColorMap.get(group.getId()));
+
 
                     List<GroupMember> members = new ArrayList<>();
                     if (gr.getMembers() != null) {
@@ -251,7 +265,7 @@ public class GroupsViewModel extends ViewModel {
                 isLoading.setValue(false);
                 if (response.isSuccessful() && response.body() != null) {
                     successMessage.postValue("Quỹ đã được tạo thành công!");
-                    loadAllFunds();
+                    loadAllFunds(); // Tải lại danh sách quỹ để cập nhật UI
                 } else {
                     String errorBody = "";
                     if (response.errorBody() != null) {
@@ -275,10 +289,33 @@ public class GroupsViewModel extends ViewModel {
 
     public void updateFund(int fundId, CreateGroupRequest request) {
         isLoading.setValue(true);
-        isLoading.setValue(false);
-        successMessage.postValue("Mô phỏng: Cập nhật quỹ thành công!");
-        loadFundDetail(fundId);
-        loadAllFunds();
+        groupService.updateFund(fundId, request).enqueue(new Callback<MessageResponse>() {
+            @Override
+            public void onResponse(@NonNull Call<MessageResponse> call, @NonNull Response<MessageResponse> response) {
+                isLoading.setValue(false);
+                if (response.isSuccessful() && response.body() != null) {
+                    successMessage.postValue(response.body().getMessage());
+                    loadFundDetail(fundId);
+                    loadAllFunds();
+                } else {
+                    String errorBody = "";
+                    if (response.errorBody() != null) {
+                        try {
+                            errorBody = response.errorBody().string();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                    errorMessage.postValue("Lỗi khi cập nhật quỹ: " + response.message() + " - " + errorBody);
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<MessageResponse> call, @NonNull Throwable t) {
+                isLoading.setValue(false);
+                errorMessage.postValue("Lỗi kết nối khi cập nhật quỹ: " + t.getMessage());
+            }
+        });
     }
 
     public void deleteFund(int fundId) {

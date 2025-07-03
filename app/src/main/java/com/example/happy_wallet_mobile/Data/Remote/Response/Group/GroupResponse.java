@@ -16,8 +16,6 @@ public class GroupResponse {
     private Double targetAmount; // Nullable
     @SerializedName("target_end_date")
     private String targetEndDate; // String for date
-    @SerializedName("category_id")
-    private Integer categoryId; // Nullable
     @SerializedName("category_name")
     private String categoryName;
     @SerializedName("creator_email")
@@ -34,7 +32,6 @@ public class GroupResponse {
     public int getHasTarget() { return hasTarget; }
     public Double getTargetAmount() { return targetAmount; }
     public String getTargetEndDate() { return targetEndDate; }
-    public Integer getCategoryId() { return categoryId; }
     public String getCategoryName() { return categoryName; }
     public String getCreatorEmail() { return creatorEmail; }
     public String getCreatorUsername() { return creatorUsername; }

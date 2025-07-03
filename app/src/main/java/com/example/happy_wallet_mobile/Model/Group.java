@@ -1,39 +1,39 @@
 package com.example.happy_wallet_mobile.Model;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Date;
-import java.util.List; // Thêm import này
+import java.util.List;
 
 public class Group {
-    private int id; // Changed from Id to id for consistency
-    private Integer categoryId; // Nullable
-    private String name; // Changed from Name to name
-    private BigDecimal currentAmount; // Changed from CurrentAmount to currentAmount
-    private boolean hasTarget; // Changed from HasTarget to hasTarget
-    private BigDecimal targetAmount; // Changed from TargetAmount to targetAmount
-    private String description; // Changed from Description to description
-    private Date createdAt; // Changed from CreatedAt to createdAt
-    private Date updatedAt; // Changed from UpdatedAt to updatedAt
-    private Date deletedAt; // Changed from DeletedAt to deletedAt
+    private int id;
+    private String name;
+    private BigDecimal currentAmount;
+    private boolean hasTarget;
+    private BigDecimal targetAmount;
+    private String description;
+    private Date createdAt;
+    private Date updatedAt;
+    private Date deletedAt;
 
-    // New fields from backend getFundDetails
-    private String targetEndDate; // Added to match backend
+    private String targetEndDate;
     private String creatorEmail;
     private String creatorUsername;
-    private String categoryName;
-    private List<GroupMember> members; // Use a local model for members
 
-    // Constructors (adjust as needed based on your usage)
+    private List<GroupMember> members;
+
+    // THÊM DÒNG NÀY: Trường để lưu màu icon (transient để không bị Gson serialize)
+    private transient int iconColor;
+
     public Group() {
     }
 
-    // Full constructor (consider generating with IDE for convenience)
-    public Group(int id, Integer categoryId, String name, BigDecimal currentAmount, boolean hasTarget,
+    // Constructor đầy đủ
+    public Group(int id, String name, BigDecimal currentAmount, boolean hasTarget,
                  BigDecimal targetAmount, String description, Date createdAt, Date updatedAt, Date deletedAt,
-                 String targetEndDate, String creatorEmail, String creatorUsername, String categoryName,
+                 String targetEndDate, String creatorEmail, String creatorUsername,
                  List<GroupMember> members) {
         this.id = id;
-        this.categoryId = categoryId;
         this.name = name;
         this.currentAmount = currentAmount;
         this.hasTarget = hasTarget;
@@ -45,16 +45,13 @@ public class Group {
         this.targetEndDate = targetEndDate;
         this.creatorEmail = creatorEmail;
         this.creatorUsername = creatorUsername;
-        this.categoryName = categoryName;
         this.members = members;
+        this.iconColor = 0; // Khởi tạo màu mặc định là 0 (hoặc một giá trị không hợp lệ)
     }
 
-    // Getters and Setters (adjust for new fields)
+    // Getters and Setters
     public int getId() { return id; }
     public void setId(int id) { this.id = id; }
-
-    public Integer getCategoryId() { return categoryId; }
-    public void setCategoryId(Integer categoryId) { this.categoryId = categoryId; }
 
     public String getName() { return name; }
     public void setName(String name) { this.name = name; }
@@ -80,7 +77,6 @@ public class Group {
     public Date getDeletedAt() { return deletedAt; }
     public void setDeletedAt(Date deletedAt) { this.deletedAt = deletedAt; }
 
-    // New Getters and Setters
     public String getTargetEndDate() { return targetEndDate; }
     public void setTargetEndDate(String targetEndDate) { this.targetEndDate = targetEndDate; }
 
@@ -90,9 +86,15 @@ public class Group {
     public String getCreatorUsername() { return creatorUsername; }
     public void setCreatorUsername(String creatorUsername) { this.creatorUsername = creatorUsername; }
 
-    public String getCategoryName() { return categoryName; }
-    public void setCategoryName(String categoryName) { this.categoryName = categoryName; }
-
     public List<GroupMember> getMembers() { return members; }
     public void setMembers(List<GroupMember> members) { this.members = members; }
+
+    // THÊM GETTER VÀ SETTER CHO iconColor
+    public int getIconColor() {
+        return iconColor;
+    }
+
+    public void setIconColor(int iconColor) {
+        this.iconColor = iconColor;
+    }
 }

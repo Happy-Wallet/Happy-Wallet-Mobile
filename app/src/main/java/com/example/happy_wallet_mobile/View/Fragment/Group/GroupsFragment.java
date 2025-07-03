@@ -28,8 +28,13 @@ import com.example.happy_wallet_mobile.ViewModel.Group.GroupsViewModel;
 import com.example.happy_wallet_mobile.ViewModel.MainViewModel;
 
 import java.math.BigDecimal;
+import java.text.ParseException; // Import ParseException
+import java.text.SimpleDateFormat; // Import SimpleDateFormat
+import java.util.ArrayList;
+import java.util.Date; // Import Date
 import java.util.List;
-import java.util.ArrayList; // Import ArrayList for initial empty lists
+import java.util.Locale; // Import Locale
+import java.util.concurrent.TimeUnit; // Import TimeUnit
 
 public class GroupsFragment extends Fragment {
 
@@ -39,7 +44,8 @@ public class GroupsFragment extends Fragment {
     private RecyclerView rcvGroups, rcvMembers, rcvMembersActivities;
     private ImageView ivEditGroup;
     private TextView tvGroupName, tvAvailableBalance, tvSeeMoreActivities, tvInviteMember, tvManageMember;
-    private TextView tvTargetAmount, tvTargetEndDate, tvTargetLabel; // New TextViews for target info
+    // Đã loại bỏ tvTargetAmount, tvTargetEndDate
+    private TextView tvTargetLabel, tvDaysRemaining; // tvDaysRemaining mới
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
@@ -64,8 +70,7 @@ public class GroupsFragment extends Fragment {
         tvManageMember = view.findViewById(R.id.tvManageMember);
 
         tvTargetLabel = view.findViewById(R.id.tvTargetLabel);
-        tvTargetAmount = view.findViewById(R.id.tvTargetAmount);
-        tvTargetEndDate = view.findViewById(R.id.tvTargetEndDate);
+        tvDaysRemaining = view.findViewById(R.id.tvDaysRemaining);
 
 
         // Set up rcvGroups
@@ -73,8 +78,8 @@ public class GroupsFragment extends Fragment {
         rcvGroups.setLayoutManager(layoutManager);
         GroupRecyclerViewAdapter groupRecyclerViewAdapter = new GroupRecyclerViewAdapter(
                 requireContext(),
-                new ArrayList<>(), // Initial empty list for groups
-                new ArrayList<>()); // Initial empty list for categories
+                new ArrayList<>(),
+                new ArrayList<>());
         rcvGroups.setAdapter(groupRecyclerViewAdapter);
 
         // Observe data from ViewModel for rcvGroups
@@ -84,14 +89,10 @@ public class GroupsFragment extends Fragment {
         groupsViewModel.getGroupList().observe(getViewLifecycleOwner(), groups -> {
             groupRecyclerViewAdapter.updateGroupList(groups);
 
-            // Automatically select the first group when groups data is loaded
-            // Only load details if currentGroup is null (first load)
             if (!groups.isEmpty() && groupsViewModel.getCurrentGroup().getValue() == null) {
                 Group firstGroup = groups.get(0);
-                groupsViewModel.setCurrentGroup(firstGroup); // Set current group in ViewModel
-                groupsViewModel.loadFundDetail(firstGroup.getId()); // Load details for the first group
-
-                // Scroll to the first item (optional)
+                groupsViewModel.setCurrentGroup(firstGroup);
+                groupsViewModel.loadFundDetail(firstGroup.getId());
                 rcvGroups.scrollToPosition(0);
             }
         });
@@ -100,7 +101,14 @@ public class GroupsFragment extends Fragment {
         groupsViewModel.getCurrentGroup().observe(getViewLifecycleOwner(), currentGroup -> {
             if (currentGroup != null) {
                 tvGroupName.setText(currentGroup.getName());
-                tvAvailableBalance.setText(CurrencyUtility.format(currentGroup.getCurrentAmount()));
+
+                // LOGIC MỚI: Hiển thị số dư / số tiền mục tiêu
+                String balanceText = CurrencyUtility.format(currentGroup.getCurrentAmount());
+                if (currentGroup.isHasTarget() && currentGroup.getTargetAmount() != null) {
+                    balanceText += " / " + CurrencyUtility.format(currentGroup.getTargetAmount());
+                }
+                tvAvailableBalance.setText(balanceText);
+
 
                 // Set color for available balance
                 if (currentGroup.getCurrentAmount().compareTo(BigDecimal.ZERO) < 0) {
@@ -109,19 +117,38 @@ public class GroupsFragment extends Fragment {
                     tvAvailableBalance.setTextColor(ContextCompat.getColor(requireContext(), R.color.Paolo_Veronese_Green));
                 }
 
-                // Update target information visibility and text
                 if (currentGroup.isHasTarget()) {
                     tvTargetLabel.setVisibility(View.VISIBLE);
-                    tvTargetAmount.setVisibility(View.VISIBLE);
-                    tvTargetEndDate.setVisibility(View.VISIBLE);
+                    tvDaysRemaining.setVisibility(View.VISIBLE);
 
-                    tvTargetLabel.setText("Mục tiêu:");
-                    tvTargetAmount.setText("Số tiền: " + (currentGroup.getTargetAmount() != null ? CurrencyUtility.format(currentGroup.getTargetAmount()) : "N/A"));
-                    tvTargetEndDate.setText("Ngày kết thúc: " + (currentGroup.getTargetEndDate() != null ? currentGroup.getTargetEndDate() : "N/A"));
+                    if (currentGroup.getTargetEndDate() != null && !currentGroup.getTargetEndDate().isEmpty()) {
+                        try {
+                            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
+                            Date targetDate = sdf.parse(currentGroup.getTargetEndDate());
+                            Date currentDate = new Date();
+
+                            long diffInMillies = targetDate.getTime() - currentDate.getTime();
+                            long diffInDays = TimeUnit.DAYS.convert(diffInMillies, TimeUnit.MILLISECONDS);
+
+                            if (diffInDays > 0) {
+                                tvDaysRemaining.setText(diffInDays + " day(s) remaining");
+                            } else if (diffInDays == 0) {
+                                tvDaysRemaining.setText("Last day!");
+                            } else {
+                                tvDaysRemaining.setText("Overdue " + Math.abs(diffInDays) + " day(s)");
+                            }
+
+                        } catch (ParseException e) {
+                            e.printStackTrace();
+                            tvDaysRemaining.setText("Ngày không hợp lệ");
+                        }
+                    } else {
+                        tvDaysRemaining.setText("Ngày kết thúc không xác định");
+                    }
+
                 } else {
                     tvTargetLabel.setVisibility(View.GONE);
-                    tvTargetAmount.setVisibility(View.GONE);
-                    tvTargetEndDate.setVisibility(View.GONE);
+                    tvDaysRemaining.setVisibility(View.GONE);
                 }
             }
         });
@@ -162,9 +189,8 @@ public class GroupsFragment extends Fragment {
         // rcvGroups item click listener
         groupRecyclerViewAdapter.setOnItemClickListener(group -> {
             Log.d("GroupsFragment", group.getName() + " clicked");
-            groupsViewModel.setCurrentGroup(group); // Set current group in ViewModel
-            groupsViewModel.loadFundDetail(group.getId()); // Load details for the clicked group via API
-            // UI will be updated by the observer for getCurrentGroup()
+            groupsViewModel.setCurrentGroup(group);
+            groupsViewModel.loadFundDetail(group.getId());
         });
 
         // rcvGroups add more click listener
@@ -176,7 +202,6 @@ public class GroupsFragment extends Fragment {
         // ivEditGroup click listener
         ivEditGroup.setOnClickListener(v -> {
             Log.d("GroupsFragment", "ivEditGroup clicked");
-            // Ensure currentGroup is set before navigating to EditGroupFragment
             if (groupsViewModel.getCurrentGroup().getValue() != null) {
                 mainViewModel.navigateSubBelow(new EditGroupFragment());
             } else {
@@ -211,25 +236,22 @@ public class GroupsFragment extends Fragment {
         // Observe ViewModel states for API calls
         groupsViewModel.getIsLoading().observe(getViewLifecycleOwner(), isLoading -> {
             // You can show/hide a ProgressBar here
-            // Example: if (isLoading) showProgressBar(); else hideProgressBar();
         });
 
         groupsViewModel.getErrorMessage().observe(getViewLifecycleOwner(), message -> {
             if (message != null && !message.isEmpty()) {
                 Toast.makeText(requireContext(), "Lỗi: " + message, Toast.LENGTH_LONG).show();
-                groupsViewModel.clearErrorMessage(); // Clear message after showing
+                groupsViewModel.clearErrorMessage();
             }
         });
 
         groupsViewModel.getSuccessMessage().observe(getViewLifecycleOwner(), message -> {
             if (message != null && !message.isEmpty()) {
                 Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show();
-                groupsViewModel.clearSuccessMessage(); // Clear message after showing
+                groupsViewModel.clearSuccessMessage();
             }
         });
 
-        // Initial data load when the fragment is created/resumed
-        // Load all funds from the API
         groupsViewModel.loadAllFunds();
 
         return view;
