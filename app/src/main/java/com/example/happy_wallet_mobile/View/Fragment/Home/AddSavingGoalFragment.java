@@ -15,16 +15,16 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.happy_wallet_mobile.Data.Local.UserPreferences;
-import com.example.happy_wallet_mobile.Data.MockDataProvider;
 import com.example.happy_wallet_mobile.Data.Remote.Request.SavingGoal.CreateSavingGoalRequest;
 import com.example.happy_wallet_mobile.Model.Category;
 import com.example.happy_wallet_mobile.Model.User;
+import com.example.happy_wallet_mobile.Model.eType;
 import com.example.happy_wallet_mobile.R;
 import com.example.happy_wallet_mobile.View.Adapter.CategoryRecyclerViewAdapter;
-import com.example.happy_wallet_mobile.View.Fragment.CategoryListFragment;
+import com.example.happy_wallet_mobile.View.Fragment.Category.CategoryListFragment;
 import com.example.happy_wallet_mobile.View.Utilities.CurrencyTextWatcher;
 import com.example.happy_wallet_mobile.View.Utilities.CurrencyUtility;
-import com.example.happy_wallet_mobile.ViewModel.CategoryListViewModel;
+import com.example.happy_wallet_mobile.ViewModel.Category.CategoryListViewModel;
 import com.example.happy_wallet_mobile.ViewModel.Home.AddSavingGoalViewModel;
 import com.example.happy_wallet_mobile.ViewModel.Home.SavingGoalListViewModel;
 import com.example.happy_wallet_mobile.ViewModel.MainViewModel;
@@ -60,6 +60,7 @@ public class AddSavingGoalFragment extends Fragment {
         savingGoalListViewModel = new ViewModelProvider(requireActivity()).get(SavingGoalListViewModel.class);
 
         categoryListViewModel.fetchCategories(requireContext());
+        categoryListViewModel.setType(eType.SAVING_GOAL);
 
         // Bind UI
         tvCancel = view.findViewById(R.id.tvCancel);
@@ -77,13 +78,14 @@ public class AddSavingGoalFragment extends Fragment {
         CategoryRecyclerViewAdapter categoryRecyclerViewAdapter = new CategoryRecyclerViewAdapter(
                 requireContext(),
                 List.of(),
+                eType.SAVING_GOAL,
                 category -> {
                     selectedCategory = category;
-                    Toast.makeText(getContext(), "Đã chọn: " + category.getName(), Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(getContext(), "Đã chọn: " + category.getName(), Toast.LENGTH_SHORT).show();
                 });
 
         categoryRecyclerViewAdapter.setOnAddClickListener(() -> {
-            Toast.makeText(getContext(), "Bạn đã nhấn Add More", Toast.LENGTH_SHORT).show();
+//            Toast.makeText(getContext(), "Bạn đã nhấn Add More", Toast.LENGTH_SHORT).show();
             mainViewModel.navigateSubBelow(new CategoryListFragment());
         });
 

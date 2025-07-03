@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".View.Fragment.CategoryListFragment"
+    tools:context=".View.Fragment.Category.CategoryListFragment"
     android:background="#80000000"
     android:clickable="true"
     android:focusable="true">
@@ -23,7 +23,7 @@
 
         android:padding="5dp"
         android:gravity="center_horizontal"
-        android:text="Saving Goal"
+        android:text="Category List"
         android:fontFamily="@font/poppins_semibold_600"
         android:textSize="24sp"
         android:textColor="@color/Nautical"

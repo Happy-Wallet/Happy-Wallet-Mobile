@@ -12,15 +12,15 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.happy_wallet_mobile.Data.Local.UserPreferences;
 import com.example.happy_wallet_mobile.Data.Remote.Request.SavingGoal.CreateSavingGoalRequest;
 import com.example.happy_wallet_mobile.Model.Category;
 import com.example.happy_wallet_mobile.Model.SavingGoal;
+import com.example.happy_wallet_mobile.Model.eType;
 import com.example.happy_wallet_mobile.R;
 import com.example.happy_wallet_mobile.View.Adapter.CategoryRecyclerViewAdapter;
 import com.example.happy_wallet_mobile.View.Utilities.CurrencyTextWatcher;
 import com.example.happy_wallet_mobile.View.Utilities.CurrencyUtility;
-import com.example.happy_wallet_mobile.ViewModel.CategoryListViewModel;
+import com.example.happy_wallet_mobile.ViewModel.Category.CategoryListViewModel;
 import com.example.happy_wallet_mobile.ViewModel.Home.EditSavingGoalViewModel;
 import com.example.happy_wallet_mobile.ViewModel.Home.SavingGoalListViewModel;
 import com.example.happy_wallet_mobile.ViewModel.MainViewModel;
@@ -78,12 +78,15 @@ public class EditSavingGoalFragment extends Fragment {
         rcvCategories.setLayoutManager(layoutManager);
 
         CategoryRecyclerViewAdapter adapter = new CategoryRecyclerViewAdapter(
-                requireContext(), List.of(), category -> {
+                requireContext(),
+                List.of(),
+                eType.SAVING_GOAL,
+                category -> {
             selectedCategory = category;
             editSavingGoalViewModel.setCategory(category);
         }
         );
-        adapter.setOnAddClickListener(() -> Toast.makeText(getContext(), "Nhấn Add More", Toast.LENGTH_SHORT).show());
+//        adapter.setOnAddClickListener(() -> Toast.makeText(getContext(), "Nhấn Add More", Toast.LENGTH_SHORT).show());
         rcvCategories.setAdapter(adapter);
 
         // Load data vào UI

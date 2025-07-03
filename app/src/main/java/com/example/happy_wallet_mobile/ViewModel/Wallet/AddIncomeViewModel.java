@@ -20,6 +20,9 @@ public class AddIncomeViewModel extends ViewModel {
 
     private final TransactionRepository transactionRepository = new TransactionRepository();
 
+    MutableLiveData<Boolean> _isRunning = new MutableLiveData<>(false);
+    public LiveData<Boolean> isRunning = _isRunning;
+
     private final MutableLiveData<List<Category>> categoryList = new MutableLiveData<>();
     public LiveData<List<Category>> getCategoryList(){
         return categoryList;
@@ -28,11 +31,6 @@ public class AddIncomeViewModel extends ViewModel {
     public LiveData<CreateTransactionResponse> getCreateTransactionResponse() {
         return createTransactionResponse;
     }
-
-    public void setData(){
-        categoryList.setValue(MockDataProvider.getMockCategories());
-    }
-
 
     // create Transactions
     public void createTransaction(int categoryId, BigDecimal amount, String description, String date) {
