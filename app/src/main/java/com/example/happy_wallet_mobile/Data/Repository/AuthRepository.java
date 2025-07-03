@@ -1,7 +1,7 @@
 package com.example.happy_wallet_mobile.Data.Repository;
 
-import android.content.Context; // Import Context
-import android.content.SharedPreferences; // Import SharedPreferences
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.util.Log;
 
 import androidx.lifecycle.LiveData;
@@ -19,7 +19,7 @@ import com.example.happy_wallet_mobile.Data.Remote.Response.Auth.RegisterRespons
 import com.example.happy_wallet_mobile.Data.Remote.Response.Auth.ResetPasswordResponse;
 
 import retrofit2.Call;
-import retrofit2.Callback;
+import retrofit2.Callback; // Đảm bảo import đúng Callback
 import retrofit2.Response;
 
 public class AuthRepository {
@@ -32,13 +32,12 @@ public class AuthRepository {
     // login
     public LiveData<LoginResponse> login(LoginRequest request, Context context) {
         MutableLiveData<LoginResponse> result = new MutableLiveData<>();
-        authService.login(request).enqueue(new Callback<>() {
+        authService.login(request).enqueue(new Callback<LoginResponse>() { // <-- Thêm kiểu dữ liệu cụ thể ở đây
             @Override
             public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
                 if (response.isSuccessful()) {
                     LoginResponse loginResponse = response.body();
-                    if (loginResponse != null && loginResponse.getToken() != null) { // Giả định LoginResponse có phương thức getToken()
-                        // Lưu token vào SharedPreferences
+                    if (loginResponse != null && loginResponse.getToken() != null) {
                         SharedPreferences sharedPreferences = context.getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
                         SharedPreferences.Editor editor = sharedPreferences.edit();
                         editor.putString("token", loginResponse.getToken());
@@ -52,7 +51,7 @@ public class AuthRepository {
                 }
             }
 
-            @Override
+            @Override // <-- Dòng này phải có để triển khai onFailure
             public void onFailure(Call<LoginResponse> call, Throwable t) {
                 Log.e("AuthRepository", "Login error: ", t);
                 result.setValue(null);
@@ -61,14 +60,13 @@ public class AuthRepository {
         return result;
     }
 
-    // register
+    // register (kiểm tra lại các phương thức khác cũng có đầy đủ onResponse và onFailure)
     public LiveData<RegisterResponse> register(RegisterRequest request) {
         MutableLiveData<RegisterResponse> result = new MutableLiveData<>();
-        authService.register(request).enqueue(new Callback<>() {
+        authService.register(request).enqueue(new Callback<RegisterResponse>() { // <-- Thêm kiểu dữ liệu cụ thể ở đây
             @Override
             public void onResponse(Call<RegisterResponse> call, Response<RegisterResponse> response) {
                 if (response.isSuccessful()) {
-                    // Bạn cũng có thể muốn lưu token đăng ký ở đây nếu API đăng ký trả về token
                     result.setValue(response.body());
                 } else {
                     Log.e("AuthRepository", "Register failed: " + response.message());
@@ -85,10 +83,10 @@ public class AuthRepository {
         return result;
     }
 
-    // forgot password
+    // forgot password (kiểm tra tương tự)
     public LiveData<ForgotPasswordResponse> forgotPassword(ForgotPasswordRequest request) {
         MutableLiveData<ForgotPasswordResponse> result = new MutableLiveData<>();
-        authService.forgotPassword(request).enqueue(new Callback<>() {
+        authService.forgotPassword(request).enqueue(new Callback<ForgotPasswordResponse>() { // <-- Thêm kiểu dữ liệu cụ thể ở đây
             @Override
             public void onResponse(Call<ForgotPasswordResponse> call, Response<ForgotPasswordResponse> response) {
                 if (response.isSuccessful()) {
@@ -108,10 +106,10 @@ public class AuthRepository {
         return result;
     }
 
-    // reset password
+    // reset password (kiểm tra tương tự)
     public LiveData<ResetPasswordResponse> resetPassword(ResetPasswordRequest request) {
         MutableLiveData<ResetPasswordResponse> result = new MutableLiveData<>();
-        authService.resetPassword(request).enqueue(new Callback<>() {
+        authService.resetPassword(request).enqueue(new Callback<ResetPasswordResponse>() { // <-- Thêm kiểu dữ liệu cụ thể ở đây
             @Override
             public void onResponse(Call<ResetPasswordResponse> call, Response<ResetPasswordResponse> response) {
                 if (response.isSuccessful()) {
