@@ -19,15 +19,19 @@ import com.example.happy_wallet_mobile.Data.Remote.Request.SavingGoal.CreateSavi
 import com.example.happy_wallet_mobile.Model.Category;
 import com.example.happy_wallet_mobile.Model.SavingGoal;
 import com.example.happy_wallet_mobile.R;
+import com.example.happy_wallet_mobile.View.Fragment.Wallet.AddExpenditureFragment;
 import com.example.happy_wallet_mobile.View.Utilities.CurrencyTextWatcher;
 import com.example.happy_wallet_mobile.View.Utilities.CurrencyUtility;
 import com.example.happy_wallet_mobile.ViewModel.Home.EditSavingGoalViewModel;
 import com.example.happy_wallet_mobile.ViewModel.Home.SavingGoalListViewModel;
+import com.example.happy_wallet_mobile.ViewModel.Wallet.AddExpenditureViewModel;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.Locale;
 
 public class AddSavingMoneyFragment extends Fragment {
@@ -40,6 +44,7 @@ public class AddSavingMoneyFragment extends Fragment {
 
     SavingGoalListViewModel savingGoalListViewModel;
     EditSavingGoalViewModel editSavingGoalViewModel;
+    AddExpenditureViewModel addExpenditureViewModel;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -49,6 +54,7 @@ public class AddSavingMoneyFragment extends Fragment {
 
         savingGoalListViewModel = new ViewModelProvider(requireActivity()).get(SavingGoalListViewModel.class);
         editSavingGoalViewModel = new ViewModelProvider(requireActivity()).get(EditSavingGoalViewModel.class);
+        addExpenditureViewModel = new ViewModelProvider(requireActivity()).get(AddExpenditureViewModel.class);
 
         etAmount = view.findViewById(R.id.etAmount);
         tvAddMoney = view.findViewById(R.id.tvAddMoney);
@@ -100,6 +106,21 @@ public class AddSavingMoneyFragment extends Fragment {
                             targetDateStr,
                             goal.getCategoryId()
                     )
+            );
+
+            SimpleDateFormat sdfTransaction = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
+            Calendar cal = Calendar.getInstance();
+            cal.set(Calendar.HOUR_OF_DAY, 0);
+            cal.set(Calendar.MINUTE, 0);
+            cal.set(Calendar.SECOND, 0);
+            cal.set(Calendar.MILLISECOND, 0);
+            String formattedDate = sdfTransaction.format(cal.getTime());
+
+            addExpenditureViewModel.createTransaction(
+                    goal.getCategoryId(),
+                    amount,
+                    "To saving goal: " + goal.getName(),
+                    formattedDate
             );
         });
 

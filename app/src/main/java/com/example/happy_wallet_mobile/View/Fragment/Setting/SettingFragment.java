@@ -62,6 +62,11 @@ public class SettingFragment extends Fragment {
             mainViewModel.navigateSubAbove(new ChangePasswordFragment());
         });
 
+        // about us
+        flAboutUs.setOnClickListener(v -> {
+            mainViewModel.navigateSubAbove(new AboutUsFragment());
+        });
+
         // log out
         flLogOut.setOnClickListener(v -> {
             new androidx.appcompat.app.AlertDialog.Builder(requireContext())

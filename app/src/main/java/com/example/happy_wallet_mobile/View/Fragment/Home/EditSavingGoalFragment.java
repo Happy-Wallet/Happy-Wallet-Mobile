@@ -24,6 +24,7 @@ import com.example.happy_wallet_mobile.ViewModel.CategoryListViewModel;
 import com.example.happy_wallet_mobile.ViewModel.Home.EditSavingGoalViewModel;
 import com.example.happy_wallet_mobile.ViewModel.Home.SavingGoalListViewModel;
 import com.example.happy_wallet_mobile.ViewModel.MainViewModel;
+import com.example.happy_wallet_mobile.ViewModel.Wallet.AddIncomeViewModel;
 import com.google.android.material.datepicker.MaterialDatePicker;
 
 import java.math.BigDecimal;
@@ -39,6 +40,7 @@ public class EditSavingGoalFragment extends Fragment {
     EditSavingGoalViewModel editSavingGoalViewModel;
     CategoryListViewModel categoryListViewModel;
     SavingGoalListViewModel savingGoalListViewModel;
+    AddIncomeViewModel addIncomeViewModel;
 
 
     private SavingGoal savingGoal;
@@ -56,6 +58,7 @@ public class EditSavingGoalFragment extends Fragment {
         editSavingGoalViewModel = new ViewModelProvider(requireActivity()).get(EditSavingGoalViewModel.class);
         categoryListViewModel = new ViewModelProvider(requireActivity()).get(CategoryListViewModel.class);
         savingGoalListViewModel = new ViewModelProvider(requireActivity()).get(SavingGoalListViewModel.class);
+        addIncomeViewModel = new ViewModelProvider(requireActivity()).get(AddIncomeViewModel.class);
 
         tvCancel = view.findViewById(R.id.tvCancel);
         tvSave = view.findViewById(R.id.tvSave);
@@ -132,6 +135,9 @@ public class EditSavingGoalFragment extends Fragment {
                 if (success) {
                     Toast.makeText(getContext(), "Xoá thành công", Toast.LENGTH_SHORT).show();
                     savingGoalListViewModel.fetchSavingGoals();
+
+
+
                     savingGoalListViewModel.clearSelectedSavingGoal();
                     requireActivity().getSupportFragmentManager().popBackStack();
                 } else {
@@ -171,6 +177,21 @@ public class EditSavingGoalFragment extends Fragment {
 
         tvDelete.setOnClickListener(v -> {
             if (savingGoal != null) {
+                SimpleDateFormat sdfTransaction = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
+                Calendar cal = Calendar.getInstance();
+                cal.set(Calendar.HOUR_OF_DAY, 0);
+                cal.set(Calendar.MINUTE, 0);
+                cal.set(Calendar.SECOND, 0);
+                cal.set(Calendar.MILLISECOND, 0);
+                String formattedDate = sdfTransaction.format(cal.getTime());
+
+                addIncomeViewModel.createTransaction(
+                        savingGoal.getCategoryId(),
+                        savingGoal.getCurrentAmount(),
+                        "From saving goal: " + savingGoal.getName(),
+                        formattedDate
+                );
+
                 editSavingGoalViewModel.deleteSavingGoal(savingGoal.getGoalId());
             }
         });
