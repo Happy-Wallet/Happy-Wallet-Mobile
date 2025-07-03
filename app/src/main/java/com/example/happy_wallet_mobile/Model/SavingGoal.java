@@ -2,7 +2,10 @@ package com.example.happy_wallet_mobile.Model;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.TimeZone;
 
 public class SavingGoal implements Serializable {
     private int GoalId; 
@@ -119,4 +122,36 @@ public class SavingGoal implements Serializable {
     public void setTargetDate(Date targetDate) {
         TargetDate = targetDate;
     }
+
+    public void setSavingGoalId(int id) {
+        GoalId = id;
+    }
+
+    public void setTitle(String name) {
+        Name = name;
+    }
+
+    public void setStartDate(String startDate) {
+        this.TargetDate = parseIsoDate(startDate);
+    }
+
+    public void setEndDate(String endDate) {
+        this.TargetDate = parseIsoDate(endDate);
+    }
+
+    private Date parseIsoDate(String dateString) {
+        if (dateString == null || dateString.trim().isEmpty()) {
+            return null; // hoặc có thể return new Date() nếu bạn muốn mặc định
+        }
+
+        try {
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+            sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
+            return sdf.parse(dateString);
+        } catch (ParseException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
 }

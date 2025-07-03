@@ -27,7 +27,6 @@ import androidx.core.view.WindowInsetsCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.bumptech.glide.Glide;
 import com.example.happy_wallet_mobile.Data.Local.UserPreferences;
 import com.example.happy_wallet_mobile.Data.Remote.APIClient;
 import com.example.happy_wallet_mobile.Data.Remote.ApiInterface.UserService;

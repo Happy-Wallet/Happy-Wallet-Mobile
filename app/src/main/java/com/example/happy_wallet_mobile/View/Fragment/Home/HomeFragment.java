@@ -17,7 +17,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.example.happy_wallet_mobile.Data.Local.UserPreferences;
+import com.example.happy_wallet_mobile.Data.Remote.Response.SavingGoal.SavingGoalResponse;
 import com.example.happy_wallet_mobile.Model.Category;
+import com.example.happy_wallet_mobile.Model.SavingGoal;
 import com.example.happy_wallet_mobile.Model.Transaction;
 import com.example.happy_wallet_mobile.Model.eType;
 import com.example.happy_wallet_mobile.R;
@@ -25,6 +28,7 @@ import com.example.happy_wallet_mobile.View.Adapter.MonthIAEAdapter;
 import com.example.happy_wallet_mobile.View.Adapter.SavingGoalRecyclerViewAdapter;
 import com.example.happy_wallet_mobile.View.Utilities.CurrencyUtility;
 import com.example.happy_wallet_mobile.ViewModel.Home.HomeViewModel;
+import com.example.happy_wallet_mobile.ViewModel.Home.SavingGoalListViewModel;
 import com.example.happy_wallet_mobile.ViewModel.MainViewModel;
 import com.example.happy_wallet_mobile.ViewModel.Home.SavingStatusViewModel;
 import com.example.happy_wallet_mobile.Data.MockDataProvider;
@@ -52,11 +56,18 @@ public class HomeFragment extends Fragment {
     TextView tvAccountBalance;
     RecyclerView rcvMonthIAE, rcvSavingGoals;
     TextView tvDay, tvMonth, tvYear;
+    private SavingGoalRecyclerViewAdapter savingGoalRecyclerViewAdapter;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
+
+        SavingGoalListViewModel savingGoalListViewModel = new ViewModelProvider(this).get(SavingGoalListViewModel.class);
+        String token = UserPreferences.getToken();
+        savingGoalListViewModel.loadSavingGoals(token);
+
 
         mainViewModel = new ViewModelProvider(requireActivity()).get(MainViewModel.class);
         homeViewModel = new ViewModelProvider(this).get(HomeViewModel.class);
@@ -72,9 +83,11 @@ public class HomeFragment extends Fragment {
         rcvMonthIAE.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false));
         rcvSavingGoals.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false));
 
+
         tvDay.setBackground(ContextCompat.getDrawable(requireContext(), R.drawable.bg_rounded_20_paolo_veronese_green));
 
-        homeViewModel.setData();
+
+
 
 
         // set data for account balance
@@ -102,6 +115,27 @@ public class HomeFragment extends Fragment {
                 List.of());
 
         rcvSavingGoals.setAdapter(savingGoalRecyclerViewAdapter);
+
+        savingGoalListViewModel.savingGoals.observe(getViewLifecycleOwner(), savingGoalResponses -> {
+            if (savingGoalResponses != null) {
+                List<SavingGoal> savingGoals = new ArrayList<>();
+                for (SavingGoalResponse res : savingGoalResponses) {
+                    SavingGoal goal = new SavingGoal();
+                    goal.setSavingGoalId(res.getId());
+                    goal.setUserId(res.getUser_id());
+                    goal.setTitle(res.getName());
+                    goal.setDescription(res.getDescription());
+                    goal.setCurrentAmount(BigDecimal.valueOf(res.getAmount()));
+                    goal.setTargetAmount(BigDecimal.valueOf(res.getTarget()));
+                    goal.setStartDate(res.getStart_date());
+                    goal.setEndDate(res.getEnd_date());
+                    savingGoals.add(goal);
+                }
+                savingGoalRecyclerViewAdapter.updateSavingGoals(savingGoals);
+            }
+        });
+
+
         // Observe dữ liệu từ ViewModel
         homeViewModel.getSavingGoalList().observe(getViewLifecycleOwner(), savingGoals -> {
             savingGoalRecyclerViewAdapter.updateSavingGoals(savingGoals);

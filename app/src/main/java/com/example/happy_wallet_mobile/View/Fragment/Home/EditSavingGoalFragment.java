@@ -60,7 +60,13 @@ public class EditSavingGoalFragment extends Fragment {
         // Quan sát SavingGoal từ ViewModel
         editSavingGoalViewModel.savingGoal.observe(getViewLifecycleOwner(), goal -> {
             if (goal != null) {
-                tvDate.setText(goal.getTargetDate().toString());
+                this.savingGoal = goal; // gán vào biến class nếu cần dùng sau này
+
+                if (goal.getTargetDate() != null) {
+                    tvDate.setText(goal.getTargetDate().toString());
+                } else {
+                    tvDate.setText("Chưa đặt ngày");
+                }
                 etTitle.setText(goal.getName());
                 etDescription.setText(goal.getDescription());
                 etTarget.setText(NumberFormat
