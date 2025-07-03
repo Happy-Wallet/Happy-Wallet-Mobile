@@ -170,7 +170,6 @@ public class EditGroupFragment extends Fragment {
         boolean hasTarget = currentGroup.isHasTarget();
         Double targetAmount = null;
         String targetEndDate = null;
-        Integer categoryId = currentGroup.getCategoryId();
 
         if (name.isEmpty()) {
             Toast.makeText(requireContext(), "Tên quỹ là bắt buộc.", Toast.LENGTH_SHORT).show();
@@ -214,8 +213,7 @@ public class EditGroupFragment extends Fragment {
                 description,
                 hasTarget,
                 targetAmount,
-                targetEndDate,
-                categoryId
+                targetEndDate
         );
 
         groupsViewModel.updateFund(currentGroup.getId(), request);

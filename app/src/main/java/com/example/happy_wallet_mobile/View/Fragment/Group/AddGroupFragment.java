@@ -182,8 +182,7 @@ public class AddGroupFragment extends Fragment {
                 description,
                 hasTarget,
                 targetAmount,
-                targetEndDate,
-                categoryId
+                targetEndDate
         );
 
         groupsViewModel.createFund(request);

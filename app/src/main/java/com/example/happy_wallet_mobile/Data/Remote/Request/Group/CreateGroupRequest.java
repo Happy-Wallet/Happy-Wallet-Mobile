@@ -11,16 +11,13 @@ public class CreateGroupRequest {
     private Double targetAmount;
     @SerializedName("target_end_date")
     private String targetEndDate;
-    @SerializedName("category_id")
-    private Integer categoryId;
 
-    public CreateGroupRequest(String name, String description, boolean hasTarget, Double targetAmount, String targetEndDate, Integer categoryId) {
+    public CreateGroupRequest(String name, String description, boolean hasTarget, Double targetAmount, String targetEndDate) {
         this.name = name;
         this.description = description;
         this.hasTarget = hasTarget;
         this.targetAmount = targetAmount;
         this.targetEndDate = targetEndDate;
-        this.categoryId = categoryId;
     }
 
     public String getName() {
@@ -43,7 +40,4 @@ public class CreateGroupRequest {
         return targetEndDate;
     }
 
-    public Integer getCategoryId() {
-        return categoryId;
-    }
 }

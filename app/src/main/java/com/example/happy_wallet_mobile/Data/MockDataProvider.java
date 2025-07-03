@@ -144,8 +144,8 @@ public class MockDataProvider {
             boolean hasTarget = random.nextBoolean(); // Randomly assign hasTarget
             BigDecimal targetAmount = null;
             String targetEndDate = null;
-            Integer categoryId = null;
-            String categoryName = null;
+            // LOẠI BỎ: Integer categoryId = null;
+            // LOẠI BỎ: String categoryName = null;
 
             if (hasTarget) {
                 targetAmount = BigDecimal.valueOf(1_000_000 + random.nextInt(4_000_000));
@@ -154,13 +154,14 @@ public class MockDataProvider {
                 targetEndDate = formatDateToString(cal.getTime());
             }
 
-            // Assign a random category
+            // LOẠI BỎ: Logic gán category (vì category_id và categoryName đã bị loại bỏ)
+            /*
             if (!categories.isEmpty()) {
                 Category randomCategory = categories.get(random.nextInt(categories.size()));
                 categoryId = randomCategory.getCategoryId();
                 categoryName = randomCategory.getName();
             }
-
+            */
 
             // Create mock members for this group (including the creator as Admin)
             List<GroupMember> members = generateMockGroupMembersForFund(fundId);
@@ -179,10 +180,8 @@ public class MockDataProvider {
                 creatorUsername = adminMember.getUsername();
             }
 
-
             groups.add(new Group(
                     fundId,
-                    categoryId,
                     groupName,
                     BigDecimal.ZERO, // Will be set after transactions
                     hasTarget,
@@ -194,7 +193,7 @@ public class MockDataProvider {
                     targetEndDate,
                     creatorEmail,
                     creatorUsername,
-                    categoryName,
+                    // LOẠI BỎ: categoryName,
                     members // Add the generated members list
             ));
             groupAmountMap.put(fundId, BigDecimal.ZERO);
