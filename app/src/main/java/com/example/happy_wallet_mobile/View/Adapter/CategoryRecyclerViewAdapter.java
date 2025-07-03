@@ -153,4 +153,14 @@ public class CategoryRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVi
         notifyItemChanged(oldPosition);
         notifyItemChanged(position);
     }
+
+    public void setSelectedCategory(int categoryId) {
+        for (int i = 0; i < categories.size(); i++) {
+            if (categories.get(i).getCategoryId() == categoryId) {
+                setSelectedPosition(i);
+                break;
+            }
+        }
+    }
+
 }

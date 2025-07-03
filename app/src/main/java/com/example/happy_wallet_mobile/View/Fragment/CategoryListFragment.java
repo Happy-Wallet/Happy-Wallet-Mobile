@@ -19,6 +19,9 @@ import com.example.happy_wallet_mobile.Data.Repository.CategoryRepository;
 import com.example.happy_wallet_mobile.Model.Category;
 import com.example.happy_wallet_mobile.R;
 import com.example.happy_wallet_mobile.View.Adapter.CategoryListViewAdapter;
+import com.example.happy_wallet_mobile.View.Fragment.Home.HomeFragment;
+import com.example.happy_wallet_mobile.ViewModel.CategoryListViewModel;
+import com.example.happy_wallet_mobile.ViewModel.Home.HomeViewModel;
 import com.example.happy_wallet_mobile.ViewModel.MainViewModel;
 
 import java.util.ArrayList;
@@ -27,11 +30,11 @@ import java.util.List;
 
 public class CategoryListFragment extends Fragment {
     MainViewModel mainViewModel;
+    CategoryListViewModel categoryListViewModel;
+
     FrameLayout flAddCategory;
     ListView lvCategoryList;
     CategoryListViewAdapter categoryListViewAdapter;
-    CategoryRepository categoryRepository;
-
 
     TextView tvCancel;
 
@@ -42,6 +45,9 @@ public class CategoryListFragment extends Fragment {
         Log.d("CategoryListFragment", "CategoryListFragment on create view");
 
         mainViewModel = new ViewModelProvider(requireActivity()).get(MainViewModel.class);
+        categoryListViewModel = new ViewModelProvider(requireActivity()).get(CategoryListViewModel.class);
+
+        categoryListViewModel.fetchCategories(requireContext());
 
         flAddCategory = view.findViewById(R.id.flAddCategory);
         lvCategoryList = view.findViewById(R.id.lvCategoryList);
@@ -52,12 +58,10 @@ public class CategoryListFragment extends Fragment {
             mainViewModel.navigateSubBelow(new AddCategoryFragment());
         });
 
-        // Khởi tạo repository và load danh sách từ server
-        CategoryRepository categoryRepository = new CategoryRepository();
-        categoryRepository.getAllCategories().observe(getViewLifecycleOwner(), responses -> {
-            if (responses != null) {
-                List<Category> categoryList = new ArrayList<>();
-
+        // Khởi tạo repository và load danh sách từ danh sách category trong home
+        categoryListViewModel.getCategoryList().observe(getViewLifecycleOwner(), categoryList -> {
+            Log.d("CategoryListFragment", "categoryList: " + categoryList);
+            if (categoryList != null) {
                 categoryListViewAdapter = new CategoryListViewAdapter(requireContext(), categoryList);
                 categoryListViewAdapter.setOnCategoryClickListener(category -> {
                     Toast.makeText(getContext(), "Bạn đã chọn: " + category.getName(), Toast.LENGTH_SHORT).show();

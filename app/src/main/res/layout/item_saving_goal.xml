@@ -36,7 +36,7 @@
             android:src="@drawable/ic_users_three"
 
             app:tint="@color/white"
-            android:backgroundTint="@color/transparent"/>
+            />
 
         <TextView
             android:layout_width="80dp"

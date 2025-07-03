@@ -1,68 +1,37 @@
 package com.example.happy_wallet_mobile.Model;
 
 import java.io.Serializable;
-import java.util.Date;
 
 public class Category implements Serializable {
     private int CategoryId;
-    private int UserId;
-    private int ColorRes;
-    private int IconRes;
+    private Integer UserId;
+    private Integer ColorRes;
+    private Integer IconRes;
     private eType Type;
     private String Name;
     private boolean IsDefault;
-    private Date CreatedAt;
-    private Date UpdatedAt;
-    private Date DeletedAt;
 
     // Constructors
     public Category() {
     }
 
     public Category(
-            int categoryId,
+            Integer categoryId,
             Integer userId,
-            int colorRes,
-            int iconRes,
+            Integer colorRes,
+            Integer iconRes,
             eType type,
             String name,
-            boolean isDefault,
-            Date createdAt,
-            Date updatedAt,
-            Date deletedAt) {
-        CategoryId = categoryId;
-        UserId = userId;
-        ColorRes = colorRes;
-        IconRes = iconRes;
-        Type = type;
-        Name = name;
-        IsDefault = isDefault;
-        CreatedAt = createdAt;
-        UpdatedAt = updatedAt;
-        DeletedAt = deletedAt;
+            boolean isDefault
+    ) {
+        this.CategoryId = categoryId != null ? categoryId : -1;
+        this.UserId = userId;
+        this.ColorRes = colorRes;
+        this.IconRes = iconRes;
+        this.Type = type;
+        this.Name = name;
+        this.IsDefault = isDefault;
     }
-
-    public Category(
-            Integer userId,
-            int colorRes,
-            int iconRes,
-            eType type,
-            String name,
-            boolean isDefault,
-            Date createdAt,
-            Date updatedAt,
-            Date deletedAt) {
-        UserId = userId;
-        ColorRes = colorRes;
-        IconRes = iconRes;
-        Type = type;
-        Name = name;
-        IsDefault = isDefault;
-        CreatedAt = createdAt;
-        UpdatedAt = updatedAt;
-        DeletedAt = deletedAt;
-    }
-
 
     // Getters
     public int getCategoryId() {
@@ -73,11 +42,11 @@ public class Category implements Serializable {
         return UserId;
     }
 
-    public int getColorRes() {
+    public Integer getColorRes() {
         return ColorRes;
     }
 
-    public int getIconRes() {
+    public Integer getIconRes() {
         return IconRes;
     }
 
@@ -93,32 +62,20 @@ public class Category implements Serializable {
         return IsDefault;
     }
 
-    public Date getCreatedAt() {
-        return CreatedAt;
-    }
-
-    public Date getUpdatedAt() {
-        return UpdatedAt;
-    }
-
-    public Date getDeletedAt() {
-        return DeletedAt;
-    }
-
     // Setters
     public void setCategoryId(int categoryId) {
         CategoryId = categoryId;
     }
 
-    public void setUserId(int userId) {
+    public void setUserId(Integer userId) {
         UserId = userId;
     }
 
-    public void setColorRes(int colorRes) {
+    public void setColorRes(Integer colorRes) {
         ColorRes = colorRes;
     }
 
-    public void setIconRes(int iconRes) {
+    public void setIconRes(Integer iconRes) {
         IconRes = iconRes;
     }
 
@@ -132,17 +89,5 @@ public class Category implements Serializable {
 
     public void setDefault(boolean aDefault) {
         IsDefault = aDefault;
-    }
-
-    public void setCreatedAt(Date createdAt) {
-        CreatedAt = createdAt;
-    }
-
-    public void setUpdatedAt(Date updatedAt) {
-        UpdatedAt = updatedAt;
-    }
-
-    public void setDeletedAt(Date deletedAt) {
-        DeletedAt = deletedAt;
     }
 }

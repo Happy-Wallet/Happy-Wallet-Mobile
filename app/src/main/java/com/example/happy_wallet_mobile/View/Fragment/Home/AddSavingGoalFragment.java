@@ -23,10 +23,18 @@ import com.example.happy_wallet_mobile.R;
 import com.example.happy_wallet_mobile.View.Adapter.CategoryRecyclerViewAdapter;
 import com.example.happy_wallet_mobile.View.Fragment.CategoryListFragment;
 import com.example.happy_wallet_mobile.View.Utilities.CurrencyTextWatcher;
+import com.example.happy_wallet_mobile.View.Utilities.CurrencyUtility;
+import com.example.happy_wallet_mobile.ViewModel.CategoryListViewModel;
 import com.example.happy_wallet_mobile.ViewModel.Home.AddSavingGoalViewModel;
+import com.example.happy_wallet_mobile.ViewModel.Home.SavingGoalListViewModel;
 import com.example.happy_wallet_mobile.ViewModel.MainViewModel;
+import com.google.android.material.datepicker.MaterialDatePicker;
 
+import java.math.BigDecimal;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.List;
+import java.util.Locale;
 
 
 public class AddSavingGoalFragment extends Fragment {
@@ -36,6 +44,8 @@ public class AddSavingGoalFragment extends Fragment {
     RecyclerView rcvCategories;
     MainViewModel mainViewModel;
     AddSavingGoalViewModel addSavingGoalViewModel;
+    CategoryListViewModel categoryListViewModel;
+    SavingGoalListViewModel savingGoalListViewModel;
 
     private Category selectedCategory = null;
 
@@ -46,13 +56,15 @@ public class AddSavingGoalFragment extends Fragment {
 
         mainViewModel = new ViewModelProvider(requireActivity()).get(MainViewModel.class);
         addSavingGoalViewModel = new ViewModelProvider(requireActivity()).get(AddSavingGoalViewModel.class);
+        categoryListViewModel = new ViewModelProvider(requireActivity()).get(CategoryListViewModel.class);
+        savingGoalListViewModel = new ViewModelProvider(requireActivity()).get(SavingGoalListViewModel.class);
 
-        addSavingGoalViewModel.loadMockData(); // mock category
+        categoryListViewModel.fetchCategories(requireContext());
 
         // Bind UI
         tvCancel = view.findViewById(R.id.tvCancel);
         tvDate = view.findViewById(R.id.tvDate);
-        tvSave = view.findViewById(R.id.tvSave); // ✅ thêm nút lưu
+        tvSave = view.findViewById(R.id.tvSave); // thêm nút lưu
         etTitle = view.findViewById(R.id.etTitle);
         etDescription = view.findViewById(R.id.etDescription);
         etTarget = view.findViewById(R.id.etTarget);
@@ -78,7 +90,7 @@ public class AddSavingGoalFragment extends Fragment {
         rcvCategories.setAdapter(categoryRecyclerViewAdapter);
 
         // Quan sát danh sách category
-        addSavingGoalViewModel.categoryList.observe(getViewLifecycleOwner(), categoryRecyclerViewAdapter::updateCategories);
+        categoryListViewModel.getCategoryList().observe(getViewLifecycleOwner(), categoryRecyclerViewAdapter::updateCategories);
 
         // Huỷ bỏ
         tvCancel.setOnClickListener(v -> requireActivity().getSupportFragmentManager().popBackStack());
@@ -86,7 +98,12 @@ public class AddSavingGoalFragment extends Fragment {
         // Format tiền
         etTarget.addTextChangedListener(new CurrencyTextWatcher(etTarget));
 
-        // ✅ Xử lý nút Lưu
+        // set target Date
+        tvDate.setOnClickListener(v -> {
+            showDatePicker();
+        });
+
+        // Xử lý nút Lưu
         tvSave.setOnClickListener(v -> {
             String token = getToken(); // lấy từ SharedPreferences
             int userId = getUserId(); // hoặc hardcode nếu test
@@ -98,31 +115,37 @@ public class AddSavingGoalFragment extends Fragment {
 
             String title = etTitle.getText().toString().trim();
             String description = etDescription.getText().toString().trim();
-            double target = parseMoney(etTarget.getText().toString());
+            BigDecimal target = CurrencyUtility.parse(etTarget.getText().toString());
 
-            if (title.isEmpty() || target <= 0) {
+            if (title.isEmpty() || (target.compareTo(BigDecimal.ZERO) <= 0)
+) {
                 Toast.makeText(getContext(), "Vui lòng nhập đầy đủ thông tin", Toast.LENGTH_SHORT).show();
                 return;
             }
 
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
+            String startDate = sdf.format(Calendar.getInstance().getTime());
+            String endDate = tvDate.getText().toString();
+
             CreateSavingGoalRequest request = new CreateSavingGoalRequest(
                     userId,
                     title,
-                    0, // current_amount mặc định
+                    BigDecimal.ZERO, // current_amount mặc định
                     target,
                     description,
-                    "2025-07-01",
-                    "2025-12-31",
+                    startDate,
+                    endDate,
                     selectedCategory.getCategoryId()
             );
 
             addSavingGoalViewModel.createSavingGoal(token, request);
         });
 
-        // ✅ Quan sát kết quả tạo
+        // Quan sát kết quả tạo
         addSavingGoalViewModel.createResult.observe(getViewLifecycleOwner(), success -> {
             if (Boolean.TRUE.equals(success)) {
                 Toast.makeText(getContext(), "Tạo mục tiêu thành công!", Toast.LENGTH_SHORT).show();
+                savingGoalListViewModel.fetchSavingGoals();
                 requireActivity().getSupportFragmentManager().popBackStack();
             } else {
                 Toast.makeText(getContext(), "Tạo mục tiêu thất bại!", Toast.LENGTH_SHORT).show();
@@ -147,5 +170,22 @@ public class AddSavingGoalFragment extends Fragment {
     private int getUserId() {
         User user = UserPreferences.getUser();
         return (user != null) ? user.getId() : -1;
+    }
+
+    private void showDatePicker() {
+        MaterialDatePicker.Builder<Long> builder = MaterialDatePicker.Builder.datePicker();
+        builder.setTitleText("Chọn ngày sinh");
+        builder.setSelection(MaterialDatePicker.todayInUtcMilliseconds());
+
+        final MaterialDatePicker<Long> datePicker = builder.build();
+        datePicker.show(getParentFragmentManager(), "MATERIAL_DATE_PICKER");
+
+        datePicker.addOnPositiveButtonClickListener(selection -> {
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTimeInMillis(selection);
+
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
+            tvDate.setText(sdf.format(calendar.getTime()));
+        });
     }
 }
