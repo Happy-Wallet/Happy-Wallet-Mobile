@@ -69,7 +69,7 @@ public class EditProfileFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_edit_profile, container, false);
 
-        viewModel = new ViewModelProvider(this).get(EditProfileViewModel.class);
+        viewModel = new ViewModelProvider(requireActivity()).get(EditProfileViewModel.class);
 
         viewModel.getIsLoading().observe(getViewLifecycleOwner(), loading -> {
             progressBar.setVisibility(loading ? View.VISIBLE : View.GONE);
@@ -82,6 +82,8 @@ public class EditProfileFragment extends Fragment {
         viewModel.getUpdateSuccess().observe(getViewLifecycleOwner(), success -> {
             if (Boolean.TRUE.equals(success)) {
                 Toast.makeText(getContext(), "Profile updated!", Toast.LENGTH_SHORT).show();
+                viewModel.fetchUserProfileAndSave();
+
                 requireActivity().getSupportFragmentManager().popBackStack();
             }
         });
