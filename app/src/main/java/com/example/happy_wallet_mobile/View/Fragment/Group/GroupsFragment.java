@@ -28,13 +28,13 @@ import com.example.happy_wallet_mobile.ViewModel.Group.GroupsViewModel;
 import com.example.happy_wallet_mobile.ViewModel.MainViewModel;
 
 import java.math.BigDecimal;
-import java.text.ParseException; // Import ParseException
-import java.text.SimpleDateFormat; // Import SimpleDateFormat
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date; // Import Date
+import java.util.Date;
 import java.util.List;
-import java.util.Locale; // Import Locale
-import java.util.concurrent.TimeUnit; // Import TimeUnit
+import java.util.Locale;
+import java.util.concurrent.TimeUnit;
 
 public class GroupsFragment extends Fragment {
 
@@ -44,13 +44,12 @@ public class GroupsFragment extends Fragment {
     private RecyclerView rcvGroups, rcvMembers, rcvMembersActivities;
     private ImageView ivEditGroup;
     private TextView tvGroupName, tvAvailableBalance, tvSeeMoreActivities, tvInviteMember, tvManageMember;
-    // Đã loại bỏ tvTargetAmount, tvTargetEndDate
-    private TextView tvTargetLabel, tvDaysRemaining; // tvDaysRemaining mới
+    private TextView tvTargetLabel, tvDaysRemaining;
+    private GroupMembersContributionRecyclerViewAdapter groupMembersRecyclerViewAdapter; // Khai báo ở đây
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_groups, container, false);
         Log.d("GroupsFragment", "GroupsFragment on create view");
 
@@ -92,7 +91,7 @@ public class GroupsFragment extends Fragment {
             if (!groups.isEmpty() && groupsViewModel.getCurrentGroup().getValue() == null) {
                 Group firstGroup = groups.get(0);
                 groupsViewModel.setCurrentGroup(firstGroup);
-                groupsViewModel.loadFundDetail(firstGroup.getId());
+                // groupsViewModel.loadFundDetail(firstGroup.getId()); // Đã được gọi trong setCurrentGroup
                 rcvGroups.scrollToPosition(0);
             }
         });
@@ -102,7 +101,6 @@ public class GroupsFragment extends Fragment {
             if (currentGroup != null) {
                 tvGroupName.setText(currentGroup.getName());
 
-                // LOGIC MỚI: Hiển thị số dư / số tiền mục tiêu
                 String balanceText = CurrencyUtility.format(currentGroup.getCurrentAmount());
                 if (currentGroup.isHasTarget() && currentGroup.getTargetAmount() != null) {
                     balanceText += " / " + CurrencyUtility.format(currentGroup.getTargetAmount());
@@ -110,7 +108,6 @@ public class GroupsFragment extends Fragment {
                 tvAvailableBalance.setText(balanceText);
 
 
-                // Set color for available balance
                 if (currentGroup.getCurrentAmount().compareTo(BigDecimal.ZERO) < 0) {
                     tvAvailableBalance.setTextColor(ContextCompat.getColor(requireContext(), R.color.Radishical));
                 } else {
@@ -174,15 +171,16 @@ public class GroupsFragment extends Fragment {
             membersActivitiesRecyclerViewAdapter.refresh();
         });
 
-        // Set up rcvMembers (Contributions)
+        // Set up rcvMembers (Member List)
         rcvMembers.setLayoutManager(new LinearLayoutManager(requireContext()));
-        GroupMembersContributionRecyclerViewAdapter groupMembersRecyclerViewAdapter = new GroupMembersContributionRecyclerViewAdapter(
-                new ArrayList<>()
-        );
+        // Khởi tạo adapter một lần và sử dụng biến thành viên
+        groupMembersRecyclerViewAdapter = new GroupMembersContributionRecyclerViewAdapter(new ArrayList<>());
         rcvMembers.setAdapter(groupMembersRecyclerViewAdapter);
-        // Observe data from vm for rcvMembers
-        groupsViewModel.getGroupMemberContributionList().observe(getViewLifecycleOwner(), list -> {
-            groupMembersRecyclerViewAdapter.updateMemberContributionList(list);
+
+        // Observe data from ViewModel for rcvMembers (using getGroupMemberList)
+        groupsViewModel.getGroupMemberList().observe(getViewLifecycleOwner(), members -> {
+            Log.d("GroupsFragment", "Updating members list. Size: " + (members != null ? members.size() : 0));
+            groupMembersRecyclerViewAdapter.updateMemberList(members); // Gọi phương thức update mới
         });
 
 
@@ -190,7 +188,9 @@ public class GroupsFragment extends Fragment {
         groupRecyclerViewAdapter.setOnItemClickListener(group -> {
             Log.d("GroupsFragment", group.getName() + " clicked");
             groupsViewModel.setCurrentGroup(group);
-            groupsViewModel.loadFundDetail(group.getId());
+            // Không cần gọi loadFundDetail ở đây nữa vì setCurrentGroup đã trigger logic trong ViewModel
+            // nếu currentGroup thay đổi, và ViewModel sẽ tự động load chi tiết nếu cần.
+            // Nếu bạn muốn đảm bảo tải chi tiết lại mỗi lần click, bạn có thể gọi groupsViewModel.loadFundDetail(group.getId());
         });
 
         // rcvGroups add more click listener
@@ -252,6 +252,7 @@ public class GroupsFragment extends Fragment {
             }
         });
 
+        // Load all funds when fragment is created
         groupsViewModel.loadAllFunds();
 
         return view;

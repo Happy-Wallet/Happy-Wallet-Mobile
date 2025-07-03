@@ -5,7 +5,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:minHeight="60dp">
 
-    <!-- avatar -->
     <FrameLayout
         android:layout_width="40dp"
         android:layout_height="40dp"
@@ -22,15 +21,12 @@
             android:layout_width="39dp"
             android:layout_height="39dp"
             android:layout_gravity="center"
-
-            android:id="@+id/ivAvatar"
-
+            android:id="@+id/ivAvatar"  android:scaleType="centerCrop"
             android:background="@drawable/bg_rounded_50_white"
             />
 
     </FrameLayout>
 
-    <!-- name -->
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -49,7 +45,6 @@
         android:ellipsize="end"
         />
 
-    <!-- role -->
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -70,16 +65,14 @@
         />
 
 
-    <!-- total contribute -->
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toTopOf="@id/tvMemberName"
         app:layout_constraintEnd_toEndOf="parent"
-
-        android:text="Contribute"
+        android:id="@+id/tvContributeLabel" android:text="Contribute"
         android:fontFamily="@font/poppins_medium_500"
-        android:scrollbarSize="12sp"
+        android:textSize="12sp"
         android:textColor="@color/Argent"
         />
     <TextView
@@ -92,7 +85,7 @@
 
         android:text="2.000.000"
         android:fontFamily="@font/poppins_semibold_600"
-        android:scrollbarSize="16sp"
+        android:textSize="16sp"
         android:textColor="@color/Paolo_Veronese_Green"
         />
 
