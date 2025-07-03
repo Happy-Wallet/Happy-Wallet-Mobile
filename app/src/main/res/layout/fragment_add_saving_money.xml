@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".View.Fragment.Home.SavingStatusFragment"
+    android:background="#80000000"
+    android:clickable="true"
+    android:focusable="true">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="320dp"
+        android:layout_height="250dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+
+        android:background="@drawable/bg_rounded_20_white"
+        >
+
+        <!-- cancel -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="7dp"
+
+            android:id="@+id/tvCancel"
+
+            android:text="X"
+            android:fontFamily="@font/poppins_bold_700"
+            android:textSize="24sp"
+            android:textColor="@color/Nautical"
+            android:includeFontPadding="false"
+            />
+
+        <!-- edit -->
+        <ImageView
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginEnd="10dp"
+            android:layout_marginTop="12dp"
+
+            android:id="@+id/ivEditSavingGoal"
+
+            android:src="@drawable/ic_pen"
+            />
+
+        <!-- icon -->
+        <ImageView
+            android:layout_width="47dp"
+            android:layout_height="47dp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginStart="30dp"
+            android:layout_marginTop="30dp"
+
+            android:id="@+id/ivIcon"
+
+            android:padding="5dp"
+            android:src="@drawable/ic_users_three"
+            app:tint="@color/white"
+            android:background="@drawable/bg_rounded_50_nautical"
+            />
+
+        <!-- title -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="20dp"
+            app:layout_constraintStart_toEndOf="@id/ivIcon"
+            app:layout_constraintTop_toTopOf="@id/ivIcon"
+            android:layout_marginEnd="20dp"
+            android:layout_marginStart="10dp"
+
+            android:id="@+id/tvTitle"
+
+            android:gravity="center_vertical"
+            android:text="Title"
+            android:fontFamily="@font/poppins_semibold_600"
+            android:textSize="15sp"
+            />
+
+        <!-- description -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toEndOf="@id/ivIcon"
+            app:layout_constraintTop_toBottomOf="@id/tvTitle"
+            android:layout_marginEnd="20dp"
+            android:layout_marginStart="10dp"
+
+            android:id="@+id/tvDescription"
+
+            android:text="Description"
+            android:fontFamily="@font/poppins_medium_500"
+            android:textSize="12sp"
+            android:textColor="@color/Argent"
+            />
+
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+
+            android:id="@+id/etAmount"
+
+            android:paddingStart="20dp"
+            android:paddingEnd="20dp"
+            android:hint="amount"
+            android:fontFamily="@font/poppins_semibold_600"
+            android:textSize="16dp"
+            android:textColor="@color/Nautical"
+
+            android:elevation="4dp"
+            android:background="@drawable/bg_rounded_20_white"
+            />
+
+
+        <!-- add saving -->
+        <TextView
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginBottom="20dp"
+
+            android:id="@+id/tvAddMoney"
+
+            android:text="+"
+            android:textSize="30sp"
+            android:fontFamily="sans-serif-medium"
+            android:textColor="@color/white"
+            android:gravity="center"
+            android:includeFontPadding="false"
+
+            android:background="@drawable/bg_rounded_10_nautical"
+            />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -61,10 +61,7 @@ public class MockDataProvider {
                     iconList.get(i % iconList.size()),
                     type,
                     names[i],
-                    i % 2 == 0,
-                    new Date(),
-                    new Date(),
-                    null
+                    i % 2 == 0
             ));
         }
         return categories;
@@ -73,10 +70,13 @@ public class MockDataProvider {
     // ---------- TRANSACTIONS ----------
     public static List<Transaction> getMockTransactions() {
         List<Transaction> transactions = new ArrayList<>();
+        List<Category> categories = getMockCategories();
         String[] descriptions = {"Cơm trưa", "Đi làm", "Kháng sinh", "Áo quần", "Học phí"};
 
-        for (int i = 1; i <= 100; i++) {
-            int catId = (i % 10) + 1;
+        for (int i = 30; i <= 40; i++) {
+            int randomCatIndex = random.nextInt(categories.size());
+            int catId = categories.get(randomCatIndex).getCategoryId();
+
             int month = random.nextInt(12);
             int day = random.nextInt(28) + 1;
             Calendar calendar = Calendar.getInstance();
@@ -99,6 +99,7 @@ public class MockDataProvider {
         }
         return transactions;
     }
+
 
     // ---------- SAVING GOALS ----------
     public static List<SavingGoal> getMockSavingGoals() {

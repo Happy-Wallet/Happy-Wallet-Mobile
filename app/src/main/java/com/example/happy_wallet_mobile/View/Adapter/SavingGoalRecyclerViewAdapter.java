@@ -1,7 +1,9 @@
 package com.example.happy_wallet_mobile.View.Adapter;
 
 import android.content.Context;
+import android.content.res.ColorStateList;
 import android.graphics.PorterDuff;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +14,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
+import androidx.core.view.ViewCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.happy_wallet_mobile.Model.Category;
@@ -20,6 +23,7 @@ import com.example.happy_wallet_mobile.R;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.util.ArrayList;
 import java.util.List;
 
 public class SavingGoalRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
@@ -27,8 +31,9 @@ public class SavingGoalRecyclerViewAdapter extends RecyclerView.Adapter<Recycler
     private static final int TYPE_ITEM = 0;
     private static final int TYPE_ADD = 1;
     private final Context context;
-    private List<SavingGoal> savingGoalList;
-    private List<Category> categoryList;
+    private List<Category> categoryList = new ArrayList<>();
+    private List<SavingGoal> savingGoalList = new ArrayList<>();
+
 
     public SavingGoalRecyclerViewAdapter(Context context, List<SavingGoal> savingGoalList, List<Category> categoryList) {
         this.context = context;
@@ -37,12 +42,14 @@ public class SavingGoalRecyclerViewAdapter extends RecyclerView.Adapter<Recycler
     }
 
     public void updateSavingGoals(List<SavingGoal> list) {
-        this.savingGoalList = list;
+        Log.d("SavingGoalRecyclerViewAdapter", "savingGoals: " + list);
+        this.savingGoalList = (list != null) ? list : new ArrayList<>();
         notifyDataSetChanged();
     }
 
     public void updateCategories(List<Category> list) {
-        this.categoryList = list;
+        Log.d("SavingGoalRecyclerViewAdapter", "categories: " + list);
+        this.categoryList = list != null ? list : new ArrayList<>();
         notifyDataSetChanged();
     }
 
@@ -99,10 +106,18 @@ public class SavingGoalRecyclerViewAdapter extends RecyclerView.Adapter<Recycler
             return;
         }
 
+
+
         ViewHolder itemHolder = (ViewHolder) holder;
         SavingGoal item = savingGoalList.get(position);
-        itemHolder.tvTitle.setText(item.getName());
 
+        Log.d("SavingGoal: ", "id: " + item.getGoalId() +
+                " category id: " + item.getCategoryId() +
+                " name: " + item.getName() +
+                " target: " + item.getTargetAmount() +
+                " current: " + item.getCurrentAmount());
+
+        itemHolder.tvTitle.setText(item.getName());
         BigDecimal current = item.getCurrentAmount();
         BigDecimal target = item.getTargetAmount();
 
@@ -112,27 +127,40 @@ public class SavingGoalRecyclerViewAdapter extends RecyclerView.Adapter<Recycler
                     .divide(target, 2, RoundingMode.HALF_UP)
                     .intValue();
         }
+        progress = Math.min(progress, 100);
         itemHolder.pbProgress.setProgress(progress);
+
 
         // Lấy category và icon resource ID
         Category category = getCategoryById(item.getCategoryId());
         if (category != null) {
+            Log.d("SavingGoalAdapter", "categoryid: " + category.getCategoryId() +
+                    " color: " + category.getColorRes() +
+                    " icon:  " + category.getIconRes());
+
             int iconResId = category.getIconRes();
             if (iconResId != 0) {
                 itemHolder.ivIcon.setImageResource(iconResId);
                 itemHolder.ivIcon.setColorFilter(ContextCompat.getColor(context, R.color.white), PorterDuff.Mode.SRC_IN);
             }
 
-            try {
-                int color = ContextCompat.getColor(context, category.getColorRes());
-                itemHolder.flIconBackground.getBackground().setColorFilter(color, PorterDuff.Mode.SRC_IN);
-            } catch (IllegalArgumentException e) {
-                e.printStackTrace();
-            }
+            int color = ContextCompat.getColor(context, category.getColorRes());
+            ViewCompat.setBackgroundTintList(itemHolder.flIconBackground, ColorStateList.valueOf(color));
+        } else {
+            Log.w("SavingGoalAdapter", "No category found for categoryId: " + item.getCategoryId());
+            // fallback UI nếu cần
         }
+
 
         itemHolder.itemView.setOnClickListener(v -> {
             if (onItemClickListener != null) {
+                Log.d("SavingGoalAdapter", "clicked itemid: " + item.getGoalId() +
+                        " categoryid: " + item.getCategoryId() +
+                        " target: " + item.getTargetAmount() +
+                        " current: " + item.getCurrentAmount());
+                Log.d("SavingGoalAdapter", "clicked categoryid: " + category.getCategoryId() +
+                        " color: " + category.getColorRes() +
+                        " icon:  " + category.getIconRes());
                 onItemClickListener.onItemClick(item, category);
             }
         });
@@ -163,6 +191,7 @@ public class SavingGoalRecyclerViewAdapter extends RecyclerView.Adapter<Recycler
     }
 
     private Category getCategoryById(int categoryId) {
+        if (categoryList == null) return null;
         for (Category category : categoryList) {
             if (category.getCategoryId() == categoryId) {
                 return category;
@@ -170,4 +199,5 @@ public class SavingGoalRecyclerViewAdapter extends RecyclerView.Adapter<Recycler
         }
         return null;
     }
+
 }

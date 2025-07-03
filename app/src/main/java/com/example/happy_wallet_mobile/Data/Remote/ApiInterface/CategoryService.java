@@ -11,20 +11,37 @@ import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.DELETE;
 import retrofit2.http.GET;
+import retrofit2.http.Header;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
 import retrofit2.http.Path;
+import retrofit2.http.Query;
 
 public interface CategoryService {
-    @GET("categories")
-    Call<List<CategoryResponse>> getAllCategories();
 
-    @POST("categories")
-    Call<CreateCategoryResponse> createCategory(@Body CreateCategoryRequest request);
+    @GET("/categories")
+    Call<List<CategoryResponse>> getCategories(
+            @Header("Authorization") String token,
+            @Query("type") String type
+    );
 
-    @PUT("categories/{id}")
-    Call<CategoryResponse> updateCategory(@Path("id") int id, @Body UpdateCategoryRequest request);
+    @POST("/category/{type}")
+    Call<CreateCategoryResponse> createCategory(
+            @Header("Authorization") String token,
+            @Path("type") String type,
+            @Body CreateCategoryRequest request
+    );
 
-    @DELETE("categories/{id}")
-    Call<Void> deleteCategory(@Path("id") int categoryId);
+    @PUT("/category/{id}")
+    Call<CategoryResponse> updateCategory(
+            @Header("Authorization") String token,
+            @Path("id") int categoryId,
+            @Body UpdateCategoryRequest request
+    );
+
+    @DELETE("/category/{id}")
+    Call<Void> deleteCategory(
+            @Header("Authorization") String token,
+            @Path("id") int categoryId
+    );
 }
