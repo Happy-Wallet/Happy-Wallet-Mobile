@@ -14,7 +14,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.happy_wallet_mobile.Data.Local.StaticDataProvider;
-import com.example.happy_wallet_mobile.Data.MockDataProvider;
 import com.example.happy_wallet_mobile.R;
 import com.example.happy_wallet_mobile.View.Adapter.ColorRecyclerViewAdapter;
 import com.example.happy_wallet_mobile.View.Adapter.IconRecyclerViewAdapter;
