@@ -63,13 +63,57 @@
         android:background="@color/Silver_Phoenix"
         >
 
-        <!-- Description -->
+        <!-- date -->
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="50dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
+
+            android:id="@+id/flDate"
+
+            android:background="@drawable/bg_rounded_20_white"
+            >
+
+            <TextView
+                android:layout_width="60dp"
+                android:layout_height="50dp"
+                android:layout_marginStart="26dp"
+
+                android:gravity="center_vertical"
+                android:text="Date"
+                android:fontFamily="@font/poppins_medium_500"
+                android:textSize="16sp"
+                android:textColor="@color/Nautical"
+                />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginStart="90dp"
+                android:layout_marginEnd="26dp"
+                android:layout_gravity="center_vertical"
+
+                android:id="@+id/tvDate"
+
+                android:gravity="center_vertical"
+                android:hint="enter description"
+                android:fontFamily="@font/poppins_regular_400"
+                android:textSize="15sp"
+
+                android:background="@color/white"
+                />
+
+        </FrameLayout>
+
+        <!-- description -->
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/flDate"
 
             android:id="@+id/flDescription"
 

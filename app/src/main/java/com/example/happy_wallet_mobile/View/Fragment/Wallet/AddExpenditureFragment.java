@@ -23,6 +23,7 @@ import com.example.happy_wallet_mobile.View.Utilities.CurrencyUtility;
 import com.example.happy_wallet_mobile.ViewModel.Category.CategoryListViewModel;
 import com.example.happy_wallet_mobile.ViewModel.Wallet.AddExpenditureViewModel;
 import com.example.happy_wallet_mobile.ViewModel.MainViewModel;
+import com.google.android.material.datepicker.MaterialDatePicker;
 
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
@@ -38,8 +39,9 @@ public class AddExpenditureFragment extends Fragment {
     CategoryListViewModel categoryListViewModel;
     EditText etDescription, etMoney;
     RecyclerView rcvCategories;
-    TextView tvCancel, tvSave;
+    TextView tvCancel, tvSave, tvDate;
     private int selectedCategoryId = -1;
+    private Date selectedDate;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -58,6 +60,25 @@ public class AddExpenditureFragment extends Fragment {
         rcvCategories = view.findViewById(R.id.rcvCategories);
         tvCancel = view.findViewById(R.id.tvCancel);
         tvSave = view.findViewById(R.id.tvSave);
+        tvDate = view.findViewById(R.id.tvDate);
+
+        Calendar calendar = Calendar.getInstance();
+        tvDate.setOnClickListener(v -> {
+            MaterialDatePicker<Long> datePicker =
+                    MaterialDatePicker.Builder.datePicker()
+                            .setTitleText("Chọn ngày sinh")
+                            .setSelection(MaterialDatePicker.todayInUtcMilliseconds()) // default: hôm nay
+                            .build();
+
+            datePicker.addOnPositiveButtonClickListener(selection -> {
+                selectedDate = new Date(selection);
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
+                String formattedDate = sdf.format(selectedDate);
+                tvDate.setText(formattedDate);
+            });
+
+            datePicker.show(getParentFragmentManager(), "MATERIAL_DATE_PICKER");
+        });
 
 
         GridLayoutManager layoutManager = new GridLayoutManager(requireContext(), 3);
@@ -100,15 +121,17 @@ public class AddExpenditureFragment extends Fragment {
                 return;
             }
 
-            Calendar cal = Calendar.getInstance();
-            cal.set(Calendar.HOUR_OF_DAY, 0);
-            cal.set(Calendar.MINUTE, 0);
-            cal.set(Calendar.SECOND, 0);
-            cal.set(Calendar.MILLISECOND, 0);
-            Date date = cal.getTime();
+            if (selectedDate == null) {
+                Calendar cal = Calendar.getInstance();
+                cal.set(Calendar.HOUR_OF_DAY, 0);
+                cal.set(Calendar.MINUTE, 0);
+                cal.set(Calendar.SECOND, 0);
+                cal.set(Calendar.MILLISECOND, 0);
+                selectedDate = cal.getTime();
+            }
 
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
-            String formattedDate = sdf.format(date);
+            String formattedDate = sdf.format(selectedDate);
 
             addExpenditureViewModel.createTransaction(selectedCategoryId, amount, description, formattedDate);
         });
