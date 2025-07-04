@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="activity_text_margin_top">4dp</dimen>
+    <dimen name="comment_item_margin_top">8dp</dimen>
+
+    <dimen name="margin_top_image_desc">20dp</dimen> <dimen name="margin_top_no_image_desc">20dp</dimen> </resources>

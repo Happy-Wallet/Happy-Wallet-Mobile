@@ -1,95 +1,113 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".View.Fragment.Community.NewsCommentFragment"
-    android:clickable="true"
-    android:focusable="true">
+    android:background="#F8F8F8">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="820dp"
-        android:layout_gravity="bottom"
-        android:layout_marginBottom="-20dp"
+    <ScrollView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/llCommentInputContainer"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
 
-        android:padding="20dp"
-        android:background="@drawable/bg_rounded_20_paolo_veronese_green"
-        android:backgroundTint="@color/Silver_Phoenix"
-        >
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp">
 
-        <!-- back -->
-        <ImageView
+            <include layout="@layout/item_post"
+                android:id="@+id/included_post_detail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp" />
+
+        </LinearLayout>
+    </ScrollView>
+
+    <LinearLayout
+        android:id="@+id/llCommentInputContainer"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="8dp"
+        android:background="@color/white"
+        android:elevation="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/ivCurrentUserAvatar"
             android:layout_width="40dp"
             android:layout_height="40dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
+            android:src="@drawable/avatar_place_holder"
+            app:civ_border_width="1dp"
+            app:civ_border_color="@color/Silver_Phoenix"
+            android:layout_gravity="center_vertical"
+            android:layout_marginEnd="8dp"
+            tools:ignore="MissingClass" />
 
-            android:id="@+id/ivBack"
-
-            android:src="@drawable/ic_arrow_left_bold"
-            />
-
-        <!-- comments -->
-        <androidx.recyclerview.widget.RecyclerView
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            app:layout_constraintTop_toBottomOf="@id/ivBack"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toTopOf="@id/etWriteComment"
-
-            android:layout_marginTop="20dp"
-            android:layout_marginBottom="20dp"
-
-            android:id="@+id/rcvComments"
-            />
-
-        <!-- write comment -->
         <EditText
+            android:id="@+id/etCommentInput"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:minHeight="50dp"
-
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/ivSend"
-            app:layout_constraintBottom_toBottomOf="parent"
-
-            android:layout_marginEnd="10dp"
-            android:layout_marginBottom="20dp"
-
-            android:paddingStart="15dp"
-            android:paddingEnd="15dp"
-            android:paddingTop="5dp"
-            android:paddingBottom="5dp"
-
-            android:id="@+id/etWriteComment"
-
-            android:background="@drawable/bg_rounded_50_paolo_veronese_green"
-            android:backgroundTint="@color/Silver_Phoenix"
-
-            android:hint="Write your comment!"
-            android:fontFamily="@font/poppins_semibold_600"
-            android:textSize="15sp"
+            android:layout_weight="1"
+            android:hint="write your comment?"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:background="@drawable/bg_rounded_50_silver_phoenix_stroke"
             android:textColor="@color/Nautical"
-            android:maxLines="4"
-            />
+            android:textColorHint="@color/Nautical"
+            android:textSize="14sp"
+            android:maxLines="3"
+            android:inputType="textCapSentences"
+            android:imeOptions="actionSend"
+            android:layout_gravity="center_vertical" />
 
-        <!-- send -->
         <ImageView
+            android:id="@+id/ivSendComment"
             android:layout_width="40dp"
             android:layout_height="40dp"
+            android:src="@drawable/ic_send_filled"
+            android:padding="8dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="8dp"
+            android:contentDescription="Send Comment" />
 
-            app:layout_constraintTop_toTopOf="@id/etWriteComment"
-            app:layout_constraintBottom_toBottomOf="@id/etWriteComment"
-            app:layout_constraintEnd_toEndOf="parent"
+    </LinearLayout>
 
-            android:id="@+id/ivSend"
+    <ProgressBar
+        android:id="@+id/progressBarNewsComment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent" />
 
-            android:src="@drawable/ic_paper_plane_tilt"
-            />
+    <TextView
+        android:id="@+id/tvErrorMessageNewsComment"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:textColor="@android:color/holo_red_dark"
+        android:textSize="16sp"
+        android:padding="16dp"
+        android:visibility="gone"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        tools:text="Error: Could not load post details." />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-</FrameLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
