@@ -8,7 +8,6 @@
     tools:context=".View.Activity.CommunityActivity"
     android:backgroundTint="@color/white">
 
-    <!-- content container -->
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -17,7 +16,6 @@
         android:id="@+id/flContentContainer"
         />
 
-    <!-- back -->
     <ImageView
         android:layout_width="40dp"
         android:layout_height="40dp"

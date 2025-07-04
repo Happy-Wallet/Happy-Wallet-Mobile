@@ -14,7 +14,7 @@ public class User {
     private Date DeletedDate;
 
 
-    // constructor\
+    // constructor
     public User(){}
     public User(
             int id,
@@ -53,6 +53,14 @@ public class User {
         CreatedDate = createdDate;
         UpdatedDate = updatedDate;
         DeletedDate = deletedDate;
+    }
+
+    // THÊM CONSTRUCTOR NÀY VÀO LỚP USER.JAVA CỦA BẠN
+    public User(int id, String userName, String avatarUrl) {
+        this.Id = id;
+        this.UserName = userName;
+        this.AvatarUrl = avatarUrl;
+        // Các trường khác có thể được để null hoặc gán giá trị mặc định nếu cần
     }
 
 

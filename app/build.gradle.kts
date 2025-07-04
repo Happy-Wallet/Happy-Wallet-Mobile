@@ -26,8 +26,8 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8 // Đã sửa thành Java 8
-        targetCompatibility = JavaVersion.VERSION_1_8 // Đã sửa thành Java 8
+        sourceCompatibility = JavaVersion.VERSION_1_8
+        targetCompatibility = JavaVersion.VERSION_1_8
     }
     // Nếu bạn đang dùng Kotlin, thêm phần này
     // kotlinOptions {
@@ -53,6 +53,9 @@ dependencies {
     implementation("com.github.PhilJay:MPAndroidChart:v3.1.0")
     implementation ("commons-io:commons-io:2.11.0")
 
+    // CircleImageView (for circular avatars) - BỔ SUNG DÒNG NÀY
+    implementation ("de.hdodenhof:circleimageview:3.1.0")
+
     // Chỉ giữ một phiên bản Glide
     implementation ("com.github.bumptech.glide:glide:4.15.1")
     annotationProcessor ("com.github.bumptech.glide:compiler:4.15.1")
@@ -60,5 +63,9 @@ dependencies {
     implementation ("androidx.lifecycle:lifecycle-viewmodel:2.6.2")
     implementation ("androidx.lifecycle:lifecycle-livedata:2.6.2")
     implementation ("androidx.lifecycle:lifecycle-common-java8:2.6.2" )
+    implementation ("androidx.swiperefreshlayout:swiperefreshlayout:1.1.0")
+    implementation ("com.google.android.flexbox:flexbox:3.0.0")
+
+    implementation ("androidx.constraintlayout:constraintlayout:2.1.4")
 
 }

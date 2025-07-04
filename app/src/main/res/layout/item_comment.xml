@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="4dp">
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/ivCommentUserAvatar"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:src="@drawable/default_avatar"
+        app:civ_border_width="1dp"
+        app:civ_border_color="@color/Silver_Phoenix"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="MissingClass" />
+
+    <TextView
+        android:id="@+id/tvCommentUsername"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:textStyle="bold"
+        android:textColor="@color/Nautical"
+        android:textSize="14sp"
+        app:layout_constraintStart_toEndOf="@id/ivCommentUserAvatar"
+        app:layout_constraintTop_toTopOf="@id/ivCommentUserAvatar"
+        tools:text="Bao Bui" />
+
+    <TextView
+        android:id="@+id/tvCommentText"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="2dp"
+        android:textSize="14sp"
+        android:textColor="@color/Nautical"
+        app:layout_constraintStart_toStartOf="@id/tvCommentUsername"
+        app:layout_constraintEnd_toStartOf="@id/tvCommentReply"
+        app:layout_constraintTop_toBottomOf="@id/tvCommentUsername"
+        tools:text="Looks good!" />
+
+    <TextView
+        android:id="@+id/tvCommentReply"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="reply"
+        android:textColor="@color/Paolo_Veronese_Green"
+        android:textSize="12sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/tvCommentUsername"
+        app:layout_constraintBottom_toBottomOf="@id/tvCommentUsername" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
