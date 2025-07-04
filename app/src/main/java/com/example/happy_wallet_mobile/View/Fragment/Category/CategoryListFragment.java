@@ -1,4 +1,4 @@
-package com.example.happy_wallet_mobile.View.Fragment;
+package com.example.happy_wallet_mobile.View.Fragment.Category;
 
 import android.os.Bundle;
 import android.util.Log;
@@ -13,19 +13,11 @@ import android.widget.Toast;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.example.happy_wallet_mobile.Data.MockDataProvider;
-import com.example.happy_wallet_mobile.Data.Remote.Response.Category.CategoryResponse;
-import com.example.happy_wallet_mobile.Data.Repository.CategoryRepository;
-import com.example.happy_wallet_mobile.Model.Category;
+import com.example.happy_wallet_mobile.Model.eType;
 import com.example.happy_wallet_mobile.R;
 import com.example.happy_wallet_mobile.View.Adapter.CategoryListViewAdapter;
-import com.example.happy_wallet_mobile.View.Fragment.Home.HomeFragment;
-import com.example.happy_wallet_mobile.ViewModel.CategoryListViewModel;
-import com.example.happy_wallet_mobile.ViewModel.Home.HomeViewModel;
+import com.example.happy_wallet_mobile.ViewModel.Category.CategoryListViewModel;
 import com.example.happy_wallet_mobile.ViewModel.MainViewModel;
-
-import java.util.ArrayList;
-import java.util.List;
 
 
 public class CategoryListFragment extends Fragment {
@@ -62,10 +54,16 @@ public class CategoryListFragment extends Fragment {
         categoryListViewModel.getCategoryList().observe(getViewLifecycleOwner(), categoryList -> {
             Log.d("CategoryListFragment", "categoryList: " + categoryList);
             if (categoryList != null) {
-                categoryListViewAdapter = new CategoryListViewAdapter(requireContext(), categoryList);
+                categoryListViewAdapter = new CategoryListViewAdapter(
+                        requireContext(),
+                        categoryList,
+                        categoryListViewModel.getType().getValue());
+
                 categoryListViewAdapter.setOnCategoryClickListener(category -> {
-                    Toast.makeText(getContext(), "Bạn đã chọn: " + category.getName(), Toast.LENGTH_SHORT).show();
-                    // xử lý thêm tại đây (mở Fragment khác, truyền data,...)
+//                    Toast.makeText(getContext(), "Bạn đã chọn: " + category.getName(), Toast.LENGTH_SHORT).show();
+
+                    categoryListViewModel.setSelectCategory(category);
+                    mainViewModel.navigateSubBelow(new EditCategoryFragment());
                 });
 
                 lvCategoryList.setAdapter(categoryListViewAdapter);

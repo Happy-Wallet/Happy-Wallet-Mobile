@@ -22,7 +22,7 @@
 
         android:padding="5dp"
         android:gravity="center_horizontal"
-        android:text="Add category"
+        android:text="Edit category"
         android:fontFamily="@font/poppins_semibold_600"
         android:textSize="24sp"
         android:textColor="@color/Nautical"
@@ -189,27 +189,47 @@
 
         </LinearLayout>
 
-        <!-- save -->
+        <!-- delete -->
         <TextView
-            android:id="@+id/tvSave"
             android:layout_width="150dp"
             android:layout_height="50dp"
-            android:layout_marginBottom="80dp"
-            android:background="@drawable/bg_rounded_50_paolo_veronese_green"
-            android:backgroundTint="@color/Paolo_Veronese_Green"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/tvSave"
+            android:layout_marginBottom="100dp"
 
+            android:id="@+id/tvDelete"
+
+            android:gravity="center"
+            android:text="Delete"
             android:fontFamily="@font/poppins_semibold_600"
+            android:textSize="24sp"
+            android:textColor="@color/Nautical"
+
+            android:background="@drawable/bg_rounded_50_paolo_veronese_green"
+            android:backgroundTint="@color/white"
+            />
+
+        <!-- Save -->
+        <TextView
+            android:layout_width="150dp"
+            android:layout_height="50dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/tvDelete"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginBottom="100dp"
+
+            android:id="@+id/tvSave"
 
             android:gravity="center"
             android:text="Save"
-            android:textColor="@color/white"
+            android:fontFamily="@font/poppins_semibold_600"
             android:textSize="24sp"
-            app:layout_constraintBottom_toBottomOf="parent"
+            android:textColor="@color/white"
 
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.497"
-            app:layout_constraintStart_toStartOf="parent" />
-
+            android:background="@drawable/bg_rounded_50_paolo_veronese_green"
+            android:backgroundTint="@color/Paolo_Veronese_Green"
+            />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

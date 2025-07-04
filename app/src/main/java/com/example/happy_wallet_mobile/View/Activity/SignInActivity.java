@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.style.ForegroundColorSpan;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.FrameLayout;
@@ -123,16 +124,29 @@ public class SignInActivity extends AppCompatActivity {
                 // Cập nhật token cho APIClient ngay lập tức
                 APIClient.setAuthToken(response.getToken());
 
-                // Chuyển hướng đến MainActivity
-                Intent intent = new Intent(this, MainActivity.class);
-                startActivity(intent);
-                finish(); // Đóng SignInActivity
+                signInViewModel.fetchUserProfileAndSave();
+                signInViewModel.getUserProfile().observe(this, profile->{
+                    if(profile != null){
+                        Log.d("SignInActivity", "Fetch profile done, user: " + profile.getUserName());
+
+                        // Chuyển hướng sau khi chắc chắn đã lưu user
+                        Intent intent = new Intent(this, MainActivity.class);
+                        startActivity(intent);
+                        finish();
+                    }
+                });
+
+
+
             } else {
                 // Đăng nhập thất bại
                 Toast.makeText(this, "Sai tài khoản hoặc mật khẩu", Toast.LENGTH_SHORT).show();
                 tvSignIn.setEnabled(true); // Kích hoạt lại nút đăng nhập
             }
         });
+
+
+
 
         // Sign in click listener
         tvSignIn.setOnClickListener(v -> {

@@ -17,7 +17,10 @@ import java.util.List;
 
 public class AddExpenditureViewModel extends ViewModel {
 
+
+
     private final TransactionRepository transactionRepository = new TransactionRepository();
+
 
     private final MutableLiveData<List<Category>> categoryList = new MutableLiveData<>();
     public LiveData<List<Category>> getCategoryList(){
@@ -26,10 +29,6 @@ public class AddExpenditureViewModel extends ViewModel {
     private final MutableLiveData<CreateTransactionResponse> createTransactionResponse = new MutableLiveData<>();
     public LiveData<CreateTransactionResponse> getCreateTransactionResponse() {
         return createTransactionResponse;
-    }
-
-    public void setData(){
-        categoryList.setValue(MockDataProvider.getMockCategories());
     }
 
 

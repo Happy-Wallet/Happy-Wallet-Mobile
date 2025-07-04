@@ -19,11 +19,13 @@ import com.example.happy_wallet_mobile.R;
 import com.example.happy_wallet_mobile.View.Activity.MainActivity;
 import com.example.happy_wallet_mobile.View.Activity.SignInActivity;
 import com.example.happy_wallet_mobile.ViewModel.MainViewModel;
+import com.example.happy_wallet_mobile.ViewModel.Setting.EditProfileViewModel;
 
 
 public class SettingFragment extends Fragment {
 
     MainViewModel mainViewModel;
+    EditProfileViewModel editProfileViewModel;
     ImageView ivProfileImage;
     TextView tvName;
     FrameLayout flEditProfile, flChangePassword, flAboutUs, flLogOut;
@@ -35,6 +37,7 @@ public class SettingFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_setting, container, false);
 
         mainViewModel = new ViewModelProvider(requireActivity()).get(MainViewModel.class);
+        editProfileViewModel = new ViewModelProvider(requireActivity()).get(EditProfileViewModel.class);
 
         ivProfileImage = view.findViewById(R.id.ivProfileImage);
         tvName = view.findViewById(R.id.tvName);
@@ -43,7 +46,6 @@ public class SettingFragment extends Fragment {
         flAboutUs = view.findViewById(R.id.flAboutUs);
         flLogOut = view.findViewById(R.id.flLogOut);
 
-        // set data
         Glide.with(this)
                 .load(UserPreferences.getUser().getAvatarUrl())
                 .placeholder(R.drawable.ic_analysis)
@@ -52,8 +54,21 @@ public class SettingFragment extends Fragment {
                 .into(ivProfileImage);
         tvName.setText(UserPreferences.getUser().getUserName());
 
+        // set data
+        editProfileViewModel.getUserProfile().observe(requireActivity(), profile->{
+            Glide.with(this)
+                    .load(UserPreferences.getUser().getAvatarUrl())
+                    .placeholder(R.drawable.ic_analysis)
+                    .error(R.drawable.ic_analysis)
+                    .circleCrop()
+                    .into(ivProfileImage);
+            tvName.setText(UserPreferences.getUser().getUserName());
+        });
+
+
         // edit profile
         flEditProfile.setOnClickListener(v -> {
+            editProfileViewModel.resetUpdateSuccess();
             mainViewModel.navigateSubAbove(new EditProfileFragment());
         });
 

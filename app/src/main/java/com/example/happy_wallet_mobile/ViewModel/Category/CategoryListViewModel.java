@@ -1,4 +1,4 @@
-package com.example.happy_wallet_mobile.ViewModel;
+package com.example.happy_wallet_mobile.ViewModel.Category;
 
 import android.content.Context;
 import android.util.Log;
@@ -11,6 +11,7 @@ import com.example.happy_wallet_mobile.Data.Local.UserPreferences;
 import com.example.happy_wallet_mobile.Data.Remote.Response.Category.CategoryResponse;
 import com.example.happy_wallet_mobile.Data.Repository.CategoryRepository;
 import com.example.happy_wallet_mobile.Model.Category;
+import com.example.happy_wallet_mobile.Model.eType;
 import com.example.happy_wallet_mobile.R;
 import com.example.happy_wallet_mobile.View.Utilities.ResourceUtility;
 
@@ -24,6 +25,21 @@ public class CategoryListViewModel extends ViewModel {
 
     public LiveData<List<Category>> getCategoryList() {
         return categoryList;
+    }
+
+    private final MutableLiveData<Category> selectedCategory = new MutableLiveData<>();
+    public LiveData<Category> getSelectedCategory() {
+        return selectedCategory;
+    }
+    public void setSelectCategory(Category category) {
+        selectedCategory.setValue(category);
+    }
+    private final MutableLiveData<eType> type = new MutableLiveData<>();
+    public LiveData<eType> getType(){
+        return type;
+    }
+    public void setType(eType type){
+        this.type.setValue(type);
     }
 
     public void fetchCategories(Context context) {

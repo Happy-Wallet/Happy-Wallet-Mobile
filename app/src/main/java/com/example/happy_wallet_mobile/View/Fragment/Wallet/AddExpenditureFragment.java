@@ -14,11 +14,13 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.happy_wallet_mobile.Model.eType;
 import com.example.happy_wallet_mobile.R;
 import com.example.happy_wallet_mobile.View.Adapter.CategoryRecyclerViewAdapter;
-import com.example.happy_wallet_mobile.View.Fragment.CategoryListFragment;
+import com.example.happy_wallet_mobile.View.Fragment.Category.CategoryListFragment;
 import com.example.happy_wallet_mobile.View.Utilities.CurrencyTextWatcher;
 import com.example.happy_wallet_mobile.View.Utilities.CurrencyUtility;
+import com.example.happy_wallet_mobile.ViewModel.Category.CategoryListViewModel;
 import com.example.happy_wallet_mobile.ViewModel.Wallet.AddExpenditureViewModel;
 import com.example.happy_wallet_mobile.ViewModel.MainViewModel;
 
@@ -33,6 +35,7 @@ public class AddExpenditureFragment extends Fragment {
 
     MainViewModel mainViewModel;
     AddExpenditureViewModel addExpenditureViewModel;
+    CategoryListViewModel categoryListViewModel;
     EditText etDescription, etMoney;
     RecyclerView rcvCategories;
     TextView tvCancel, tvSave;
@@ -46,6 +49,9 @@ public class AddExpenditureFragment extends Fragment {
 
         mainViewModel = new ViewModelProvider(requireActivity()).get(MainViewModel.class);
         addExpenditureViewModel = new ViewModelProvider(requireActivity()).get(AddExpenditureViewModel.class);
+        categoryListViewModel = new ViewModelProvider(requireActivity()).get(CategoryListViewModel.class);
+
+        categoryListViewModel.setType(eType.EXPENSE);
 
         etDescription = view.findViewById(R.id.etDescription);
         etMoney = view.findViewById(R.id.etMoney);
@@ -53,14 +59,13 @@ public class AddExpenditureFragment extends Fragment {
         tvCancel = view.findViewById(R.id.tvCancel);
         tvSave = view.findViewById(R.id.tvSave);
 
-        // Gọi load data
-        addExpenditureViewModel.setData();
 
         GridLayoutManager layoutManager = new GridLayoutManager(requireContext(), 3);
         rcvCategories.setLayoutManager(layoutManager);
         CategoryRecyclerViewAdapter categoryRecyclerViewAdapter = new CategoryRecyclerViewAdapter(
                 requireContext(),
                 List.of(),
+                eType.EXPENSE,
                 category -> {
                     selectedCategoryId = category.getCategoryId();
                     Toast.makeText(getContext(), "Bạn chọn: " + category.getName(), Toast.LENGTH_SHORT).show();
@@ -72,7 +77,7 @@ public class AddExpenditureFragment extends Fragment {
         });
         rcvCategories.setAdapter(categoryRecyclerViewAdapter);
         // Observe LiveData để cập nhật adapter
-        addExpenditureViewModel.getCategoryList().observe(getViewLifecycleOwner(), categories -> {
+        categoryListViewModel.getCategoryList().observe(getViewLifecycleOwner(), categories -> {
             categoryRecyclerViewAdapter.updateCategories(categories);
         });
 

@@ -1,6 +1,7 @@
 package com.example.happy_wallet_mobile.ViewModel.Authentication;
 
 import android.content.Context;
+import android.util.Log;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MediatorLiveData;
@@ -53,9 +54,16 @@ public class SignInViewModel extends ViewModel {
     }
 
 
-    public void fetchUserProfileAndSave(String token) {
+    public void fetchUserProfileAndSave() {
+        String token = UserPreferences.getToken();
         LiveData<UserResponse> source = userRepository.getUserProfile("Bearer " + token);
+
         _userProfile.addSource(source, userResponse -> {
+            Log.d("fetch profile", "id: " + userResponse.getId() +
+                    " name: " + userResponse.getUsername() +
+                    " email: " + userResponse.getEmail() +
+                    " avatar: " + userResponse.getAvatarUrl() +
+                    " dob: " + userResponse.getDateOfBirth());
             if (userResponse != null) {
                 // Convert UserResponse to User model
                 User user = new User();
@@ -67,6 +75,11 @@ public class SignInViewModel extends ViewModel {
 
                 // Save to preferences
                 UserPreferences.saveUser(user, token);
+
+                Log.d("UserPreferences", "id: " + UserPreferences.getUser().getId() +
+                        " name: " + UserPreferences.getUser().getUserName() +
+                        " dob: " + UserPreferences.getUser().getDateOfBirth() +
+                        " avatar: " + UserPreferences.getUser().getAvatarUrl());
 
                 _userProfile.setValue(user);
             } else {
