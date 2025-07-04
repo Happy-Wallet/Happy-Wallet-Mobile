@@ -1,6 +1,5 @@
 package com.example.happy_wallet_mobile.View.Adapter;
 
-import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,9 +9,10 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.bumptech.glide.Glide;
-import com.example.happy_wallet_mobile.Data.Local.UserPreferences;
-import com.example.happy_wallet_mobile.Model.GroupTransactionItem;
+import com.example.happy_wallet_mobile.Model.Category;
+import com.example.happy_wallet_mobile.Model.GroupTransaction;
+import com.example.happy_wallet_mobile.Model.User;
+import com.example.happy_wallet_mobile.Model.eType;
 import com.example.happy_wallet_mobile.R;
 import com.example.happy_wallet_mobile.View.Utilities.CurrencyUtility;
 
@@ -21,16 +21,33 @@ import java.util.List;
 
 public class MembersActivitiesRecyclerViewAdapter extends RecyclerView.Adapter<MembersActivitiesRecyclerViewAdapter.ViewHolder> {
 
-    private List<GroupTransactionItem> transactionItemList;
-    private Context context;
+    private List<GroupTransaction> transactionList;
+    private List<User> memberList;
+    private List<Category> categoryList;
 
-    public MembersActivitiesRecyclerViewAdapter(Context context, List<GroupTransactionItem> items) {
-        this.context = context;
-        this.transactionItemList = items != null ? items : new ArrayList<>();
+    public MembersActivitiesRecyclerViewAdapter(
+            List<GroupTransaction> transactions,
+            List<User> members,
+            List<Category> categories) {
+        this.transactionList = transactions != null ? transactions : new ArrayList<>();
+        this.memberList = members != null ? members : new ArrayList<>();
+        this.categoryList = categories != null ? categories : new ArrayList<>();
     }
 
-    public void updateActivities(List<GroupTransactionItem> items){
-        this.transactionItemList = items != null ? items : new ArrayList<>();
+    // Update data
+    public void updateActivities(List<GroupTransaction> transactions){
+        this.transactionList = transactions != null ? transactions : new ArrayList<>();
+    }
+
+    public void updateGroupMembers(List<User> members){
+        this.memberList = members != null ? members : new ArrayList<>();
+    }
+
+    public void updateCategories(List<Category> categories){
+        this.categoryList = categories != null ? categories : new ArrayList<>();
+    }
+
+    public void refresh() {
         notifyDataSetChanged();
     }
 
@@ -44,39 +61,46 @@ public class MembersActivitiesRecyclerViewAdapter extends RecyclerView.Adapter<M
 
     @Override
     public void onBindViewHolder(@NonNull MembersActivitiesRecyclerViewAdapter.ViewHolder holder, int position) {
-        GroupTransactionItem item = transactionItemList.get(position);
+        GroupTransaction transaction = transactionList.get(position);
 
-        // User name
-        String userName = item.getUsername() != null ? item.getUsername() : "Unknown";
+        // Lấy tên user
+        String userName = memberList.stream()
+                .filter(u -> u.getId() == transaction.getUserId())
+                .map(User::getUserName)
+                .findFirst()
+                .orElse("Unknown");
+
+        // Lấy category
+        Category category = categoryList.stream()
+                .filter(c -> c.getCategoryId() == transaction.getCategoryId())
+                .findFirst()
+                .orElse(null);
+
+        String categoryName = category != null ? category.getName() : "Category";
+        int categoryColorRes = category != null ? category.getColorRes() : R.color.black;
+
+        // Bind data
         holder.tvUserName.setText(userName);
-
-        // Category
-        GroupTransactionItem.Category category = item.getCategory();
-        String categoryName = (category != null && category.getName() != null) ? category.getName() : "Category";
-        int categoryColorRes = (category != null) ? category.getColor_res() : R.color.black;
-
         holder.tvCategoryName.setText(categoryName);
-        holder.tvCategoryName.setTextColor(holder.itemView.getContext().getColor(categoryColorRes));
+        holder.tvAmount.setText(CurrencyUtility.format1(transaction.getAmount()));
 
-        // Amount
-        holder.tvAmount.setText(CurrencyUtility.format1(item.getAmount()));
-        if ("EXPENSE".equalsIgnoreCase(item.getType())) {
-            holder.tvAmount.setTextColor(holder.itemView.getContext().getColor(R.color.Radishical));
+        // Đặt màu category
+        holder.tvCategoryName.setTextColor(
+                holder.itemView.getContext().getColor(categoryColorRes)
+        );
+
+        // Đặt màu amount theo loại
+        if (transaction.getType() == eType.EXPENSE) {
+            holder.tvAmount.setTextColor(holder.itemView.getResources().getColor(R.color.Radishical, null));
         } else {
-            holder.tvAmount.setTextColor(holder.itemView.getContext().getColor(R.color.Paolo_Veronese_Green));
+            holder.tvAmount.setTextColor(holder.itemView.getResources().getColor(R.color.Paolo_Veronese_Green, null));
         }
-
-        Glide.with(context)
-                .load(item.getAvatar_url())
-                .placeholder(R.drawable.ic_analysis)
-                .error(R.drawable.ic_analysis)
-                .circleCrop()
-                .into(holder.ivAvatar);
     }
+
 
     @Override
     public int getItemCount() {
-        return transactionItemList != null ? transactionItemList.size() : 0;
+        return transactionList != null ? transactionList.size() : 0;
     }
 
     static class ViewHolder extends RecyclerView.ViewHolder {
