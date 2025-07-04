@@ -4,7 +4,6 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-import com.example.happy_wallet_mobile.Data.MockDataProvider;
 import com.example.happy_wallet_mobile.Data.Remote.Request.SavingGoal.CreateSavingGoalRequest;
 import com.example.happy_wallet_mobile.Data.Repository.CategoryRepository;
 import com.example.happy_wallet_mobile.Data.Repository.SavingGoalRepository;
@@ -23,9 +22,6 @@ public class AddSavingGoalViewModel extends ViewModel {
     private final SavingGoalRepository savingGoalRepository = new SavingGoalRepository();
 
     // Dùng khi muốn test offline
-    public void loadMockData() {
-        _categoryList.setValue(MockDataProvider.getMockCategories());
-    }
 
 
     // Gọi API tạo mới saving goal
