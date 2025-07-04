@@ -117,6 +117,7 @@
                 android:id="@+id/flFund"
                 android:layout_width="81dp"
                 android:layout_height="81dp"
+
                 app:layout_constraintBottom_toBottomOf="@id/vServiceLayout"
                 app:layout_constraintEnd_toStartOf="@+id/flRemind"
                 app:layout_constraintStart_toStartOf="@id/vServiceLayout"

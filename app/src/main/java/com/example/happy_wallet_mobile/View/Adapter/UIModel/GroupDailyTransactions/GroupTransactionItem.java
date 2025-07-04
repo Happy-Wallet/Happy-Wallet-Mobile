@@ -1,25 +1,32 @@
 package com.example.happy_wallet_mobile.View.Adapter.UIModel.GroupDailyTransactions;
 
-import com.example.happy_wallet_mobile.Model.Category;
-import com.example.happy_wallet_mobile.Model.GroupTransaction;
-import com.example.happy_wallet_mobile.Model.Transaction;
-import com.example.happy_wallet_mobile.Model.User;
+import com.example.happy_wallet_mobile.Model.GroupTransactionItem.Category;
 
 import java.math.BigDecimal;
 
 public class GroupTransactionItem implements GroupTransactionUiModel {
-    private User member;
+    private String username;
     private Category category;
-    private GroupTransaction transaction;
+    private String description;
+    private BigDecimal amount;
+    private String type;
 
-    public GroupTransactionItem(User member, Category category, GroupTransaction transaction) {
-        this.member = member;
+
+    public GroupTransactionItem(String username,
+                                com.example.happy_wallet_mobile.Model.GroupTransactionItem.Category category,
+                                String description,
+                                BigDecimal amount,
+                                String type) {
+        this.username = username;
         this.category = category;
-        this.transaction = transaction;
+        this.description = description;
+        this.amount = amount;
+        this.type = type;
     }
 
-    public User getMember() { return member; }
+    public String getUsername() { return username; }
     public Category getCategory() { return category; }
-    public GroupTransaction getTransaction() { return transaction; }
+    public String getDescription() { return description; }
+    public BigDecimal getAmount() { return amount; }
+    public String getType() { return type; }
 }
-

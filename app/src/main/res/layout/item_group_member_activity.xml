@@ -18,13 +18,15 @@
         android:background="@drawable/bg_rounded_50_nautical"
         >
 
-        <ImageView
+        <com.google.android.material.imageview.ShapeableImageView
             android:layout_width="33dp"
             android:layout_height="33dp"
             android:layout_gravity="center"
 
             android:id="@+id/ivAvatar"
-            android:background="@drawable/bg_rounded_50_white"
+
+            android:scaleType="centerCrop"
+            app:shapeAppearanceOverlay="@style/CircleImageView"
             />
 
     </FrameLayout>
