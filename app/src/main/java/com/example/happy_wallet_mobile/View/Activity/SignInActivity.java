@@ -107,17 +107,16 @@ public class SignInActivity extends AppCompatActivity {
                 Toast.makeText(this, "Đăng nhập thành công!", Toast.LENGTH_SHORT).show();
 
                 User loggedInUser = new User(
-                        response.getUserId(), // int Id
-                        response.getEmail(),  // String Email
-                        response.getUsername(), // String UserName
-                        null, // String Password (không có trong LoginResponse)
-                        null, // Date DateOfBirth (không có trong LoginResponse)
-                        null, // String Role (không có trong LoginResponse)
-                        null, // Date CreatedAt (không có trong LoginResponse)
-                        null, // Date UpdatedAt (không có trong LoginResponse)
-                        null  // Date DeletedAt (không có trong LoginResponse)
+                        response.getUserId(),     // int Id
+                        response.getEmail(),      // String Email
+                        response.getUsername(),   // String UserName
+                        null,                     // String HashedPassword (không có trong LoginResponse, truyền null)
+                        null,                     // Date DateOfBirth (không có trong LoginResponse, truyền null)
+                        null,                     // String AvatarUrl (truyền null vì LoginResponse không có getAvatarUrl())
+                        null,                     // Date CreatedDate (không có trong LoginResponse, truyền null)
+                        null,                     // Date UpdatedDate (không có trong LoginResponse, truyền null)
+                        null                      // Date DeletedDate (không có trong LoginResponse, truyền null)
                 );
-
                 // Lưu User object và token vào SharedPreferences thông qua UserPreferences
                 UserPreferences.saveUser(loggedInUser, response.getToken());
 

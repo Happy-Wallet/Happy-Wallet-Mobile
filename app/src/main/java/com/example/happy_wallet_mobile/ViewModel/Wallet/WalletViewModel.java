@@ -11,7 +11,6 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.example.happy_wallet_mobile.Data.Local.UserPreferences;
-import com.example.happy_wallet_mobile.Data.MockDataProvider;
 import com.example.happy_wallet_mobile.Data.Remote.Response.Transaction.TransactionResponse;
 import com.example.happy_wallet_mobile.Data.Repository.TransactionRepository;
 import com.example.happy_wallet_mobile.Model.Category;
