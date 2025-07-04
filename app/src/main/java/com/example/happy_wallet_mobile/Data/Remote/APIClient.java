@@ -11,7 +11,7 @@ import java.io.IOException; // Import IOException
 
 public class APIClient {
     private static Retrofit retrofit;
-    private static final String BASE_URL = "http://10.0.237.72:3000/";
+    private static final String BASE_URL = "http://10.0.2.2:3000/";
 
     private static String authToken = null;
 
