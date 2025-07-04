@@ -92,4 +92,37 @@ public class GroupTransactionListViewModel extends ViewModel {
         return item;
     }
 
+    private final MutableLiveData<List<GroupTransactionUiModel>> groupedUiData = new MutableLiveData<>();
+    public LiveData<List<GroupTransactionUiModel>> getGroupedUiData() {
+        return groupedUiData;
+    }
+
+    public void buildGroupedUiData(List<GroupTransactionItem> transactions) {
+        Map<String, List<GroupTransactionItem>> transactionsByDate = new TreeMap<>(Collections.reverseOrder());
+
+        for (GroupTransactionItem t : transactions) {
+            String dateStr = t.getCreated_at().substring(0, 10); // yyyy-MM-dd
+            transactionsByDate.computeIfAbsent(dateStr, k -> new ArrayList<>()).add(t);
+        }
+
+        List<GroupTransactionUiModel> uiModels = new ArrayList<>();
+        for (Map.Entry<String, List<GroupTransactionItem>> entry : transactionsByDate.entrySet()) {
+            String date = entry.getKey();
+            List<GroupTransactionItem> dayTransactions = entry.getValue();
+
+            BigDecimal totalAmount = BigDecimal.ZERO;
+            for (GroupTransactionItem t : dayTransactions) {
+                if ("income".equalsIgnoreCase(t.getType())) {
+                    totalAmount = totalAmount.add(t.getAmount());
+                } else {
+                    totalAmount = totalAmount.subtract(t.getAmount());
+                }
+            }
+
+            uiModels.add(new GroupTransactionHeader(date, totalAmount));
+        }
+
+        groupedUiData.setValue(uiModels);
+    }
+
 }

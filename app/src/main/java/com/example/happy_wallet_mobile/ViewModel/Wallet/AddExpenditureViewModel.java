@@ -6,7 +6,6 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.example.happy_wallet_mobile.Data.Local.UserPreferences;
-import com.example.happy_wallet_mobile.Data.MockDataProvider;
 import com.example.happy_wallet_mobile.Data.Remote.Request.Transaction.CreateTransactionRequest;
 import com.example.happy_wallet_mobile.Data.Remote.Response.Transaction.CreateTransactionResponse;
 import com.example.happy_wallet_mobile.Data.Repository.TransactionRepository;
